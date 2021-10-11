@@ -1,0 +1,710 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.3.2">
+    
+    
+      
+        <title>Part 2 - Dagster Pipeline - ML and Beyond</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.24c991ad.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mlops-template-part-2-dagster-pipeline" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="ML and Beyond" class="md-header__button md-logo" aria-label="ML and Beyond" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ML and Beyond
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Part 2 - Dagster Pipeline
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="pink"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="pink"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ML and Beyond" class="md-nav__button md-logo" aria-label="ML and Beyond" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    ML and Beyond
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        Latest Posts
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          MLOps
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="MLOps" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          MLOps
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_1" type="checkbox" id="__nav_2_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_1">
+          MLOps template
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="MLOps template" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_1">
+          <span class="md-nav__icon md-icon"></span>
+          MLOps template
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../setup/" class="md-nav__link">
+        Part 1 - Setup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Part 2 - Dagster Pipeline
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Part 2 - Dagster Pipeline
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#solids-and-pipelines" class="md-nav__link">
+    Solids and Pipelines #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    Dataset
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solid" class="md-nav__link">
+    Solid #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputdefinition" class="md-nav__link">
+    OutputDefinition #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline" class="md-nav__link">
+    Pipeline #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executing-our-first-pipeline" class="md-nav__link">
+    Executing Our First Pipeline #
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mlflow_minio/" class="md-nav__link">
+        Part 3 - MLflow + MinIO
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fastapi_elasticapm/" class="md-nav__link">
+        Part 4 - FastAPI + ElasticAPM
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#solids-and-pipelines" class="md-nav__link">
+    Solids and Pipelines #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dataset" class="md-nav__link">
+    Dataset
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solid" class="md-nav__link">
+    Solid #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputdefinition" class="md-nav__link">
+    OutputDefinition #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pipeline" class="md-nav__link">
+    Pipeline #
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#executing-our-first-pipeline" class="md-nav__link">
+    Executing Our First Pipeline #
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="mlops-template-part-2-dagster-pipeline"><b>MLOps template - Part 2, Dagster pipeline</b></h1>
+<p>Here we will cover our small pipeline written in dagster.</p>
+<blockquote>
+<p><a href="https://dagster.io/">Dagster is a data orchestrator for machine learning, analytics, and ETL</a></p>
+</blockquote>
+<p>Dagster is a second generation data orchestrator that focues on being
+<code>data-driven</code> rather than <code>task-driven</code>(like <code>Airflow</code>).</p>
+<h2 id="solids-and-pipelines">Solids and Pipelines <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline">#</a></h2>
+<blockquote>
+<p>Dagster's core abstractions are solids and pipelines.</p>
+<p>Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline &gt; execute in the same process. In production environments, Dagster is usually configured so that each solid executes in its own process.</p>
+</blockquote>
+<h2 id="dataset">Dataset</h2>
+<p>Our pipeline will operate on <a href="https://www.kaggle.com/ananthu017/question-classification">Question Type Classification</a>.
+This data helps to classify the given Questions
+into respective categories based on what type of answer it expects such as a
+numerical answer or a text description or a place or human name etc.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How did serfdom develop in and then leave Russia ?</td>
+<td><code>DESCRIPTION</code></td>
+</tr>
+<tr>
+<td>What films featured the character Popeye Doyle ?</td>
+<td><code>ENTITY</code></td>
+</tr>
+<tr>
+<td>How can I find a list of celebrities ' real names ?</td>
+<td><code>DESCRIPTION</code></td>
+</tr>
+<tr>
+<td>What fowl grabs the spotlight after the Chinese Year of the Monkey ?</td>
+<td><code>ENTITY</code></td>
+</tr>
+<tr>
+<td>What is the full form of .com ?</td>
+<td><code>ABBREVIATION</code></td>
+</tr>
+<tr>
+<td>What contemptible scoundrel stole the cork from my lunch ?</td>
+<td><code>HUMAN</code></td>
+</tr>
+<tr>
+<td>What team did baseball 's St. Louis Browns become ?</td>
+<td><code>HUMAN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Category can take following values - <code>HUMAN, ENTITY, DESCRIPTION, NUMERIC, LOCATION</code>.</p>
+<h2 id="solid">Solid <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-solid">#</a></h2>
+<blockquote>
+<p>A solid is a unit of computation in a data pipeline. Typically, you'll define solids by annotating ordinary Python functions with the @solid decorator.</p>
+</blockquote>
+<p>Our first solid <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L160"><code>get_training_dataset</code></a>
+loads the data from csv and returns</p>
+<ul>
+<li><code>texts (List[str])</code> - Question</li>
+<li><code>target (List[str])</code> - Category</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@solid</span><span class="p">(</span>
+    <span class="n">output_defs</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">OutputDefinition</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;texts&quot;</span><span class="p">,</span> <span class="n">is_required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">OutputDefinition</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;target&quot;</span><span class="p">,</span> <span class="n">is_required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_training_dataset</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">dataloaders</span><span class="o">.</span><span class="n">get_input_dataset</span><span class="p">(</span><span class="n">INPUT_DATASET_LOC</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded data; N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">, Targets=</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">Output</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="s2">&quot;texts&quot;</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">Output</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&quot;target&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="outputdefinition">OutputDefinition <a href="https://docs.dagster.io/_apidocs/solids#dagster.OutputDefinition">#</a></h2>
+<blockquote>
+<p>To define multiple outputs, or to use a different output name than "result", you can provide OutputDefinitions to the @solid decorator.</p>
+<p>When you have more than one output, you must yield an instance of the Output class to disambiguate between outputs.</p>
+</blockquote>
+<p>Let's look at another solid <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L24"><code>preprocess_text</code></a>.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@solid</span>
+<span class="k">def</span> <span class="nf">preprocess_text</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">text_preprocessing</span><span class="o">.</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Text pre-processing done; N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">texts</span>
+</code></pre></div>
+<p>Here, we are doing some text preprocessing. Since we are not returning
+mulitple outputs here, we can avoid <code>OutputDefinition</code>.</p>
+<h2 id="pipeline">Pipeline <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-pipeline">#</a></h2>
+<blockquote>
+<p>To execute our solid, we'll embed it in an equally simple pipeline. A pipeline is a set of solids arranged into a
+<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> of computation. You'll typically define pipelines by annotating ordinary Python functions with the <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">@pipeline</a> decorator.</p>
+</blockquote>
+<p>Let's look at our Pipeline.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@pipeline</span>
+<span class="k">def</span> <span class="nf">ml_pipeline</span><span class="p">():</span>
+    <span class="c1"># 1. fetch training data</span>
+    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">get_training_dataset</span><span class="p">()</span>
+    <span class="c1"># 2. minimal text preprocessing</span>
+    <span class="c1"># 3. tfidf vectorization</span>
+    <span class="n">vectorizer</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">get_vectorizer_and_features</span><span class="p">(</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+    <span class="c1"># 4. target encoding</span>
+    <span class="n">target_encoder</span><span class="p">,</span> <span class="n">encoded_target</span> <span class="o">=</span> <span class="n">get_targetencoder_and_encoded_targets</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="c1"># 5. train test split</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">encoded_target</span><span class="p">)</span>
+    <span class="c1"># 6. model training, validation, registry, artifact storage</span>
+    <span class="n">train_clf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</code></pre></div>
+<p>Here we call few solids like <code>get_training_dataset</code>, <code>preprocess_text</code>,
+<code>get_vectorizer_and_features</code>, etc.</p>
+<p>These calls don't actually execute the solids. Within the bodies of functions
+decorated with @pipeline, we use function calls to indicate the dependency
+structure of the solids making up the pipeline.</p>
+<h2 id="executing-our-first-pipeline">Executing Our First Pipeline <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#executing-our-first-pipeline">#</a></h2>
+<p>Dagit to visualize our pipeline in Dagit, from the directory in which we have saved
+the pipeline file.</p>
+<div class="highlight"><pre><span></span><code>$ dagit -f mlops/pipeline.py
+<span class="c1"># Loading repository... Serving on http://127.0.0.1:3000</span>
+</code></pre></div>
+<p>We can head over to the browser and look at the pipeline.</p>
+<p><img alt="dagster" src="../../../images/mlops/dagster.png" /></p>
+<p>To execute the pipeline from the UI, head over to the <code>playground</code> section and
+click <code>Launch Execution</code> (at the bottom right).</p>
+<p>If the pipeline executed successfully, you should see logs like this.</p>
+<p><img alt="dagster_execution" src="../../../images/mlops/dagster_execution.png" /></p>
+<p>The pipeline we just executed registered our trained model using <code>MLflow</code> and
+stored the model artifacts using <code>minio</code>.</p>
+<p>We will look at those components in the next part.</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../setup/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Part 1 - Setup" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Part 1 - Setup
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../mlflow_minio/" class="md-footer__link md-footer__link--next" aria-label="Next: Part 3 - MLflow + MinIO" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Part 3 - MLflow + MinIO
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../../assets/javascripts/workers/search.e99e714c.min.js", "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.bc35569b.min.js"></script>
+      
+    
+  </body>
+</html>
