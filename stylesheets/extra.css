@@ -1,3 +1,11 @@
+.md-typeset code {
+    font-size: 0.8em;
+}
+
+.meta {
+    display: flex;
+}
+
 img {
     padding: 15px 15px 0;
     background-color: white;
@@ -6,13 +14,18 @@ img {
     -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
-
 .post-tags {
     font-size: 15px;
     font-weight: 600;
     color: gray;
     border: 1px solid gray;
     border-radius: 4px;
-    padding: 5px 10px 5px 10px;
+    padding: 1px 10px 1px 10px;
     margin-right: 10px;
+}
+
+.post-date {
+    margin-left: auto;
+    margin-right: 0;
+    color: gray;
 }
