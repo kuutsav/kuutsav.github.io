@@ -6,18 +6,9 @@ img {
     -webkit-box-shadow: 0 1px 3px rgba(34, 25, 25, 0.4);
 }
 
-.post-header {
-    font-weight: 600;
-}
-
-.post-date, .post-desc {
-    font-weight: 100;
-    font-size: 15px;
-}
 
 .post-tags {
     font-size: 15px;
-    font-family: "Lucida Console", "Courier New", monospace;
     font-weight: 600;
     color: gray;
     border: 1px solid gray;
