@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="font" href="https://kuutsav.github.io/fonts/vendor/jost/jost-v4-latin-regular.woff2" type="font/woff2" crossorigin>
+<link rel="preload" as="font" href="https://kuutsav.github.io/fonts/vendor/jost/jost-v4-latin-700.woff2" type="font/woff2" crossorigin>
+
+  <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.63e7ad4f4209d25ef6404f1b6459b1d9f40aa131abe9c2a188fcd5383effc38eb14ad06969148f2e2b7304088c8bdfe601ecb84a17d512c039c6a38ef676ae01.css" integrity="sha512-Y&#43;etT0IJ0l72QE8bZFmx2fQKoTGr6cKhiPzVOD7/w46xStBpaRSPLitzBAiMi9/mAey4ShfVEsA5xqOO9nauAQ==" crossorigin="anonymous">
+<noscript><style>img.lazyload { display: none; }</style></noscript>
+  <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <title>MLOps template [Part 2] - Dagster Pipeline - ML and Beyond</title>
+<meta name="description" content="Here we will cover our small pipeline written in dagster.">
+<link rel="canonical" href="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MLOps template [Part 2] - Dagster Pipeline">
+<meta property="og:description" content="Here we will cover our small pipeline written in dagster.">
+<meta property="og:url" content="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/">
+<meta property="og:site_name" content="ML and Beyond">
+<meta property="article:published_time" content="2021-10-09T09:19:43+01:00">
+  <meta property="article:modified_time" content="2021-10-09T09:19:43+01:00">
+  <meta property="og:image" content="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster.png">
+  <meta property="og:image" content="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution.png">
+  
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="MLOps template [Part 2] - Dagster Pipeline">
+<meta name="twitter:description" content="Here we will cover our small pipeline written in dagster.">
+<meta name="twitter:image" content="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster.png">
+<meta name="twitter:image:alt" content="MLOps template [Part 2] - Dagster Pipeline">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+        "@id": "https://kuutsav.github.io/#/schema/organization/1",
+      "name": "Doks",
+      "url": "https://kuutsav.github.io/",
+      "sameAs": [
+        "https://twitter.com/getdoks"
+        , "https://github.com/h-enk/doks"
+        ],
+      "logo": {
+          "@type": "ImageObject",
+          "@id": "https://kuutsav.github.io/#/schema/image/1",
+          "url": "https://kuutsav.github.io/logo-doks.png",
+          "width":  512 ,
+          "height":  512 ,
+          "caption": "Doks"
+        },
+        "image": {
+          "@id": "https://kuutsav.github.io/#/schema/image/1"
+        }
+      },
+    {
+      "@type": "WebSite",
+      "@id": "https://kuutsav.github.io/#/schema/website/1",
+      "url": "https://kuutsav.github.io/",
+      "name": "ML and Beyond",
+      "description": "Doks is a Hugo theme for building secure, fast, and SEO-ready documentation websites, which you can easily update and customize.",
+      "publisher": {
+          "@id": "https://kuutsav.github.io/#/schema/organization/1"
+        }
+      },
+    {
+      "@type": "WebPage",
+      "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/",
+      "url": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/",
+      "name": "MLOps template [Part 2] - Dagster Pipeline",
+      "description": "Here we will cover our small pipeline written in dagster.",
+      "isPartOf": {
+        "@id": "https://kuutsav.github.io/#/schema/website/1"
+      },
+      "about": {
+          "@id": "https://kuutsav.github.io/#/schema/organization/1"
+        },
+      "datePublished": "2021-10-09T09:19:43CET",
+      "dateModified": "2021-10-09T09:19:43CET",
+      "breadcrumb": {
+        "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/#/schema/breadcrumb/1"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/#/schema/image/2"
+      },
+      "inLanguage": "en-US",
+      "potentialAction": [{
+        "@type": "ReadAction", "target": ["https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/"]
+      }]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/#/schema/breadcrumb/1",
+      "name": "Breadcrumbs",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position":  1 ,
+        "item": {
+          "@type": "WebPage",
+          "@id": "https://kuutsav.github.io",
+          "url": "https://kuutsav.github.io",
+          "name": "Home"
+          }
+        },{
+        "@type": "ListItem",
+        "position":  3 ,
+        "item": {
+          "@type": "WebPage",
+          "@id": "https://kuutsav.github.io/blog/",
+          "url": "https://kuutsav.github.io/blog/",
+          "name": "Blog"
+          }
+        },{
+        "@type": "ListItem",
+        "position":  4 ,
+        "item": {
+          "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/"
+          }
+        }]
+    },
+
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://kuutsav.github.io/#/schema/article/1",
+          "headline": "MLOps template [Part 2] - Dagster Pipeline",
+          "description": "Here we will cover our small pipeline written in dagster.",
+          "isPartOf": {
+            "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/"
+          },
+          "mainEntityOfPage": {
+            "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/"
+          },
+          "datePublished": "2021-10-09T09:19:43CET",
+          "dateModified": "2021-10-09T09:19:43CET",
+          "author": {
+            "@id": "https://kuutsav.github.io/#/schema/person/2"
+          },
+          "publisher": {
+              "@id": "https://kuutsav.github.io/#/schema/organization/1"
+            },
+          "image": {
+            "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/#/schema/image/2"
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://kuutsav.github.io/#/schema/person/2",
+          "name": "Henk Verlinde",
+          "sameAs": [
+            "https://twitter.com/henkverlinde"
+            , "https://www.linkedin.com/in/henkverlinde/"
+            , "https://github.com/h-enk"
+            ]
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ImageObject",
+          "@id": "https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/#/schema/image/2",
+          "url": "https://kuutsav.github.io/doks.png",
+          "contentUrl": "https://kuutsav.github.io/doks.png",
+          "caption": "MLOps template [Part 2] - Dagster Pipeline"
+        }
+      ]
+    }
+
+  ]
+}
+</script>
+
+  <meta name="theme-color" content="#fff">
+<link rel="apple-touch-icon" sizes="180x180" href="https://kuutsav.github.io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://kuutsav.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://kuutsav.github.io/favicon-16x16.png">
+<link rel="manifest" crossorigin="use-credentials" href="https://kuutsav.github.io/site.webmanifest">
+
+</head>
+  <body class="blog single">
+    <div class="header-bar"></div>
+
+<header class="navbar navbar-expand-md navbar-light doks-navbar">
+  <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
+    <a class="navbar-brand p-0 me-auto" href="/" aria-label="ML and Beyond">
+      ML and Beyond
+    </a>
+
+    <button class="btn btn-menu d-block d-md-none order-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDoks" aria-controls="offcanvasDoks" aria-label="Open main menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+
+    <div class="offcanvas offcanvas-start border-0 py-md-1" tabindex="-1" id="offcanvasDoks" data-bs-backdrop="true" aria-labelledby="offcanvasDoksLabel">
+      <div class="header-bar d-md-none"></div>
+      <div class="offcanvas-header d-md-none">
+        <h2 class="h5 offcanvas-title ps-2" id="offcanvasDoksLabel"><a class="text-dark" href="/">ML and Beyond</a></h2>
+        <button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close main menu"></button>
+      </div>
+      <div class="offcanvas-body px-4">
+        <h3 class="h6 text-uppercase mb-3 d-md-none">Main</h3>
+        <ul class="nav flex-column flex-md-row ms-md-n3"><li class="nav-item">
+              <a class="nav-link ps-0 py-1 active" href="/blog/">Blog</a>
+            </li>
+          </ul>
+        <hr class="text-black-50 my-4 d-md-none">
+        <h3 class="h6 text-uppercase mb-3 d-md-none">Socials</h3>
+        <ul class="nav flex-column flex-md-row ms-md-auto me-md-n5 pe-md-2">
+          <li class="nav-item">
+              <a class="nav-link ps-0 py-1" href="https://github.com/kuutsav"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg><small class="ms-2 d-md-none">GitHub</small></a>
+            </li>
+          </ul>
+      </div>
+    </div>
+    <button id="mode" class="btn btn-link order-md-1" type="button" aria-label="Toggle user interface mode">
+      <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+      <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+    </button>
+    </nav>
+</header>
+
+
+    <div class="wrap container-xxl" role="document">
+      <div class="content">
+        
+<div class="row justify-content-center">
+  <div class="col-md-12 col-lg-10 col-xl-8">
+    <article>
+      <div class="blog-header">
+        <h1>MLOps template [Part 2] - Dagster Pipeline</h1>
+        <p><small>Posted October 9, 2021 by &nbsp;&hyphen;&nbsp;<strong>3&nbsp;min read</strong></small><p>
+      </div>
+      <p class="lead">Here we will cover our small pipeline written in dagster.</p>
+      <blockquote>
+<p><a href="https://dagster.io/">Dagster is a data orchestrator for machine learning, analytics, and ETL</a></p>
+</blockquote>
+<p>Dagster is a second generation data orchestrator that focues on being
+<code>data-driven</code> rather than <code>task-driven</code>(like <code>Airflow</code>).</p>
+<h2 id="solids-and-pipelines-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipeline">Solids and Pipelines <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline">#</a></h2>
+<blockquote>
+<p>Dagster&rsquo;s core abstractions are solids and pipelines.</p>
+</blockquote>
+<blockquote>
+<p>Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process. In production environments, Dagster is usually configured so that each solid executes in its own process.</p>
+</blockquote>
+<h2 id="dataset">Dataset</h2>
+<p>Our pipeline will operate on <a href="https://www.kaggle.com/ananthu017/question-classification">Question Type Classification</a>.
+This data helps to classify the given Questions
+into respective categories based on what type of answer it expects such as a
+numerical answer or a text description or a place or human name etc.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How did serfdom develop in and then leave Russia ?</td>
+<td><code>DESCRIPTION</code></td>
+</tr>
+<tr>
+<td>What films featured the character Popeye Doyle ?</td>
+<td><code>ENTITY</code></td>
+</tr>
+<tr>
+<td>How can I find a list of celebrities ' real names ?</td>
+<td><code>DESCRIPTION</code></td>
+</tr>
+<tr>
+<td>What fowl grabs the spotlight after the Chinese Year of the Monkey ?</td>
+<td><code>ENTITY</code></td>
+</tr>
+<tr>
+<td>What is the full form of .com ?</td>
+<td><code>ABBREVIATION</code></td>
+</tr>
+<tr>
+<td>What contemptible scoundrel stole the cork from my lunch ?</td>
+<td><code>HUMAN</code></td>
+</tr>
+<tr>
+<td>What team did baseball &rsquo;s St. Louis Browns become ?</td>
+<td><code>HUMAN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Category can take following values - <code>HUMAN, ENTITY, DESCRIPTION, NUMERIC, LOCATION</code>.</p>
+<h2 id="solid-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-solid">Solid <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-solid">#</a></h2>
+<blockquote>
+<p>A solid is a unit of computation in a data pipeline. Typically, you&rsquo;ll define solids by annotating ordinary Python functions with the @solid decorator.</p>
+</blockquote>
+<p>Our first solid <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L160"><code>get_training_dataset</code></a>
+loads the data from csv and returns</p>
+<ul>
+<li><code>texts (List[str])</code> - Question</li>
+<li><code>target (List[str])</code> - Category</li>
+</ul>
+<pre><code>@solid(
+    output_defs=[
+        OutputDefinition(name=&quot;texts&quot;, is_required=True),
+        OutputDefinition(name=&quot;target&quot;, is_required=True),
+    ]
+)
+
+def get_training_dataset(context):
+    texts, target = dataloaders.get_input_dataset(INPUT_DATASET_LOC)
+    context.log.info(f&quot;Loaded data; N={len(texts)}, Targets={set(target)}&quot;)
+    yield Output(texts, &quot;texts&quot;)
+    yield Output(target, &quot;target&quot;)
+</code></pre>
+<h2 id="outputdefinition-httpsdocsdagsterio_apidocssolidsdagsteroutputdefinition">OutputDefinition <a href="https://docs.dagster.io/_apidocs/solids#dagster.OutputDefinition">#</a></h2>
+<blockquote>
+<p>To define multiple outputs, or to use a different output name than &ldquo;result&rdquo;, you can provide OutputDefinitions to the @solid decorator.</p>
+<p>When you have more than one output, you must yield an instance of the Output class to disambiguate between outputs.</p>
+</blockquote>
+<p>Let&rsquo;s look at another solid <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L24"><code>preprocess_text</code></a>.</p>
+<pre><code>@solid
+def preprocess_text(context, texts):
+    texts = text_preprocessing.preprocess_text(texts)
+    context.log.info(f&quot;Text pre-processing done; N={len(texts)}&quot;)
+    return texts
+</code></pre>
+<p>Here, we are doing some text preprocessing. Since we are not returning
+mulitple outputs here, we can avoid <code>OutputDefinition</code>.</p>
+<h2 id="pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-pipeline">Pipeline <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-pipeline">#</a></h2>
+<blockquote>
+<p>To execute our solid, we&rsquo;ll embed it in an equally simple pipeline. A pipeline is a set of solids arranged into a
+<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a> of computation. You&rsquo;ll typically define pipelines by annotating ordinary Python functions with the <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">@pipeline</a> decorator.</p>
+</blockquote>
+<p>Let&rsquo;s look at our Pipeline.</p>
+<pre><code>@pipeline
+def ml_pipeline():
+    # 1. fetch training data
+    texts, target = get_training_dataset()
+    # 2. minimal text preprocessing
+    # 3. tfidf vectorization
+    vectorizer, X = get_vectorizer_and_features(preprocess_text(texts))
+    # 4. target encoding
+    target_encoder, encoded_target = get_targetencoder_and_encoded_targets(target)
+    # 5. train test split
+    X_train, X_test, y_train, y_test = train_test_split(X, encoded_target)
+    # 6. model training, validation, registry, artifact storage
+    train_clf(X_train, X_test, y_train, y_test)
+</code></pre>
+<p>Here we call few solids like <code>get_training_dataset</code>, <code>preprocess_text</code>,
+<code>get_vectorizer_and_features</code>, etc.</p>
+<p>These calls don&rsquo;t actually execute the solids. Within the bodies of functions
+decorated with @pipeline, we use function calls to indicate the dependency
+structure of the solids making up the pipeline.</p>
+<h2 id="executing-our-first-pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelineexecuting-our-first-pipeline">Executing Our First Pipeline <a href="https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#executing-our-first-pipeline">#</a></h2>
+<p>Dagit to visualize our pipeline in Dagit, from the directory in which we have saved
+the pipeline file.</p>
+<pre><code class="language-bash">$ dagit -f mlops/pipeline.py
+# Loading repository... Serving on http://127.0.0.1:3000
+</code></pre>
+<p>We can head over to the browser and look at the pipeline.</p>
+<p><figure class="figure">
+    <img class="figure-img img-fluid lazyload blur-up" data-sizes="auto" src="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_20x0_resize_box_3.png" data-srcset="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_500x0_resize_box_3.png 500w" width="3566" height="1514" alt="Image">
+    <noscript><img class="figure-img img-fluid" sizes="100vw" srcset="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_hu3d3194706d68df6de99631508eb02ed2_394230_500x0_resize_box_3.png 500w" src="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster.png" width="3566" height="1514" alt="Image"></noscript>
+    </figure>
+</p>
+<p>To execute the pipeline from the UI, head over to the <code>playground</code> section and
+click <code>Launch Execution</code> (at the bottom right).</p>
+<p>If the pipeline executed successfully, you should see logs like this.</p>
+<p><figure class="figure">
+    <img class="figure-img img-fluid lazyload blur-up" data-sizes="auto" src="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_20x0_resize_box_3.png" data-srcset="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_500x0_resize_box_3.png 500w" width="3556" height="1918" alt="Image">
+    <noscript><img class="figure-img img-fluid" sizes="100vw" srcset="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution_hu7ab7c1a84fa7c4b23b6c9a7ce3cca157_741617_500x0_resize_box_3.png 500w" src="https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/dagster_execution.png" width="3556" height="1918" alt="Image"></noscript>
+    </figure>
+</p>
+<p>The pipeline we just executed registered our trained model using <code>MLflow</code> and
+stored the model artifacts using <code>minio</code>.</p>
+<p>We will look at those components in the next part.</p>
+
+    </article>
+  </div>
+</div>
+
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-xxl">
+    <div class="row">
+      <div class="col-lg-8 order-last order-lg-first">
+        <ul class="list-inline">
+          <li class="list-inline-item">Powered by <a href="https://gohugo.io/">Hugo</a>, and <a href="https://getdoks.org/">Doks</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 order-first order-lg-last text-lg-end">
+        <ul class="list-inline">
+          </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+    <script src="/js/bootstrap.min.73ca27033146a505b6a0f66b79d99f613a18e778bc9606fd223476d0ebf0fc10508b0d4f5c448b0a946fa1d71fbeffaae9732adc0c2890e61c449217fd6ee1c0.js" integrity="sha512-c8onAzFGpQW2oPZredmfYToY53i8lgb9IjR20Ovw/BBQiw1PXESLCpRvodcfvv&#43;q6XMq3AwokOYcRJIX/W7hwA==" crossorigin="anonymous" defer></script>
+  <script src="/js/highlight.min.e13cfba4c5524e30386cb9ea71f0f191f39d15b25b222f4b67549689f7c076158f42a2282446044f5cdacc76a6d003efbfa252a84aea0116703803b6339ae35f.js" integrity="sha512-4Tz7pMVSTjA4bLnqcfDxkfOdFbJbIi9LZ1SWiffAdhWPQqIoJEYET1zazHam0APvv6JSqErqARZwOAO2M5rjXw==" crossorigin="anonymous" defer></script>
+  <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
+  
+  </body>
+</html>
