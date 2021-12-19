@@ -9,7 +9,7 @@
 
   <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
 
-  <link rel="stylesheet" href="https://kuutsav.github.io/main.36e76a9745f595b58b8750c30a69b2e9d67c10e1c4ea9ce87905a7705d1c6c6dceee73a3b402c42166f2867b22a9769921fe8cb9db33548f4615f3fbe9a33a1f.css" integrity="sha512-Nudql0X1lbWLh1DDCmmy6dZ8EOHE6pzoeQWncF0cbG3O7nOjtALEIWbyhnsiqXaZIf6MudszVI9GFfP76aM6Hw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.7a1fdc48ecd7ea986167a96ade64723779c3aa0ee47c40e4069899bbed534959f13177098842711728f19866977212c14461cda5593f13c35f4dfe4ff5556158.css" integrity="sha512-eh/cSOzX6phhZ6lq3mRyN3nDqg7kfEDkBpiZu&#43;1TSVnxMXcJiEJxFyjxmGaXchLBRGHNpVk/E8NfTf5P9VVhWA==" crossorigin="anonymous">
 <noscript><style>img.lazyload { display: none; }</style></noscript>
   <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -270,8 +270,8 @@ def ml_pipeline():
 <p>Managing and deploying models from a variety of ML libraries to a variety of model serving and inference platforms (MLflow Models).</p>
 <p>Providing a central model store to collaboratively manage the full lifecycle of an MLflow Model, including model versioning, stage transitions, and annotations (MLflow Model Registry).</p>
 </blockquote>
-<p>For our usecase, we mainly focus on <code>Mlflow Tracking</code> and <code>Mlflow Registry</code>.</p>
-<p><code>train_clf()</code> internally calls <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/ml_workflow/naive_bayes_clf.py#L25"><code>train_and_validate_clf()</code></a> located at <code>mlops/ml_workflow/naive_bayes_clf.py</code>.</p>
+<p>For our usecase, we mainly focus on <code>Mlflow Tracking</code> and <code>Mlflow Registry</code>.
+<code>train_clf()</code> internally calls <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/ml_workflow/naive_bayes_clf.py#L25"><code>train_and_validate_clf()</code></a> located at <code>mlops/ml_workflow/naive_bayes_clf.py</code>.</p>
 <p>This script has as all the MLflow components and we will look at those in detail.</p>
 <h2 id="tracking-httpswwwmlfloworgdocslatesttrackinghtml">Tracking <a href="https://www.mlflow.org/docs/latest/tracking.html">#</a> <a href="#tracking-httpswwwmlfloworgdocslatesttrackinghtml" class="anchor" aria-hidden="true">#</a></h2>
 <pre><code># setting env vars for minio artifact storage
@@ -318,19 +318,20 @@ if not os.getenv(&quot;MLFLOW_EXPERIMENT_NAME&quot;) in exps:
 </code></pre>
 <p>First time we execute the pipeline, experiment <code>MLFLOW_EXPERIMENT_NAME=MLOps</code> is
 created and is used for subsequent runs.</p>
-<pre><code>def train_and_validate_clf(
+<pre><code class="language-javascript">def train_and_validate_clf(
     X_train: np.array, X_test: np.array, y_train: np.array, y_test: np.array
 ) -&gt; str:
     mlflow.set_experiment(os.getenv(&quot;MLFLOW_EXPERIMENT_NAME&quot;))
 
     with mlflow.start_run(run_name=&quot;NAIVE_BAYES_CLF&quot;):
-        ...
+        # ignoring rest of the script
+        pass
 </code></pre>
 <h2 id="registry-httpswwwmlfloworgdocslatestmodel-registryhtml">Registry <a href="https://www.mlflow.org/docs/latest/model-registry.html#">#</a> <a href="#registry-httpswwwmlfloworgdocslatestmodel-registryhtml" class="anchor" aria-hidden="true">#</a></h2>
 <p>Under an experiment, we can log metrics, log model parameters, save and version
-model artifacts.</p>
-<p>These steps come under the purview of <code>model-registry</code>.</p>
-<p>Here, we log</p>
+model artifacts.
+These steps come under the purview of <code>model-registry</code>.
+Here, we log</p>
 <ul>
 <li>classifier parameter <code>alpha</code></li>
 <li>classification metrics <code>precision</code>, <code>recall</code> and <code>f1_score</code></li>
