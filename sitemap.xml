@@ -45,6 +45,48 @@
   </url>
   
   <url>
+    <loc>https://kuutsav.github.io/tags/elasticapm/</loc>
+    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/fastapi/</loc>
+    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/</loc>
+    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/minio/</loc>
+    <lastmod>2021-10-10T09:19:44+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/mlflow/</loc>
+    <lastmod>2021-10-10T09:19:44+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/dagster/</loc>
+    <lastmod>2021-10-09T09:19:43+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://kuutsav.github.io/docs/versions/</loc>
     <lastmod>2021-09-24T08:50:23+02:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -52,7 +94,7 @@
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/contributors/</loc>
+    <loc>https://kuutsav.github.io/categories/</loc>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
