@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on </title>
+    <link>https://kuutsav.github.io/tags/</link>
+    <description>Recent content in Tags on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 11 Oct 2021 09:19:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>elasticapm</title>
+      <link>https://kuutsav.github.io/tags/elasticapm/</link>
+      <pubDate>Mon, 11 Oct 2021 09:19:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/elasticapm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fastapi</title>
+      <link>https://kuutsav.github.io/tags/fastapi/</link>
+      <pubDate>Mon, 11 Oct 2021 09:19:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/fastapi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>minio</title>
+      <link>https://kuutsav.github.io/tags/minio/</link>
+      <pubDate>Sun, 10 Oct 2021 09:19:44 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/minio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mlflow</title>
+      <link>https://kuutsav.github.io/tags/mlflow/</link>
+      <pubDate>Sun, 10 Oct 2021 09:19:44 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/mlflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dagster</title>
+      <link>https://kuutsav.github.io/tags/dagster/</link>
+      <pubDate>Sat, 09 Oct 2021 09:19:43 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/dagster/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

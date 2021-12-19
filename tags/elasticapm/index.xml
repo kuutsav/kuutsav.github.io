@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>elasticapm on </title>
+    <link>https://kuutsav.github.io/tags/elasticapm/</link>
+    <description>Recent content in elasticapm on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 11 Oct 2021 09:19:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/elasticapm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MLOps template [Part 4] · FastAPI &#43; ElasticAPM</title>
+      <link>https://kuutsav.github.io/blog/mlops-template-part-4-fastapi-elasticapm/</link>
+      <pubDate>Mon, 11 Oct 2021 09:19:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/mlops-template-part-4-fastapi-elasticapm/</guid>
+      <description>Scripts related to the APIs are located at MLOps/app.
+├── application.py # FastAPI app and launcher uvicorn.run ├── models # pydantic model for reponse validation │ └── predict.py # pydantic model for predict endpoint └── routes # to maintain larger applications ├── endpoints │ └── predict.py # predict endpoint └── router.py # APIRouter module to maintain larger apps  Though we have used the APIRouter module here, it&amp;rsquo;s really needed when we have lots of API endpoints in a larger app.</description>
+    </item>
+    
+    <item>
+      <title>MLOps template [Part 1] · Setup</title>
+      <link>https://kuutsav.github.io/blog/mlops-template-part-1-setup/</link>
+      <pubDate>Fri, 08 Oct 2021 09:19:42 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/mlops-template-part-1-setup/</guid>
+      <description>These steps are necessary for operationalization of any machine-learning based model.
+These posts are in no way exhaustive in covering the breadth of MLOps.
+Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.  Stack # We will be using the following tools in this project
+ Data Pipeline: Dagster ML registry: MLflow API Development: FastAPI Monitoring: ElasticAPM  Dev Setup # Poetry # # $ curl -sSL https://raw.</description>
+    </item>
+    
+  </channel>
+</rss>

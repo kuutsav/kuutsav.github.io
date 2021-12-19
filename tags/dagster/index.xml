@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>dagster on </title>
+    <link>https://kuutsav.github.io/tags/dagster/</link>
+    <description>Recent content in dagster on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 09 Oct 2021 09:19:43 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/dagster/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MLOps template [Part 2] · Dagster Pipeline</title>
+      <link>https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/</link>
+      <pubDate>Sat, 09 Oct 2021 09:19:43 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/</guid>
+      <description>Dagster is a data orchestrator for machine learning, analytics, and ETL
+ Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
+Solids and Pipelines # #  Dagster&amp;rsquo;s core abstractions are solids and pipelines.
+  Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process. In production environments, Dagster is usually configured so that each solid executes in its own process.</description>
+    </item>
+    
+    <item>
+      <title>MLOps template [Part 1] · Setup</title>
+      <link>https://kuutsav.github.io/blog/mlops-template-part-1-setup/</link>
+      <pubDate>Fri, 08 Oct 2021 09:19:42 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/mlops-template-part-1-setup/</guid>
+      <description>These steps are necessary for operationalization of any machine-learning based model.
+These posts are in no way exhaustive in covering the breadth of MLOps.
+Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.  Stack # We will be using the following tools in this project
+ Data Pipeline: Dagster ML registry: MLflow API Development: FastAPI Monitoring: ElasticAPM  Dev Setup # Poetry # # $ curl -sSL https://raw.</description>
+    </item>
+    
+  </channel>
+</rss>
