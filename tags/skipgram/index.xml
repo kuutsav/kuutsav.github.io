@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>skipgram on </title>
+    <link>https://kuutsav.github.io/tags/skipgram/</link>
+    <description>Recent content in skipgram on </description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Mon, 20 Dec 2021 19:12:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/skipgram/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NLP Series [Part 1] · Word2Vec-Skip-Gram</title>
+      <link>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</link>
+      <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</guid>
+      <description>from collections import Counter import re from typing import List import numpy as np import requests from sklearn.metrics.pairwise import cosine_similarity import torch import torch.nn as nn from torch.utils.data import DataLoader, Dataset  For detailed intro to Word2Vec and word vectors in general, check out these awesome resources:
+ Stanford 2021 nlp lecture Yandex nlp course  In this notebook, we will train a Word2Vec skip-gram model from scratch on some text data and manually inspect the trained embeddings at the end.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,756 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preload" as="font" href="https://kuutsav.github.io/fonts/vendor/jost/jost-v4-latin-regular.woff2" type="font/woff2" crossorigin>
+<link rel="preload" as="font" href="https://kuutsav.github.io/fonts/vendor/jost/jost-v4-latin-700.woff2" type="font/woff2" crossorigin>
+
+  <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.144d7456074b28b0b4a03e1557bb7ec31b2686ab386ae3dcab0cde3cdaa8c915475e69866834e9e2cdc9d74310e276e6da7900756cdccffb9eb0b50778a1d1ae.css" integrity="sha512-FE10VgdLKLC0oD4VV7t&#43;wxsmhqs4auPcqwzePNqoyRVHXmmGaDTp4s3J10MQ4nbm2nkAdWzcz/uesLUHeKHRrg==" crossorigin="anonymous">
+<noscript><style>img.lazyload { display: none; }</style></noscript>
+  <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+  <title>NLP Series [Part 1] · Word2Vec-Skip-Gram - ML and Beyond</title>
+<meta name="description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
+<link rel="canonical" href="https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/">
+<meta property="og:locale" content="en_US">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+<meta property="og:description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
+<meta property="og:url" content="https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/">
+<meta property="og:site_name" content="ML and Beyond">
+<meta property="article:published_time" content="2021-12-20T19:12:45+01:00">
+  <meta property="article:modified_time" content="2021-12-20T19:12:45+01:00">
+  
+  <meta property="og:image" content="https://kuutsav.github.io/doks.png"/>
+      <meta property="og:image:alt" content="ML and Beyond">
+    
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="">
+<meta name="twitter:creator" content="">
+<meta name="twitter:title" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+<meta name="twitter:description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
+<meta name="twitter:image" content="https://kuutsav.github.io/doks.png">
+    <meta name="twitter:image:alt" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+        "@id": "https://kuutsav.github.io/#/schema/organization/1",
+      "name": "Doks",
+      "url": "https://kuutsav.github.io/",
+      "sameAs": [
+        "https://twitter.com/getdoks"
+        , "https://github.com/h-enk/doks"
+        ],
+      "logo": {
+          "@type": "ImageObject",
+          "@id": "https://kuutsav.github.io/#/schema/image/1",
+          "url": "https://kuutsav.github.io/logo-doks.png",
+          "width":  512 ,
+          "height":  512 ,
+          "caption": "Doks"
+        },
+        "image": {
+          "@id": "https://kuutsav.github.io/#/schema/image/1"
+        }
+      },
+    {
+      "@type": "WebSite",
+      "@id": "https://kuutsav.github.io/#/schema/website/1",
+      "url": "https://kuutsav.github.io/",
+      "name": "ML and Beyond",
+      "description": "I build ML and backend systems that can serve customers at scale. Currently, I\u0027m a Lead ML Engineer at Freshworks.",
+      "publisher": {
+          "@id": "https://kuutsav.github.io/#/schema/organization/1"
+        }
+      },
+    {
+      "@type": "WebPage",
+      "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/",
+      "url": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/",
+      "name": "NLP Series [Part 1] · Word2Vec-Skip-Gram",
+      "description": "We will take a walk down the memory lane and visit the awesome Word2Vec.",
+      "isPartOf": {
+        "@id": "https://kuutsav.github.io/#/schema/website/1"
+      },
+      "about": {
+          "@id": "https://kuutsav.github.io/#/schema/organization/1"
+        },
+      "datePublished": "2021-12-20T19:12:45CET",
+      "dateModified": "2021-12-20T19:12:45CET",
+      "breadcrumb": {
+        "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/breadcrumb/1"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2"
+      },
+      "inLanguage": "en-US",
+      "potentialAction": [{
+        "@type": "ReadAction", "target": ["https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"]
+      }]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/breadcrumb/1",
+      "name": "Breadcrumbs",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position":  1 ,
+        "item": {
+          "@type": "WebPage",
+          "@id": "https://kuutsav.github.io",
+          "url": "https://kuutsav.github.io",
+          "name": "Home"
+          }
+        },{
+        "@type": "ListItem",
+        "position":  3 ,
+        "item": {
+          "@type": "WebPage",
+          "@id": "https://kuutsav.github.io/blog/",
+          "url": "https://kuutsav.github.io/blog/",
+          "name": "Blog"
+          }
+        },{
+        "@type": "ListItem",
+        "position":  4 ,
+        "item": {
+          "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
+          }
+        }]
+    },
+
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Article",
+          "@id": "https://kuutsav.github.io/#/schema/article/1",
+          "headline": "NLP Series [Part 1] · Word2Vec-Skip-Gram",
+          "description": "We will take a walk down the memory lane and visit the awesome Word2Vec.",
+          "isPartOf": {
+            "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
+          },
+          "mainEntityOfPage": {
+            "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
+          },
+          "datePublished": "2021-12-20T19:12:45CET",
+          "dateModified": "2021-12-20T19:12:45CET",
+          "author": {
+            "@id": "https://kuutsav.github.io/#/schema/person/2"
+          },
+          "publisher": {
+              "@id": "https://kuutsav.github.io/#/schema/organization/1"
+            },
+          "image": {
+            "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2"
+          }
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://kuutsav.github.io/#/schema/person/2",
+          "name": "Henk Verlinde",
+          "sameAs": [
+            "https://twitter.com/henkverlinde"
+            , "https://www.linkedin.com/in/henkverlinde/"
+            , "https://github.com/h-enk"
+            ]
+        }
+      ]
+    },
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "ImageObject",
+          "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2",
+          "url": "https://kuutsav.github.io/doks.png",
+          "contentUrl": "https://kuutsav.github.io/doks.png",
+          "caption": "NLP Series [Part 1] · Word2Vec-Skip-Gram"
+        }
+      ]
+    }
+
+  ]
+}
+</script>
+
+  <meta name="theme-color" content="#fff">
+<link rel="apple-touch-icon" sizes="180x180" href="https://kuutsav.github.io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://kuutsav.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://kuutsav.github.io/favicon-16x16.png">
+<link rel="manifest" crossorigin="use-credentials" href="https://kuutsav.github.io/site.webmanifest">
+
+</head>
+  <body class="blog single">
+    <div class="header-bar"></div>
+
+<header class="navbar navbar-expand-md navbar-light doks-navbar">
+  <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
+    <a class="navbar-brand p-0 me-auto" href="/" aria-label="ML and Beyond">
+      ML and Beyond
+    </a>
+
+    <button class="btn btn-menu d-block d-md-none order-5" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDoks" aria-controls="offcanvasDoks" aria-label="Open main menu">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
+
+    <div class="offcanvas offcanvas-start border-0 py-md-1" tabindex="-1" id="offcanvasDoks" data-bs-backdrop="true" aria-labelledby="offcanvasDoksLabel">
+      <div class="header-bar d-md-none"></div>
+      <div class="offcanvas-header d-md-none">
+        <h2 class="h5 offcanvas-title ps-2" id="offcanvasDoksLabel"><a class="text-dark" href="/">ML and Beyond</a></h2>
+        <button type="button" class="btn-close text-reset me-2" data-bs-dismiss="offcanvas" aria-label="Close main menu"></button>
+      </div>
+      <div class="offcanvas-body px-4">
+        <h3 class="h6 text-uppercase mb-3 d-md-none">Main</h3>
+        <ul class="nav flex-column flex-md-row ms-md-n3"><li class="nav-item">
+              <a class="nav-link ps-0 py-1 active" href="/blog/">Blog</a>
+            </li>
+          </ul>
+        <hr class="text-black-50 my-4 d-md-none">
+        <h3 class="h6 text-uppercase mb-3 d-md-none">Socials</h3>
+        <ul class="nav flex-column flex-md-row ms-md-auto me-md-n5 pe-md-2">
+          <li class="nav-item">
+              <a class="nav-link ps-0 py-1" href="https://github.com/kuutsav"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg><small class="ms-2 d-md-none">GitHub</small></a>
+            </li>
+          </ul>
+      </div>
+    </div>
+    <button id="mode" class="btn btn-link order-md-1" type="button" aria-label="Toggle user interface mode">
+      <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+      <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+    </button>
+    </nav>
+</header>
+
+<nav class="doks-subnavbar py-2 sticky-lg-top" aria-label="Secondary navigation">
+  <div class="container-xxl d-flex align-items-md-center">
+
+    <form class="doks-search position-relative flex-grow-1 me-auto">
+      <input id="search" class="form-control is-search" type="search" placeholder="" aria-label="" autocomplete="off">
+      <div id="suggestions" class="shadow bg-white rounded d-none"></div>
+    </form>
+    <button class="btn doks-sidebar-toggle d-lg-none ms-3 order-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#doks-docs-nav" aria-controls="doks-docs-nav" aria-expanded="false" aria-label="Toggle documentation navigation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="doks doks-expand" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Expand</title><polyline points="7 13 12 18 17 13"></polyline><polyline points="7 6 12 11 17 6"></polyline></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" class="doks doks-collapse" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><title>Collapse</title><polyline points="17 11 12 6 7 11"></polyline><polyline points="17 18 12 13 7 18"></polyline></svg>
+    </button>
+
+  </div>
+</nav>
+
+<div class="container-xxl">
+  <aside class="doks-sidebar">
+    <nav id="doks-docs-nav" class="collapse d-lg-none" aria-label="Tertiary navigation">
+      <ul class="list-unstyled collapsible-sidebar">
+  </ul>
+
+    </nav>
+  </aside>
+</div>
+
+    <div class="wrap container-xxl" role="document">
+      <div class="content">
+        
+<div class="row justify-content-center">
+  <div class="col-md-15 col-lg-13 col-xl-11">
+    <article>
+      <div class="blog-header">
+        <h1>NLP Series [Part 1] · Word2Vec-Skip-Gram</h1>
+        <p><small>Posted December 20, 2021 <strong>·</strong> 9&nbsp;min read</strong></small><p>  
+[
+   <a href="https://kuutsav.github.io/tags/nlp/">nlp</a>&nbsp; <a href="https://kuutsav.github.io/tags/skipgram/">skipgram</a>&nbsp; <a href="https://kuutsav.github.io/tags/word2vec/">word2vec</a>&nbsp;]
+
+ 
+      </div>
+      <p class="lead">We will take a walk down the memory lane and visit the awesome Word2Vec.</p>
+      <pre><code>from collections import Counter
+import re
+from typing import List
+
+import numpy as np
+import requests
+from sklearn.metrics.pairwise import cosine_similarity
+import torch
+import torch.nn as nn
+from torch.utils.data import DataLoader, Dataset
+</code></pre>
+<p>For detailed intro to Word2Vec and word vectors in general, check out these awesome resources:</p>
+<ol>
+<li><a href="https://www.youtube.com/watch?v=rmVRLeJRkl4&amp;list=PLoROMvodv4rOSH4v6133s9LFPRHjEmbmJ">Stanford 2021 nlp lecture</a></li>
+<li><a href="https://lena-voita.github.io/nlp_course/word_embeddings.html">Yandex nlp course</a></li>
+</ol>
+<p>In this notebook, we will train a Word2Vec skip-gram model from scratch on some text data and manually inspect the trained embeddings at the end.</p>
+<p>The whole process can be broken down into the following key steps:</p>
+<ol>
+<li>Fetch and process text using <code>TextProcessor</code>.
+<ol>
+<li><code>fetch_text()</code> fetches the texts directly from urls containing our text data</li>
+<li><code>process_text()</code> applies basic pre-procesing steps to the text and creats tokens using white space tokenization.</li>
+<li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
+</ol>
+</li>
+<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.</li>
+<li>Create our <code>SkipGramModel</code> model based on <code>torch.nn.Module</code>.</li>
+<li>Define our loss function, optimizer and scheduler.</li>
+<li>Train the model.</li>
+<li>Create a similarity matrix(cosine similarity) based on the trained embeddings(maps 1:1 to our vocab).</li>
+<li>Explore similar embeddings for some word query.</li>
+</ol>
+<h2 id="step-1-fetch-and-prepare-the-data">Step 1. Fetch and prepare the data. <a href="#step-1-fetch-and-prepare-the-data" class="anchor" aria-hidden="true">#</a></h2>
+<p>We will be using the first four Harry Potter books.</p>
+<pre><code>BOOK_URLS = [
+    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%201%20-%20The%20Philosopher's%20Stone.txt&quot;,
+    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&quot;,
+    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&quot;,
+    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%204%20-%20The%20Goblet%20of%20Fire.txt&quot;
+]
+</code></pre>
+<pre><code>class TextProcessor:
+  def __init__(self, urls: List[str]):
+    self.urls = urls
+
+  def fetch_text(self):
+    self.text = &quot;&quot;
+    for i, url in enumerate(self.urls):
+        r = requests.get(url)
+        r.status_code
+        self.text += &quot;\n\n\n&quot; + r.text
+        print(f&quot;Fetched {i+1}/{len(self.urls)} urls ...&quot;)
+
+  def process_text(self):
+    print(&quot;Processing text ...&quot;)
+    sentences = re.split(&quot;\n{2,}&quot;, self.text)
+    print(f&quot; &gt; {len(sentences)} sentences&quot;)
+    self.clean_sentences = []
+    for txt in sentences:
+        txt = txt.strip().lower()
+        txt = txt.replace(&quot;\n&quot;, &quot;&quot;)
+        txt = &quot; &quot;.join(re.findall(&quot;\w+&quot;, txt))
+        if txt:
+            self.clean_sentences.append(txt)
+    print(f&quot; &gt; {len(sentences)} filtered sentences&quot;)
+    tokens = &quot; &quot;.join(self.clean_sentences).split(&quot; &quot;)
+    print(f&quot; &gt; {len(tokens)} tokens&quot;)
+    self.token_counter = Counter(tokens)
+    print(f&quot; &gt; {len(self.token_counter)} unique tokens&quot;)
+  
+  def prepare_vocab(self, min_count: int):
+    &quot;&quot;&quot;
+    Args:
+      min_count (int): Minimum number of times a token should appear in the
+        text to be considered in the vocabulary else they are assigned to
+        a default index which is `len(vocab)`.
+    &quot;&quot;&quot;
+    self.w2ix = {}
+    for i, (token, count) in enumerate(
+        self.token_counter.most_common(len(self.token_counter))
+    ):
+      if count &lt; min_count:
+        break
+      else:
+        self.w2ix[token] = i
+    
+    self.ix2w = {ix: w for w, ix in self.w2ix.items()}
+    
+    # assign default index to rest of the tokens
+    n = len(self.w2ix)
+    for token, _ in self.token_counter.most_common(len(self.token_counter)):
+      if token not in self.w2ix:
+        self.w2ix[token] = n
+    self.ix2w[n] = &quot;&lt;unk&gt;&quot;
+
+    self.vocab_size = n + 1
+    print(f&quot;Vocab size: {self.vocab_size}&quot;)
+</code></pre>
+<pre><code>text_processor = TextProcessor(BOOK_URLS)
+</code></pre>
+<pre><code>text_processor.fetch_text()
+
+# Fetched 1/4 urls ...
+# Fetched 2/4 urls ...
+# Fetched 3/4 urls ...
+# Fetched 4/4 urls ...
+</code></pre>
+<pre><code>text_processor.process_text()
+
+# Processing text ...
+#   &gt; 20033 sentences
+#   &gt; 20033 filtered sentences
+#   &gt; 501854 tokens
+#   &gt; 15078 unique tokens
+</code></pre>
+<pre><code>text_processor.prepare_vocab(min_count=20)
+
+# Vocab size: 2103
+</code></pre>
+<h2 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch Dataset and Dataloader. <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>class HarryPotterDataset(Dataset):
+  def __init__(self, text_processor: TextProcessor,  window_size: int=3):
+    self.data = []
+    for txt in text_processor.clean_sentences:
+        splits = txt.split(&quot; &quot;)
+        for i in range(window_size, len(splits) -1):
+            center_word = splits[i]
+            window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1]
+            for context in window_words:
+                self.data.append((
+                    text_processor.w2ix[center_word], text_processor.w2ix[context]
+                ))
+
+  def __getitem__(self, ix: int):
+    return self.data[ix]
+  
+  def __len__(self):
+    return len(self.data)
+</code></pre>
+<p>The <code>Dataset</code> essentially contains indexes of pairs of <code>center word</code> and a <code>context word</code>.</p>
+<pre><code>dataset = HarryPotterDataset(text_processor, 3)
+</code></pre>
+<pre><code>len(dataset)
+
+# 2489461
+</code></pre>
+<pre><code>dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+</code></pre>
+<h2 id="step-3-create-the-word2vec-model-using-torchnnmodule">Step 3. Create the Word2Vec model using torch.nn.Module. <a href="#step-3-create-the-word2vec-model-using-torchnnmodule" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>class SkipGramModel(nn.Module):
+    def __init__(self, vocab_size: int, embedding_size: int=50):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_size)
+        self.linear = nn.Linear(embedding_size, vocab_size)
+
+    def forward(self, x):
+        return self.linear(self.embedding(x))
+</code></pre>
+<p>The model architecure is <code>Embedding -&gt; Linear -&gt; Softmax</code>.</p>
+<p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; as mentioned in the pytorch documentation.</p>
+<p>Based on our model architecture, this layer will contain the trained token/word
+embeddings of interest to up and we will discard the weight matrix from
+the <code>Linear</code> layer.</p>
+<p>In each forward pass we:</p>
+<ol>
+<li>Pass indexes of center word as input <code>x</code>.</li>
+<li>These indexes are looked up in the <code>self.embedding</code> table.</li>
+<li>We transform the vector from last step using the Linear layer to get another vector with dimension <code>vocab_size</code>.</li>
+<li>Finally we apply softmax and calcualte loss.</li>
+</ol>
+<p>A trained model should output high values for the <code>context</code> indices for a given
+center word.</p>
+<pre><code>device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
+model = SkipGramModel(text_processor.vocab_size, embedding_size=30).to(device)
+</code></pre>
+<h2 id="step-4-define-our-loss-function-optimizer-and-scheduler">Step 4. Define our loss function, optimizer and scheduler. <a href="#step-4-define-our-loss-function-optimizer-and-scheduler" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>criterion = nn.CrossEntropyLoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
+</code></pre>
+<pre><code>N_EPOCHS =       20 # since we have a small dataset, more epochs
+STEP_TO_LOG = 10000 # print the loss every x step of the DataLoader
+</code></pre>
+<h2 id="step-5-train-the-model">Step 5. Train the model. <a href="#step-5-train-the-model" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>epoch_losses = []
+batch_losses = []
+for epoch in range(N_EPOCHS):
+    losses = []
+    for i, data in enumerate(dataloader):
+        inputs = data[0].long().to(device)
+        outputs = data[1].long().to(device)
+        pred = model(inputs)
+        loss = criterion(pred, outputs)
+        losses.append(loss.item())
+        loss.backward()
+        optimizer.step()
+        optimizer.zero_grad()
+        if i % STEP_TO_LOG == 0:
+            print(f&quot;epoch {epoch + 1}; steps={i:&gt;5}/{len(dataloader)}; loss={loss:&lt;.5f}&quot;)
+    scheduler.step()
+    batch_losses += losses
+    epoch_losses.append(np.mean(losses))
+    print(f&quot;epoch {epoch + 1} ; lr={scheduler._last_lr[0]}; loss={loss:&lt;.5f}\n&quot;)
+</code></pre>
+<pre><code>epoch 1; steps=    0/38898; loss=7.77347
+epoch 1; steps=10000/38898; loss=5.24432
+epoch 1; steps=20000/38898; loss=5.55209
+epoch 1; steps=30000/38898; loss=5.74518
+epoch 1 ; lr=0.005; loss=6.44326
+
+epoch 2; steps=    0/38898; loss=5.18774
+epoch 2; steps=10000/38898; loss=5.02457
+epoch 2; steps=20000/38898; loss=5.71072
+epoch 2; steps=30000/38898; loss=5.11149
+epoch 2 ; lr=0.005; loss=5.04696
+
+epoch 3; steps=    0/38898; loss=5.76455
+epoch 3; steps=10000/38898; loss=5.36094
+epoch 3; steps=20000/38898; loss=5.36201
+epoch 3; steps=30000/38898; loss=5.52337
+epoch 3 ; lr=0.005; loss=6.28578
+
+epoch 4; steps=    0/38898; loss=5.57676
+epoch 4; steps=10000/38898; loss=5.22308
+epoch 4; steps=20000/38898; loss=5.83870
+epoch 4; steps=30000/38898; loss=6.00284
+epoch 4 ; lr=0.005; loss=5.36329
+
+epoch 5; steps=    0/38898; loss=5.54562
+epoch 5; steps=10000/38898; loss=5.45449
+epoch 5; steps=20000/38898; loss=4.99433
+epoch 5; steps=30000/38898; loss=5.03800
+epoch 5 ; lr=0.0025; loss=5.62579
+
+epoch 6; steps=    0/38898; loss=5.39675
+epoch 6; steps=10000/38898; loss=5.96204
+epoch 6; steps=20000/38898; loss=5.76479
+epoch 6; steps=30000/38898; loss=5.62020
+epoch 6 ; lr=0.0025; loss=5.39560
+
+epoch 7; steps=    0/38898; loss=5.03126
+epoch 7; steps=10000/38898; loss=5.25755
+epoch 7; steps=20000/38898; loss=4.95463
+epoch 7; steps=30000/38898; loss=5.79732
+epoch 7 ; lr=0.0025; loss=5.09368
+
+epoch 8; steps=    0/38898; loss=5.67842
+epoch 8; steps=10000/38898; loss=4.90622
+epoch 8; steps=20000/38898; loss=5.59550
+epoch 8; steps=30000/38898; loss=5.42461
+epoch 8 ; lr=0.0025; loss=5.78050
+
+epoch 9; steps=    0/38898; loss=5.59528
+epoch 9; steps=10000/38898; loss=6.03118
+epoch 9; steps=20000/38898; loss=5.62938
+epoch 9; steps=30000/38898; loss=5.43099
+epoch 9 ; lr=0.0025; loss=5.62948
+
+epoch 10; steps=    0/38898; loss=5.33678
+epoch 10; steps=10000/38898; loss=5.30591
+epoch 10; steps=20000/38898; loss=5.31357
+epoch 10; steps=30000/38898; loss=5.81043
+epoch 10 ; lr=0.00125; loss=5.45841
+
+epoch 11; steps=    0/38898; loss=5.77081
+epoch 11; steps=10000/38898; loss=5.52807
+epoch 11; steps=20000/38898; loss=5.80410
+epoch 11; steps=30000/38898; loss=5.85639
+epoch 11 ; lr=0.00125; loss=5.15784
+
+epoch 12; steps=    0/38898; loss=5.65535
+epoch 12; steps=10000/38898; loss=5.69625
+epoch 12; steps=20000/38898; loss=5.41546
+epoch 12; steps=30000/38898; loss=5.49350
+epoch 12 ; lr=0.00125; loss=5.27568
+
+epoch 13; steps=    0/38898; loss=5.40524
+epoch 13; steps=10000/38898; loss=5.88747
+epoch 13; steps=20000/38898; loss=5.51729
+epoch 13; steps=30000/38898; loss=5.38389
+epoch 13 ; lr=0.00125; loss=5.77996
+
+epoch 14; steps=    0/38898; loss=5.74729
+epoch 14; steps=10000/38898; loss=5.51249
+epoch 14; steps=20000/38898; loss=5.22044
+epoch 14; steps=30000/38898; loss=5.34987
+epoch 14 ; lr=0.00125; loss=5.80022
+
+epoch 15; steps=    0/38898; loss=5.64972
+epoch 15; steps=10000/38898; loss=5.41167
+epoch 15; steps=20000/38898; loss=5.41378
+epoch 15; steps=30000/38898; loss=5.53267
+epoch 15 ; lr=0.000625; loss=5.23845
+
+epoch 16; steps=    0/38898; loss=5.24246
+epoch 16; steps=10000/38898; loss=5.39503
+epoch 16; steps=20000/38898; loss=5.67561
+epoch 16; steps=30000/38898; loss=5.37725
+epoch 16 ; lr=0.000625; loss=5.23388
+
+epoch 17; steps=    0/38898; loss=5.82594
+epoch 17; steps=10000/38898; loss=5.79435
+epoch 17; steps=20000/38898; loss=4.98136
+epoch 17; steps=30000/38898; loss=5.16951
+epoch 17 ; lr=0.000625; loss=5.35618
+
+epoch 18; steps=    0/38898; loss=5.62355
+epoch 18; steps=10000/38898; loss=5.68160
+epoch 18; steps=20000/38898; loss=5.60787
+epoch 18; steps=30000/38898; loss=5.37123
+epoch 18 ; lr=0.000625; loss=5.47620
+
+epoch 19; steps=    0/38898; loss=5.49577
+epoch 19; steps=10000/38898; loss=5.24221
+epoch 19; steps=20000/38898; loss=5.09400
+epoch 19; steps=30000/38898; loss=5.46962
+epoch 19 ; lr=0.000625; loss=5.34219
+
+epoch 20; steps=    0/38898; loss=5.16011
+epoch 20; steps=10000/38898; loss=5.82357
+epoch 20; steps=20000/38898; loss=5.23138
+epoch 20; steps=30000/38898; loss=5.14461
+epoch 20 ; lr=0.0003125; loss=5.04264
+</code></pre>
+<pre><code>weights = model.embedding.weight.detach().cpu().numpy()
+weights.shape
+
+# (2103, 30)
+</code></pre>
+<h2 id="step-6-create-the-similarity-matrix">Step 6. Create the similarity matrix. <a href="#step-6-create-the-similarity-matrix" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>similarity = cosine_similarity(weights, weights)
+</code></pre>
+<pre><code>def get_similar_words(input_word: str, n: int):
+  if input_word not in text_processor.w2ix:
+    print(&quot;word not in vocab&quot;)
+  else:
+    input_word_ix = text_processor.w2ix[input_word]
+    similarity_vector = similarity[input_word_ix]
+    most_similar_ixs = np.argsort(similarity_vector)[-n:][::-1]
+    most_similar_words = [(text_processor.ix2w[ix], similarity_vector[ix])
+                          for ix in most_similar_ixs]
+    print(input_word)
+    for word, score in most_similar_words:
+      print(f&quot; &gt; {word}, score={score: .2f}&quot;)
+</code></pre>
+<h2 id="step-7-explore-similar-embeddings-for-some-word-query">Step 7. Explore similar embeddings for some word query. <a href="#step-7-explore-similar-embeddings-for-some-word-query" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>get_similar_words(&quot;snape&quot;, 10)
+</code></pre>
+<pre><code>snape
+ &gt; snape, score= 1.00
+ &gt; lupin, score= 0.84
+ &gt; dumbledore, score= 0.80
+ &gt; mcgonagall, score= 0.77
+ &gt; moody, score= 0.77
+ &gt; quirrell, score= 0.70
+ &gt; flitwick, score= 0.68
+ &gt; professor, score= 0.68
+ &gt; karkaroff, score= 0.67
+ &gt; trelawney, score= 0.64
+</code></pre>
+<pre><code>get_similar_words(&quot;vernon&quot;, 10)
+</code></pre>
+<pre><code>vernon
+ &gt; vernon, score= 1.00
+ &gt; aunt, score= 0.84
+ &gt; uncle, score= 0.79
+ &gt; petunia, score= 0.72
+ &gt; dudley, score= 0.70
+ &gt; sister, score= 0.60
+ &gt; furious, score= 0.57
+ &gt; marge, score= 0.57
+ &gt; throat, score= 0.54
+ &gt; madly, score= 0.51
+</code></pre>
+<pre><code>get_similar_words(&quot;muggle&quot;, 10)
+</code></pre>
+<pre><code>muggle
+ &gt; muggle, score= 1.00
+ &gt; wizarding, score= 0.72
+ &gt; old, score= 0.62
+ &gt; n, score= 0.61
+ &gt; greatest, score= 0.61
+ &gt; protection, score= 0.59
+ &gt; unusual, score= 0.58
+ &gt; born, score= 0.58
+ &gt; pure, score= 0.58
+ &gt; young, score= 0.57
+</code></pre>
+<pre><code>get_similar_words(&quot;harry&quot;, 10)
+</code></pre>
+<pre><code>harry
+ &gt; harry, score= 1.00
+ &gt; ron, score= 0.71
+ &gt; hermione, score= 0.67
+ &gt; he, score= 0.56
+ &gt; malfoy, score= 0.52
+ &gt; hagrid, score= 0.50
+ &gt; then, score= 0.49
+ &gt; moody, score= 0.48
+ &gt; furiously, score= 0.47
+ &gt; lupin, score= 0.46
+</code></pre>
+<pre><code>get_similar_words(&quot;granger&quot;, 10)
+</code></pre>
+<pre><code>granger
+ &gt; granger, score= 1.00
+ &gt; miss, score= 0.74
+ &gt; girl, score= 0.67
+ &gt; honestly, score= 0.66
+ &gt; finnigan, score= 0.65
+ &gt; rosmerta, score= 0.64
+ &gt; oliver, score= 0.63
+ &gt; shrieked, score= 0.63
+ &gt; ernie, score= 0.63
+ &gt; shortly, score= 0.62
+</code></pre>
+<pre><code>get_similar_words(&quot;slytherin&quot;, 10)
+</code></pre>
+<pre><code>slytherin
+ &gt; slytherin, score= 1.00
+ &gt; gryffindor, score= 0.78
+ &gt; hufflepuff, score= 0.77
+ &gt; team, score= 0.76
+ &gt; goal, score= 0.72
+ &gt; ravenclaw, score= 0.72
+ &gt; heir, score= 0.69
+ &gt; quidditch, score= 0.68
+ &gt; points, score= 0.68
+ &gt; irish, score= 0.68
+</code></pre>
+<pre><code>get_similar_words(&quot;malfoy&quot;, 10)
+</code></pre>
+<pre><code>malfoy
+ &gt; malfoy, score= 1.00
+ &gt; lucius, score= 0.68
+ &gt; diggory, score= 0.67
+ &gt; draco, score= 0.67
+ &gt; goyle, score= 0.66
+ &gt; crouch, score= 0.65
+ &gt; crabbe, score= 0.62
+ &gt; percy, score= 0.59
+ &gt; mr, score= 0.58
+ &gt; weasley, score= 0.57
+</code></pre>
+<p>We have trained the model on very little data so i was not expecting much from the embeddings but it&rsquo;s showing good results for a lot of the input words like <code>snape</code> for which it shows other hogwarts professors etc.</p>
+<p>We will try to train on more data by using <code>neagtive sampling</code> to train faster and hopefully be able to improve the embeddings.</p>
+
+    </article>
+  </div>
+</div>
+
+      </div>
+    </div>
+    
+    
+    <footer class="footer text-muted">
+  <div class="container-xxl">
+    <div class="row">
+      <div class="col-lg-8 order-last order-lg-first">
+        <ul class="list-inline">
+          <li class="list-inline-item">Powered by <a href="https://gohugo.io/">Hugo</a> and <a href="https://getdoks.org/">Doks</a></li>
+        </ul>
+      </div>
+      <div class="col-lg-8 order-first order-lg-last text-lg-end">
+        <ul class="list-inline">
+          </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+    <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
+  <script src="/js/highlight.min.e13cfba4c5524e30386cb9ea71f0f191f39d15b25b222f4b67549689f7c076158f42a2282446044f5cdacc76a6d003efbfa252a84aea0116703803b6339ae35f.js" integrity="sha512-4Tz7pMVSTjA4bLnqcfDxkfOdFbJbIi9LZ1SWiffAdhWPQqIoJEYET1zazHam0APvv6JSqErqARZwOAO2M5rjXw==" crossorigin="anonymous" defer></script>
+  <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
+  <script src="https://kuutsav.github.io/index.min.34e848263ed1b873e34ebe7b98ab9c497c50ab0c657692e0e531c7aab191a7d522cb7033e153653ca5d214bdbaa874901336025e343b2ac8b552cdf0ccf97f6f.js" integrity="sha512-NOhIJj7RuHPjTr57mKucSXxQqwxldpLg5THHqrGRp9Uiy3Az4VNlPKXSFL26qHSQEzYCXjQ7Ksi1Us3wzPl/bw==" crossorigin="anonymous" defer></script>
+  
+  </body>
+</html>

@@ -2,6 +2,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     <url>
+      <loc>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</loc>
+      <lastmod>2021-12-20T19:12:45+01:00</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>0.5</priority>
+    </url>
+    
+    <url>
       <loc>https://kuutsav.github.io/blog/mlops-template-part-4-fastapi-elasticapm/</loc>
       <lastmod>2021-10-11T09:19:45+01:00</lastmod>
       <changefreq>weekly</changefreq>

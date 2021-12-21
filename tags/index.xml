@@ -6,7 +6,34 @@
     <description>Recent content in Tags on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Mon, 11 Oct 2021 09:19:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 20 Dec 2021 19:12:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>nlp</title>
+      <link>https://kuutsav.github.io/tags/nlp/</link>
+      <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/nlp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>skipgram</title>
+      <link>https://kuutsav.github.io/tags/skipgram/</link>
+      <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/skipgram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>word2vec</title>
+      <link>https://kuutsav.github.io/tags/word2vec/</link>
+      <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/word2vec/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>elasticapm</title>
       <link>https://kuutsav.github.io/tags/elasticapm/</link>
