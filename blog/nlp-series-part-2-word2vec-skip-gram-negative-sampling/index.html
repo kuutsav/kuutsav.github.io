@@ -14,28 +14,26 @@
   <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <title>NLP Series [Part 1] · Word2Vec-Skip-Gram - ML and Beyond</title>
-<meta name="description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
-<link rel="canonical" href="https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/">
+  <title>NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling - ML and Beyond</title>
+<meta name="description" content="Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.">
+<link rel="canonical" href="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/">
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
-<meta property="og:description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
-<meta property="og:url" content="https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/">
+<meta property="og:title" content="NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling">
+<meta property="og:description" content="Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.">
+<meta property="og:url" content="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/">
 <meta property="og:site_name" content="ML and Beyond">
-<meta property="article:published_time" content="2021-12-20T19:12:45+01:00">
-  <meta property="article:modified_time" content="2021-12-20T19:12:45+01:00">
+<meta property="article:published_time" content="2021-12-22T12:15:45+01:00">
+  <meta property="article:modified_time" content="2021-12-22T12:15:45+01:00">
+  <meta property="og:image" content="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss.png">
   
-  <meta property="og:image" content="https://kuutsav.github.io/doks.png"/>
-      <meta property="og:image:alt" content="ML and Beyond">
-    
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
 <meta name="twitter:creator" content="">
-<meta name="twitter:title" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
-<meta name="twitter:description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
-<meta name="twitter:image" content="https://kuutsav.github.io/doks.png">
-    <meta name="twitter:image:alt" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+<meta name="twitter:title" content="NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling">
+<meta name="twitter:description" content="Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.">
+<meta name="twitter:image" content="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss.png">
+<meta name="twitter:image:alt" content="NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling">
 
 <script type="application/ld+json">
 {
@@ -74,32 +72,32 @@
       },
     {
       "@type": "WebPage",
-      "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/",
-      "url": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/",
-      "name": "NLP Series [Part 1] · Word2Vec-Skip-Gram",
-      "description": "We will take a walk down the memory lane and visit the awesome Word2Vec.",
+      "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/",
+      "url": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/",
+      "name": "NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling",
+      "description": "Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.",
       "isPartOf": {
         "@id": "https://kuutsav.github.io/#/schema/website/1"
       },
       "about": {
           "@id": "https://kuutsav.github.io/#/schema/organization/1"
         },
-      "datePublished": "2021-12-20T19:12:45CET",
-      "dateModified": "2021-12-20T19:12:45CET",
+      "datePublished": "2021-12-22T12:15:45CET",
+      "dateModified": "2021-12-22T12:15:45CET",
       "breadcrumb": {
-        "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/breadcrumb/1"
+        "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/#/schema/breadcrumb/1"
       },
       "primaryImageOfPage": {
-        "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2"
+        "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/#/schema/image/2"
       },
       "inLanguage": "en-US",
       "potentialAction": [{
-        "@type": "ReadAction", "target": ["https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"]
+        "@type": "ReadAction", "target": ["https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/"]
       }]
     },
     {
       "@type": "BreadcrumbList",
-      "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/breadcrumb/1",
+      "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/#/schema/breadcrumb/1",
       "name": "Breadcrumbs",
       "itemListElement": [{
         "@type": "ListItem",
@@ -123,7 +121,7 @@
         "@type": "ListItem",
         "position":  4 ,
         "item": {
-          "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
+          "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/"
           }
         }]
     },
@@ -134,16 +132,16 @@
         {
           "@type": "Article",
           "@id": "https://kuutsav.github.io/#/schema/article/1",
-          "headline": "NLP Series [Part 1] · Word2Vec-Skip-Gram",
-          "description": "We will take a walk down the memory lane and visit the awesome Word2Vec.",
+          "headline": "NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling",
+          "description": "Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.",
           "isPartOf": {
-            "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
+            "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/"
           },
           "mainEntityOfPage": {
-            "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
+            "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/"
           },
-          "datePublished": "2021-12-20T19:12:45CET",
-          "dateModified": "2021-12-20T19:12:45CET",
+          "datePublished": "2021-12-22T12:15:45CET",
+          "dateModified": "2021-12-22T12:15:45CET",
           "author": {
             "@id": "https://kuutsav.github.io/#/schema/person/2"
           },
@@ -151,7 +149,7 @@
               "@id": "https://kuutsav.github.io/#/schema/organization/1"
             },
           "image": {
-            "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2"
+            "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/#/schema/image/2"
           }
         }
       ]
@@ -176,10 +174,10 @@
       "@graph": [
         {
           "@type": "ImageObject",
-          "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2",
+          "@id": "https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/#/schema/image/2",
           "url": "https://kuutsav.github.io/doks.png",
           "contentUrl": "https://kuutsav.github.io/doks.png",
-          "caption": "NLP Series [Part 1] · Word2Vec-Skip-Gram"
+          "caption": "NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling"
         }
       ]
     }
@@ -268,17 +266,18 @@
   <div class="col-md-15 col-lg-13 col-xl-11">
     <article>
       <div class="blog-header">
-        <h1>NLP Series [Part 1] · Word2Vec-Skip-Gram</h1>
-        <p><small>Posted December 20, 2021 <strong>·</strong> 9&nbsp;min read</strong></small><p>  
+        <h1>NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling</h1>
+        <p><small>Posted December 22, 2021 <strong>·</strong> 10&nbsp;min read</strong></small><p>  
 [
    <a href="https://kuutsav.github.io/tags/nlp/">nlp</a>&nbsp; <a href="https://kuutsav.github.io/tags/skipgram/">skipgram</a>&nbsp; <a href="https://kuutsav.github.io/tags/word2vec/">word2vec</a>&nbsp;]
 
  
       </div>
-      <p class="lead">We will take a walk down the memory lane and visit the awesome Word2Vec.</p>
+      <p class="lead">Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.</p>
       <pre><code class="language-python">from collections import Counter
+from random import sample
 import re
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 import requests
@@ -287,29 +286,23 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 </code></pre>
-<p>For detailed intro to Word2Vec and word vectors in general, check out these awesome resources:</p>
-<ol>
-<li><a href="https://www.youtube.com/watch?v=rmVRLeJRkl4&amp;list=PLoROMvodv4rOSH4v6133s9LFPRHjEmbmJ">Stanford 2021 nlp lecture</a></li>
-<li><a href="https://lena-voita.github.io/nlp_course/word_embeddings.html">Yandex nlp course</a></li>
-</ol>
+<p><strong>Most of the steps are similar to our notebook on Word2Vec without negative sampling.
+The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.</strong></p>
 <p>In this notebook, we will train a Word2Vec skip-gram model from scratch on some text data and manually inspect the trained embeddings at the end.</p>
 <p>The whole process can be broken down into the following key steps:</p>
 <ol>
-<li>Fetch and process text using <code>TextProcessor</code>.
-<ol>
+<li>Fetch and process text using <code>TextProcessor</code>.</li>
 <li><code>fetch_text()</code> fetches the texts directly from urls containing our text data</li>
 <li><code>process_text()</code> applies basic pre-procesing steps to the text and creats tokens using white space tokenization.</li>
 <li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
-</ol>
-</li>
-<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.</li>
+<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix, List[negative_words_ix]); i.e. indices of center word, context based on a pre defined window size and a random sample from the vocab for negative samples.</li>
 <li>Create our <code>SkipGramModel</code> model based on <code>torch.nn.Module</code>.</li>
 <li>Define our loss function, optimizer and scheduler.</li>
 <li>Train the model.</li>
 <li>Create a similarity matrix(cosine similarity) based on the trained embeddings(maps 1:1 to our vocab).</li>
 <li>Explore similar embeddings for some word query.</li>
 </ol>
-<h2 id="step-1-fetch-and-prepare-the-data">Step 1. Fetch and prepare the data. <a href="#step-1-fetch-and-prepare-the-data" class="anchor" aria-hidden="true">#</a></h2>
+<h2 id="step-1-fetch-and-prepare-the-data">Step 1. Fetch and prepare the data <a href="#step-1-fetch-and-prepare-the-data" class="anchor" aria-hidden="true">#</a></h2>
 <p>We will be using the first four Harry Potter books.</p>
 <pre><code class="language-python">BOOK_URLS = [
     &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%201%20-%20The%20Philosopher's%20Stone.txt&quot;,
@@ -371,6 +364,7 @@ from torch.utils.data import DataLoader, Dataset
       if token not in self.w2ix:
         self.w2ix[token] = n
     self.ix2w[n] = &quot;&lt;unk&gt;&quot;
+    self.ixs = list(self.ix2w.keys())
 
     self.vocab_size = n + 1
     print(f&quot;Vocab size: {self.vocab_size}&quot;)
@@ -387,16 +381,18 @@ from torch.utils.data import DataLoader, Dataset
 <pre><code class="language-python">text_processor.process_text()
 
 # Processing text ...
-#   &gt; 20033 sentences
-#   &gt; 20033 filtered sentences
-#   &gt; 501854 tokens
-#   &gt; 15078 unique tokens
+#     &gt; 20033 sentences
+#     &gt; 20033 filtered sentences
+#     &gt; 501854 tokens
+#     &gt; 15078 unique tokens
 </code></pre>
 <pre><code class="language-python">text_processor.prepare_vocab(min_count=20)
 
 # Vocab size: 2103
 </code></pre>
-<h2 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch Dataset and Dataloader. <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h2>
+<h2 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch <code>Dataset</code> and <code>Dataloader</code> <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code class="language-python">N_NEG_SAMPLES = 20
+</code></pre>
 <pre><code class="language-python">class HarryPotterDataset(Dataset):
   def __init__(self, text_processor: TextProcessor,  window_size: int=3):
     self.data = []
@@ -407,7 +403,9 @@ from torch.utils.data import DataLoader, Dataset
             window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1]
             for context in window_words:
                 self.data.append((
-                    text_processor.w2ix[center_word], text_processor.w2ix[context]
+                    text_processor.w2ix[center_word], text_processor.w2ix[context],
+                    # negative samples
+                    sample(text_processor.ixs, N_NEG_SAMPLES)
                 ))
 
   def __getitem__(self, ix: int):
@@ -416,35 +414,62 @@ from torch.utils.data import DataLoader, Dataset
   def __len__(self):
     return len(self.data)
 </code></pre>
-<p>The <code>Dataset</code> essentially contains indexes of pairs of <code>center word</code> and a <code>context word</code>.</p>
+<p>The <code>Dataset</code> essentially contains indexes of pairs of <code>center word</code> and a
+<code>context word</code>.</p>
 <pre><code class="language-python">dataset = HarryPotterDataset(text_processor, 3)
 len(dataset)
 
 # 2489461
 </code></pre>
-<pre><code class="language-python">dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
+<pre><code class="language-python">dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
 </code></pre>
-<h2 id="step-3-create-the-word2vec-model-using-torchnnmodule">Step 3. Create the Word2Vec model using torch.nn.Module. <a href="#step-3-create-the-word2vec-model-using-torchnnmodule" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code class="language-python">def collate_fn(collate_fn_input: List[Tuple]):
+  return (
+    torch.LongTensor([i[0] for i in collate_fn_input]), # center word
+    torch.LongTensor([i[1] for i in collate_fn_input]), # context word
+    torch.LongTensor([i[2] for i in collate_fn_input])  # negative samples
+  )
+</code></pre>
+<pre><code class="language-python">dataloader = DataLoader(dataset, batch_size=64, collate_fn=collate_fn, shuffle=True)
+</code></pre>
+<h2 id="step-3-create-the-word2vec-model-using-torchnnmodule">Step 3. Create the Word2Vec model using <code>torch.nn.Module</code>. <a href="#step-3-create-the-word2vec-model-using-torchnnmodule" class="anchor" aria-hidden="true">#</a></h2>
 <pre><code class="language-python">class SkipGramModel(nn.Module):
     def __init__(self, vocab_size: int, embedding_size: int=50):
         super().__init__()
-        self.embedding = nn.Embedding(vocab_size, embedding_size)
-        self.linear = nn.Linear(embedding_size, vocab_size)
+        self.u_embeddings = nn.Embedding(vocab_size, embedding_size)
+        self.v_embeddings = nn.Embedding(vocab_size, embedding_size)
 
-    def forward(self, x):
-        return self.linear(self.embedding(x))
+    def forward(self, pos_u, pos_v, neg_v):
+        # source: https://adoni.github.io/2017/11/08/word2vec-pytorch/
+        losses = []
+        emb_u = self.u_embeddings(pos_u)
+        emb_v = self.v_embeddings(pos_v)
+        score = torch.mul(emb_u, emb_v).squeeze()
+        score = torch.sum(score, dim=1)
+        score = nn.functional.logsigmoid(score)
+        losses.append(sum(score))
+        neg_emb_v = self.v_embeddings(neg_v)
+        neg_score = torch.bmm(neg_emb_v, emb_u.unsqueeze(2)).squeeze()
+        neg_score = torch.sum(neg_score, dim=1)
+        neg_score = nn.functional.logsigmoid(-1 * neg_score)
+        losses.append(sum(neg_score))
+        return -1 * sum(losses)
 </code></pre>
-<p>The model architecure is <code>Embedding -&gt; Linear -&gt; Softmax</code>.</p>
 <p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; as mentioned in the pytorch documentation.</p>
-<p>Based on our model architecture, this layer will contain the trained token/word
-embeddings of interest to us and we will discard the weight matrix from
-the <code>Linear</code> layer.</p>
+<p>The modified loss function for negative sampling is:</p>
+<p><figure class="figure">
+    <img class="figure-img img-fluid lazyload blur-up" data-sizes="auto" src="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_20x0_resize_box_3.png" data-srcset="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_500x0_resize_box_3.png 500w" width="1138" height="144" alt="loss.png">
+    <noscript><img class="figure-img img-fluid" sizes="100vw" srcset="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_500x0_resize_box_3.png 500w" src="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss.png" width="1138" height="144" alt="loss.png"></noscript>
+    </figure>
+</p>
+<p><strong>source</strong>: <code>https://lena-voita.github.io/nlp_course/word_embeddings.html</code></p>
 <p>In each forward pass we:</p>
 <ol>
-<li>Pass indexes of center word as input <code>x</code>.</li>
-<li>These indexes are looked up in the <code>self.embedding</code> table.</li>
-<li>We transform the vector from last step using the Linear layer to get another vector with dimension <code>vocab_size</code>.</li>
-<li>Finally we apply softmax and calcualte loss.</li>
+<li>Pass indexes of center word as input param <code>pos_u</code>.</li>
+<li>These indexes are looked up in the <code>self.u_embeddings</code> table.</li>
+<li><code>pos_v</code> is the index for context word and <code>self.v_embeddings</code> is the associated embedding table.</li>
+<li><code>score</code> is the first part of the loss function, i.e. the component we need to increase(similarity between the center and context vectors)</li>
+<li><code>neg_score</code> is the second part of the loss function, i.e. the component we need to decrease(similarity between the center embedding and negative embeddings)</li>
 </ol>
 <p>A trained model should output high values for the <code>context</code> indices for a given
 center word.</p>
@@ -452,11 +477,10 @@ center word.</p>
 model = SkipGramModel(text_processor.vocab_size, embedding_size=30).to(device)
 </code></pre>
 <h2 id="step-4-define-our-loss-function-optimizer-and-scheduler">Step 4. Define our loss function, optimizer and scheduler. <a href="#step-4-define-our-loss-function-optimizer-and-scheduler" class="anchor" aria-hidden="true">#</a></h2>
-<pre><code class="language-python">criterion = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
-scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
+<pre><code class="language-python">optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
+scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=8, gamma=0.5)
 </code></pre>
-<pre><code class="language-python">N_EPOCHS =       20 # since we have a small dataset, more epochs
+<pre><code class="language-python">N_EPOCHS =       24 # since we have a small dataset, more epochs
 STEP_TO_LOG = 10000 # print the loss every x step of the DataLoader
 </code></pre>
 <h2 id="step-5-train-the-model">Step 5. Train the model. <a href="#step-5-train-the-model" class="anchor" aria-hidden="true">#</a></h2>
@@ -465,10 +489,10 @@ batch_losses = []
 for epoch in range(N_EPOCHS):
     losses = []
     for i, data in enumerate(dataloader):
-        inputs = data[0].long().to(device)
-        outputs = data[1].long().to(device)
-        pred = model(inputs)
-        loss = criterion(pred, outputs)
+        inputs = data[0].to(device)
+        outputs = data[1].to(device)
+        neg_samples = data[2].to(device)
+        loss = model(inputs, outputs, neg_samples)
         losses.append(loss.item())
         loss.backward()
         optimizer.step()
@@ -480,127 +504,151 @@ for epoch in range(N_EPOCHS):
     epoch_losses.append(np.mean(losses))
     print(f&quot;epoch {epoch + 1} ; lr={scheduler._last_lr[0]}; loss={loss:&lt;.5f}\n&quot;)
 </code></pre>
-<pre><code>epoch 1; steps=    0/38898; loss=7.77347
-epoch 1; steps=10000/38898; loss=5.24432
-epoch 1; steps=20000/38898; loss=5.55209
-epoch 1; steps=30000/38898; loss=5.74518
-epoch 1 ; lr=0.005; loss=6.44326
+<pre><code>epoch 1; steps=    0/38898; loss=635.80212
+epoch 1; steps=10000/38898; loss=22.34518
+epoch 1; steps=20000/38898; loss=33.05764
+epoch 1; steps=30000/38898; loss=25.38408
+epoch 1 ; lr=0.005; loss=23.79806
 
-epoch 2; steps=    0/38898; loss=5.18774
-epoch 2; steps=10000/38898; loss=5.02457
-epoch 2; steps=20000/38898; loss=5.71072
-epoch 2; steps=30000/38898; loss=5.11149
-epoch 2 ; lr=0.005; loss=5.04696
+epoch 2; steps=    0/38898; loss=16.68314
+epoch 2; steps=10000/38898; loss=16.79985
+epoch 2; steps=20000/38898; loss=14.40299
+epoch 2; steps=30000/38898; loss=27.52887
+epoch 2 ; lr=0.005; loss=15.07795
 
-epoch 3; steps=    0/38898; loss=5.76455
-epoch 3; steps=10000/38898; loss=5.36094
-epoch 3; steps=20000/38898; loss=5.36201
-epoch 3; steps=30000/38898; loss=5.52337
-epoch 3 ; lr=0.005; loss=6.28578
+epoch 3; steps=    0/38898; loss=19.86652
+epoch 3; steps=10000/38898; loss=12.42353
+epoch 3; steps=20000/38898; loss=27.75500
+epoch 3; steps=30000/38898; loss=11.13718
+epoch 3 ; lr=0.005; loss=23.87044
 
-epoch 4; steps=    0/38898; loss=5.57676
-epoch 4; steps=10000/38898; loss=5.22308
-epoch 4; steps=20000/38898; loss=5.83870
-epoch 4; steps=30000/38898; loss=6.00284
-epoch 4 ; lr=0.005; loss=5.36329
+epoch 4; steps=    0/38898; loss=22.07467
+epoch 4; steps=10000/38898; loss=19.45840
+epoch 4; steps=20000/38898; loss=13.68762
+epoch 4; steps=30000/38898; loss=13.98966
+epoch 4 ; lr=0.005; loss=15.99264
 
-epoch 5; steps=    0/38898; loss=5.54562
-epoch 5; steps=10000/38898; loss=5.45449
-epoch 5; steps=20000/38898; loss=4.99433
-epoch 5; steps=30000/38898; loss=5.03800
-epoch 5 ; lr=0.0025; loss=5.62579
+epoch 5; steps=    0/38898; loss=16.17529
+epoch 5; steps=10000/38898; loss=11.52369
+epoch 5; steps=20000/38898; loss=19.73762
+epoch 5; steps=30000/38898; loss=15.30890
+epoch 5 ; lr=0.005; loss=12.37201
 
-epoch 6; steps=    0/38898; loss=5.39675
-epoch 6; steps=10000/38898; loss=5.96204
-epoch 6; steps=20000/38898; loss=5.76479
-epoch 6; steps=30000/38898; loss=5.62020
-epoch 6 ; lr=0.0025; loss=5.39560
+epoch 6; steps=    0/38898; loss=36.69007
+epoch 6; steps=10000/38898; loss=15.42795
+epoch 6; steps=20000/38898; loss=19.52234
+epoch 6; steps=30000/38898; loss=27.82760
+epoch 6 ; lr=0.005; loss=9.62671
 
-epoch 7; steps=    0/38898; loss=5.03126
-epoch 7; steps=10000/38898; loss=5.25755
-epoch 7; steps=20000/38898; loss=4.95463
-epoch 7; steps=30000/38898; loss=5.79732
-epoch 7 ; lr=0.0025; loss=5.09368
+epoch 7; steps=    0/38898; loss=18.23301
+epoch 7; steps=10000/38898; loss=30.61018
+epoch 7; steps=20000/38898; loss=19.27209
+epoch 7; steps=30000/38898; loss=11.94759
+epoch 7 ; lr=0.005; loss=11.64728
 
-epoch 8; steps=    0/38898; loss=5.67842
-epoch 8; steps=10000/38898; loss=4.90622
-epoch 8; steps=20000/38898; loss=5.59550
-epoch 8; steps=30000/38898; loss=5.42461
-epoch 8 ; lr=0.0025; loss=5.78050
+epoch 8; steps=    0/38898; loss=16.93320
+epoch 8; steps=10000/38898; loss=9.60485
+epoch 8; steps=20000/38898; loss=30.24725
+epoch 8; steps=30000/38898; loss=14.01960
+epoch 8 ; lr=0.0025; loss=15.27110
 
-epoch 9; steps=    0/38898; loss=5.59528
-epoch 9; steps=10000/38898; loss=6.03118
-epoch 9; steps=20000/38898; loss=5.62938
-epoch 9; steps=30000/38898; loss=5.43099
-epoch 9 ; lr=0.0025; loss=5.62948
+epoch 9; steps=    0/38898; loss=17.77393
+epoch 9; steps=10000/38898; loss=19.11106
+epoch 9; steps=20000/38898; loss=6.39290
+epoch 9; steps=30000/38898; loss=36.18101
+epoch 9 ; lr=0.0025; loss=22.13097
 
-epoch 10; steps=    0/38898; loss=5.33678
-epoch 10; steps=10000/38898; loss=5.30591
-epoch 10; steps=20000/38898; loss=5.31357
-epoch 10; steps=30000/38898; loss=5.81043
-epoch 10 ; lr=0.00125; loss=5.45841
+epoch 10; steps=    0/38898; loss=21.57537
+epoch 10; steps=10000/38898; loss=17.62466
+epoch 10; steps=20000/38898; loss=20.33191
+epoch 10; steps=30000/38898; loss=14.83914
+epoch 10 ; lr=0.0025; loss=9.07016
 
-epoch 11; steps=    0/38898; loss=5.77081
-epoch 11; steps=10000/38898; loss=5.52807
-epoch 11; steps=20000/38898; loss=5.80410
-epoch 11; steps=30000/38898; loss=5.85639
-epoch 11 ; lr=0.00125; loss=5.15784
+epoch 11; steps=    0/38898; loss=9.25244
+epoch 11; steps=10000/38898; loss=15.08578
+epoch 11; steps=20000/38898; loss=12.67025
+epoch 11; steps=30000/38898; loss=14.59466
+epoch 11 ; lr=0.0025; loss=22.12947
 
-epoch 12; steps=    0/38898; loss=5.65535
-epoch 12; steps=10000/38898; loss=5.69625
-epoch 12; steps=20000/38898; loss=5.41546
-epoch 12; steps=30000/38898; loss=5.49350
-epoch 12 ; lr=0.00125; loss=5.27568
+epoch 12; steps=    0/38898; loss=8.33545
+epoch 12; steps=10000/38898; loss=26.42342
+epoch 12; steps=20000/38898; loss=18.76328
+epoch 12; steps=30000/38898; loss=16.90550
+epoch 12 ; lr=0.0025; loss=22.55820
 
-epoch 13; steps=    0/38898; loss=5.40524
-epoch 13; steps=10000/38898; loss=5.88747
-epoch 13; steps=20000/38898; loss=5.51729
-epoch 13; steps=30000/38898; loss=5.38389
-epoch 13 ; lr=0.00125; loss=5.77996
+epoch 13; steps=    0/38898; loss=10.51294
+epoch 13; steps=10000/38898; loss=14.41905
+epoch 13; steps=20000/38898; loss=5.90636
+epoch 13; steps=30000/38898; loss=20.60696
+epoch 13 ; lr=0.0025; loss=8.38153
 
-epoch 14; steps=    0/38898; loss=5.74729
-epoch 14; steps=10000/38898; loss=5.51249
-epoch 14; steps=20000/38898; loss=5.22044
-epoch 14; steps=30000/38898; loss=5.34987
-epoch 14 ; lr=0.00125; loss=5.80022
+epoch 14; steps=    0/38898; loss=14.23109
+epoch 14; steps=10000/38898; loss=17.03224
+epoch 14; steps=20000/38898; loss=8.77814
+epoch 14; steps=30000/38898; loss=46.80190
+epoch 14 ; lr=0.0025; loss=14.82973
 
-epoch 15; steps=    0/38898; loss=5.64972
-epoch 15; steps=10000/38898; loss=5.41167
-epoch 15; steps=20000/38898; loss=5.41378
-epoch 15; steps=30000/38898; loss=5.53267
-epoch 15 ; lr=0.000625; loss=5.23845
+epoch 15; steps=    0/38898; loss=11.28982
+epoch 15; steps=10000/38898; loss=9.09633
+epoch 15; steps=20000/38898; loss=17.57424
+epoch 15; steps=30000/38898; loss=12.01542
+epoch 15 ; lr=0.0025; loss=6.22763
 
-epoch 16; steps=    0/38898; loss=5.24246
-epoch 16; steps=10000/38898; loss=5.39503
-epoch 16; steps=20000/38898; loss=5.67561
-epoch 16; steps=30000/38898; loss=5.37725
-epoch 16 ; lr=0.000625; loss=5.23388
+epoch 16; steps=    0/38898; loss=9.32489
+epoch 16; steps=10000/38898; loss=18.66871
+epoch 16; steps=20000/38898; loss=18.52152
+epoch 16; steps=30000/38898; loss=9.81702
+epoch 16 ; lr=0.00125; loss=11.27573
 
-epoch 17; steps=    0/38898; loss=5.82594
-epoch 17; steps=10000/38898; loss=5.79435
-epoch 17; steps=20000/38898; loss=4.98136
-epoch 17; steps=30000/38898; loss=5.16951
-epoch 17 ; lr=0.000625; loss=5.35618
+epoch 17; steps=    0/38898; loss=16.88287
+epoch 17; steps=10000/38898; loss=19.38610
+epoch 17; steps=20000/38898; loss=13.58566
+epoch 17; steps=30000/38898; loss=12.11638
+epoch 17 ; lr=0.00125; loss=3.66489
 
-epoch 18; steps=    0/38898; loss=5.62355
-epoch 18; steps=10000/38898; loss=5.68160
-epoch 18; steps=20000/38898; loss=5.60787
-epoch 18; steps=30000/38898; loss=5.37123
-epoch 18 ; lr=0.000625; loss=5.47620
+epoch 18; steps=    0/38898; loss=10.56005
+epoch 18; steps=10000/38898; loss=23.82092
+epoch 18; steps=20000/38898; loss=15.58498
+epoch 18; steps=30000/38898; loss=10.08900
+epoch 18 ; lr=0.00125; loss=23.05105
 
-epoch 19; steps=    0/38898; loss=5.49577
-epoch 19; steps=10000/38898; loss=5.24221
-epoch 19; steps=20000/38898; loss=5.09400
-epoch 19; steps=30000/38898; loss=5.46962
-epoch 19 ; lr=0.000625; loss=5.34219
+epoch 19; steps=    0/38898; loss=10.45432
+epoch 19; steps=10000/38898; loss=13.71866
+epoch 19; steps=20000/38898; loss=12.53261
+epoch 19; steps=30000/38898; loss=11.18567
+epoch 19 ; lr=0.00125; loss=10.93487
 
-epoch 20; steps=    0/38898; loss=5.16011
-epoch 20; steps=10000/38898; loss=5.82357
-epoch 20; steps=20000/38898; loss=5.23138
-epoch 20; steps=30000/38898; loss=5.14461
-epoch 20 ; lr=0.0003125; loss=5.04264
+epoch 20; steps=    0/38898; loss=8.09276
+epoch 20; steps=10000/38898; loss=11.03898
+epoch 20; steps=20000/38898; loss=13.74371
+epoch 20; steps=30000/38898; loss=15.99348
+epoch 20 ; lr=0.00125; loss=12.07587
+
+epoch 21; steps=    0/38898; loss=8.27782
+epoch 21; steps=10000/38898; loss=24.72760
+epoch 21; steps=20000/38898; loss=9.07991
+epoch 21; steps=30000/38898; loss=10.21649
+epoch 21 ; lr=0.00125; loss=11.43991
+
+epoch 22; steps=    0/38898; loss=6.63023
+epoch 22; steps=10000/38898; loss=21.51781
+epoch 22; steps=20000/38898; loss=15.30544
+epoch 22; steps=30000/38898; loss=10.24912
+epoch 22 ; lr=0.00125; loss=10.69229
+
+epoch 23; steps=    0/38898; loss=15.57696
+epoch 23; steps=10000/38898; loss=10.21371
+epoch 23; steps=20000/38898; loss=7.57503
+epoch 23; steps=30000/38898; loss=10.63820
+epoch 23 ; lr=0.00125; loss=33.97425
+
+epoch 24; steps=    0/38898; loss=14.56317
+epoch 24; steps=10000/38898; loss=20.08979
+epoch 24; steps=20000/38898; loss=13.44788
+epoch 24; steps=30000/38898; loss=11.48513
+epoch 24 ; lr=0.000625; loss=14.42273
 </code></pre>
-<pre><code class="language-python">weights = model.embedding.weight.detach().cpu().numpy()
+<pre><code class="language-python">weights = model.u_embeddings.weight.detach().cpu().numpy()
 weights.shape
 
 # (2103, 30)
@@ -626,102 +674,104 @@ weights.shape
 </code></pre>
 <pre><code>snape
  &gt; snape, score= 1.00
- &gt; lupin, score= 0.84
- &gt; dumbledore, score= 0.80
- &gt; mcgonagall, score= 0.77
- &gt; moody, score= 0.77
- &gt; quirrell, score= 0.70
- &gt; flitwick, score= 0.68
+ &gt; dumbledore, score= 0.76
+ &gt; trelawney, score= 0.72
  &gt; professor, score= 0.68
- &gt; karkaroff, score= 0.67
- &gt; trelawney, score= 0.64
+ &gt; moody, score= 0.66
+ &gt; lupin, score= 0.64
+ &gt; serious, score= 0.62
+ &gt; he, score= 0.61
+ &gt; everyone, score= 0.60
+ &gt; severus, score= 0.60
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;vernon&quot;, 10)
 </code></pre>
 <pre><code>vernon
  &gt; vernon, score= 1.00
- &gt; aunt, score= 0.84
- &gt; uncle, score= 0.79
- &gt; petunia, score= 0.72
- &gt; dudley, score= 0.70
- &gt; sister, score= 0.60
- &gt; furious, score= 0.57
- &gt; marge, score= 0.57
- &gt; throat, score= 0.54
- &gt; madly, score= 0.51
+ &gt; uncle, score= 0.98
+ &gt; petunia, score= 0.75
+ &gt; dudley, score= 0.75
+ &gt; aunt, score= 0.73
+ &gt; mrs, score= 0.63
+ &gt; dursleys, score= 0.60
+ &gt; george, score= 0.59
+ &gt; surprise, score= 0.59
+ &gt; ron, score= 0.57
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;muggle&quot;, 10)
 </code></pre>
 <pre><code>muggle
  &gt; muggle, score= 1.00
- &gt; wizarding, score= 0.72
- &gt; old, score= 0.62
- &gt; n, score= 0.61
- &gt; greatest, score= 0.61
- &gt; protection, score= 0.59
- &gt; unusual, score= 0.58
- &gt; born, score= 0.58
- &gt; pure, score= 0.58
- &gt; young, score= 0.57
+ &gt; magic, score= 0.76
+ &gt; do, score= 0.74
+ &gt; hope, score= 0.74
+ &gt; loads, score= 0.69
+ &gt; act, score= 0.69
+ &gt; you, score= 0.69
+ &gt; haven, score= 0.68
+ &gt; ve, score= 0.68
+ &gt; well, score= 0.66
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;harry&quot;, 10)
 </code></pre>
 <pre><code>harry
  &gt; harry, score= 1.00
- &gt; ron, score= 0.71
- &gt; hermione, score= 0.67
- &gt; he, score= 0.56
- &gt; malfoy, score= 0.52
- &gt; hagrid, score= 0.50
- &gt; then, score= 0.49
- &gt; moody, score= 0.48
- &gt; furiously, score= 0.47
- &gt; lupin, score= 0.46
+ &gt; he, score= 0.83
+ &gt; ron, score= 0.82
+ &gt; him, score= 0.79
+ &gt; hermione, score= 0.74
+ &gt; as, score= 0.74
+ &gt; but, score= 0.73
+ &gt; then, score= 0.71
+ &gt; she, score= 0.70
+ &gt; it, score= 0.69
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;granger&quot;, 10)
 </code></pre>
 <pre><code>granger
  &gt; granger, score= 1.00
- &gt; miss, score= 0.74
- &gt; girl, score= 0.67
- &gt; honestly, score= 0.66
- &gt; finnigan, score= 0.65
- &gt; rosmerta, score= 0.64
- &gt; oliver, score= 0.63
- &gt; shrieked, score= 0.63
- &gt; ernie, score= 0.63
- &gt; shortly, score= 0.62
+ &gt; telling, score= 0.62
+ &gt; pretty, score= 0.61
+ &gt; miss, score= 0.58
+ &gt; remembered, score= 0.57
+ &gt; sprout, score= 0.55
+ &gt; pansy, score= 0.54
+ &gt; thoroughly, score= 0.54
+ &gt; joined, score= 0.53
+ &gt; ah, score= 0.52
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;slytherin&quot;, 10)
 </code></pre>
 <pre><code>slytherin
  &gt; slytherin, score= 1.00
- &gt; gryffindor, score= 0.78
- &gt; hufflepuff, score= 0.77
- &gt; team, score= 0.76
- &gt; goal, score= 0.72
- &gt; ravenclaw, score= 0.72
- &gt; heir, score= 0.69
- &gt; quidditch, score= 0.68
- &gt; points, score= 0.68
- &gt; irish, score= 0.68
+ &gt; seeker, score= 0.67
+ &gt; quaffle, score= 0.66
+ &gt; team, score= 0.64
+ &gt; gryffindors, score= 0.63
+ &gt; cheering, score= 0.63
+ &gt; ravenclaw, score= 0.62
+ &gt; lee, score= 0.61
+ &gt; gryffindor, score= 0.58
+ &gt; other, score= 0.58
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;malfoy&quot;, 10)
 </code></pre>
 <pre><code>malfoy
  &gt; malfoy, score= 1.00
- &gt; lucius, score= 0.68
- &gt; diggory, score= 0.67
- &gt; draco, score= 0.67
- &gt; goyle, score= 0.66
- &gt; crouch, score= 0.65
- &gt; crabbe, score= 0.62
- &gt; percy, score= 0.59
- &gt; mr, score= 0.58
- &gt; weasley, score= 0.57
+ &gt; ron, score= 0.64
+ &gt; mr, score= 0.61
+ &gt; draco, score= 0.61
+ &gt; then, score= 0.61
+ &gt; without, score= 0.60
+ &gt; harry, score= 0.57
+ &gt; he, score= 0.56
+ &gt; karkaroff, score= 0.56
+ &gt; diggory, score= 0.56
 </code></pre>
-<p>We have trained the model on very little data so i was not expecting much from the embeddings but it&rsquo;s showing good results for a lot of the input words like <code>snape</code> for which it shows other hogwarts professors etc.</p>
-<p>We will try to train on more data by using <code>neagtive sampling</code> to train faster and hopefully be able to improve the embeddings.</p>
+<p>The model convergance was not as good as our previous training without negative sampling and some of the similarity results on manual inspection look a little off.
+There could be a problem with our model or the amount of training we did.
+We did not exactly follow the steps mentioned in the original paper to be honest.</p>
+<p>Still, I just wanted to cover this for the sake of completeness. Up next, we will move onto sub word embedding techniques which would allow us to handle out of vocab tokens/words.</p>
 
     </article>
     <script src="https://utteranc.es/client.js"

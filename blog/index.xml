@@ -8,6 +8,15 @@
     <language>en-US</language>
     <lastBuildDate>Mon, 11 Oct 2021 08:49:55 +0000</lastBuildDate><atom:link href="https://kuutsav.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling</title>
+      <link>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</link>
+      <pubDate>Wed, 22 Dec 2021 12:15:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</guid>
+      <description>from collections import Counter from random import sample import re from typing import List, Tuple import numpy as np import requests from sklearn.metrics.pairwise import cosine_similarity import torch import torch.nn as nn from torch.utils.data import DataLoader, Dataset  Most of the steps are similar to our notebook on Word2Vec without negative sampling. The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.</description>
+    </item>
+    
+    <item>
       <title>NLP Series [Part 1] · Word2Vec-Skip-Gram</title>
       <link>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</link>
       <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
