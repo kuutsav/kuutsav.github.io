@@ -293,7 +293,7 @@ we have lots of API endpoints in a larger app.</p>
 artifacts.</p>
 <p>We load the trained model directly using the <code>mlflow.sklearn</code> module.
 Here we load the version number <code>1</code> of our <code>sk-learn-naive-bayes-clf-model</code> model.</p>
-<pre><code># manually pick the model version from trained models
+<pre><code class="language-python"># manually pick the model version from trained models
 sk_model = mlflow.sklearn.load_model(model_uri=&quot;models:/sk-learn-naive-bayes-clf-model/1&quot;)
 
 # mlflow does not store data manipulation routines like label encoding
@@ -311,7 +311,7 @@ artifacts realted to the ML algorithm. <a href="https://www.mlflow.org/docs/late
 <blockquote>
 <p>Exclude certain preprocessing &amp; feature manipulation estimators from patching. These estimators represent data manipulation routines (e.g., normalization, label encoding) rather than ML algorithms. Accordingly, we should not create MLflow runs and log parameters / metrics for these routines, unless they are captured as part of an ML pipeline (via <code>sklearn.pipeline.Pipeline</code>)</p>
 </blockquote>
-<pre><code># manually pick the model version from trained models
+<pre><code class="language-python"># manually pick the model version from trained models
 sk_model = mlflow.sklearn.load_model(model_uri=&quot;models:/sk-learn-naive-bayes-clf-model/1&quot;)
 
 # mlflow does not store data manipulation routines like label encoding
@@ -324,7 +324,7 @@ logger.info(&quot;Loaded model artifacts&quot;)
 </code></pre>
 <h2 id="predict-endpoint-httpsgithubcomkuutsavmlopsblobmastermlopsapproutesendpointspredictpy">Predict Endpoint <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/app/routes/endpoints/predict.py">#</a> <a href="#predict-endpoint-httpsgithubcomkuutsavmlopsblobmastermlopsapproutesendpointspredictpy" class="anchor" aria-hidden="true">#</a></h2>
 <p>Let&rsquo;s look at the <code>/predict</code> endpoint.</p>
-<pre><code>@router.post(&quot;/predict&quot;)
+<pre><code class="language-python">@router.post(&quot;/predict&quot;)
 async def predit(text: str) -&gt; PredictResponseModel:
     logger.info(f&quot;Received text for prediction: {text}&quot;)
     processed_text_list = preprocess_text([text])
@@ -350,7 +350,7 @@ model for data validation.</p>
 <h2 id="elasticapm">ElasticAPM <a href="#elasticapm" class="anchor" aria-hidden="true">#</a></h2>
 <p>We have also added <a href="https://www.elastic.co/apm/"><code>ElasticAPM</code></a> as a middleware for
 monitoring our FastAPI application. <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/app/application.py">#</a></p>
-<pre><code>import uvicorn
+<pre><code class="language-python">import uvicorn
 from elasticapm.contrib.starlette import ElasticAPM, make_apm_client
 from fastapi import FastAPI
 from loguru import logger
@@ -424,7 +424,7 @@ using the <code>docker-compose-monitoring.yaml</code> during the setup.</p>
   </div>
 </footer>
     <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
-  <script src="/js/highlight.min.e13cfba4c5524e30386cb9ea71f0f191f39d15b25b222f4b67549689f7c076158f42a2282446044f5cdacc76a6d003efbfa252a84aea0116703803b6339ae35f.js" integrity="sha512-4Tz7pMVSTjA4bLnqcfDxkfOdFbJbIi9LZ1SWiffAdhWPQqIoJEYET1zazHam0APvv6JSqErqARZwOAO2M5rjXw==" crossorigin="anonymous" defer></script>
+  <script src="/js/highlight.min.832406e5c7909824027dc64483cc51d8f01b3bf14e5058ac705c15eb28c11e76c0ee3cf9ada43e36a68ff5d85f2be7e6761c68797bee59b7d8ceeb10ec21a33f.js" integrity="sha512-gyQG5ceQmCQCfcZEg8xR2PAbO/FOUFiscFwV6yjBHnbA7jz5raQ&#43;NqaP9dhfK&#43;fmdhxoeXvuWbfYzusQ7CGjPw==" crossorigin="anonymous" defer></script>
   <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
   <script src="https://kuutsav.github.io/index.min.34e848263ed1b873e34ebe7b98ab9c497c50ab0c657692e0e531c7aab191a7d522cb7033e153653ca5d214bdbaa874901336025e343b2ac8b552cdf0ccf97f6f.js" integrity="sha512-NOhIJj7RuHPjTr57mKucSXxQqwxldpLg5THHqrGRp9Uiy3Az4VNlPKXSFL26qHSQEzYCXjQ7Ksi1Us3wzPl/bw==" crossorigin="anonymous" defer></script>
   
