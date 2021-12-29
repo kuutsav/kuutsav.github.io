@@ -13,7 +13,9 @@
       <pubDate>Wed, 22 Dec 2021 12:15:45 +0100</pubDate>
       
       <guid>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</guid>
-      <description>from collections import Counter from random import sample import re from typing import List, Tuple import numpy as np import requests from sklearn.metrics.pairwise import cosine_similarity import torch import torch.nn as nn from torch.utils.data import DataLoader, Dataset  Most of the steps are similar to our notebook on Word2Vec without negative sampling. The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.</description>
+      <description>Most of the steps are similar to our notebook on Word2Vec without negative sampling. The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.
+In this notebook, we will train a Word2Vec skip-gram model with negative sampling from scratch on some text and inspect the trained embeddings at the end.
+The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus.</description>
     </item>
     
     <item>
@@ -22,8 +24,8 @@
       <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
       
       <guid>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</guid>
-      <description>from collections import Counter import re from typing import List import numpy as np import requests from sklearn.metrics.pairwise import cosine_similarity import torch import torch.nn as nn from torch.utils.data import DataLoader, Dataset  For detailed intro to Word2Vec and word vectors in general, check out these awesome resources:
- Stanford 2021 nlp lecture Yandex nlp course  In this notebook, we will train a Word2Vec skip-gram model from scratch on some text data and manually inspect the trained embeddings at the end.</description>
+      <description>In this notebook, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus. The key idea being, we can represent a work by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</description>
     </item>
     
   </channel>

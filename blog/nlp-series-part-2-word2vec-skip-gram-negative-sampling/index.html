@@ -9,7 +9,7 @@
 
   <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
 
-  <link rel="stylesheet" href="https://kuutsav.github.io/main.c0640d9a4153d7d3c452bfd518599fdbeacbbd3a508279104740f30a7dcb55fb3a1bc30a110195e897e10752d7b02268063f0964440198baa86fa5980ce4e19e.css" integrity="sha512-wGQNmkFT19PEUr/VGFmf2&#43;rLvTpQgnkQR0DzCn3LVfs6G8MKEQGV6JfhB1LXsCJoBj8JZEQBmLqob6WYDOThng==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.2baef835796c0f56727396ee11fc0ee420ee6a670aae2a36631ada066dc7374992acdc0ada423a6280658a0fb6d39d1340f5c6537e74cbd074a8c1cfdc9ce05d.css" integrity="sha512-K674NXlsD1Zyc5buEfwO5CDuamcKrio2YxraBm3HN0mSrNwK2kI6YoBlig&#43;2050TQPXGU350y9B0qMHP3JzgXQ==" crossorigin="anonymous">
 <noscript><style>img.lazyload { display: none; }</style></noscript>
   <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -274,7 +274,12 @@
  
       </div>
       <p class="lead">Continuing with our previous post, we explore Word2Vec skip-gram model with negative sampling.</p>
-      <pre><code class="language-python">from collections import Counter
+      <p><strong>Most of the steps are similar to our notebook on Word2Vec without negative sampling.
+The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.</strong></p>
+<p>In this notebook, we will train a <code>Word2Vec skip-gram</code> model with negative sampling from scratch on some text and inspect the trained embeddings at the end.</p>
+<p>The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus.
+The key idea being, we can represent a work by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</p>
+<pre><code class="language-python">from collections import Counter
 from random import sample
 import re
 from typing import List, Tuple
@@ -286,29 +291,26 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 </code></pre>
-<p><strong>Most of the steps are similar to our notebook on Word2Vec without negative sampling.
-The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.</strong></p>
-<p>In this notebook, we will train a Word2Vec skip-gram model from scratch on some text data and manually inspect the trained embeddings at the end.</p>
 <p>The whole process can be broken down into the following key steps:</p>
 <ol>
 <li>Fetch and process text using <code>TextProcessor</code>.</li>
-<li><code>fetch_text()</code> fetches the texts directly from urls containing our text data</li>
+<li><code>fetch_text()</code> fetches the texts directly from urls containing our text data.</li>
 <li><code>process_text()</code> applies basic pre-procesing steps to the text and creats tokens using white space tokenization.</li>
 <li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
-<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix, List[negative_words_ix]); i.e. indices of center word, context based on a pre defined window size and a random sample from the vocab for negative samples.</li>
-<li>Create our <code>SkipGramModel</code> model based on <code>torch.nn.Module</code>.</li>
+<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.</li>
+<li>Create our <code>SkipGramModel</code> model based on the <code>torch.nn.Module</code>.</li>
 <li>Define our loss function, optimizer and scheduler.</li>
-<li>Train the model.</li>
-<li>Create a similarity matrix(cosine similarity) based on the trained embeddings(maps 1:1 to our vocab).</li>
-<li>Explore similar embeddings for some word query.</li>
+<li>Train the model for a certain number of epochs.</li>
 </ol>
-<h2 id="step-1-fetch-and-prepare-the-data">Step 1. Fetch and prepare the data <a href="#step-1-fetch-and-prepare-the-data" class="anchor" aria-hidden="true">#</a></h2>
+<p>Finally, we will create a similarity matrix(cosine similarity) using the trained embeddings and explore similar embeddings for some word query.</p>
+<h3 id="step-1-fetch-and-prepare-the-data">Step 1. Fetch and prepare the data <a href="#step-1-fetch-and-prepare-the-data" class="anchor" aria-hidden="true">#</a></h3>
 <p>We will be using the first four Harry Potter books.</p>
-<pre><code class="language-python">BOOK_URLS = [
-    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%201%20-%20The%20Philosopher's%20Stone.txt&quot;,
-    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&quot;,
-    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&quot;,
-    &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter/Book%204%20-%20The%20Goblet%20of%20Fire.txt&quot;
+<pre><code class="language-python">BASE_URL = &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter&quot;
+BOOK_URLS = [
+  f&quot;{BASE_URL}/Book%201%20-%20The%20Philosopher's%20Stone.txt&quot;,
+  f&quot;{BASE_URL}/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&quot;,
+  f&quot;{BASE_URL}/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&quot;,
+  f&quot;{BASE_URL}/Book%204%20-%20The%20Goblet%20of%20Fire.txt&quot;
 ]
 </code></pre>
 <pre><code class="language-python">class TextProcessor:
@@ -334,6 +336,10 @@ The key changes happen with the dataset where we provide a list of indices for n
         txt = &quot; &quot;.join(re.findall(&quot;\w+&quot;, txt))
         if txt:
             self.clean_sentences.append(txt)
+
+    # Tokens and token counter will be used later to create a vocabulary for
+    # us which will be used to map words/tokens to indices and vice versa, to
+    # create training data and recreate the texts from predictions respectively.
     print(f&quot; &gt; {len(sentences)} filtered sentences&quot;)
     tokens = &quot; &quot;.join(self.clean_sentences).split(&quot; &quot;)
     print(f&quot; &gt; {len(tokens)} tokens&quot;)
@@ -341,12 +347,9 @@ The key changes happen with the dataset where we provide a list of indices for n
     print(f&quot; &gt; {len(self.token_counter)} unique tokens&quot;)
 
   def prepare_vocab(self, min_count: int):
-    &quot;&quot;&quot;
-    Args:
-      min_count (int): Minimum number of times a token should appear in the
-        text to be considered in the vocabulary else they are assigned to
-        a default index which is `len(vocab)`.
-    &quot;&quot;&quot;
+    # min_count is the minimum number of times a token should appear in the
+    # text to be considered in the vocabulary else they are assigned to a
+    # default index which is equal to `len(vocab)`.
     self.w2ix = {}
     for i, (token, count) in enumerate(
         self.token_counter.most_common(len(self.token_counter))
@@ -372,41 +375,46 @@ The key changes happen with the dataset where we provide a list of indices for n
 <pre><code class="language-python">text_processor = TextProcessor(BOOK_URLS)
 </code></pre>
 <pre><code class="language-python">text_processor.fetch_text()
-
-# Fetched 1/4 urls ...
-# Fetched 2/4 urls ...
-# Fetched 3/4 urls ...
-# Fetched 4/4 urls ...
+</code></pre>
+<pre><code>Fetched 1/4 urls ...
+Fetched 2/4 urls ...
+Fetched 3/4 urls ...
+Fetched 4/4 urls ...
 </code></pre>
 <pre><code class="language-python">text_processor.process_text()
-
-# Processing text ...
-#     &gt; 20033 sentences
-#     &gt; 20033 filtered sentences
-#     &gt; 501854 tokens
-#     &gt; 15078 unique tokens
+</code></pre>
+<pre><code>Processing text ...
+ &gt; 20033 sentences
+ &gt; 20033 filtered sentences
+ &gt; 501854 tokens
+ &gt; 15078 unique tokens
 </code></pre>
 <pre><code class="language-python">text_processor.prepare_vocab(min_count=20)
-
-# Vocab size: 2103
 </code></pre>
-<h2 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch <code>Dataset</code> and <code>Dataloader</code> <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>Vocab size: 2103
+</code></pre>
+<h3 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch Dataset and Dataloader <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h3>
+<p>The Dataloader will enable us to send data in batches during the forward pass of
+the model training.</p>
 <pre><code class="language-python">N_NEG_SAMPLES = 20
 </code></pre>
 <pre><code class="language-python">class HarryPotterDataset(Dataset):
   def __init__(self, text_processor: TextProcessor,  window_size: int=3):
     self.data = []
     for txt in text_processor.clean_sentences:
-        splits = txt.split(&quot; &quot;)
-        for i in range(window_size, len(splits) -1):
-            center_word = splits[i]
-            window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1]
-            for context in window_words:
-                self.data.append((
-                    text_processor.w2ix[center_word], text_processor.w2ix[context],
-                    # negative samples
-                    sample(text_processor.ixs, N_NEG_SAMPLES)
-                ))
+      splits = txt.split(&quot; &quot;)
+      for i in range(window_size, len(splits) -1):
+        center_word = splits[i]
+        window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1]
+        for context in window_words:
+          # Each data point under self.data will be a tuple with index 0
+          # containing the index(w2ix) for center_word and
+          # index 1 containing the index(w2ix) for context_word and
+          # index 2 containing negative samples
+          self.data.append((
+              text_processor.w2ix[center_word], text_processor.w2ix[context],
+              sample(text_processor.ixs, N_NEG_SAMPLES)
+          ))
 
   def __getitem__(self, ix: int):
     return self.data[ix]
@@ -418,10 +426,8 @@ The key changes happen with the dataset where we provide a list of indices for n
 <code>context word</code>.</p>
 <pre><code class="language-python">dataset = HarryPotterDataset(text_processor, 3)
 len(dataset)
-
-# 2489461
 </code></pre>
-<pre><code class="language-python">dataloader = DataLoader(dataset, batch_size=128, shuffle=True)
+<pre><code>2489461
 </code></pre>
 <pre><code class="language-python">def collate_fn(collate_fn_input: List[Tuple]):
   return (
@@ -440,7 +446,6 @@ len(dataset)
         self.v_embeddings = nn.Embedding(vocab_size, embedding_size)
 
     def forward(self, pos_u, pos_v, neg_v):
-        # source: https://adoni.github.io/2017/11/08/word2vec-pytorch/
         losses = []
         emb_u = self.u_embeddings(pos_u)
         emb_v = self.v_embeddings(pos_v)
@@ -455,18 +460,18 @@ len(dataset)
         losses.append(sum(neg_score))
         return -1 * sum(losses)
 </code></pre>
-<p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; as mentioned in the pytorch documentation.</p>
-<p>The modified loss function for negative sampling is:</p>
-<p><figure class="figure">
+<p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; - pytorch documentation.</p>
+<p>The modified loss function for negative sampling is:
+<figure class="figure">
     <img class="figure-img img-fluid lazyload blur-up" data-sizes="auto" src="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_20x0_resize_box_3.png" data-srcset="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_500x0_resize_box_3.png 500w" width="1138" height="144" alt="loss.png">
     <noscript><img class="figure-img img-fluid" sizes="100vw" srcset="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_900x0_resize_box_3.png 900w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_800x0_resize_box_3.png 800w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_700x0_resize_box_3.png 700w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_600x0_resize_box_3.png 600w,https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss_hu21716b5adfc9f3a8caa7c154a03fba96_29293_500x0_resize_box_3.png 500w" src="https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/loss.png" width="1138" height="144" alt="loss.png"></noscript>
     </figure>
 </p>
-<p><strong>source</strong>: <code>https://lena-voita.github.io/nlp_course/word_embeddings.html</code></p>
+<p><strong>Source</strong>: <code>https://lena-voita.github.io/nlp_course/word_embeddings.html</code></p>
 <p>In each forward pass we:</p>
 <ol>
-<li>Pass indexes of center word as input param <code>pos_u</code>.</li>
-<li>These indexes are looked up in the <code>self.u_embeddings</code> table.</li>
+<li>Pass indices of center word as input param <code>pos_u</code>.</li>
+<li>These indices are looked up in the <code>self.u_embeddings</code> table.</li>
 <li><code>pos_v</code> is the index for context word and <code>self.v_embeddings</code> is the associated embedding table.</li>
 <li><code>score</code> is the first part of the loss function, i.e. the component we need to increase(similarity between the center and context vectors)</li>
 <li><code>neg_score</code> is the second part of the loss function, i.e. the component we need to decrease(similarity between the center embedding and negative embeddings)</li>
@@ -476,14 +481,14 @@ center word.</p>
 <pre><code class="language-python">device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
 model = SkipGramModel(text_processor.vocab_size, embedding_size=30).to(device)
 </code></pre>
-<h2 id="step-4-define-our-loss-function-optimizer-and-scheduler">Step 4. Define our loss function, optimizer and scheduler. <a href="#step-4-define-our-loss-function-optimizer-and-scheduler" class="anchor" aria-hidden="true">#</a></h2>
+<h3 id="step-4-define-our-loss-function-optimizer-and-scheduler">Step 4. Define our loss function, optimizer and scheduler <a href="#step-4-define-our-loss-function-optimizer-and-scheduler" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=8, gamma=0.5)
 </code></pre>
 <pre><code class="language-python">N_EPOCHS =       24 # since we have a small dataset, more epochs
 STEP_TO_LOG = 10000 # print the loss every x step of the DataLoader
 </code></pre>
-<h2 id="step-5-train-the-model">Step 5. Train the model. <a href="#step-5-train-the-model" class="anchor" aria-hidden="true">#</a></h2>
+<h3 id="step-5-train-the-model">Step 5. Train the model <a href="#step-5-train-the-model" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">epoch_losses = []
 batch_losses = []
 for epoch in range(N_EPOCHS):
@@ -650,10 +655,10 @@ epoch 24 ; lr=0.000625; loss=14.42273
 </code></pre>
 <pre><code class="language-python">weights = model.u_embeddings.weight.detach().cpu().numpy()
 weights.shape
-
-# (2103, 30)
 </code></pre>
-<h2 id="step-6-create-the-similarity-matrix">Step 6. Create the similarity matrix. <a href="#step-6-create-the-similarity-matrix" class="anchor" aria-hidden="true">#</a></h2>
+<pre><code>(2103, 30)
+</code></pre>
+<h3 id="step-6-create-the-similarity-matrix">Step 6. Create the similarity matrix <a href="#step-6-create-the-similarity-matrix" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">similarity = cosine_similarity(weights, weights)
 </code></pre>
 <pre><code class="language-python">def get_similar_words(input_word: str, n: int):
@@ -669,7 +674,7 @@ weights.shape
     for word, score in most_similar_words:
       print(f&quot; &gt; {word}, score={score: .2f}&quot;)
 </code></pre>
-<h2 id="step-7-explore-similar-embeddings-for-some-word-query">Step 7. Explore similar embeddings for some word query. <a href="#step-7-explore-similar-embeddings-for-some-word-query" class="anchor" aria-hidden="true">#</a></h2>
+<p>Exploring similar embeddings for some queries &hellip;</p>
 <pre><code class="language-python">get_similar_words(&quot;snape&quot;, 10)
 </code></pre>
 <pre><code>snape
@@ -808,7 +813,7 @@ We did not exactly follow the steps mentioned in the original paper to be honest
     <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
   <script src="/js/highlight.min.832406e5c7909824027dc64483cc51d8f01b3bf14e5058ac705c15eb28c11e76c0ee3cf9ada43e36a68ff5d85f2be7e6761c68797bee59b7d8ceeb10ec21a33f.js" integrity="sha512-gyQG5ceQmCQCfcZEg8xR2PAbO/FOUFiscFwV6yjBHnbA7jz5raQ&#43;NqaP9dhfK&#43;fmdhxoeXvuWbfYzusQ7CGjPw==" crossorigin="anonymous" defer></script>
   <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
-  <script src="https://kuutsav.github.io/index.min.0c7d2c81daf7b35b84bf069e5f268dfdc15b673c68270e8cd1e19c143d340beb4d599c1ae233cda657200cf78c479e3b26cfc30f392bf9c2b46c27ab3e8da16c.js" integrity="sha512-DH0sgdr3s1uEvwaeXyaN/cFbZzxoJw6M0eGcFD00C&#43;tNWZwa4jPNplcgDPeMR547Js/DDzkr&#43;cK0bCerPo2hbA==" crossorigin="anonymous" defer></script>
+  <script src="https://kuutsav.github.io/index.min.0e1bbd6a7116779425ea5ad89682c82ffd1fa55f0a325ba234154cb24f55bb4bab5df6b2659b0acb5ee5fb085d70eec4cbf3c2c8e8b7cb9919078bf1268768cb.js" integrity="sha512-Dhu9anEWd5Ql6lrYloLIL/0fpV8KMluiNBVMsk9Vu0urXfayZZsKy17l&#43;whdcO7Ey/PCyOi3y5kZB4vxJodoyw==" crossorigin="anonymous" defer></script>
   
   </body>
 </html>
