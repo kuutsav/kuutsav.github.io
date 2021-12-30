@@ -8,6 +8,17 @@
     <language>en-US</language>
     <lastBuildDate>Mon, 11 Oct 2021 08:49:55 +0000</lastBuildDate><atom:link href="https://kuutsav.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>NLP Series [Part 3] · LSTM-Language-Model</title>
+      <link>https://kuutsav.github.io/blog/nlp-series-part-3-lstm-language-model/</link>
+      <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/blog/nlp-series-part-3-lstm-language-model/</guid>
+      <description>Such models are called &amp;ldquo;Language Models&amp;rdquo;, trained to recurrently produce text. We can also use such models to assign probabilites to pieces of text.
+We will be training a character level LSTM but it can be trained at word level as well(vocabulary size will be much higher in case of words).
+Within each forward pass, the model will receive indices for a sequence and will be tasked to predict the next character at each time step.</description>
+    </item>
+    
+    <item>
       <title>NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling</title>
       <link>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</link>
       <pubDate>Wed, 22 Dec 2021 12:15:45 +0100</pubDate>

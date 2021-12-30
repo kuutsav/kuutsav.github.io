@@ -3,6 +3,13 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://kuutsav.github.io/blog/nlp-series-part-3-lstm-language-model/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</loc>
     <lastmod>2021-12-22T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -45,21 +52,35 @@
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/tags/nlp/</loc>
-    <lastmod>2021-12-22T12:15:45+01:00</lastmod>
+    <loc>https://kuutsav.github.io/tags/language-model/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/tags/skipgram/</loc>
-    <lastmod>2021-12-22T12:15:45+01:00</lastmod>
+    <loc>https://kuutsav.github.io/tags/lstm/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/nlp/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://kuutsav.github.io/tags/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/skipgram/</loc>
     <lastmod>2021-12-22T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

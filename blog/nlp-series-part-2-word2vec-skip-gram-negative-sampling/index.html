@@ -9,7 +9,7 @@
 
   <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
 
-  <link rel="stylesheet" href="https://kuutsav.github.io/main.2baef835796c0f56727396ee11fc0ee420ee6a670aae2a36631ada066dc7374992acdc0ada423a6280658a0fb6d39d1340f5c6537e74cbd074a8c1cfdc9ce05d.css" integrity="sha512-K674NXlsD1Zyc5buEfwO5CDuamcKrio2YxraBm3HN0mSrNwK2kI6YoBlig&#43;2050TQPXGU350y9B0qMHP3JzgXQ==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.bc4ed29d1e0b3a97d2306c2c044132c9a35354e8747eba2c67926f270921a32480feacdf32c2ad2c68172665dd343310b75df7aa20ba22f783e39c26daa81dc1.css" integrity="sha512-vE7SnR4LOpfSMGwsBEEyyaNTVOh0frosZ5JvJwkhoySA/qzfMsKtLGgXJmXdNDMQt133qiC6IveD45wm2qgdwQ==" crossorigin="anonymous">
 <noscript><style>img.lazyload { display: none; }</style></noscript>
   <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -376,23 +376,28 @@ BOOK_URLS = [
 </code></pre>
 <pre><code class="language-python">text_processor.fetch_text()
 </code></pre>
-<pre><code>Fetched 1/4 urls ...
-Fetched 2/4 urls ...
-Fetched 3/4 urls ...
-Fetched 4/4 urls ...
-</code></pre>
+<blockquote>
+<p>Fetched 1/4 urls &hellip;<br>
+Fetched 2/4 urls &hellip;<br>
+Fetched 3/4 urls &hellip;<br>
+Fetched 4/4 urls &hellip;<br></p>
+</blockquote>
 <pre><code class="language-python">text_processor.process_text()
 </code></pre>
-<pre><code>Processing text ...
- &gt; 20033 sentences
- &gt; 20033 filtered sentences
- &gt; 501854 tokens
- &gt; 15078 unique tokens
-</code></pre>
+<blockquote>
+<p>Processing text &hellip;<br></p>
+<blockquote>
+<p>20033 sentences<br>
+20033 filtered sentences<br>
+501854 tokens<br>
+15078 unique tokens<br></p>
+</blockquote>
+</blockquote>
 <pre><code class="language-python">text_processor.prepare_vocab(min_count=20)
 </code></pre>
-<pre><code>Vocab size: 2103
-</code></pre>
+<blockquote>
+<p>Vocab size: 2103</p>
+</blockquote>
 <h3 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch Dataset and Dataloader <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h3>
 <p>The Dataloader will enable us to send data in batches during the forward pass of
 the model training.</p>
@@ -427,8 +432,9 @@ the model training.</p>
 <pre><code class="language-python">dataset = HarryPotterDataset(text_processor, 3)
 len(dataset)
 </code></pre>
-<pre><code>2489461
-</code></pre>
+<blockquote>
+<p>2489461</p>
+</blockquote>
 <pre><code class="language-python">def collate_fn(collate_fn_input: List[Tuple]):
   return (
     torch.LongTensor([i[0] for i in collate_fn_input]), # center word
@@ -656,8 +662,9 @@ epoch 24 ; lr=0.000625; loss=14.42273
 <pre><code class="language-python">weights = model.u_embeddings.weight.detach().cpu().numpy()
 weights.shape
 </code></pre>
-<pre><code>(2103, 30)
-</code></pre>
+<blockquote>
+<p>(2103, 30)</p>
+</blockquote>
 <h3 id="step-6-create-the-similarity-matrix">Step 6. Create the similarity matrix <a href="#step-6-create-the-similarity-matrix" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">similarity = cosine_similarity(weights, weights)
 </code></pre>
@@ -813,7 +820,7 @@ We did not exactly follow the steps mentioned in the original paper to be honest
     <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
   <script src="/js/highlight.min.832406e5c7909824027dc64483cc51d8f01b3bf14e5058ac705c15eb28c11e76c0ee3cf9ada43e36a68ff5d85f2be7e6761c68797bee59b7d8ceeb10ec21a33f.js" integrity="sha512-gyQG5ceQmCQCfcZEg8xR2PAbO/FOUFiscFwV6yjBHnbA7jz5raQ&#43;NqaP9dhfK&#43;fmdhxoeXvuWbfYzusQ7CGjPw==" crossorigin="anonymous" defer></script>
   <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
-  <script src="https://kuutsav.github.io/index.min.0e1bbd6a7116779425ea5ad89682c82ffd1fa55f0a325ba234154cb24f55bb4bab5df6b2659b0acb5ee5fb085d70eec4cbf3c2c8e8b7cb9919078bf1268768cb.js" integrity="sha512-Dhu9anEWd5Ql6lrYloLIL/0fpV8KMluiNBVMsk9Vu0urXfayZZsKy17l&#43;whdcO7Ey/PCyOi3y5kZB4vxJodoyw==" crossorigin="anonymous" defer></script>
+  <script src="https://kuutsav.github.io/index.min.00b9582f9beafcf53994b443ffff1c39301eff63264e3d2622b816d21672ca3059de5f5746869359eb2d0708bb043db2aaf6813eab58d77a41683a0289f15ba1.js" integrity="sha512-ALlYL5vq/PU5lLRD//8cOTAe/2MmTj0mIrgW0hZyyjBZ3l9XRoaTWestBwi7BD2yqvaBPqtY13pBaDoCifFboQ==" crossorigin="anonymous" defer></script>
   
   </body>
 </html>
