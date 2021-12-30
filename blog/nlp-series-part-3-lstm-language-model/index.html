@@ -304,9 +304,9 @@ BOOK_URLS = [
 </code></pre>
 <pre><code class="language-python">text = &quot;&quot;
 for i, url in enumerate(BOOK_URLS):
-  r = requests.get(url)
-  text += &quot;\n&quot; + r.text.strip().lower()
-  print(f&quot;Fetched {i+1}/{len(BOOK_URLS)} urls ...&quot;)
+    r = requests.get(url)
+    text += &quot;\n&quot; + r.text.strip().lower()
+    print(f&quot;Fetched {i+1}/{len(BOOK_URLS)} urls ...&quot;)
 </code></pre>
 <blockquote>
 <p>Fetched 1/1 urls &hellip;</p>
@@ -375,7 +375,7 @@ c2ix
 <p>We will convert the whole piece of text to it&rsquo;s corresponding indices and create a tensor mapped to the correct device in one go.</p>
 <pre><code class="language-python">data_ixs = []
 for ch in text:
-  data_ixs.append(c2ix[ch])
+    data_ixs.append(c2ix[ch])
 
 data_ixs = torch.LongTensor(data_ixs).to(device)
 data_ixs = torch.unsqueeze(data_ixs, dim=1)
@@ -387,17 +387,17 @@ len(data_ixs), data_ixs[:20]
 </blockquote>
 <h3 id="step-2-create-the-lstm-model">Step 2. Create the LSTM model <a href="#step-2-create-the-lstm-model" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">class RnnLanguageModel(nn.Module):
-  def __init__(self, vocab_size, embedding_size, hidden_size, num_layers):
-    super().__init__()
-    self.embedding = nn.Embedding(vocab_size, embedding_size)
-    self.rnn = nn.LSTM(embedding_size, hidden_size, num_layers=num_layers)
-    self.linear = nn.Linear(hidden_size, vocab_size)
+    def __init__(self, vocab_size, embedding_size, hidden_size, num_layers):
+        super().__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_size)
+        self.rnn = nn.LSTM(embedding_size, hidden_size, num_layers=num_layers)
+        self.linear = nn.Linear(hidden_size, vocab_size)
 
-  def forward(self, input_seq, hidden):
-    embedding = self.embedding(input_seq)
-    output, hidden = self.rnn(embedding, hidden)
-    output = self.linear(output)
-    return output, (hidden[0].detach(), hidden[1].detach())
+    def forward(self, input_seq, hidden):
+        embedding = self.embedding(input_seq)
+        output, hidden = self.rnn(embedding, hidden)
+        output = self.linear(output)
+        return output, (hidden[0].detach(), hidden[1].detach())
 </code></pre>
 <pre><code class="language-python">model = RnnLanguageModel(vocab_size=len(chars), embedding_size=50,
                          hidden_size=256, num_layers=2).to(device)
@@ -415,50 +415,50 @@ N = len(data_ixs)
 <p>We will also define a helper function to help us generate text from an input prompt.</p>
 <p>This will also help us visually gauge the training progress by generating pieces of text after a certain number of training steps has finished.</p>
 <pre><code class="language-python">def generate(txt, hidden, n=100):
-  output_txt = txt
-  for i in range(n):
-    txt2ix = [c2ix[c] for c in txt]
-    input_seq = torch.unsqueeze(torch.LongTensor(txt2ix), dim=1)
-    pred, hidden = model(input_seq, hidden)
-    pred = nn.functional.softmax(pred.squeeze(), dim=0)
-    # Here, we are sampling instead of taking an argmax to add diversity
-    # to the generated text.
-    # Using argmax will lead to the model generating repetitive patterns.
-    # We will cover this topic in much more detail when we revist
-    # language models under the transformers architecture.
-    dist = torch.distributions.Categorical(pred)
-    index = dist.sample()
-    pred_char = ix2c[index.item()]
-    output_txt += pred_char
-    txt = pred_char
-  return output_txt
+    output_txt = txt
+    for i in range(n):
+        txt2ix = [c2ix[c] for c in txt]
+        input_seq = torch.unsqueeze(torch.LongTensor(txt2ix), dim=1)
+        pred, hidden = model(input_seq, hidden)
+        pred = nn.functional.softmax(pred.squeeze(), dim=0)
+        # Here, we are sampling instead of taking an argmax to add diversity
+        # to the generated text.
+        # Using argmax will lead to the model generating repetitive patterns.
+        # We will cover this topic in much more detail when we revist
+        # language models under the transformers architecture.
+        dist = torch.distributions.Categorical(pred)
+        index = dist.sample()
+        pred_char = ix2c[index.item()]
+        output_txt += pred_char
+        txt = pred_char
+    return output_txt
 </code></pre>
 <h3 id="step-4-train-the-model">Step 4. Train the model <a href="#step-4-train-the-model" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">n = 0
 losses = []
 hidden = None
 while True:
-  start_ix = random.randint(0, N-MAX_SEQ_LEN-1)
-  seq_len = random.randint(MIN_SEQ_LEN, MAX_SEQ_LEN)
-  input_seq = data_ixs[start_ix: start_ix+seq_len]
-  target_seq = data_ixs[start_ix+1: start_ix+1+seq_len]
-  pred, hidden = model(input_seq, hidden)
-  loss = criterion(pred.squeeze(), target_seq.squeeze())
-  losses.append(loss.item())
-  loss.backward()
-  nn.utils.clip_grad_norm_(model.parameters(), 5)
-  optimizer.step()
-  optimizer.zero_grad()
-  n += 1
-  if n &gt; 50000:
-    break
-  if n % 1000 == 0:
-    print(f&quot;step {n:&lt;5}; mean_loss={np.mean(losses):.5f}&quot;)
-    print(f&quot;text generated with prompt 'h' -&gt; {repr(generate('h', hidden))}&quot;)
-    losses = []
-  if n % 10000 == 0:
-    scheduler.step()
-    print(f&quot;updating lr -&gt; {scheduler._last_lr[0]}\n&quot;)
+    start_ix = random.randint(0, N-MAX_SEQ_LEN-1)
+    seq_len = random.randint(MIN_SEQ_LEN, MAX_SEQ_LEN)
+    input_seq = data_ixs[start_ix: start_ix+seq_len]
+    target_seq = data_ixs[start_ix+1: start_ix+1+seq_len]
+    pred, hidden = model(input_seq, hidden)
+    loss = criterion(pred.squeeze(), target_seq.squeeze())
+    losses.append(loss.item())
+    loss.backward()
+    nn.utils.clip_grad_norm_(model.parameters(), 5)
+    optimizer.step()
+    optimizer.zero_grad()
+    n += 1
+    if n &gt; 50000:
+        break
+    if n % 1000 == 0:
+        print(f&quot;step {n:&lt;5}; mean_loss={np.mean(losses):.5f}&quot;)
+        print(f&quot;text generated with prompt 'h' -&gt; {repr(generate('h', hidden))}&quot;)
+        losses = []
+    if n % 10000 == 0:
+        scheduler.step()
+        print(f&quot;updating lr -&gt; {scheduler._last_lr[0]}\n&quot;)
 </code></pre>
 <pre><code>step 1000 ; mean_loss=2.09559
 text generated with prompt 'h' -&gt; 'heed cwoed t overing hy dr traged \nwas clookide wondeunds \nthe dlm young stine aboutsors \nfist \nthen '

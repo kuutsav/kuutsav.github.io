@@ -314,63 +314,63 @@ BOOK_URLS = [
 ]
 </code></pre>
 <pre><code class="language-python">class TextProcessor:
-  def __init__(self, urls: List[str]):
-    self.urls = urls
+    def __init__(self, urls: List[str]):
+        self.urls = urls
 
-  def fetch_text(self):
-    self.text = &quot;&quot;
-    for i, url in enumerate(self.urls):
-        r = requests.get(url)
-        r.status_code
-        self.text += &quot;\n\n\n&quot; + r.text
-        print(f&quot;Fetched {i+1}/{len(self.urls)} urls ...&quot;)
+    def fetch_text(self):
+        self.text = &quot;&quot;
+        for i, url in enumerate(self.urls):
+            r = requests.get(url)
+            r.status_code
+            self.text += &quot;\n\n\n&quot; + r.text
+            print(f&quot;Fetched {i+1}/{len(self.urls)} urls ...&quot;)
 
-  def process_text(self):
-    print(&quot;Processing text ...&quot;)
-    sentences = re.split(&quot;\n{2,}&quot;, self.text)
-    print(f&quot; &gt; {len(sentences)} sentences&quot;)
-    self.clean_sentences = []
-    for txt in sentences:
-        txt = txt.strip().lower()
-        txt = txt.replace(&quot;\n&quot;, &quot;&quot;)
-        txt = &quot; &quot;.join(re.findall(&quot;\w+&quot;, txt))
-        if txt:
-            self.clean_sentences.append(txt)
+    def process_text(self):
+        print(&quot;Processing text ...&quot;)
+        sentences = re.split(&quot;\n{2,}&quot;, self.text)
+        print(f&quot; &gt; {len(sentences)} sentences&quot;)
+        self.clean_sentences = []
+        for txt in sentences:
+            txt = txt.strip().lower()
+            txt = txt.replace(&quot;\n&quot;, &quot;&quot;)
+            txt = &quot; &quot;.join(re.findall(&quot;\w+&quot;, txt))
+            if txt:
+                self.clean_sentences.append(txt)
 
-    # Tokens and token counter will be used later to create a vocabulary for
-    # us which will be used to map words/tokens to indices and vice versa, to
-    # create training data and recreate the texts from predictions respectively.
-    print(f&quot; &gt; {len(sentences)} filtered sentences&quot;)
-    tokens = &quot; &quot;.join(self.clean_sentences).split(&quot; &quot;)
-    print(f&quot; &gt; {len(tokens)} tokens&quot;)
-    self.token_counter = Counter(tokens)
-    print(f&quot; &gt; {len(self.token_counter)} unique tokens&quot;)
+        # Tokens and token counter will be used later to create a vocabulary for
+        # us which will be used to map words/tokens to indices and vice versa, to
+        # create training data and recreate the texts from predictions respectively.
+        print(f&quot; &gt; {len(sentences)} filtered sentences&quot;)
+        tokens = &quot; &quot;.join(self.clean_sentences).split(&quot; &quot;)
+        print(f&quot; &gt; {len(tokens)} tokens&quot;)
+        self.token_counter = Counter(tokens)
+        print(f&quot; &gt; {len(self.token_counter)} unique tokens&quot;)
 
-  def prepare_vocab(self, min_count: int):
-    # min_count is the minimum number of times a token should appear in the
-    # text to be considered in the vocabulary else they are assigned to a
-    # default index which is equal to `len(vocab)`.
-    self.w2ix = {}
-    for i, (token, count) in enumerate(
-        self.token_counter.most_common(len(self.token_counter))
-    ):
-      if count &lt; min_count:
-        break
-      else:
-        self.w2ix[token] = i
+    def prepare_vocab(self, min_count: int):
+        # min_count is the minimum number of times a token should appear in the
+        # text to be considered in the vocabulary else they are assigned to a
+        # default index which is equal to `len(vocab)`.
+        self.w2ix = {}
+        for i, (token, count) in enumerate(
+            self.token_counter.most_common(len(self.token_counter))
+        ):
+          if count &lt; min_count:
+              break
+          else:
+              self.w2ix[token] = i
 
-    self.ix2w = {ix: w for w, ix in self.w2ix.items()}
+        self.ix2w = {ix: w for w, ix in self.w2ix.items()}
 
-    # assign default index to rest of the tokens
-    n = len(self.w2ix)
-    for token, _ in self.token_counter.most_common(len(self.token_counter)):
-      if token not in self.w2ix:
-        self.w2ix[token] = n
-    self.ix2w[n] = &quot;&lt;unk&gt;&quot;
-    self.ixs = list(self.ix2w.keys())
+        # assign default index to rest of the tokens
+        n = len(self.w2ix)
+        for token, _ in self.token_counter.most_common(len(self.token_counter)):
+            if token not in self.w2ix:
+              self.w2ix[token] = n
+        self.ix2w[n] = &quot;&lt;unk&gt;&quot;
+        self.ixs = list(self.ix2w.keys())
 
-    self.vocab_size = n + 1
-    print(f&quot;Vocab size: {self.vocab_size}&quot;)
+        self.vocab_size = n + 1
+        print(f&quot;Vocab size: {self.vocab_size}&quot;)
 </code></pre>
 <pre><code class="language-python">text_processor = TextProcessor(BOOK_URLS)
 </code></pre>
@@ -404,28 +404,28 @@ the model training.</p>
 <pre><code class="language-python">N_NEG_SAMPLES = 20
 </code></pre>
 <pre><code class="language-python">class HarryPotterDataset(Dataset):
-  def __init__(self, text_processor: TextProcessor,  window_size: int=3):
-    self.data = []
-    for txt in text_processor.clean_sentences:
-      splits = txt.split(&quot; &quot;)
-      for i in range(window_size, len(splits) -1):
-        center_word = splits[i]
-        window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1]
-        for context in window_words:
-          # Each data point under self.data will be a tuple with index 0
-          # containing the index(w2ix) for center_word and
-          # index 1 containing the index(w2ix) for context_word and
-          # index 2 containing negative samples
-          self.data.append((
-              text_processor.w2ix[center_word], text_processor.w2ix[context],
-              sample(text_processor.ixs, N_NEG_SAMPLES)
-          ))
+    def __init__(self, text_processor: TextProcessor,  window_size: int=3):
+        self.data = []
+        for txt in text_processor.clean_sentences:
+            splits = txt.split(&quot; &quot;)
+            for i in range(window_size, len(splits) -1):
+                center_word = splits[i]
+                window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1]
+                for context in window_words:
+                    # Each data point under self.data will be a tuple with index 0
+                    # containing the index(w2ix) for center_word and
+                    # index 1 containing the index(w2ix) for context_word and
+                    # index 2 containing negative samples
+                    self.data.append((
+                        text_processor.w2ix[center_word], text_processor.w2ix[context],
+                        sample(text_processor.ixs, N_NEG_SAMPLES)
+                    ))
 
-  def __getitem__(self, ix: int):
-    return self.data[ix]
+    def __getitem__(self, ix: int):
+        return self.data[ix]
 
-  def __len__(self):
-    return len(self.data)
+    def __len__(self):
+        return len(self.data)
 </code></pre>
 <p>The <code>Dataset</code> essentially contains indexes of pairs of <code>center word</code> and a
 <code>context word</code>.</p>
@@ -436,11 +436,11 @@ len(dataset)
 <p>2489461</p>
 </blockquote>
 <pre><code class="language-python">def collate_fn(collate_fn_input: List[Tuple]):
-  return (
-    torch.LongTensor([i[0] for i in collate_fn_input]), # center word
-    torch.LongTensor([i[1] for i in collate_fn_input]), # context word
-    torch.LongTensor([i[2] for i in collate_fn_input])  # negative samples
-  )
+    return (
+        torch.LongTensor([i[0] for i in collate_fn_input]), # center word
+        torch.LongTensor([i[1] for i in collate_fn_input]), # context word
+        torch.LongTensor([i[2] for i in collate_fn_input])  # negative samples
+    )
 </code></pre>
 <pre><code class="language-python">dataloader = DataLoader(dataset, batch_size=64, collate_fn=collate_fn, shuffle=True)
 </code></pre>
@@ -669,17 +669,17 @@ weights.shape
 <pre><code class="language-python">similarity = cosine_similarity(weights, weights)
 </code></pre>
 <pre><code class="language-python">def get_similar_words(input_word: str, n: int):
-  if input_word not in text_processor.w2ix:
-    print(&quot;word not in vocab&quot;)
-  else:
-    input_word_ix = text_processor.w2ix[input_word]
-    similarity_vector = similarity[input_word_ix]
-    most_similar_ixs = np.argsort(similarity_vector)[-n:][::-1]
-    most_similar_words = [(text_processor.ix2w[ix], similarity_vector[ix])
-                          for ix in most_similar_ixs]
-    print(input_word)
-    for word, score in most_similar_words:
-      print(f&quot; &gt; {word}, score={score: .2f}&quot;)
+    if input_word not in text_processor.w2ix:
+        print(&quot;word not in vocab&quot;)
+    else:
+        input_word_ix = text_processor.w2ix[input_word]
+        similarity_vector = similarity[input_word_ix]
+        most_similar_ixs = np.argsort(similarity_vector)[-n:][::-1]
+        most_similar_words = [(text_processor.ix2w[ix], similarity_vector[ix])
+                              for ix in most_similar_ixs]
+        print(input_word)
+        for word, score in most_similar_words:
+            print(f&quot; &gt; {word}, score={score: .2f}&quot;)
 </code></pre>
 <p>Exploring similar embeddings for some queries &hellip;</p>
 <pre><code class="language-python">get_similar_words(&quot;snape&quot;, 10)
