@@ -36,7 +36,7 @@ The architecture we define later will enable us to learn a distributed represent
       
       <guid>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</guid>
       <description>In this notebook, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
-The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus. The key idea being, we can represent a work by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</description>
+The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus. The key idea being, we can represent a word by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</description>
     </item>
     
     <item>

@@ -278,7 +278,7 @@
       <p class="lead">We will take a walk down the memory lane and visit the awesome Word2Vec.</p>
       <p>In this notebook, we will train a <code>Word2Vec skip-gram</code> model from scratch on some text and inspect the trained embeddings at the end.</p>
 <p>The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus.
-The key idea being, we can represent a work by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</p>
+The key idea being, we can represent a word by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</p>
 <pre><code class="language-python">from collections import Counter
 import re
 from typing import List
@@ -723,12 +723,6 @@ weights.shape
 </code></pre>
 <p>The results should improve easily with more training as we are already seeing good results for a lot of the input words like <code>snape</code> for which it shows other hogwarts professors etc.</p>
 <p>We will try to train on more data by using <code>negative sampling</code> to train faster and hopefully be able to improve the embeddings.</p>
-<p>For detailed intro to Word2Vec and word vectors in general, check out these awesome resources.
-<strong>Most of the work here has derived from these materials.</strong></p>
-<ol>
-<li><a href="https://www.youtube.com/watch?v=rmVRLeJRkl4&amp;list=PLoROMvodv4rOSH4v6133s9LFPRHjEmbmJ">Stanford 2021 nlp lecture</a></li>
-<li><a href="https://lena-voita.github.io/nlp_course/word_embeddings.html">Yandex nlp course</a></li>
-</ol>
 
     </article>
     <script src="https://utteranc.es/client.js"
@@ -765,7 +759,7 @@ weights.shape
     <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
   <script src="/js/highlight.min.832406e5c7909824027dc64483cc51d8f01b3bf14e5058ac705c15eb28c11e76c0ee3cf9ada43e36a68ff5d85f2be7e6761c68797bee59b7d8ceeb10ec21a33f.js" integrity="sha512-gyQG5ceQmCQCfcZEg8xR2PAbO/FOUFiscFwV6yjBHnbA7jz5raQ&#43;NqaP9dhfK&#43;fmdhxoeXvuWbfYzusQ7CGjPw==" crossorigin="anonymous" defer></script>
   <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
-  <script src="https://kuutsav.github.io/index.min.00b9582f9beafcf53994b443ffff1c39301eff63264e3d2622b816d21672ca3059de5f5746869359eb2d0708bb043db2aaf6813eab58d77a41683a0289f15ba1.js" integrity="sha512-ALlYL5vq/PU5lLRD//8cOTAe/2MmTj0mIrgW0hZyyjBZ3l9XRoaTWestBwi7BD2yqvaBPqtY13pBaDoCifFboQ==" crossorigin="anonymous" defer></script>
+  <script src="https://kuutsav.github.io/index.min.e526c3b2764cef8c8680529dcf389ab89305555abac9fd2d258bd9771a9dc2e647641297d291717d54eea5fd1ae5d644c5f2a5d1ff5f48bb3d06504a4a0cb741.js" integrity="sha512-5SbDsnZM74yGgFKdzziauJMFVVq6yf0tJYvZdxqdwuZHZBKX0pFxfVTupf0a5dZExfKl0f9fSLs9BlBKSgy3QQ==" crossorigin="anonymous" defer></script>
   
   </body>
 </html>
