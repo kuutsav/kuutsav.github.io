@@ -8,14 +8,13 @@
     <language>en-US</language>
     <lastBuildDate>Thu, 30 Dec 2021 12:15:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/language-model/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>NLP Series [Part 3] · LSTM-Language-Model</title>
-      <link>https://kuutsav.github.io/blog/nlp-series-part-3-lstm-language-model/</link>
+      <title>NLP Series [Part 3] · Word2Vec-SkipGram-SubWord</title>
+      <link>https://kuutsav.github.io/blog/nlp-series-part-3-word2vec-skipgram-subword/</link>
       <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
       
-      <guid>https://kuutsav.github.io/blog/nlp-series-part-3-lstm-language-model/</guid>
-      <description>Such models are called &amp;ldquo;Language Models&amp;rdquo;, trained to recurrently produce text. We can also use such models to assign probabilites to pieces of text.
-We will be training a character level LSTM but it can be trained at word level as well(vocabulary size will be much higher in case of words).
-Within each forward pass, the model will receive indices for a sequence and will be tasked to predict the next character at each time step.</description>
+      <guid>https://kuutsav.github.io/blog/nlp-series-part-3-word2vec-skipgram-subword/</guid>
+      <description>Most of the steps are similar to our notebook on Word2Vec Skip-Gram model. The key change is that we will train a model on subword tokens so that we can generate embeddings for out of vocab words and have some tolerance for typos.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:</description>
     </item>
     
   </channel>

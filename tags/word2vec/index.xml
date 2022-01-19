@@ -8,24 +8,25 @@
     <language>en-US</language>
     <lastBuildDate>Wed, 22 Dec 2021 12:15:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/word2vec/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>NLP Series [Part 2] · Word2Vec-Skip-Gram-Negative-Sampling</title>
-      <link>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</link>
+      <title>NLP Series [Part 2] · Word2Vec-SkipGram-Negative-Sampling</title>
+      <link>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skipgram-negative-sampling/</link>
       <pubDate>Wed, 22 Dec 2021 12:15:45 +0100</pubDate>
       
-      <guid>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</guid>
+      <guid>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skipgram-negative-sampling/</guid>
       <description>Most of the steps are similar to our notebook on Word2Vec without negative sampling. The key changes happen with the dataset where we provide a list of indices for negative sample for each forward pass as well as the loss function.
 In this notebook, we will train a Word2Vec skip-gram model with negative sampling from scratch on some text and inspect the trained embeddings at the end.
-The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus.</description>
+The first step for using any kind of NLP pipeline is to vectorize the text.</description>
     </item>
     
     <item>
-      <title>NLP Series [Part 1] · Word2Vec-Skip-Gram</title>
-      <link>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</link>
+      <title>NLP Series [Part 1] · Word2Vec-SkipGram</title>
+      <link>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skipgram/</link>
       <pubDate>Mon, 20 Dec 2021 19:12:45 +0100</pubDate>
       
-      <guid>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</guid>
+      <guid>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skipgram/</guid>
       <description>In this notebook, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
-The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus. The key idea being, we can represent a word by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</description>
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</description>
     </item>
     
   </channel>
