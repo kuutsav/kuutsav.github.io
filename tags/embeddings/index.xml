@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>word2vec on </title>
-    <link>https://kuutsav.github.io/tags/word2vec/</link>
-    <description>Recent content in word2vec on </description>
+    <title>embeddings on </title>
+    <link>https://kuutsav.github.io/tags/embeddings/</link>
+    <description>Recent content in embeddings on </description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Thu, 30 Dec 2021 12:15:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/word2vec/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Dec 2021 12:15:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/embeddings/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>NLP Series [Part 3] · Word2Vec-SkipGram-SubWord</title>
       <link>https://kuutsav.github.io/blog/nlp-series-part-3-word2vec-skipgram-subword/</link>

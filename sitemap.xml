@@ -52,14 +52,7 @@
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/tags/language-model/</loc>
-    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/tags/lstm/</loc>
+    <loc>https://kuutsav.github.io/tags/embeddings/</loc>
     <lastmod>2021-12-30T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -73,6 +66,20 @@
   </url>
   
   <url>
+    <loc>https://kuutsav.github.io/tags/skipgram/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://kuutsav.github.io/tags/subword/</loc>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://kuutsav.github.io/tags/</loc>
     <lastmod>2021-12-30T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -80,15 +87,8 @@
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/tags/skipgram/</loc>
-    <lastmod>2021-12-22T12:15:45+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://kuutsav.github.io/tags/word2vec/</loc>
-    <lastmod>2021-12-22T12:15:45+01:00</lastmod>
+    <lastmod>2021-12-30T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

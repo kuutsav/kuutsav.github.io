@@ -8,20 +8,11 @@
     <language>en-US</language>
     <lastBuildDate>Thu, 30 Dec 2021 12:15:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>language-model</title>
-      <link>https://kuutsav.github.io/tags/language-model/</link>
+      <title>embeddings</title>
+      <link>https://kuutsav.github.io/tags/embeddings/</link>
       <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
       
-      <guid>https://kuutsav.github.io/tags/language-model/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>lstm</title>
-      <link>https://kuutsav.github.io/tags/lstm/</link>
-      <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
-      
-      <guid>https://kuutsav.github.io/tags/lstm/</guid>
+      <guid>https://kuutsav.github.io/tags/embeddings/</guid>
       <description></description>
     </item>
     
@@ -37,16 +28,25 @@
     <item>
       <title>skipgram</title>
       <link>https://kuutsav.github.io/tags/skipgram/</link>
-      <pubDate>Wed, 22 Dec 2021 12:15:45 +0100</pubDate>
+      <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
       
       <guid>https://kuutsav.github.io/tags/skipgram/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>subword</title>
+      <link>https://kuutsav.github.io/tags/subword/</link>
+      <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/subword/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>word2vec</title>
       <link>https://kuutsav.github.io/tags/word2vec/</link>
-      <pubDate>Wed, 22 Dec 2021 12:15:45 +0100</pubDate>
+      <pubDate>Thu, 30 Dec 2021 12:15:45 +0100</pubDate>
       
       <guid>https://kuutsav.github.io/tags/word2vec/</guid>
       <description></description>
