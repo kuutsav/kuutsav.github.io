@@ -9,17 +9,17 @@
 
   <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
 
-  <link rel="stylesheet" href="https://kuutsav.github.io/main.fdd39564d94c42ccb768e86712347c8ab99acda431bd7fcf9925a91868986ebcb8532349b3ffc3e84c96684edc7bf4d3315e855dcd210ae99a61c983cea78143.css" integrity="sha512-/dOVZNlMQsy3aOhnEjR8irmazaQxvX/PmSWpGGiYbry4UyNJs//D6EyWaE7ce/TTMV6FXc0hCumaYcmDzqeBQw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.7b15e5fe7ac863dd1b749675ed0b2f2fd0ac8af7f44ee7b48a58dbdd79c69b18ca6a6817b1ae13ca0c239166a26e14adcadddc54aa111e762d17c23ecbb6ecd5.css" integrity="sha512-exXl/nrIY90bdJZ17QsvL9Csivf0Tue0iljb3XnGmxjKamgXsa4TygwjkWaibhStyt3cVKoRHnYtF8I&#43;y7bs1Q==" crossorigin="anonymous">
 <noscript><style>img.lazyload { display: none; }</style></noscript>
   <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
     <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-  <title>NLP Series [Part 1] · Word2Vec-Skip-Gram - ML and Beyond</title>
+  <title>NLP Series [Part 1] · Word2Vec skip-gram - ML and Beyond</title>
 <meta name="description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
 <link rel="canonical" href="https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/">
 <meta property="og:locale" content="en_US">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+<meta property="og:title" content="NLP Series [Part 1] · Word2Vec skip-gram">
 <meta property="og:description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
 <meta property="og:url" content="https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/">
 <meta property="og:site_name" content="ML and Beyond">
@@ -32,10 +32,10 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="">
 <meta name="twitter:creator" content="">
-<meta name="twitter:title" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+<meta name="twitter:title" content="NLP Series [Part 1] · Word2Vec skip-gram">
 <meta name="twitter:description" content="We will take a walk down the memory lane and visit the awesome Word2Vec.">
 <meta name="twitter:image" content="https://kuutsav.github.io/doks.png">
-    <meta name="twitter:image:alt" content="NLP Series [Part 1] · Word2Vec-Skip-Gram">
+    <meta name="twitter:image:alt" content="NLP Series [Part 1] · Word2Vec skip-gram">
 
 <script type="application/ld+json">
 {
@@ -76,7 +76,7 @@
       "@type": "WebPage",
       "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/",
       "url": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/",
-      "name": "NLP Series [Part 1] · Word2Vec-Skip-Gram",
+      "name": "NLP Series [Part 1] · Word2Vec skip-gram",
       "description": "We will take a walk down the memory lane and visit the awesome Word2Vec.",
       "isPartOf": {
         "@id": "https://kuutsav.github.io/#/schema/website/1"
@@ -134,7 +134,7 @@
         {
           "@type": "Article",
           "@id": "https://kuutsav.github.io/#/schema/article/1",
-          "headline": "NLP Series [Part 1] · Word2Vec-Skip-Gram",
+          "headline": "NLP Series [Part 1] · Word2Vec skip-gram",
           "description": "We will take a walk down the memory lane and visit the awesome Word2Vec.",
           "isPartOf": {
             "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/"
@@ -179,7 +179,7 @@
           "@id": "https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/#/schema/image/2",
           "url": "https://kuutsav.github.io/doks.png",
           "contentUrl": "https://kuutsav.github.io/doks.png",
-          "caption": "NLP Series [Part 1] · Word2Vec-Skip-Gram"
+          "caption": "NLP Series [Part 1] · Word2Vec skip-gram"
         }
       ]
     }
@@ -196,7 +196,34 @@
 
 </head>
   <body class="blog single">
-    <div class="header-bar"></div>
+    <head>
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MRQX80JSG7"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-MRQX80JSG7', { 'anonymize_ip': false });
+}
+</script>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'G-MRQX80JSG7', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+<div class="header-bar"></div>
 
 <header class="navbar navbar-expand-md navbar-light doks-navbar">
   <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
@@ -265,20 +292,27 @@
       <div class="content">
         
 <div class="row justify-content-center">
-  <div class="col-md-15 col-lg-13 col-xl-11">
+  <div class="col-md-17 col-lg-15 col-xl-13">
     <article>
       <div class="blog-header">
-        <h1>NLP Series [Part 1] · Word2Vec-Skip-Gram</h1>
+        <h1>NLP Series [Part 1] · Word2Vec skip-gram</h1>
         <p><small>Posted December 20, 2021 <strong>·</strong> 9&nbsp;min read</strong></small><p>  
 [
-   <a href="https://kuutsav.github.io/tags/nlp/">nlp</a>&nbsp; <a href="https://kuutsav.github.io/tags/skipgram/">skipgram</a>&nbsp; <a href="https://kuutsav.github.io/tags/word2vec/">word2vec</a>&nbsp;]
+   <a href="https://kuutsav.github.io/tags/nlp/">nlp</a>&nbsp; <a href="https://kuutsav.github.io/tags/skipgram/">skipgram</a>&nbsp; <a href="https://kuutsav.github.io/tags/word2vec/">word2vec</a>&nbsp; <a href="https://kuutsav.github.io/tags/embeddings/">embeddings</a>&nbsp;]
 
  
       </div>
       <p class="lead">We will take a walk down the memory lane and visit the awesome Word2Vec.</p>
       <p>In this notebook, we will train a <code>Word2Vec skip-gram</code> model from scratch on some text and inspect the trained embeddings at the end.</p>
-<p>The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus.
-The key idea being, we can represent a word by adding contextual information to it. Context here is the neighbouring words around a word/token of interest to us.</p>
+<p>The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:</p>
+<ul>
+<li>Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</li>
+<li>They don&rsquo;t have any understanding of the text.</li>
+<li>They are sparse and can&rsquo;t be used for any comparison as any two one-hot encoded vector from a set will be orthogonal.</li>
+</ul>
+<p>Word2vec is able to tackle all these challenges. The architecture we define later will enable us to learn a <code>distributed representation</code> for each word/token in our corpus. The key idea being, we can represent a word by adding contextual information to it. Context refers to the words/tokens neighbouring the word/token of interest to us.</p>
+<p>Of course this technique is not perfect and has it&rsquo;s own downsides. The key downside being we loose the word/token ordering while training the word2vec model, hence we are essentially dealing with a <code>bag of words</code> model. This makes the resulting embeddings not suitable for sentence level representations. We will cover other techniques later (RNNs, Transformers) that produce embeddings more suitable for sentences. For now our sole focus will be learning good word/token level embeddings.</p>
+<h3 id="first-we-will-import-the-necessary-libraries">First we will import the necessary libraries <a href="#first-we-will-import-the-necessary-libraries" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">from collections import Counter
 import re
 from typing import List
@@ -290,26 +324,31 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, Dataset
 </code></pre>
-<p>The whole process can be broken down into the following key steps:</p>
+<p>The whole process of training the embeddings can be broken down into the following key steps:</p>
 <ol>
-<li>Fetch and process text using <code>TextProcessor</code>.</li>
+<li>We define a class <code>TextProcessor</code> that has methods to pre-process the text.</li>
 <li><code>fetch_text()</code> fetches the texts directly from urls containing our text data.</li>
-<li><code>process_text()</code> applies basic pre-procesing steps to the text and creats tokens using white space tokenization.</li>
+<li><code>process_text()</code> applies basic pre-procesing steps to the text and creates tokens using white space tokenization.</li>
 <li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
-<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.</li>
-<li>Create our <code>SkipGramModel</code> model based on the <code>torch.nn.Module</code>.</li>
+<li>Create torch Dataset and Dataloader where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.
+<ol>
+<li>The window side determines the number of context words around a center word.</li>
+<li>For example, window size of 5 will create the follwing center and context pairs for the sentence &ldquo;a quick brown fox jumps&rdquo; with &ldquo;brown&rdquo; being the center word - [(&ldquo;brown&rdquo;, &ldquo;a&rdquo;), (&ldquo;brown&rdquo;, &ldquo;quick&rdquo;), (&ldquo;brown&rdquo;, &ldquo;fox&rdquo;), (&ldquo;brown&rdquo;, &ldquo;jumps&rdquo;)]</li>
+</ol>
+</li>
+<li>Create our SkipGramModel model by defining a custom model on top of the <code>torch.nn.Module</code>.</li>
 <li>Define our loss function, optimizer and scheduler.</li>
 <li>Train the model for a certain number of epochs.</li>
 </ol>
 <p>Finally, we will create a similarity matrix(cosine similarity) using the trained embeddings and explore similar embeddings for some word query.</p>
-<h3 id="step-1-fetch-and-prepare-the-data">Step 1. Fetch and prepare the data <a href="#step-1-fetch-and-prepare-the-data" class="anchor" aria-hidden="true">#</a></h3>
-<p>We will be using the first four Harry Potter books.</p>
-<pre><code class="language-python">BASE_URL = &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter&quot;
+<h3 id="fetching-and-preparing-the-data">Fetching and preparing the data <a href="#fetching-and-preparing-the-data" class="anchor" aria-hidden="true">#</a></h3>
+<pre><code class="language-python"># We will be using the first four Harry Potter books.
+BASE_URL = &quot;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter&quot;
 BOOK_URLS = [
-  f&quot;{BASE_URL}/Book%201%20-%20The%20Philosopher's%20Stone.txt&quot;,
-  f&quot;{BASE_URL}/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&quot;,
-  f&quot;{BASE_URL}/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&quot;,
-  f&quot;{BASE_URL}/Book%204%20-%20The%20Goblet%20of%20Fire.txt&quot;
+    f&quot;{BASE_URL}/Book%201%20-%20The%20Philosopher's%20Stone.txt&quot;,
+    f&quot;{BASE_URL}/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&quot;,
+    f&quot;{BASE_URL}/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&quot;,
+    f&quot;{BASE_URL}/Book%204%20-%20The%20Goblet%20of%20Fire.txt&quot;
 ]
 </code></pre>
 <pre><code class="language-python">class TextProcessor:
@@ -320,14 +359,13 @@ BOOK_URLS = [
         self.text = &quot;&quot;
         for i, url in enumerate(self.urls):
             r = requests.get(url)
-            r.status_code
             self.text += &quot;\n\n\n&quot; + r.text
             print(f&quot;Fetched {i+1}/{len(self.urls)} urls ...&quot;)
 
     def process_text(self):
         print(&quot;Processing text ...&quot;)
         sentences = re.split(&quot;\n{2,}&quot;, self.text)
-        print(f&quot; &gt; {len(sentences)} sentences&quot;)
+        print(f&quot;{len(sentences)} sentences&quot;)
         self.clean_sentences = []
         for txt in sentences:
             txt = txt.strip().lower()
@@ -339,11 +377,11 @@ BOOK_URLS = [
         # Tokens and token counter will be used later to create a vocabulary for
         # us which will be used to map words/tokens to indices and vice versa, to
         # create training data and recreate the texts from predictions respectively.
-        print(f&quot; &gt; {len(sentences)} filtered sentences&quot;)
+        print(f&quot;{len(sentences)} filtered sentences&quot;)
         tokens = &quot; &quot;.join(self.clean_sentences).split(&quot; &quot;)
-        print(f&quot; &gt; {len(tokens)} tokens&quot;)
+        print(f&quot;{len(tokens)} tokens&quot;)
         self.token_counter = Counter(tokens)
-        print(f&quot; &gt; {len(self.token_counter)} unique tokens&quot;)
+        print(f&quot;{len(self.token_counter)} unique tokens&quot;)
 
     def prepare_vocab(self, min_count: int):
         # min_count is the minimum number of times a token should appear in the
@@ -360,7 +398,7 @@ BOOK_URLS = [
 
         self.ix2w = {ix: w for w, ix in self.w2ix.items()}
 
-        # assign default index to rest of the tokens
+        # Assign default index to rest of the tokens
         n = len(self.w2ix)
         for token, _ in self.token_counter.most_common(len(self.token_counter)):
             if token not in self.w2ix:
@@ -373,32 +411,26 @@ BOOK_URLS = [
 <pre><code class="language-python">text_processor = TextProcessor(BOOK_URLS)
 </code></pre>
 <pre><code class="language-python">text_processor.fetch_text()
+
+# Fetched 1/4 urls ...
+# Fetched 2/4 urls ...
+# Fetched 3/4 urls ...
+# Fetched 4/4 urls ...
 </code></pre>
-<blockquote>
-<p>Fetched 1/4 urls &hellip;<br>
-Fetched 2/4 urls &hellip;<br>
-Fetched 3/4 urls &hellip;<br>
-Fetched 4/4 urls &hellip;<br></p>
-</blockquote>
 <pre><code class="language-python">text_processor.process_text()
+
+# Processing text ...
+# 20033 sentences
+# 20033 filtered sentences
+# 501854 tokens
+# 15078 unique tokens
 </code></pre>
-<blockquote>
-<p>Processing text &hellip;<br></p>
-<blockquote>
-<p>20033 sentences<br>
-20033 filtered sentences<br>
-501854 tokens<br>
-15078 unique tokens<br></p>
-</blockquote>
-</blockquote>
 <pre><code class="language-python">text_processor.prepare_vocab(min_count=20)
+
+# Vocab size: 2103
 </code></pre>
-<blockquote>
-<p>Vocab size: 2103</p>
-</blockquote>
-<h3 id="step-2-prepare-the-torch-dataset-and-dataloader">Step 2. Prepare the torch Dataset and Dataloader <a href="#step-2-prepare-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h3>
-<p>The Dataloader will enable us to send data in batches during the forward pass of
-the model training.</p>
+<h3 id="preparing-the-torch-dataset-and-dataloader">Preparing the torch Dataset and Dataloader <a href="#preparing-the-torch-dataset-and-dataloader" class="anchor" aria-hidden="true">#</a></h3>
+<p>The Dataloader will enable us to send data in batches during the forward pass of the model training.</p>
 <pre><code class="language-python">class HarryPotterDataset(Dataset):
     def __init__(self, text_processor: TextProcessor,  window_size: int=3):
         self.data = []
@@ -421,10 +453,12 @@ the model training.</p>
 </code></pre>
 <pre><code class="language-python">dataset = HarryPotterDataset(text_processor, 3)
 len(dataset)
+
+# 2489461
 </code></pre>
 <pre><code class="language-python">dataloader = DataLoader(dataset, batch_size=64, shuffle=True)
 </code></pre>
-<h3 id="step-3-create-the-word2vec-model-using-torchnnmodule">Step 3. Create the Word2Vec model using torch.nn.Module <a href="#step-3-create-the-word2vec-model-using-torchnnmodule" class="anchor" aria-hidden="true">#</a></h3>
+<h3 id="creating-the-word2vec-model-using-torchnnmodule">Creating the Word2Vec model using torch.nn.Module <a href="#creating-the-word2vec-model-using-torchnnmodule" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">class SkipGramModel(nn.Module):
     def __init__(self, vocab_size: int, embedding_size: int=50):
         super().__init__()
@@ -435,10 +469,10 @@ len(dataset)
         return self.linear(self.embedding(x))
 </code></pre>
 <p>The model architecure is <code>Embedding -&gt; Linear -&gt; Softmax</code>.</p>
-<p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; - pytorch documentation.</p>
+<p>Embedding is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; - pytorch documentation.</p>
 <p>Based on our model architecture, this layer will contain the trained token/word
 embeddings of interest to us and we will discard the weight matrix from
-the <code>Linear</code> layer.</p>
+the Linear layer.</p>
 <p>In each forward pass we:</p>
 <ol>
 <li>Pass indices of center word as input <code>x</code>.</li>
@@ -446,20 +480,20 @@ the <code>Linear</code> layer.</p>
 <li>We transform the vector from last step using the Linear layer to get another vector with dimension <code>vocab_size</code>.</li>
 <li>Finally we apply softmax and calcualte loss.</li>
 </ol>
-<p>A trained model should output high values for the <code>context indices</code> for a given
+<p>A trained model should output high values for the context indices for a given
 center word.</p>
 <pre><code class="language-python">device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
 model = SkipGramModel(text_processor.vocab_size, embedding_size=30).to(device)
 </code></pre>
-<h3 id="step-4-define-our-loss-function-optimizer-and-scheduler">Step 4. Define our loss function, optimizer and scheduler <a href="#step-4-define-our-loss-function-optimizer-and-scheduler" class="anchor" aria-hidden="true">#</a></h3>
+<h3 id="defining-our-loss-function-optimizer-and-scheduler">Defining our loss function, optimizer and scheduler <a href="#defining-our-loss-function-optimizer-and-scheduler" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(), lr=0.005)
 scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5)
 </code></pre>
-<pre><code class="language-python">N_EPOCHS =       20 # Since we have a small dataset, more epochs
-STEP_TO_LOG = 10000 # Print the loss every x step of the DataLoader
+<pre><code class="language-python">N_EPOCHS =       10
+STEP_TO_LOG = 10000
 </code></pre>
-<h3 id="step-5-train-the-model">Step 5. Train the model <a href="#step-5-train-the-model" class="anchor" aria-hidden="true">#</a></h3>
+<h3 id="training-the-model">Training the model <a href="#training-the-model" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">epoch_losses = []
 batch_losses = []
 for epoch in range(N_EPOCHS):
@@ -478,135 +512,74 @@ for epoch in range(N_EPOCHS):
     scheduler.step()
     batch_losses += losses
     epoch_losses.append(np.mean(losses))
-    print(f&quot;epoch {epoch + 1} ; lr={scheduler._last_lr[0]}; loss={loss:&lt;.5f}\n&quot;)
+    print(f&quot;epoch {epoch + 1} ; lr={scheduler._last_lr[0]}; loss={epoch_losses[-1]:&lt;.5f}\n&quot;)
 </code></pre>
-<pre><code>epoch 1; steps=    0/38898; loss=7.77347
-epoch 1; steps=10000/38898; loss=5.24432
-epoch 1; steps=20000/38898; loss=5.55209
-epoch 1; steps=30000/38898; loss=5.74518
-epoch 1 ; lr=0.005; loss=6.44326
+<pre><code>epoch 1; steps=    0/38898; loss=7.80020
+epoch 1; steps=10000/38898; loss=5.55375
+epoch 1; steps=20000/38898; loss=5.58139
+epoch 1; steps=30000/38898; loss=5.27452
+epoch 1 ; lr=0.005; loss=5.60440
 
-epoch 2; steps=    0/38898; loss=5.18774
-epoch 2; steps=10000/38898; loss=5.02457
-epoch 2; steps=20000/38898; loss=5.71072
-epoch 2; steps=30000/38898; loss=5.11149
-epoch 2 ; lr=0.005; loss=5.04696
+epoch 2; steps=    0/38898; loss=4.85012
+epoch 2; steps=10000/38898; loss=5.81531
+epoch 2; steps=20000/38898; loss=5.07261
+epoch 2; steps=30000/38898; loss=5.62864
+epoch 2 ; lr=0.005; loss=5.52841
 
-epoch 3; steps=    0/38898; loss=5.76455
-epoch 3; steps=10000/38898; loss=5.36094
-epoch 3; steps=20000/38898; loss=5.36201
-epoch 3; steps=30000/38898; loss=5.52337
-epoch 3 ; lr=0.005; loss=6.28578
+epoch 3; steps=    0/38898; loss=5.27015
+epoch 3; steps=10000/38898; loss=5.55336
+epoch 3; steps=20000/38898; loss=5.67527
+epoch 3; steps=30000/38898; loss=5.60372
+epoch 3 ; lr=0.005; loss=5.52233
 
-epoch 4; steps=    0/38898; loss=5.57676
-epoch 4; steps=10000/38898; loss=5.22308
-epoch 4; steps=20000/38898; loss=5.83870
-epoch 4; steps=30000/38898; loss=6.00284
-epoch 4 ; lr=0.005; loss=5.36329
+epoch 4; steps=    0/38898; loss=5.50681
+epoch 4; steps=10000/38898; loss=5.48357
+epoch 4; steps=20000/38898; loss=5.18897
+epoch 4; steps=30000/38898; loss=5.74382
+epoch 4 ; lr=0.005; loss=5.52111
 
-epoch 5; steps=    0/38898; loss=5.54562
-epoch 5; steps=10000/38898; loss=5.45449
-epoch 5; steps=20000/38898; loss=4.99433
-epoch 5; steps=30000/38898; loss=5.03800
-epoch 5 ; lr=0.0025; loss=5.62579
+epoch 5; steps=    0/38898; loss=5.67365
+epoch 5; steps=10000/38898; loss=5.66463
+epoch 5; steps=20000/38898; loss=5.82155
+epoch 5; steps=30000/38898; loss=5.77744
+epoch 5 ; lr=0.0025; loss=5.52081
 
-epoch 6; steps=    0/38898; loss=5.39675
-epoch 6; steps=10000/38898; loss=5.96204
-epoch 6; steps=20000/38898; loss=5.76479
-epoch 6; steps=30000/38898; loss=5.62020
-epoch 6 ; lr=0.0025; loss=5.39560
+epoch 6; steps=    0/38898; loss=5.54513
+epoch 6; steps=10000/38898; loss=5.40478
+epoch 6; steps=20000/38898; loss=5.71839
+epoch 6; steps=30000/38898; loss=5.23344
+epoch 6 ; lr=0.0025; loss=5.47719
 
-epoch 7; steps=    0/38898; loss=5.03126
-epoch 7; steps=10000/38898; loss=5.25755
-epoch 7; steps=20000/38898; loss=4.95463
-epoch 7; steps=30000/38898; loss=5.79732
-epoch 7 ; lr=0.0025; loss=5.09368
+epoch 7; steps=    0/38898; loss=4.93150
+epoch 7; steps=10000/38898; loss=5.09374
+epoch 7; steps=20000/38898; loss=5.47905
+epoch 7; steps=30000/38898; loss=5.92455
+epoch 7 ; lr=0.0025; loss=5.47128
 
-epoch 8; steps=    0/38898; loss=5.67842
-epoch 8; steps=10000/38898; loss=4.90622
-epoch 8; steps=20000/38898; loss=5.59550
-epoch 8; steps=30000/38898; loss=5.42461
-epoch 8 ; lr=0.0025; loss=5.78050
+epoch 8; steps=    0/38898; loss=5.22414
+epoch 8; steps=10000/38898; loss=5.67435
+epoch 8; steps=20000/38898; loss=5.55853
+epoch 8; steps=30000/38898; loss=5.28791
+epoch 8 ; lr=0.0025; loss=5.47099
 
-epoch 9; steps=    0/38898; loss=5.59528
-epoch 9; steps=10000/38898; loss=6.03118
-epoch 9; steps=20000/38898; loss=5.62938
-epoch 9; steps=30000/38898; loss=5.43099
-epoch 9 ; lr=0.0025; loss=5.62948
+epoch 9; steps=    0/38898; loss=5.33284
+epoch 9; steps=10000/38898; loss=5.80998
+epoch 9; steps=20000/38898; loss=6.04806
+epoch 9; steps=30000/38898; loss=5.58979
+epoch 9 ; lr=0.0025; loss=5.47106
 
-epoch 10; steps=    0/38898; loss=5.33678
-epoch 10; steps=10000/38898; loss=5.30591
-epoch 10; steps=20000/38898; loss=5.31357
-epoch 10; steps=30000/38898; loss=5.81043
-epoch 10 ; lr=0.00125; loss=5.45841
-
-epoch 11; steps=    0/38898; loss=5.77081
-epoch 11; steps=10000/38898; loss=5.52807
-epoch 11; steps=20000/38898; loss=5.80410
-epoch 11; steps=30000/38898; loss=5.85639
-epoch 11 ; lr=0.00125; loss=5.15784
-
-epoch 12; steps=    0/38898; loss=5.65535
-epoch 12; steps=10000/38898; loss=5.69625
-epoch 12; steps=20000/38898; loss=5.41546
-epoch 12; steps=30000/38898; loss=5.49350
-epoch 12 ; lr=0.00125; loss=5.27568
-
-epoch 13; steps=    0/38898; loss=5.40524
-epoch 13; steps=10000/38898; loss=5.88747
-epoch 13; steps=20000/38898; loss=5.51729
-epoch 13; steps=30000/38898; loss=5.38389
-epoch 13 ; lr=0.00125; loss=5.77996
-
-epoch 14; steps=    0/38898; loss=5.74729
-epoch 14; steps=10000/38898; loss=5.51249
-epoch 14; steps=20000/38898; loss=5.22044
-epoch 14; steps=30000/38898; loss=5.34987
-epoch 14 ; lr=0.00125; loss=5.80022
-
-epoch 15; steps=    0/38898; loss=5.64972
-epoch 15; steps=10000/38898; loss=5.41167
-epoch 15; steps=20000/38898; loss=5.41378
-epoch 15; steps=30000/38898; loss=5.53267
-epoch 15 ; lr=0.000625; loss=5.23845
-
-epoch 16; steps=    0/38898; loss=5.24246
-epoch 16; steps=10000/38898; loss=5.39503
-epoch 16; steps=20000/38898; loss=5.67561
-epoch 16; steps=30000/38898; loss=5.37725
-epoch 16 ; lr=0.000625; loss=5.23388
-
-epoch 17; steps=    0/38898; loss=5.82594
-epoch 17; steps=10000/38898; loss=5.79435
-epoch 17; steps=20000/38898; loss=4.98136
-epoch 17; steps=30000/38898; loss=5.16951
-epoch 17 ; lr=0.000625; loss=5.35618
-
-epoch 18; steps=    0/38898; loss=5.62355
-epoch 18; steps=10000/38898; loss=5.68160
-epoch 18; steps=20000/38898; loss=5.60787
-epoch 18; steps=30000/38898; loss=5.37123
-epoch 18 ; lr=0.000625; loss=5.47620
-
-epoch 19; steps=    0/38898; loss=5.49577
-epoch 19; steps=10000/38898; loss=5.24221
-epoch 19; steps=20000/38898; loss=5.09400
-epoch 19; steps=30000/38898; loss=5.46962
-epoch 19 ; lr=0.000625; loss=5.34219
-
-epoch 20; steps=    0/38898; loss=5.16011
-epoch 20; steps=10000/38898; loss=5.82357
-epoch 20; steps=20000/38898; loss=5.23138
-epoch 20; steps=30000/38898; loss=5.14461
-epoch 20 ; lr=0.0003125; loss=5.04264
+epoch 10; steps=    0/38898; loss=5.09184
+epoch 10; steps=10000/38898; loss=5.18391
+epoch 10; steps=20000/38898; loss=5.66316
+epoch 10; steps=30000/38898; loss=5.44824
+epoch 10 ; lr=0.00125; loss=5.47111
 </code></pre>
 <pre><code class="language-python">weights = model.embedding.weight.detach().cpu().numpy()
 weights.shape
+
+# (2103, 30)
 </code></pre>
-<blockquote>
-<p>(2103, 30)</p>
-</blockquote>
-<h3 id="step-6-create-the-similarity-matrix">Step 6. Create the similarity matrix <a href="#step-6-create-the-similarity-matrix" class="anchor" aria-hidden="true">#</a></h3>
+<h3 id="creating-the-similarity-matrix">Creating the similarity matrix <a href="#creating-the-similarity-matrix" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">similarity = cosine_similarity(weights, weights)
 </code></pre>
 <pre><code class="language-python">def get_similar_words(input_word: str, n: int):
@@ -618,111 +591,91 @@ weights.shape
         most_similar_ixs = np.argsort(similarity_vector)[-n:][::-1]
         most_similar_words = [(text_processor.ix2w[ix], similarity_vector[ix])
                               for ix in most_similar_ixs]
-        print(input_word)
         for word, score in most_similar_words:
             print(f&quot; &gt; {word}, score={score: .2f}&quot;)
 </code></pre>
 <h3 id="exploring-similar-embeddings-for-some-queries-">Exploring similar embeddings for some queries &hellip; <a href="#exploring-similar-embeddings-for-some-queries-" class="anchor" aria-hidden="true">#</a></h3>
 <pre><code class="language-python">get_similar_words(&quot;snape&quot;, 10)
 </code></pre>
-<pre><code>snape
- &gt; snape, score= 1.00
- &gt; lupin, score= 0.84
- &gt; dumbledore, score= 0.80
- &gt; mcgonagall, score= 0.77
- &gt; moody, score= 0.77
- &gt; quirrell, score= 0.70
- &gt; flitwick, score= 0.68
- &gt; professor, score= 0.68
- &gt; karkaroff, score= 0.67
- &gt; trelawney, score= 0.64
+<pre><code> &gt; snape, score= 1.00
+ &gt; karkaroff, score= 0.81
+ &gt; dumbledore, score= 0.79
+ &gt; lupin, score= 0.77
+ &gt; mcgonagall, score= 0.76
+ &gt; moody, score= 0.74
+ &gt; professor, score= 0.72
+ &gt; flitwick, score= 0.71
+ &gt; trelawney, score= 0.69
+ &gt; quirrell, score= 0.69
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;vernon&quot;, 10)
 </code></pre>
-<pre><code>vernon
- &gt; vernon, score= 1.00
- &gt; aunt, score= 0.84
+<pre><code> &gt; vernon, score= 1.00
+ &gt; aunt, score= 0.81
  &gt; uncle, score= 0.79
- &gt; petunia, score= 0.72
- &gt; dudley, score= 0.70
- &gt; sister, score= 0.60
- &gt; furious, score= 0.57
- &gt; marge, score= 0.57
- &gt; throat, score= 0.54
- &gt; madly, score= 0.51
+ &gt; dudley, score= 0.78
+ &gt; petunia, score= 0.70
+ &gt; marge, score= 0.62
+ &gt; furious, score= 0.59
+ &gt; telephone, score= 0.53
+ &gt; sister, score= 0.53
+ &gt; company, score= 0.52
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;muggle&quot;, 10)
 </code></pre>
-<pre><code>muggle
- &gt; muggle, score= 1.00
- &gt; wizarding, score= 0.72
- &gt; old, score= 0.62
- &gt; n, score= 0.61
- &gt; greatest, score= 0.61
- &gt; protection, score= 0.59
- &gt; unusual, score= 0.58
- &gt; born, score= 0.58
- &gt; pure, score= 0.58
- &gt; young, score= 0.57
+<pre><code> &gt; muggle, score= 1.00
+ &gt; wizarding, score= 0.81
+ &gt; old, score= 0.65
+ &gt; yer, score= 0.63
+ &gt; international, score= 0.61
+ &gt; important, score= 0.61
+ &gt; our, score= 0.61
+ &gt; is, score= 0.61
+ &gt; young, score= 0.60
+ &gt; yourself, score= 0.60
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;harry&quot;, 10)
 </code></pre>
-<pre><code>harry
- &gt; harry, score= 1.00
- &gt; ron, score= 0.71
- &gt; hermione, score= 0.67
- &gt; he, score= 0.56
- &gt; malfoy, score= 0.52
- &gt; hagrid, score= 0.50
- &gt; then, score= 0.49
- &gt; moody, score= 0.48
- &gt; furiously, score= 0.47
- &gt; lupin, score= 0.46
-</code></pre>
-<pre><code class="language-python">get_similar_words(&quot;granger&quot;, 10)
-</code></pre>
-<pre><code>granger
- &gt; granger, score= 1.00
- &gt; miss, score= 0.74
- &gt; girl, score= 0.67
- &gt; honestly, score= 0.66
- &gt; finnigan, score= 0.65
- &gt; rosmerta, score= 0.64
- &gt; oliver, score= 0.63
- &gt; shrieked, score= 0.63
- &gt; ernie, score= 0.63
- &gt; shortly, score= 0.62
+<pre><code> &gt; harry, score= 1.00
+ &gt; lupin, score= 0.64
+ &gt; ron, score= 0.63
+ &gt; hermione, score= 0.61
+ &gt; she, score= 0.57
+ &gt; he, score= 0.57
+ &gt; colin, score= 0.54
+ &gt; dumbledore, score= 0.52
+ &gt; furiously, score= 0.51
+ &gt; moody, score= 0.49
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;slytherin&quot;, 10)
 </code></pre>
-<pre><code>slytherin
- &gt; slytherin, score= 1.00
- &gt; gryffindor, score= 0.78
- &gt; hufflepuff, score= 0.77
- &gt; team, score= 0.76
- &gt; goal, score= 0.72
- &gt; ravenclaw, score= 0.72
- &gt; heir, score= 0.69
- &gt; quidditch, score= 0.68
- &gt; points, score= 0.68
- &gt; irish, score= 0.68
+<pre><code> &gt; slytherin, score= 1.00
+ &gt; gryffindor, score= 0.79
+ &gt; hufflepuff, score= 0.75
+ &gt; team, score= 0.71
+ &gt; heir, score= 0.71
+ &gt; ravenclaw, score= 0.66
+ &gt; goal, score= 0.64
+ &gt; seeker, score= 0.64
+ &gt; wood, score= 0.60
+ &gt; irish, score= 0.60
 </code></pre>
 <pre><code class="language-python">get_similar_words(&quot;malfoy&quot;, 10)
 </code></pre>
-<pre><code>malfoy
- &gt; malfoy, score= 1.00
- &gt; lucius, score= 0.68
- &gt; diggory, score= 0.67
- &gt; draco, score= 0.67
- &gt; goyle, score= 0.66
- &gt; crouch, score= 0.65
- &gt; crabbe, score= 0.62
- &gt; percy, score= 0.59
- &gt; mr, score= 0.58
- &gt; weasley, score= 0.57
+<pre><code> &gt; malfoy, score= 1.00
+ &gt; goyle, score= 0.77
+ &gt; crabbe, score= 0.64
+ &gt; draco, score= 0.61
+ &gt; diggory, score= 0.59
+ &gt; lucius, score= 0.57
+ &gt; weasley, score= 0.51
+ &gt; laughing, score= 0.50
+ &gt; pettigrew, score= 0.50
+ &gt; percy, score= 0.50
 </code></pre>
-<p>The results should improve easily with more training as we are already seeing good results for a lot of the input words like <code>snape</code> for which it shows other hogwarts professors etc.</p>
-<p>We will try to train on more data by using <code>negative sampling</code> to train faster and hopefully be able to improve the embeddings.</p>
+<p>There are various Intrisic and Extrinsic evaluation criterias for these embeddings.
+For Evaluation and Interpretation of the embeddings take a look here - <a href="https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation">https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation</a>.</p>
+<p>In the next notebook, we will modify our loss function to support <code>negative sampling</code> to improve the training speed.</p>
 
     </article>
     <script src="https://utteranc.es/client.js"
@@ -759,7 +712,7 @@ weights.shape
     <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
   <script src="/js/highlight.min.832406e5c7909824027dc64483cc51d8f01b3bf14e5058ac705c15eb28c11e76c0ee3cf9ada43e36a68ff5d85f2be7e6761c68797bee59b7d8ceeb10ec21a33f.js" integrity="sha512-gyQG5ceQmCQCfcZEg8xR2PAbO/FOUFiscFwV6yjBHnbA7jz5raQ&#43;NqaP9dhfK&#43;fmdhxoeXvuWbfYzusQ7CGjPw==" crossorigin="anonymous" defer></script>
   <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
-  <script src="https://kuutsav.github.io/index.min.0d99d20f3fb8655e7e1e381491c3e9534aacb9a4c6e82ea9e5f2081d6064db8599d7b5df48d9ec2f1ea8d7e77441baca9cef79267628c7f1f563ea220ab77f17.js" integrity="sha512-DZnSDz&#43;4ZV5&#43;HjgUkcPpU0qsuaTG6C6p5fIIHWBk24WZ17XfSNnsLx6o1&#43;d0QbrKnO95JnYox/H1Y&#43;oiCrd/Fw==" crossorigin="anonymous" defer></script>
+  <script src="https://kuutsav.github.io/index.min.fd6190a7ff896c3635798abb6971b1a645c19911b7eeb0ee2ba4a24a2b784bde988b46618b300d0d4abf6300b7dba30c195ffcfd14bd97bbfca13d178125b369.js" integrity="sha512-/WGQp/&#43;JbDY1eYq7aXGxpkXBmRG37rDuK6SiSit4S96Yi0ZhizANDUq/YwC326MMGV/8/RS9l7v8oT0XgSWzaQ==" crossorigin="anonymous" defer></script>
   
   </body>
 </html>

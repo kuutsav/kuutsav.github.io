@@ -3,21 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://kuutsav.github.io/blog/nlp-series-part-3-word2vec-skipgram-subword/</loc>
+    <loc>https://kuutsav.github.io/blog/nlp-series-part-3-word2vec-skip-gram-subword-embeddings/</loc>
     <lastmod>2021-12-30T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skipgram-negative-sampling/</loc>
+    <loc>https://kuutsav.github.io/blog/nlp-series-part-2-word2vec-skip-gram-negative-sampling/</loc>
     <lastmod>2021-12-22T12:15:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skipgram/</loc>
+    <loc>https://kuutsav.github.io/blog/nlp-series-part-1-word2vec-skip-gram/</loc>
     <lastmod>2021-12-20T19:12:45+01:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
