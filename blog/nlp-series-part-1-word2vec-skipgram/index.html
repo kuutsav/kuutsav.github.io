@@ -9,7 +9,7 @@
 
   <script>(()=>{var b=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,a=localStorage.getItem("theme");b&&a===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),b&&a==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),a==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
 
-  <link rel="stylesheet" href="https://kuutsav.github.io/main.ce3ff4ff9ca8ae536599f67623e4a4c389ee57e572e288d9a9daef283d3e569a2bfa1a77ac721f5ff9a0fd0e60da437dde65af221278feff27da64fd4d280165.css" integrity="sha512-zj/0/5yorlNlmfZ2I&#43;Skw4nuV&#43;Vy4ojZqdrvKD0&#43;Vpor&#43;hp3rHIfX/mg/Q5g2kN93mWvIhJ4/v8n2mT9TSgBZQ==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://kuutsav.github.io/main.7b15e5fe7ac863dd1b749675ed0b2f2fd0ac8af7f44ee7b48a58dbdd79c69b18ca6a6817b1ae13ca0c239166a26e14adcadddc54aa111e762d17c23ecbb6ecd5.css" integrity="sha512-exXl/nrIY90bdJZ17QsvL9Csivf0Tue0iljb3XnGmxjKamgXsa4TygwjkWaibhStyt3cVKoRHnYtF8I&#43;y7bs1Q==" crossorigin="anonymous">
 <noscript><style>img.lazyload { display: none; }</style></noscript>
   <meta name="robots" content="index, follow">
     <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -196,7 +196,34 @@
 
 </head>
   <body class="blog single">
-    <div class="header-bar"></div>
+    <head>
+  
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MRQX80JSG7"></script>
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+	gtag('config', 'G-MRQX80JSG7', { 'anonymize_ip': false });
+}
+</script>
+
+  
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'G-MRQX80JSG7', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+</head>
+
+<div class="header-bar"></div>
 
 <header class="navbar navbar-expand-md navbar-light doks-navbar">
   <nav class="container-xxl flex-wrap flex-md-nowrap" aria-label="Main navigation">
@@ -300,16 +327,16 @@ from torch.utils.data import DataLoader, Dataset
 <p>The whole process of training the embeddings can be broken down into the following key steps:</p>
 <ol>
 <li>We define a class <code>TextProcessor</code> that has methods to pre-process the text.</li>
-<li><code>fetch_text()</code> fetches the texts directly from urls containing our text data.</li>
+<li>`fetch_text() fetches the texts directly from urls containing our text data.</li>
 <li><code>process_text()</code> applies basic pre-procesing steps to the text and creates tokens using white space tokenization.</li>
 <li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
-<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.
+<li>Create torch Dataset and Dataloader where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.
 <ol>
 <li>The window side determines the number of context words around a center word.</li>
 <li>For example, window size of 5 will create the follwing center and context pairs for the sentence &ldquo;a quick brown fox jumps&rdquo; with &ldquo;brown&rdquo; being the center word - [(&ldquo;brown&rdquo;, &ldquo;a&rdquo;), (&ldquo;brown&rdquo;, &ldquo;quick&rdquo;), (&ldquo;brown&rdquo;, &ldquo;fox&rdquo;), (&ldquo;brown&rdquo;, &ldquo;jumps&rdquo;)]</li>
 </ol>
 </li>
-<li>Create our <code>SkipGramModel</code> model by defining a custom model on top of the <code>torch.nn.Module</code>.</li>
+<li>Create our SkipGramModel model by defining a custom model on top of the <code>torch.nn.Module</code>.</li>
 <li>Define our loss function, optimizer and scheduler.</li>
 <li>Train the model for a certain number of epochs.</li>
 </ol>
@@ -442,10 +469,10 @@ len(dataset)
         return self.linear(self.embedding(x))
 </code></pre>
 <p>The model architecure is <code>Embedding -&gt; Linear -&gt; Softmax</code>.</p>
-<p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; - pytorch documentation.</p>
+<p>Embedding is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; - pytorch documentation.</p>
 <p>Based on our model architecture, this layer will contain the trained token/word
 embeddings of interest to us and we will discard the weight matrix from
-the <code>Linear</code> layer.</p>
+the Linear layer.</p>
 <p>In each forward pass we:</p>
 <ol>
 <li>Pass indices of center word as input <code>x</code>.</li>
@@ -453,7 +480,7 @@ the <code>Linear</code> layer.</p>
 <li>We transform the vector from last step using the Linear layer to get another vector with dimension <code>vocab_size</code>.</li>
 <li>Finally we apply softmax and calcualte loss.</li>
 </ol>
-<p>A trained model should output high values for the <code>context indices</code> for a given
+<p>A trained model should output high values for the context indices for a given
 center word.</p>
 <pre><code class="language-python">device = torch.device(&quot;cuda&quot; if torch.cuda.is_available() else &quot;cpu&quot;)
 model = SkipGramModel(text_processor.vocab_size, embedding_size=30).to(device)
@@ -646,9 +673,8 @@ weights.shape
  &gt; pettigrew, score= 0.50
  &gt; percy, score= 0.50
 </code></pre>
-<hr>
 <p>There are various Intrisic and Extrinsic evaluation criterias for these embeddings.
-For <code>Evaluation</code> and <code>Interpretation</code> of the embeddings take a look here - <code>https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation</code>.</p>
+For Evaluation and Interpretation of the embeddings take a look here - <a href="https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation">https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation</a>.</p>
 <p>In the next notebook, we will modify our loss function to support <code>negative sampling</code> to improve the training speed.</p>
 
     </article>
@@ -686,7 +712,7 @@ For <code>Evaluation</code> and <code>Interpretation</code> of the embeddings ta
     <script src="/js/bootstrap.min.592b9faf6c83a2bda564a377cf82f9a67546b198510a93fdb0728f9622ec22729d44be02fb2ea16c3fe5365ae1806259cd111932ca28e68b66462d6937635bab.js" integrity="sha512-WSufr2yDor2lZKN3z4L5pnVGsZhRCpP9sHKPliLsInKdRL4C&#43;y6hbD/lNlrhgGJZzREZMsoo5otmRi1pN2Nbqw==" crossorigin="anonymous" defer></script>
   <script src="/js/highlight.min.832406e5c7909824027dc64483cc51d8f01b3bf14e5058ac705c15eb28c11e76c0ee3cf9ada43e36a68ff5d85f2be7e6761c68797bee59b7d8ceeb10ec21a33f.js" integrity="sha512-gyQG5ceQmCQCfcZEg8xR2PAbO/FOUFiscFwV6yjBHnbA7jz5raQ&#43;NqaP9dhfK&#43;fmdhxoeXvuWbfYzusQ7CGjPw==" crossorigin="anonymous" defer></script>
   <script src="/main.min.bfb6b781dd5fd7177a7a9b3ce0bd84f12db95f6aa4e3fc7b339cd57879c38390d1e8d75cf314836a71201ba2fd6a2e26084a956704964c0bb884c26e9eff5ee1.js" integrity="sha512-v7a3gd1f1xd6eps84L2E8S25X2qk4/x7M5zVeHnDg5DR6Ndc8xSDanEgG6L9ai4mCEqVZwSWTAu4hMJunv9e4Q==" crossorigin="anonymous" defer></script>
-  <script src="https://kuutsav.github.io/index.min.b2b159fa2e57f472eb9ec506fca4f62a9e97ed83eb0cf241f79425e7296b1aeaa989d1d9d8d1f06d48187cc3068b543caf31fcdc5113b84c4aeb63e0bfa34b5d.js" integrity="sha512-srFZ&#43;i5X9HLrnsUG/KT2Kp6X7YPrDPJB95Ql5ylrGuqpidHZ2NHwbUgYfMMGi1Q8rzH83FETuExK62Pgv6NLXQ==" crossorigin="anonymous" defer></script>
+  <script src="https://kuutsav.github.io/index.min.f2645c979200b7a1e8e6c2591fef2f2a46ccd0a88d57eda4676e94aaee5966e37513185defa519f765d03ef6eb51f21c438e701fb1e59213065636d3f84e0e8a.js" integrity="sha512-8mRcl5IAt6Ho5sJZH&#43;8vKkbM0KiNV&#43;2kZ26Uqu5ZZuN1Exhd76UZ92XQPvbrUfIcQ45wH7HlkhMGVjbT&#43;E4Oig==" crossorigin="anonymous" defer></script>
   
   </body>
 </html>
