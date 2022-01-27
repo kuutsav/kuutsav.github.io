@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+    <channel>
+        <title>ML &amp; Beyond Blog</title>
+        <link>https://kuutsav.github.io/blog</link>
+        <description>ML &amp; Beyond Blog</description>
+        <lastBuildDate>Sun, 01 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
+        <generator>https://github.com/jpmonette/feed</generator>
+        <item>
+            <title><![CDATA[MDX Blog Post]]></title>
+            <link>https://kuutsav.github.io/blog/mdx-blog-post</link>
+            <guid>mdx-blog-post</guid>
+            <pubDate>Sun, 01 Aug 2021 00:00:00 GMT</pubDate>
+            <description><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></description>
+            <content:encoded><![CDATA[<p>Blog posts support <a href="https://docusaurus.io/docs/markdown-features">Docusaurus Markdown features</a>, such as <a href="https://mdxjs.com/">MDX</a>.</p><p>:::tip</p><p>Use the power of React to create interactive blog posts.</p><pre><code class="language-js">&lt;button onClick={() =&gt; alert(&quot;button clicked!&quot;)}&gt;Click me!&lt;/button&gt;
+</code></pre><button>Click me!</button><p>:::</p>]]></content:encoded>
+        </item>
+    </channel>
+</rss>

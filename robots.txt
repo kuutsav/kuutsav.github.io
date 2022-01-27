@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://kuutsav.github.io/sitemap.xml
