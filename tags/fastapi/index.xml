@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>fastapi on Ml&amp;Beyond</title>
+    <link>https://kuutsav.github.io/tags/fastapi/</link>
+    <description>Recent content in fastapi on Ml&amp;Beyond</description>
+    <image>
+      <url>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 19 Nov 2021 00:46:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/fastapi/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MLOps Template, Part 4 - FastAPI &#43; ElasticAPM</title>
+      <link>https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/</link>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/</guid>
+      <description>We will use FastAPI to serve our trained models behind a REST endpoint. Scripts related to the APIs are located at MLOps/app.
+├── application.py # FastAPI app and launcher uvicorn.run ├── models # pydantic model for reponse validation │ └── predict.py # pydantic model for predict endpoint └── routes # to maintain larger applications ├── endpoints │ └── predict.py # predict endpoint └── router.py # APIRouter module to maintain larger apps Though we have used the APIRouter module here, it&amp;rsquo;s really needed when we have lots of API endpoints in a larger app.</description>
+    </item>
+    
+    <item>
+      <title>MLOps Template, Part 1 - Setup</title>
+      <link>https://kuutsav.github.io/posts/mlops_template_1_setup/</link>
+      <pubDate>Fri, 22 Oct 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/posts/mlops_template_1_setup/</guid>
+      <description>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.
+These steps are necessary for operationalization of any machine-learning based model.
+ These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.</description>
+    </item>
+    
+  </channel>
+</rss>

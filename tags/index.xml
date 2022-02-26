@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Ml&amp;Beyond</title>
+    <link>https://kuutsav.github.io/tags/</link>
+    <description>Recent content in Tags on Ml&amp;Beyond</description>
+    <image>
+      <url>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 19 Nov 2021 00:46:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>elasticapm</title>
+      <link>https://kuutsav.github.io/tags/elasticapm/</link>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/elasticapm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fastapi</title>
+      <link>https://kuutsav.github.io/tags/fastapi/</link>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/fastapi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>minio</title>
+      <link>https://kuutsav.github.io/tags/minio/</link>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/minio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mlflow</title>
+      <link>https://kuutsav.github.io/tags/mlflow/</link>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/mlflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dagster</title>
+      <link>https://kuutsav.github.io/tags/dagster/</link>
+      <pubDate>Tue, 26 Oct 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/dagster/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

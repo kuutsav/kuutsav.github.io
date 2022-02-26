@@ -1,0 +1,248 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>MLOps Template, Part 2 - Dagster Pipeline | Ml&Beyond</title>
+<meta name=keywords content="dagster">
+<meta name=description content="Here we will cover our small pipeline written in dagster.
+ Dagster is a data orchestrator for machine learning, analytics, and ETL
+ Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
+Solids and Pipelines #  Dagster&rsquo;s core abstractions are solids and pipelines.
+Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process.">
+<meta name=author content="Utsav">
+<link rel=canonical href=https://kuutsav.github.io/posts/mlops_template_2_dagster/>
+<meta name=google-site-verification content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.e572e70630d4c8cce0f9cac529831019b1cabd878160afb886a6ff1d7a16b3f3.css integrity="sha256-5XLnBjDUyMzg+crFKYMQGbHKvYeBYK+4hqb/HXoWs/M=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=32x32 href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=apple-touch-icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=mask-icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="MLOps Template, Part 2 - Dagster Pipeline">
+<meta property="og:description" content="Here we will cover our small pipeline written in dagster.
+ Dagster is a data orchestrator for machine learning, analytics, and ETL
+ Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
+Solids and Pipelines #  Dagster&rsquo;s core abstractions are solids and pipelines.
+Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kuutsav.github.io/posts/mlops_template_2_dagster/"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-10-26T00:46:25+05:30">
+<meta property="article:modified_time" content="2021-10-26T00:46:25+05:30"><meta property="og:site_name" content="ExampleSite">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name=twitter:title content="MLOps Template, Part 2 - Dagster Pipeline">
+<meta name=twitter:description content="Here we will cover our small pipeline written in dagster.
+ Dagster is a data orchestrator for machine learning, analytics, and ETL
+ Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
+Solids and Pipelines #  Dagster&rsquo;s core abstractions are solids and pipelines.
+Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kuutsav.github.io/posts/"},{"@type":"ListItem","position":3,"name":"MLOps Template, Part 2 - Dagster Pipeline","item":"https://kuutsav.github.io/posts/mlops_template_2_dagster/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"MLOps Template, Part 2 - Dagster Pipeline","name":"MLOps Template, Part 2 - Dagster Pipeline","description":"Here we will cover our small pipeline written in dagster.\n Dagster is a data orchestrator for machine learning, analytics, and ETL\n Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).\nSolids and Pipelines #  Dagster\u0026rsquo;s core abstractions are solids and pipelines.\nSolids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process.","keywords":["dagster"],"articleBody":"Here we will cover our small pipeline written in dagster.\n Dagster is a data orchestrator for machine learning, analytics, and ETL\n Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).\nSolids and Pipelines #  Dagster’s core abstractions are solids and pipelines.\nSolids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process. In production environments, Dagster is usually configured so that each solid executes in its own process.\n Dataset Our pipeline will operate on Question Type Classification. This data helps to classify the given Questions into respective categories based on what type of answer it expects such as a numerical answer or a text description or a place or human name etc.\n   Question Category     How did serfdom develop in and then leave Russia ? DESCRIPTION   What films featured the character Popeye Doyle ? ENTITY   How can I find a list of celebrities ' real names ? DESCRIPTION   What fowl grabs the spotlight after the Chinese Year of the Monkey ? ENTITY   What is the full form of .com ? ABBREVIATION   What contemptible scoundrel stole the cork from my lunch ? HUMAN   What team did baseball ’s St. Louis Browns become ? HUMAN    Category can take following values - HUMAN, ENTITY, DESCRIPTION, NUMERIC, LOCATION.\nSolid #  A solid is a unit of computation in a data pipeline. Typically, you’ll define solids by annotating ordinary Python functions with the @solid decorator.\n Our first solid get_training_dataset loads the data from csv and returns\n texts (List[str]) - Question target (List[str]) - Category  @solid( output_defs=[ OutputDefinition(name=\"texts\", is_required=True), OutputDefinition(name=\"target\", is_required=True), ] ) def get_training_dataset(context): texts, target = dataloaders.get_input_dataset(INPUT_DATASET_LOC) context.log.info(f\"Loaded data; N={len(texts)}, Targets={set(target)}\") yield Output(texts, \"texts\") yield Output(target, \"target\") OutputDefinition #  To define multiple outputs, or to use a different output name than “result”, you can provide OutputDefinitions to the @solid decorator.\nWhen you have more than one output, you must yield an instance of the Output class to disambiguate between outputs.\n Let’s look at another solid preprocess_text.\n@solid def preprocess_text(context, texts): texts = text_preprocessing.preprocess_text(texts) context.log.info(f\"Text pre-processing done; N={len(texts)}\") return texts Here, we are doing some text preprocessing. Since we are not returning mulitple outputs here, we can avoid OutputDefinition.\nPipeline #  To execute our solid, we’ll embed it in an equally simple pipeline. A pipeline is a set of solids arranged into a DAG of computation. You’ll typically define pipelines by annotating ordinary Python functions with the @pipeline decorator.\n Let’s look at our Pipeline.\n@pipeline def ml_pipeline(): # 1. fetch training data texts, target = get_training_dataset() # 2. minimal text preprocessing # 3. tfidf vectorization vectorizer, X = get_vectorizer_and_features(preprocess_text(texts)) # 4. target encoding target_encoder, encoded_target = get_targetencoder_and_encoded_targets(target) # 5. train test split X_train, X_test, y_train, y_test = train_test_split(X, encoded_target) # 6. model training, validation, registry, artifact storage train_clf(X_train, X_test, y_train, y_test) Here we call few solids like get_training_dataset, preprocess_text, get_vectorizer_and_features, etc.\nThese calls don’t actually execute the solids. Within the bodies of functions decorated with @pipeline, we use function calls to indicate the dependency structure of the solids making up the pipeline.\nExecuting Our First Pipeline # Dagit to visualize our pipeline in Dagit, from the directory in which we have saved the pipeline file.\n$ dagit -f mlops/pipeline.py # Loading repository... Serving on http://127.0.0.1:3000 We can head over to the browser and look at the pipeline.\nTo execute the pipeline from the UI, head over to the playground section and click Launch Execution (at the bottom right).\nIf the pipeline executed successfully, you should see logs like this.\nThe pipeline we just executed registered our trained model using MLflow and stored the model artifacts using minio.\nWe will look at those components in the next part.\n","wordCount":"622","inLanguage":"en","datePublished":"2021-10-26T00:46:25+05:30","dateModified":"2021-10-26T00:46:25+05:30","author":{"@type":"Person","name":"Utsav"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kuutsav.github.io/posts/mlops_template_2_dagster/"},"publisher":{"@type":"Organization","name":"Ml\u0026Beyond","logo":{"@type":"ImageObject","url":"https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kuutsav.github.io accesskey=h title="ML & Beyond (Alt + H)">ML & Beyond</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://kuutsav.github.io/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://kuutsav.github.io>Home</a>&nbsp;»&nbsp;<a href=https://kuutsav.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+MLOps Template, Part 2 - Dagster Pipeline
+</h1>
+<div class=post-meta><span title="2021-10-26 00:46:25 +0530 IST">October 26, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav
+</div>
+</header>
+<div class=post-content><p>Here we will cover our small pipeline written in dagster.</p>
+<blockquote>
+<p><a href=https://dagster.io/>Dagster is a data orchestrator for machine learning, analytics, and ETL</a></p>
+</blockquote>
+<p>Dagster is a second generation data orchestrator that focues on being
+<code>data-driven</code> rather than <code>task-driven</code>(like <code>Airflow</code>).</p>
+<h2 id=solids-and-pipelines-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipeline>Solids and Pipelines <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline>#</a><a hidden class=anchor aria-hidden=true href=#solids-and-pipelines-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipeline>#</a></h2>
+<blockquote>
+<p>Dagster&rsquo;s core abstractions are solids and pipelines.</p>
+<p>Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process. In production environments, Dagster is usually configured so that each solid executes in its own process.</p>
+</blockquote>
+<h2 id=dataset>Dataset<a hidden class=anchor aria-hidden=true href=#dataset>#</a></h2>
+<p>Our pipeline will operate on <a href=https://www.kaggle.com/ananthu017/question-classification>Question Type Classification</a>.
+This data helps to classify the given Questions
+into respective categories based on what type of answer it expects such as a
+numerical answer or a text description or a place or human name etc.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>How did serfdom develop in and then leave Russia ?</td>
+<td><code>DESCRIPTION</code></td>
+</tr>
+<tr>
+<td>What films featured the character Popeye Doyle ?</td>
+<td><code>ENTITY</code></td>
+</tr>
+<tr>
+<td>How can I find a list of celebrities ' real names ?</td>
+<td><code>DESCRIPTION</code></td>
+</tr>
+<tr>
+<td>What fowl grabs the spotlight after the Chinese Year of the Monkey ?</td>
+<td><code>ENTITY</code></td>
+</tr>
+<tr>
+<td>What is the full form of .com ?</td>
+<td><code>ABBREVIATION</code></td>
+</tr>
+<tr>
+<td>What contemptible scoundrel stole the cork from my lunch ?</td>
+<td><code>HUMAN</code></td>
+</tr>
+<tr>
+<td>What team did baseball &rsquo;s St. Louis Browns become ?</td>
+<td><code>HUMAN</code></td>
+</tr>
+</tbody>
+</table>
+<p>Category can take following values - <code>HUMAN, ENTITY, DESCRIPTION, NUMERIC, LOCATION</code>.</p>
+<h2 id=solid-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-solid>Solid <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-solid>#</a><a hidden class=anchor aria-hidden=true href=#solid-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-solid>#</a></h2>
+<blockquote>
+<p>A solid is a unit of computation in a data pipeline. Typically, you&rsquo;ll define solids by annotating ordinary Python functions with the @solid decorator.</p>
+</blockquote>
+<p>Our first solid <a href=https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L160><code>get_training_dataset</code></a>
+loads the data from csv and returns</p>
+<ul>
+<li><code>texts (List[str])</code> - Question</li>
+<li><code>target (List[str])</code> - Category</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a6e22e>@solid</span>(
+    output_defs<span style=color:#f92672>=</span>[
+        OutputDefinition(name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;texts&#34;</span>, is_required<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>),
+        OutputDefinition(name<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;target&#34;</span>, is_required<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>),
+    ]
+)
+
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_training_dataset</span>(context):
+    texts, target <span style=color:#f92672>=</span> dataloaders<span style=color:#f92672>.</span>get_input_dataset(INPUT_DATASET_LOC)
+    context<span style=color:#f92672>.</span>log<span style=color:#f92672>.</span>info(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Loaded data; N=</span><span style=color:#e6db74>{</span>len(texts)<span style=color:#e6db74>}</span><span style=color:#e6db74>, Targets=</span><span style=color:#e6db74>{</span>set(target)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+    <span style=color:#66d9ef>yield</span> Output(texts, <span style=color:#e6db74>&#34;texts&#34;</span>)
+    <span style=color:#66d9ef>yield</span> Output(target, <span style=color:#e6db74>&#34;target&#34;</span>)
+</code></pre></div><h2 id=outputdefinition-httpsdocsdagsterio_apidocssolidsdagsteroutputdefinition>OutputDefinition <a href=https://docs.dagster.io/_apidocs/solids#dagster.OutputDefinition>#</a><a hidden class=anchor aria-hidden=true href=#outputdefinition-httpsdocsdagsterio_apidocssolidsdagsteroutputdefinition>#</a></h2>
+<blockquote>
+<p>To define multiple outputs, or to use a different output name than &ldquo;result&rdquo;, you can provide OutputDefinitions to the @solid decorator.</p>
+<p>When you have more than one output, you must yield an instance of the Output class to disambiguate between outputs.</p>
+</blockquote>
+<p>Let&rsquo;s look at another solid <a href=https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L24><code>preprocess_text</code></a>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a6e22e>@solid</span>
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>preprocess_text</span>(context, texts):
+    texts <span style=color:#f92672>=</span> text_preprocessing<span style=color:#f92672>.</span>preprocess_text(texts)
+    context<span style=color:#f92672>.</span>log<span style=color:#f92672>.</span>info(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Text pre-processing done; N=</span><span style=color:#e6db74>{</span>len(texts)<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+    <span style=color:#66d9ef>return</span> texts
+</code></pre></div><p>Here, we are doing some text preprocessing. Since we are not returning
+mulitple outputs here, we can avoid <code>OutputDefinition</code>.</p>
+<h2 id=pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-pipeline>Pipeline <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-pipeline>#</a><a hidden class=anchor aria-hidden=true href=#pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-pipeline>#</a></h2>
+<blockquote>
+<p>To execute our solid, we&rsquo;ll embed it in an equally simple pipeline. A pipeline is a set of solids arranged into a
+<a href=https://en.wikipedia.org/wiki/Directed_acyclic_graph>DAG</a> of computation. You&rsquo;ll typically define pipelines by annotating ordinary Python functions with the <a href=https://en.wikipedia.org/wiki/Directed_acyclic_graph>@pipeline</a> decorator.</p>
+</blockquote>
+<p>Let&rsquo;s look at our Pipeline.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a6e22e>@pipeline</span>
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ml_pipeline</span>():
+    <span style=color:#75715e># 1. fetch training data</span>
+    texts, target <span style=color:#f92672>=</span> get_training_dataset()
+    <span style=color:#75715e># 2. minimal text preprocessing</span>
+    <span style=color:#75715e># 3. tfidf vectorization</span>
+    vectorizer, X <span style=color:#f92672>=</span> get_vectorizer_and_features(preprocess_text(texts))
+    <span style=color:#75715e># 4. target encoding</span>
+    target_encoder, encoded_target <span style=color:#f92672>=</span> get_targetencoder_and_encoded_targets(target)
+    <span style=color:#75715e># 5. train test split</span>
+    X_train, X_test, y_train, y_test <span style=color:#f92672>=</span> train_test_split(X, encoded_target)
+    <span style=color:#75715e># 6. model training, validation, registry, artifact storage</span>
+    train_clf(X_train, X_test, y_train, y_test)
+</code></pre></div><p>Here we call few solids like <code>get_training_dataset</code>, <code>preprocess_text</code>,
+<code>get_vectorizer_and_features</code>, etc.</p>
+<p>These calls don&rsquo;t actually execute the solids. Within the bodies of functions
+decorated with @pipeline, we use function calls to indicate the dependency
+structure of the solids making up the pipeline.</p>
+<h2 id=executing-our-first-pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelineexecuting-our-first-pipeline>Executing Our First Pipeline <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#executing-our-first-pipeline>#</a><a hidden class=anchor aria-hidden=true href=#executing-our-first-pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelineexecuting-our-first-pipeline>#</a></h2>
+<p>Dagit to visualize our pipeline in Dagit, from the directory in which we have saved
+the pipeline file.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ dagit -f mlops/pipeline.py
+<span style=color:#75715e># Loading repository... Serving on http://127.0.0.1:3000</span>
+</code></pre></div><p>We can head over to the browser and look at the pipeline.</p>
+<p><img loading=lazy src=/static/mlops_template/dagster1.png alt=Image>
+</p>
+<p>To execute the pipeline from the UI, head over to the <code>playground</code> section and
+click <code>Launch Execution</code> (at the bottom right).</p>
+<p>If the pipeline executed successfully, you should see logs like this.</p>
+<p><img loading=lazy src=/static/mlops_template/dagster_execution.png alt=Image>
+</p>
+<p>The pipeline we just executed registered our trained model using <code>MLflow</code> and
+stored the model artifacts using <code>minio</code>.</p>
+<p>We will look at those components in the next part.</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://kuutsav.github.io/tags/dagster/>dagster</a></li>
+</ul>
+<nav class=paginav>
+<a class=prev href=https://kuutsav.github.io/posts/mlops_template_3_mlflow_minio/>
+<span class=title>« Prev Page</span>
+<br>
+<span>MLOps Template, Part 3 - MLflow + MinIO</span>
+</a>
+<a class=next href=https://kuutsav.github.io/posts/mlops_template_1_setup/>
+<span class=title>Next Page »</span>
+<br>
+<span>MLOps Template, Part 1 - Setup</span>
+</a>
+</nav>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://kuutsav.github.io>Ml&Beyond</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
