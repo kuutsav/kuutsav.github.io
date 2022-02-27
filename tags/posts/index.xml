@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>ML&amp;Beyond</title>
-    <link>https://kuutsav.github.io/</link>
-    <description>Recent content on ML&amp;Beyond</description>
+    <title>Posts on ML&amp;Beyond</title>
+    <link>https://kuutsav.github.io/posts/</link>
+    <description>Recent content in Posts on ML&amp;Beyond</description>
     <image>
       <url>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
       <link>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 19 Nov 2021 00:46:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 19 Nov 2021 00:46:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MLOps Template, Part 4 - FastAPI &#43; ElasticAPM</title>
       <link>https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/</link>
@@ -54,8 +54,6 @@ Solids are individual units of computation that we wire together to form pipelin
 These steps are necessary for operationalization of any machine-learning based model.
  These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.</description>
     </item>
-    
-    
     
   </channel>
 </rss>
