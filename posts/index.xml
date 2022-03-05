@@ -9,7 +9,18 @@
       <link>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
     <generator>Hugo -- gohugo.io</generator>
-    <lastBuildDate>Fri, 19 Nov 2021 00:46:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Mar 2022 10:09:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python notes, Part 1 - Data Model</title>
+      <link>https://kuutsav.github.io/posts/python_notes_1_datamodel/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/posts/python_notes_1_datamodel/</guid>
+      <description>This series of python posts will be based on the book Fluent Python by Luciano Ramalho.
+My goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.
+ One of the best things about python is it&amp;rsquo;s consistency. Once someone has spent enough time with python and it&amp;rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.</description>
+    </item>
+    
     <item>
       <title>MLOps Template, Part 4 - FastAPI &#43; ElasticAPM</title>
       <link>https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/</link>
