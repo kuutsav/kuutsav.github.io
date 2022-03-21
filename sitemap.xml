@@ -1,102 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
   <url>
-    <loc>https://kuutsav.github.io/blog/mlops-template-part-4-fastapi-elasticapm/</loc>
-    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/blog/mlops-template-part-3-mlflow-minio/</loc>
-    <lastmod>2021-10-10T09:19:44+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/blog/mlops-template-part-2-dagster-pipeline/</loc>
-    <lastmod>2021-10-09T09:19:43+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/blog/mlops-template-part-1-setup/</loc>
-    <lastmod>2021-10-08T09:19:42+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/blog/</loc>
-    <lastmod>2021-12-19T08:49:55+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
+    <loc>https://kuutsav.github.io/tags/data-model/</loc>
+    <lastmod>2022-03-05T10:09:25+05:30</lastmod>
+  </url><url>
     <loc>https://kuutsav.github.io/</loc>
-    <lastmod>2021-12-19T08:49:55+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/tags/elasticapm/</loc>
-    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/tags/fastapi/</loc>
-    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
+    <lastmod>2022-03-05T10:09:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/</loc>
+    <lastmod>2022-03-05T10:09:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/tags/python/</loc>
+    <lastmod>2022-03-05T10:09:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/python_notes_1_datamodel/</loc>
+    <lastmod>2022-03-05T10:09:25+05:30</lastmod>
+  </url><url>
     <loc>https://kuutsav.github.io/tags/</loc>
-    <lastmod>2021-10-11T09:19:45+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
+    <lastmod>2022-03-05T10:09:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/tags/elasticapm/</loc>
+    <lastmod>2021-11-19T00:46:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/tags/fastapi/</loc>
+    <lastmod>2021-11-19T00:46:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/</loc>
+    <lastmod>2021-11-19T00:46:25+05:30</lastmod>
+  </url><url>
     <loc>https://kuutsav.github.io/tags/minio/</loc>
-    <lastmod>2021-10-10T09:19:44+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
+    <lastmod>2021-11-05T00:46:25+05:30</lastmod>
+  </url><url>
     <loc>https://kuutsav.github.io/tags/mlflow/</loc>
-    <lastmod>2021-10-10T09:19:44+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
+    <lastmod>2021-11-05T00:46:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/mlops_template_3_mlflow_minio/</loc>
+    <lastmod>2021-11-05T00:46:25+05:30</lastmod>
+  </url><url>
     <loc>https://kuutsav.github.io/tags/dagster/</loc>
-    <lastmod>2021-10-09T09:19:43+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://kuutsav.github.io/docs/versions/</loc>
-    <lastmod>2021-09-24T08:50:23+02:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
+    <lastmod>2021-10-26T00:46:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/mlops_template_2_dagster/</loc>
+    <lastmod>2021-10-26T00:46:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/mlops_template_1_setup/</loc>
+    <lastmod>2021-10-22T00:46:25+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/archives/</loc>
+  </url><url>
     <loc>https://kuutsav.github.io/categories/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
+  </url><url>
+    <loc>https://kuutsav.github.io/search/</loc>
   </url>
-  
 </urlset>

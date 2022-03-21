@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on </title>
+    <title>Tags on ML&amp;Beyond</title>
     <link>https://kuutsav.github.io/tags/</link>
-    <description>Recent content in Tags on </description>
+    <description>Recent content in Tags on ML&amp;Beyond</description>
+    <image>
+      <url>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
+      <link>https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
+    </image>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-US</language>
-    <lastBuildDate>Mon, 11 Oct 2021 09:19:45 +0100</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 05 Mar 2022 10:09:25 +0530</lastBuildDate><atom:link href="https://kuutsav.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>data model</title>
+      <link>https://kuutsav.github.io/tags/data-model/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/data-model/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://kuutsav.github.io/tags/python/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://kuutsav.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>elasticapm</title>
       <link>https://kuutsav.github.io/tags/elasticapm/</link>
-      <pubDate>Mon, 11 Oct 2021 09:19:45 +0100</pubDate>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
       
       <guid>https://kuutsav.github.io/tags/elasticapm/</guid>
       <description></description>
@@ -19,7 +40,7 @@
     <item>
       <title>fastapi</title>
       <link>https://kuutsav.github.io/tags/fastapi/</link>
-      <pubDate>Mon, 11 Oct 2021 09:19:45 +0100</pubDate>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
       
       <guid>https://kuutsav.github.io/tags/fastapi/</guid>
       <description></description>
@@ -28,7 +49,7 @@
     <item>
       <title>minio</title>
       <link>https://kuutsav.github.io/tags/minio/</link>
-      <pubDate>Sun, 10 Oct 2021 09:19:44 +0100</pubDate>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
       
       <guid>https://kuutsav.github.io/tags/minio/</guid>
       <description></description>
@@ -37,7 +58,7 @@
     <item>
       <title>mlflow</title>
       <link>https://kuutsav.github.io/tags/mlflow/</link>
-      <pubDate>Sun, 10 Oct 2021 09:19:44 +0100</pubDate>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
       
       <guid>https://kuutsav.github.io/tags/mlflow/</guid>
       <description></description>
@@ -46,7 +67,7 @@
     <item>
       <title>dagster</title>
       <link>https://kuutsav.github.io/tags/dagster/</link>
-      <pubDate>Sat, 09 Oct 2021 09:19:43 +0100</pubDate>
+      <pubDate>Tue, 26 Oct 2021 00:46:25 +0530</pubDate>
       
       <guid>https://kuutsav.github.io/tags/dagster/</guid>
       <description></description>
