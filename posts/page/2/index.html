@@ -62,73 +62,20 @@
 </header>
 <article class=post-entry>
 <header class=entry-header>
-<h2>Python Notes, Part 2 - Sequences
+<h2>MLOps Template, Part 1 - Setup
 </h2>
 </header>
 <section class=entry-content>
-<p>Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.
-Python offers two types of sequences:
-Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc. A container sequence holds references to objects where as a flat sequence contains the value of the contents in it’s own memory....</p>
+<p>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.
+These steps are necessary for operationalization of any machine-learning based model.
+These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later....</p>
 </section>
-<footer class=entry-footer><span title="2022-04-05 10:21:20 +0530 IST">April 5, 2022</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Utsav</footer>
-<a class=entry-link aria-label="post link to Python Notes, Part 2 - Sequences" href=https://kuutsav.github.io/posts/python_notes_2_sequences/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>Python Notes, Part 1 - Data Model
-</h2>
-</header>
-<section class=entry-content>
-<p>This series of python posts will be based on the book Fluent Python by Luciano Ramalho.
-My goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.
-One of the best things about python is it’s consistency. Once someone has spent enough time with python and it’s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way....</p>
-</section>
-<footer class=entry-footer><span title="2022-03-05 10:09:25 +0530 IST">March 5, 2022</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Utsav</footer>
-<a class=entry-link aria-label="post link to Python Notes, Part 1 - Data Model" href=https://kuutsav.github.io/posts/python_notes_1_datamodel/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>MLOps Template, Part 4 - FastAPI + ElasticAPM
-</h2>
-</header>
-<section class=entry-content>
-<p>We will use FastAPI to serve our trained models behind a REST endpoint. FastAPI is a web framework built on top of Starlette. Scripts related to the APIs are located at MLOps/app.
-The directory structure is:
-├── application.py # FastAPI app and launcher uvicorn.run ├── models # pydantic model for reponse validation │ └── predict.py # pydantic model for predict endpoint └── routes # to maintain larger applications ├── endpoints │ └── predict....</p>
-</section>
-<footer class=entry-footer><span title="2021-11-19 00:46:25 +0530 IST">November 19, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav</footer>
-<a class=entry-link aria-label="post link to MLOps Template, Part 4 - FastAPI + ElasticAPM" href=https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>MLOps Template, Part 3 - MLflow + MinIO
-</h2>
-</header>
-<section class=entry-content>
-<p>In the last part, we saw our pipeline at the end. Steps 1-5 deal with data manipulation. We train our model in step 6 and that’s where MLflow comes into picture.
-@pipeline def ml_pipeline(): # 1. fetch training data texts, target = get_training_dataset() # 2. minimal text preprocessing # 3. tfidf vectorization vectorizer, X = get_vectorizer_and_features(preprocess_text(texts)) # 4. target encoding target_encoder, encoded_target = get_targetencoder_and_encoded_targets(target) # 5. train test split X_train, X_test, y_train, y_test = train_test_split(X, encoded_target) # 6....</p>
-</section>
-<footer class=entry-footer><span title="2021-11-05 00:46:25 +0530 IST">November 5, 2021</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Utsav</footer>
-<a class=entry-link aria-label="post link to MLOps Template, Part 3 - MLflow + MinIO" href=https://kuutsav.github.io/posts/mlops_template_3_mlflow_minio/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>MLOps Template, Part 2 - Dagster Pipeline
-</h2>
-</header>
-<section class=entry-content>
-<p>Here we will cover our small pipeline written in dagster.
-Dagster is a data orchestrator for machine learning, analytics, and ETL
-Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
-Solids and Pipelines # Dagster’s core abstractions are solids and pipelines.
-Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process....</p>
-</section>
-<footer class=entry-footer><span title="2021-10-26 00:46:25 +0530 IST">October 26, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav</footer>
-<a class=entry-link aria-label="post link to MLOps Template, Part 2 - Dagster Pipeline" href=https://kuutsav.github.io/posts/mlops_template_2_dagster/></a>
+<footer class=entry-footer><span title="2021-10-22 00:46:25 +0530 IST">October 22, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Utsav</footer>
+<a class=entry-link aria-label="post link to MLOps Template, Part 1 - Setup" href=https://kuutsav.github.io/posts/mlops_template_1_setup/></a>
 </article>
 <footer class=page-footer>
 <nav class=pagination>
-<a class=next href=https://kuutsav.github.io/posts/page/2/>Next Page »</a>
+<a class=prev href=https://kuutsav.github.io/posts/>« Prev Page</a>
 </nav>
 </footer>
 </main>

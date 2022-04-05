@@ -1,0 +1,386 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Python Notes, Part 2 - Sequences | ML&Beyond</title>
+<meta name=keywords content="python,sequences">
+<meta name=description content="Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.
+Python offers two types of sequences:
+ Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it&rsquo;s own memory.">
+<meta name=author content="Utsav">
+<link rel=canonical href=https://kuutsav.github.io/posts/python_notes_2_sequences/>
+<meta name=google-site-verification content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.19a16c67ee59f0aa4d161c6bf4ea05b0a4cfecc60e7104b017b575502f146994.css integrity="sha256-GaFsZ+5Z8KpNFhxr9OoFsKTP7MYOcQSwF7V1UC8UaZQ=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=32x32 href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=apple-touch-icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=mask-icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="Python Notes, Part 2 - Sequences">
+<meta property="og:description" content="Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.
+Python offers two types of sequences:
+ Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it&rsquo;s own memory.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kuutsav.github.io/posts/python_notes_2_sequences/"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-04-05T10:21:20+05:30">
+<meta property="article:modified_time" content="2022-04-05T10:21:20+05:30"><meta property="og:site_name" content="ExampleSite">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name=twitter:title content="Python Notes, Part 2 - Sequences">
+<meta name=twitter:description content="Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.
+Python offers two types of sequences:
+ Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it&rsquo;s own memory.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kuutsav.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Python Notes, Part 2 - Sequences","item":"https://kuutsav.github.io/posts/python_notes_2_sequences/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Python Notes, Part 2 - Sequences","name":"Python Notes, Part 2 - Sequences","description":"Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.\nPython offers two types of sequences:\n Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it\u0026rsquo;s own memory.","keywords":["python","sequences"],"articleBody":"Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.\nPython offers two types of sequences:\n Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it’s own memory.\nTo understand the above point clearly, we need to understand how python stores objects.\nEvery python object has a header with metadata. For example, a float has:\n ob_refcnt: Object’s reference count. ob_type: Object’s type. ob_fval: Object’s value.  Each of these fields take 8 bytes in a 64-bit built. So an array.array of floats actually holds the raw values of the floats whereas a list of floats has several objects - the list iteself and reference to each float object.\nAnother way the sequences can be classified is based on it’s mutability:\n Mutable sequences: list, array.array, collections.deque, etc. Immutable sequences: tuple, str, bytes, etc.  List Comprehensions List comprehensions or listcomps are used to create a new list from a list by transforming or/and filtering the data in the original list.\nListcomps can be created using mulltiple loops over multiple lists as well, the key idea is to make sure that the script is readable and the transformation is obvious to the end user. It’s very easy to abuse listcomps to write incomprehensible code. We should stick to plain old for loops in such cases.\nListcomps are also faster than map and filter.\n%%timeit even_squares = [x**2 for x in range(100) if x % 2 == 0] 14.6 µs ± 47.1 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)  print(even_squares) (0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604)  %%timeit even_squares = list(filter(lambda x: x % 2 == 0, map(lambda x: x**2, range(100)))) 33.6 µs ± 867 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)  print(even_squares) (0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604)  Generator Expressions To initialize sequences of types other than list, like arrays, tuples, etc., we can use genexp as they save memory by yielding one item at a time using the iterator protocol. A listcomp creates a whole list to feed into another constructor.\neven_squares = tuple(x**2 for x in range(100) if x % 2 == 0) print(even_squares) (0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604)  Tuples Beyond using tuples as “immutable lists”, they can also be thought of as a system of records. Tuples along with “unpacking” make for very readable way to access elements from a sequence by avoiding indexing.\nfor country, capital in [(\"India\", \"New Delhi\"), (\"Afganistan\", \"Kabul\"), (\"Canada\", \"Ottawa\")]: print(f\"{country}/{capital}\") India/New Delhi Afganistan/Kabul Canada/Ottawa  Immutaiblity of Tuples The fact that tuples are immutable has many benefits:\n We know that the value of a tuple object will never change. Tuples are faster than lists as they have less overheads.  Tuple are faster than lists because:\nTuples can be constant folded from dis import dis dis(compile(\"(10, 'abc')\", \"\", \"eval\"))  1 0 LOAD_CONST 0 ((10, 'abc')) 2 RETURN_VALUE  dis(compile(\"[10, 'abc']\", \"\", \"eval\"))  1 0 LOAD_CONST 0 (10) 2 LOAD_CONST 1 ('abc') 4 BUILD_LIST 2 6 RETURN_VALUE  Tuples do not need to be copied a = (10, 20) b = tuple(a) a is b True  a = [10, 20] b = list(a) a is b False  Tuples do not over-allocate import sys sys.getsizeof(tuple(iter(range(10)))) 120  sys.getsizeof(list(iter(range(10)))) 192  Here is the comment from Objects/listobject.c that explains what lists are doing:\n* This over-allocates proportional to the list size, making room * for additional growth. The over-allocation is mild, but is * enough to give linear-time amortized behavior over a long * sequence of appends() in the presence of a poorly-performing * system realloc(). * The growth pattern is: 0, 4, 8, 16, 25, 35, 46, 58, 72, 88, ... * Note: new_allocated won't overflow because the largest possible value * is PY_SSIZE_T_MAX * (9 / 8) + 6 which always fits in a size_t. Coming back to the immutability aspect of Tuples, the fact that tuples are container style sequences, they can hold mutable objects.\na = (10, \"alpha\", [1, 2]) b = (10, \"alpha\", [1, 2]) a == b True  b[-1].append(99) a == b False  b (10, 'alpha', [1, 2, 99])  Examples like this can be a source of bugs. It’s always a good idea to avoid mutable objects in a tuple.\nA tuple without mutable objects can be used as a key for a dict. This can be verified using the hash method.\nhash((10, \"alpha\", 1, 2)) 1614661222696736202  hash((10, \"alpha\", [1, 2])) --------------------------------------------------------------------------- TypeError Traceback (most recent call last)  in  ---- 1 hash((10, \"alpha\", [1, 2])) TypeError: unhashable type: 'list'  Unpacking sequences and iterables Unpacking helps avoid indexing to extract items from sequences. It works with any iterable object, even if the object doesn’t support index notation [].\ncountry, capital = (\"India\", \"New Delhi\") country 'India'  capital 'New Delhi'  An elegant way to use unpacking is to swap values without using a temporary variable.\na = 10 b = 20 a, b = b, a a, b (20, 10)  We can use * to grab excess items.\na, b, *rest = range(5) a, b, rest (0, 1, [2, 3, 4])  a, *rest, b = range(10) a, rest, b (0, [1, 2, 3, 4, 5, 6, 7, 8], 9)  Unpacking works with nested structures as well.\nshopping_cart = [(1, \"apple\", (3.2, 10)), (2, \"milk\", (3, 20))] print(f\"{'item':}| {'cost':4}{'qnt':4}{'total':5}\\n{'-'*28}\") for _, item, (cost, qnt) in shopping_cart: print(f\"{item:}| {cost:4}{qnt:4}{cost*qnt:5}\") item | cost qnt total ---------------------------- apple | 3.2 10 32.0 milk | 3 20 60  Slicing Slices in python excldue the last item. This convention is common across many languages. This feature has many convenient side effects:\n Length of range(3) and my_list[;3] is the same. It’s easy to compute the length of a slice when start and stop are given using stop - start. It’s easy to split a sequence at an index x using my_list[:x] and my_list[x:]  my_list = list(range(10)) my_list[:3], my_list[3:] ([0, 1, 2], [3, 4, 5, 6, 7, 8, 9])  One uncommon use of slices is to create constants to make the code more readable. By assigning names to slices we can be more explicit instead of needing the user to figure out what the indexes mean.\ninvoice = \"\"\" 1 apple $3.2 10 2 banana $1.5. 5 \"\"\" SKU_ID = slice(0, 2) SKU_NAME = slice(3, 9) PRICE = slice(10, 14) QUANTITY = slice(15, 17) for sku_line in invoice.split(\"\\n\")[1:-1]: print(sku_line[SKU_ID], sku_line[SKU_NAME], sku_line[PRICE], sku_line[QUANTITY]) 1 apple $3.2 10 2 banana $1.5 5  The [] operator can also take multpile indexes and slices separated by commas. This pattern is common in external libraries like numpy and pandas where this notation is used to indicate index/slice across rows and columns.\nimport numpy as np arr = np.array([[1, 2, 3], [4, 5, 6]]) arr array([[1, 2, 3], [4, 5, 6]])  arr[:, 1:] # all rows, columns 2 and 3 array([[2, 3], [5, 6]])  Slices can also be used on the left-hand side of an assignment operation or as the target of a del operation.\nmy_list = list(range(10)) my_list [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]  my_list[3:5] = [30, 40] my_list [0, 1, 2, 30, 40, 5, 6, 7, 8, 9]  del my_list[3:5] my_list [0, 1, 2, 5, 6, 7, 8, 9]  Using * with Sequences To concatenate multiple copies of the same sequence, we multiply it by an integer which creates a new sequence.\nmy_list = [1, 2, 3] new_list = my_list * 3 new_list [1, 2, 3, 1, 2, 3, 1, 2, 3]  id(my_list), id(new_list) (140325040574144, 140325040580864)  Using * to multiply sequences with mutable objects can lead to weird behavior due to the fact that we end of referring to the same object.\nweird_board = [[\"_\"] * 3] * 3 weird_board [['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]  weird_board[0] is weird_board[1] True  Looking at the above(both referring to the same object), the below result should not be a surprise.\nweird_board[0][2] = \"X\" weird_board [['_', '_', 'X'], ['_', '_', 'X'], ['_', '_', 'X']]  Augmneted Assignment with Sequences The augmented assignment += works using the special method __iadd__. If __iadd__ is not implemented, Python falls back to calling __add__.\nmy_list = [1, 2, 3] my_list += [4, 5] my_list [1, 2, 3, 4, 5]  __iadd__ works similar to .extend(). If my_list does not implement __iadd__, a+=b is the same as a=a+b.\nUsage Although it’s highlighted everywhere that lists are container type sequences that can hold objects of different types, in practice we tycpically store objects of similar type in a list so that we can apply some common operation on them(i.e. they should all “quack” whether or not they are 100% ducks).\nTuples being used as records can be used to store objects of different types in practice.\nmy_list = [1, 2, \"30\", 4, \"5\"] my_list [1, 2, '30', 4, '5']  sorted(my_list) --------------------------------------------------------------------------- TypeError Traceback (most recent call last)  in  ---- 1 sorted(my_list) TypeError: ' Most of the languages need us to provide a cmp(a, b) method to make comparisons to be able to sort a sequence. In python, using key argument in list.sort, max, min or sorted methods removes the need for this cmp() method. Python does compare keys but that is done in optimized C code and not using a method provided by us.\nsorted(my_list, key=int) [1, 2, 4, '5', '30']  sorted(my_list, key=str) [1, 2, '30', 4, '5']   Based on the book Fluent Python by Luciano Ramalho.\n","wordCount":"1744","inLanguage":"en","datePublished":"2022-04-05T10:21:20+05:30","dateModified":"2022-04-05T10:21:20+05:30","author":{"@type":"Person","name":"Utsav"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kuutsav.github.io/posts/python_notes_2_sequences/"},"publisher":{"@type":"Organization","name":"ML\u0026Beyond","logo":{"@type":"ImageObject","url":"https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kuutsav.github.io accesskey=h title="ML&Beyond (Alt + H)">ML&Beyond</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://kuutsav.github.io/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://kuutsav.github.io>Home</a>&nbsp;»&nbsp;<a href=https://kuutsav.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+Python Notes, Part 2 - Sequences
+</h1>
+<div class=post-meta><span title="2022-04-05 10:21:20 +0530 IST">April 5, 2022</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Utsav
+</div>
+</header>
+<div class=post-content><p>Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.</p>
+<p>Python offers two types of sequences:</p>
+<ul>
+<li><em>Container sequences</em>: These hold items of different types, for example list, tuple, etc.</li>
+<li><em>Flat sequences</em>: These hold items of the same type, for example str, bytes, etc.</li>
+</ul>
+<p>A container sequence holds references to objects where as a flat sequence contains the value of the contents in it&rsquo;s own memory.</p>
+<p>To understand the above point clearly, we need to understand how python stores objects.</p>
+<p>Every python object has a header with metadata. For example, a float has:</p>
+<ul>
+<li><strong>ob_refcnt</strong>: Object&rsquo;s reference count.</li>
+<li><strong>ob_type</strong>: Object&rsquo;s type.</li>
+<li><strong>ob_fval</strong>: Object&rsquo;s value.</li>
+</ul>
+<p>Each of these fields take 8 bytes in a 64-bit built. So an array.array of floats actually holds the raw values of the floats whereas a list of floats has several objects - the list iteself and reference to each float object.</p>
+<p>Another way the sequences can be classified is based on it&rsquo;s mutability:</p>
+<ul>
+<li><em>Mutable sequences</em>: list, array.array, collections.deque, etc.</li>
+<li><em>Immutable sequences</em>: tuple, str, bytes, etc.</li>
+</ul>
+<h3 id=list-comprehensions>List Comprehensions<a hidden class=anchor aria-hidden=true href=#list-comprehensions>#</a></h3>
+<p>List comprehensions or <em>listcomps</em> are used to create a new list from a list by transforming or/and filtering the data in the original list.</p>
+<p>Listcomps can be created using mulltiple loops over multiple lists as well, the key idea is to make sure that the script is readable and the transformation is obvious to the end user. It&rsquo;s very easy to abuse listcomps to write incomprehensible code. We should stick to plain old for loops in such cases.</p>
+<p>Listcomps are also faster than <em>map</em> and <em>filter</em>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>%%</span>timeit
+even_squares <span style=color:#f92672>=</span> [x<span style=color:#f92672>**</span><span style=color:#ae81ff>2</span> <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>) <span style=color:#66d9ef>if</span> x <span style=color:#f92672>%</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>]
+</code></pre></div><pre><code>14.6 µs ± 47.1 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>print(even_squares)
+</code></pre></div><pre><code>(0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604)
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>%%</span>timeit
+even_squares <span style=color:#f92672>=</span> list(filter(<span style=color:#66d9ef>lambda</span> x: x <span style=color:#f92672>%</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>, map(<span style=color:#66d9ef>lambda</span> x: x<span style=color:#f92672>**</span><span style=color:#ae81ff>2</span>, range(<span style=color:#ae81ff>100</span>))))
+</code></pre></div><pre><code>33.6 µs ± 867 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>print(even_squares)
+</code></pre></div><pre><code>(0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604)
+</code></pre>
+<h3 id=generator-expressions>Generator Expressions<a hidden class=anchor aria-hidden=true href=#generator-expressions>#</a></h3>
+<p>To initialize sequences of types other than list, like arrays, tuples, etc., we can use <em>genexp</em> as they save memory by <em>yielding</em> one item at a time using the iterator protocol. A listcomp creates a whole list to feed into another constructor.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>even_squares <span style=color:#f92672>=</span> tuple(x<span style=color:#f92672>**</span><span style=color:#ae81ff>2</span> <span style=color:#66d9ef>for</span> x <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>) <span style=color:#66d9ef>if</span> x <span style=color:#f92672>%</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>)
+print(even_squares)
+</code></pre></div><pre><code>(0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900, 5184, 5476, 5776, 6084, 6400, 6724, 7056, 7396, 7744, 8100, 8464, 8836, 9216, 9604)
+</code></pre>
+<h3 id=tuples>Tuples<a hidden class=anchor aria-hidden=true href=#tuples>#</a></h3>
+<p>Beyond using tuples as &ldquo;immutable lists&rdquo;, they can also be thought of as a system of records. Tuples along with &ldquo;unpacking&rdquo; make for very readable way to access elements from a sequence by avoiding indexing.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>for</span> country, capital <span style=color:#f92672>in</span> [(<span style=color:#e6db74>&#34;India&#34;</span>, <span style=color:#e6db74>&#34;New Delhi&#34;</span>), (<span style=color:#e6db74>&#34;Afganistan&#34;</span>, <span style=color:#e6db74>&#34;Kabul&#34;</span>),
+                         (<span style=color:#e6db74>&#34;Canada&#34;</span>, <span style=color:#e6db74>&#34;Ottawa&#34;</span>)]:
+    print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>country<span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>capital<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</code></pre></div><pre><code>India/New Delhi
+Afganistan/Kabul
+Canada/Ottawa
+</code></pre>
+<h3 id=immutaiblity-of-tuples>Immutaiblity of Tuples<a hidden class=anchor aria-hidden=true href=#immutaiblity-of-tuples>#</a></h3>
+<p>The fact that tuples are immutable has many benefits:</p>
+<ul>
+<li>We know that the value of a tuple object will never change.</li>
+<li>Tuples are faster than lists as they have less overheads.</li>
+</ul>
+<p>Tuple are faster than lists <a href=https://stackoverflow.com/questions/68630/are-tuples-more-efficient-than-lists-in-python>because</a>:</p>
+<h4 id=tuples-can-be-constant-folded>Tuples can be constant folded<a hidden class=anchor aria-hidden=true href=#tuples-can-be-constant-folded>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> dis <span style=color:#f92672>import</span> dis
+
+dis(compile(<span style=color:#e6db74>&#34;(10, &#39;abc&#39;)&#34;</span>, <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#e6db74>&#34;eval&#34;</span>))
+</code></pre></div><pre><code>  1           0 LOAD_CONST               0 ((10, 'abc'))
+              2 RETURN_VALUE
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dis(compile(<span style=color:#e6db74>&#34;[10, &#39;abc&#39;]&#34;</span>, <span style=color:#e6db74>&#34;&#34;</span>, <span style=color:#e6db74>&#34;eval&#34;</span>))
+</code></pre></div><pre><code>  1           0 LOAD_CONST               0 (10)
+              2 LOAD_CONST               1 ('abc')
+              4 BUILD_LIST               2
+              6 RETURN_VALUE
+</code></pre>
+<h4 id=tuples-do-not-need-to-be-copied>Tuples do not need to be copied<a hidden class=anchor aria-hidden=true href=#tuples-do-not-need-to-be-copied>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a <span style=color:#f92672>=</span> (<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>20</span>)
+b <span style=color:#f92672>=</span> tuple(a)
+a <span style=color:#f92672>is</span> b
+</code></pre></div><pre><code>True
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a <span style=color:#f92672>=</span> [<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>20</span>]
+b <span style=color:#f92672>=</span> list(a)
+a <span style=color:#f92672>is</span> b
+</code></pre></div><pre><code>False
+</code></pre>
+<h4 id=tuples-do-not-over-allocate>Tuples do not over-allocate<a hidden class=anchor aria-hidden=true href=#tuples-do-not-over-allocate>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> sys
+
+sys<span style=color:#f92672>.</span>getsizeof(tuple(iter(range(<span style=color:#ae81ff>10</span>))))
+</code></pre></div><pre><code>120
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>sys<span style=color:#f92672>.</span>getsizeof(list(iter(range(<span style=color:#ae81ff>10</span>))))
+</code></pre></div><pre><code>192
+</code></pre>
+<p>Here is the comment from Objects/listobject.c that explains what lists are doing:</p>
+<pre tabindex=0><code>* This over-allocates proportional to the list size, making room
+* for additional growth.  The over-allocation is mild, but is
+* enough to give linear-time amortized behavior over a long
+* sequence of appends() in the presence of a poorly-performing
+* system realloc().
+* The growth pattern is:  0, 4, 8, 16, 25, 35, 46, 58, 72, 88, ...
+* Note: new_allocated won't overflow because the largest possible value
+*       is PY_SSIZE_T_MAX * (9 / 8) + 6 which always fits in a size_t.
+
+</code></pre><p>Coming back to the immutability aspect of Tuples, the fact that tuples are container style sequences, they can hold mutable objects.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a <span style=color:#f92672>=</span> (<span style=color:#ae81ff>10</span>, <span style=color:#e6db74>&#34;alpha&#34;</span>, [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>])
+b <span style=color:#f92672>=</span> (<span style=color:#ae81ff>10</span>, <span style=color:#e6db74>&#34;alpha&#34;</span>, [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>])
+a <span style=color:#f92672>==</span> b
+</code></pre></div><pre><code>True
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>b[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>append(<span style=color:#ae81ff>99</span>)
+a <span style=color:#f92672>==</span> b
+</code></pre></div><pre><code>False
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>b
+</code></pre></div><pre><code>(10, 'alpha', [1, 2, 99])
+</code></pre>
+<p>Examples like this can be a source of bugs. It&rsquo;s always a good idea to avoid mutable objects in a tuple.</p>
+<p>A tuple without mutable objects can be used as a key for a dict. This can be verified using the hash method.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>hash((<span style=color:#ae81ff>10</span>, <span style=color:#e6db74>&#34;alpha&#34;</span>, <span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>))
+</code></pre></div><pre><code>1614661222696736202
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>hash((<span style=color:#ae81ff>10</span>, <span style=color:#e6db74>&#34;alpha&#34;</span>, [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>]))
+</code></pre></div><pre><code>---------------------------------------------------------------------------
+
+TypeError                                 Traceback (most recent call last)
+
+&lt;ipython-input-58-6818f30e4402&gt; in &lt;module&gt;
+----&gt; 1 hash((10, &quot;alpha&quot;, [1, 2]))
+
+
+TypeError: unhashable type: 'list'
+</code></pre>
+<h3 id=unpacking-sequences-and-iterables>Unpacking sequences and iterables<a hidden class=anchor aria-hidden=true href=#unpacking-sequences-and-iterables>#</a></h3>
+<p>Unpacking helps avoid indexing to extract items from sequences. It works with any iterable object, even if the object doesn&rsquo;t support index notation [].</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>country, capital <span style=color:#f92672>=</span> (<span style=color:#e6db74>&#34;India&#34;</span>, <span style=color:#e6db74>&#34;New Delhi&#34;</span>)
+country
+</code></pre></div><pre><code>'India'
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>capital
+</code></pre></div><pre><code>'New Delhi'
+</code></pre>
+<p>An elegant way to use unpacking is to swap values without using a temporary variable.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a <span style=color:#f92672>=</span> <span style=color:#ae81ff>10</span>
+b <span style=color:#f92672>=</span> <span style=color:#ae81ff>20</span>
+a, b <span style=color:#f92672>=</span> b, a
+a, b
+</code></pre></div><pre><code>(20, 10)
+</code></pre>
+<p>We can use * to grab excess items.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a, b, <span style=color:#f92672>*</span>rest <span style=color:#f92672>=</span> range(<span style=color:#ae81ff>5</span>)
+a, b, rest
+</code></pre></div><pre><code>(0, 1, [2, 3, 4])
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>a, <span style=color:#f92672>*</span>rest, b <span style=color:#f92672>=</span> range(<span style=color:#ae81ff>10</span>)
+a, rest, b
+</code></pre></div><pre><code>(0, [1, 2, 3, 4, 5, 6, 7, 8], 9)
+</code></pre>
+<p>Unpacking works with nested structures as well.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>shopping_cart <span style=color:#f92672>=</span> [(<span style=color:#ae81ff>1</span>, <span style=color:#e6db74>&#34;apple&#34;</span>, (<span style=color:#ae81ff>3.2</span>, <span style=color:#ae81ff>10</span>)), (<span style=color:#ae81ff>2</span>, <span style=color:#e6db74>&#34;milk&#34;</span>, (<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>20</span>))]
+
+print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#39;item&#39;</span><span style=color:#e6db74>:</span><span style=color:#e6db74>&lt;10</span><span style=color:#e6db74>}</span><span style=color:#e6db74> | </span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#39;cost&#39;</span><span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;4</span><span style=color:#e6db74>}</span><span style=color:#e6db74> </span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#39;qnt&#39;</span><span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;4</span><span style=color:#e6db74>}</span><span style=color:#e6db74> </span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#39;total&#39;</span><span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;5</span><span style=color:#e6db74>}</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>{</span><span style=color:#e6db74>&#39;-&#39;</span><span style=color:#f92672>*</span><span style=color:#ae81ff>28</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+<span style=color:#66d9ef>for</span> _, item, (cost, qnt) <span style=color:#f92672>in</span> shopping_cart:
+    print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>item<span style=color:#e6db74>:</span><span style=color:#e6db74>&lt;10</span><span style=color:#e6db74>}</span><span style=color:#e6db74> | </span><span style=color:#e6db74>{</span>cost<span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;4</span><span style=color:#e6db74>}</span><span style=color:#e6db74> </span><span style=color:#e6db74>{</span>qnt<span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;4</span><span style=color:#e6db74>}</span><span style=color:#e6db74> </span><span style=color:#e6db74>{</span>cost<span style=color:#f92672>*</span>qnt<span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;5</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</code></pre></div><pre><code>item       | cost  qnt total
+----------------------------
+apple      |  3.2   10  32.0
+milk       |    3   20    60
+</code></pre>
+<h3 id=slicing>Slicing<a hidden class=anchor aria-hidden=true href=#slicing>#</a></h3>
+<p>Slices in python excldue the last item. This convention is common across many languages. This feature has many convenient side effects:</p>
+<ul>
+<li>Length of range(3) and my_list[;3] is the same.</li>
+<li>It&rsquo;s easy to compute the length of a slice when start and stop are given using stop - start.</li>
+<li>It&rsquo;s easy to split a sequence at an index x using my_list[:x] and my_list[x:]</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list <span style=color:#f92672>=</span> list(range(<span style=color:#ae81ff>10</span>))
+my_list[:<span style=color:#ae81ff>3</span>], my_list[<span style=color:#ae81ff>3</span>:]
+</code></pre></div><pre><code>([0, 1, 2], [3, 4, 5, 6, 7, 8, 9])
+</code></pre>
+<p>One uncommon use of slices is to create constants to make the code more readable. By assigning names to slices we can be more explicit instead of needing the user to figure out what the indexes mean.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>invoice <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;&#34;
+</span><span style=color:#e6db74>1  apple  $3.2 10
+</span><span style=color:#e6db74>2  banana $1.5. 5
+</span><span style=color:#e6db74>&#34;&#34;&#34;</span>
+
+SKU_ID <span style=color:#f92672>=</span> slice(<span style=color:#ae81ff>0</span>, <span style=color:#ae81ff>2</span>)
+SKU_NAME <span style=color:#f92672>=</span> slice(<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>9</span>)
+PRICE <span style=color:#f92672>=</span> slice(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>14</span>)
+QUANTITY <span style=color:#f92672>=</span> slice(<span style=color:#ae81ff>15</span>, <span style=color:#ae81ff>17</span>)
+
+<span style=color:#66d9ef>for</span> sku_line <span style=color:#f92672>in</span> invoice<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)[<span style=color:#ae81ff>1</span>:<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]:
+    print(sku_line[SKU_ID], sku_line[SKU_NAME], sku_line[PRICE], sku_line[QUANTITY])
+</code></pre></div><pre><code>1  apple  $3.2 10
+2  banana $1.5  5
+</code></pre>
+<p>The [] operator can also take multpile indexes and slices separated by commas. This pattern is common in external libraries like numpy and pandas where this notation is used to indicate index/slice across rows and columns.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+
+arr <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>array([[<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>], [<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>5</span>, <span style=color:#ae81ff>6</span>]])
+arr
+</code></pre></div><pre><code>array([[1, 2, 3],
+       [4, 5, 6]])
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>arr[:, <span style=color:#ae81ff>1</span>:]  <span style=color:#75715e># all rows, columns 2 and 3</span>
+</code></pre></div><pre><code>array([[2, 3],
+       [5, 6]])
+</code></pre>
+<p>Slices can also be used on the left-hand side of an assignment operation or as the target of a del operation.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list <span style=color:#f92672>=</span> list(range(<span style=color:#ae81ff>10</span>))
+my_list
+</code></pre></div><pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list[<span style=color:#ae81ff>3</span>:<span style=color:#ae81ff>5</span>] <span style=color:#f92672>=</span> [<span style=color:#ae81ff>30</span>, <span style=color:#ae81ff>40</span>]
+my_list
+</code></pre></div><pre><code>[0, 1, 2, 30, 40, 5, 6, 7, 8, 9]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>del</span> my_list[<span style=color:#ae81ff>3</span>:<span style=color:#ae81ff>5</span>]
+my_list
+</code></pre></div><pre><code>[0, 1, 2, 5, 6, 7, 8, 9]
+</code></pre>
+<h3 id=using--with-sequences>Using * with Sequences<a hidden class=anchor aria-hidden=true href=#using--with-sequences>#</a></h3>
+<p>To concatenate multiple copies of the same sequence, we multiply it by an integer which creates a new sequence.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]
+new_list <span style=color:#f92672>=</span> my_list <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>
+new_list
+</code></pre></div><pre><code>[1, 2, 3, 1, 2, 3, 1, 2, 3]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>id(my_list), id(new_list)
+</code></pre></div><pre><code>(140325040574144, 140325040580864)
+</code></pre>
+<p>Using * to multiply sequences with mutable objects can lead to weird behavior due to the fact that we end of referring to the same object.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>weird_board <span style=color:#f92672>=</span> [[<span style=color:#e6db74>&#34;_&#34;</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>] <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>
+weird_board
+</code></pre></div><pre><code>[['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>weird_board[<span style=color:#ae81ff>0</span>] <span style=color:#f92672>is</span> weird_board[<span style=color:#ae81ff>1</span>]
+</code></pre></div><pre><code>True
+</code></pre>
+<p>Looking at the above(both referring to the same object), the below result should not be a surprise.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>weird_board[<span style=color:#ae81ff>0</span>][<span style=color:#ae81ff>2</span>] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;X&#34;</span>
+weird_board
+</code></pre></div><pre><code>[['_', '_', 'X'], ['_', '_', 'X'], ['_', '_', 'X']]
+</code></pre>
+<h3 id=augmneted-assignment-with-sequences>Augmneted Assignment with Sequences<a hidden class=anchor aria-hidden=true href=#augmneted-assignment-with-sequences>#</a></h3>
+<p>The augmented assignment += works using the special method <code>__iadd__</code>. If <code>__iadd__</code> is not implemented, Python falls back to calling <code>__add__</code>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]
+my_list <span style=color:#f92672>+=</span> [<span style=color:#ae81ff>4</span>, <span style=color:#ae81ff>5</span>]
+my_list
+</code></pre></div><pre><code>[1, 2, 3, 4, 5]
+</code></pre>
+<p><code>__iadd__</code> works similar to <code>.extend()</code>. If my_list does not implement <code>__iadd__</code>, a+=b is the same as a=a+b.</p>
+<h3 id=usage>Usage<a hidden class=anchor aria-hidden=true href=#usage>#</a></h3>
+<p>Although it&rsquo;s highlighted everywhere that lists are container type sequences that can hold objects of different types, in practice we tycpically store objects of similar type in a list so that we can apply some common operation on them(i.e. they should all &ldquo;quack&rdquo; whether or not they are 100% ducks).</p>
+<p>Tuples being used as records can be used to store objects of different types in practice.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#e6db74>&#34;30&#34;</span>, <span style=color:#ae81ff>4</span>, <span style=color:#e6db74>&#34;5&#34;</span>]
+my_list
+</code></pre></div><pre><code>[1, 2, '30', 4, '5']
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>sorted(my_list)
+</code></pre></div><pre><code>---------------------------------------------------------------------------
+
+TypeError                                 Traceback (most recent call last)
+
+&lt;ipython-input-135-cb83e3f42d3f&gt; in &lt;module&gt;
+----&gt; 1 sorted(my_list)
+
+
+TypeError: '&lt;' not supported between instances of 'str' and 'int'
+</code></pre>
+<p>Most of the languages need us to provide a <code>cmp(a, b)</code> method to make comparisons to be able to sort a sequence. In python, using <code>key</code> argument in list.sort, max, min or sorted methods removes the need for this cmp() method. Python does compare keys but that is done in optimized C code and not using a method provided by us.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>sorted(my_list, key<span style=color:#f92672>=</span>int)
+</code></pre></div><pre><code>[1, 2, 4, '5', '30']
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>sorted(my_list, key<span style=color:#f92672>=</span>str)
+</code></pre></div><pre><code>[1, 2, '30', 4, '5']
+</code></pre>
+<hr>
+<p>Based on the book <strong>Fluent Python by Luciano Ramalho</strong>.</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://kuutsav.github.io/tags/python/>python</a></li>
+<li><a href=https://kuutsav.github.io/tags/sequences/>sequences</a></li>
+</ul>
+<nav class=paginav>
+<a class=next href=https://kuutsav.github.io/posts/python_notes_1_datamodel/>
+<span class=title>Next Page »</span>
+<br>
+<span>Python Notes, Part 1 - Data Model</span>
+</a>
+</nav>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://kuutsav.github.io>ML&Beyond</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
