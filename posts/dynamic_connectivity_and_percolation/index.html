@@ -1,0 +1,639 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Dynamic Connectivity and Percolation | ML&Beyond</title>
+<meta name=keywords content="python,dynamic connectivity,algorithms">
+<meta name=description content="Given a set of N objects that support the following two commands:
+ Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects
+After few union commands
+union(1, 2)
+union(5, 4)
+union(7, 5)
+union(9, 7)
+the state of the system changes to
+We can query the above system to find if two objects are connected or not like">
+<meta name=author content="Utsav">
+<link rel=canonical href=https://kuutsav.github.io/posts/dynamic_connectivity_and_percolation/>
+<meta name=google-site-verification content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.e14e22fb62882b4b85dfda7fcf73ee54ccbe0149a2cff5ad95cf72d1572b6bb6.css integrity="sha256-4U4i+2KIK0uF39p/z3PuVMy+AUmiz/Wtlc9y0Vcra7Y=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=icon type=image/png sizes=32x32 href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=apple-touch-icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<link rel=mask-icon href=https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript><meta property="og:title" content="Dynamic Connectivity and Percolation">
+<meta property="og:description" content="Given a set of N objects that support the following two commands:
+ Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects
+After few union commands
+union(1, 2)
+union(5, 4)
+union(7, 5)
+union(9, 7)
+the state of the system changes to
+We can query the above system to find if two objects are connected or not like">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kuutsav.github.io/posts/dynamic_connectivity_and_percolation/"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-04-07T13:40:40+05:30">
+<meta property="article:modified_time" content="2022-04-07T13:40:40+05:30"><meta property="og:site_name" content="ExampleSite">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name=twitter:title content="Dynamic Connectivity and Percolation">
+<meta name=twitter:description content="Given a set of N objects that support the following two commands:
+ Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects
+After few union commands
+union(1, 2)
+union(5, 4)
+union(7, 5)
+union(9, 7)
+the state of the system changes to
+We can query the above system to find if two objects are connected or not like">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kuutsav.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Dynamic Connectivity and Percolation","item":"https://kuutsav.github.io/posts/dynamic_connectivity_and_percolation/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Dynamic Connectivity and Percolation","name":"Dynamic Connectivity and Percolation","description":"Given a set of N objects that support the following two commands:\n Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects\nAfter few union commands\nunion(1, 2)\nunion(5, 4)\nunion(7, 5)\nunion(9, 7)\nthe state of the system changes to\nWe can query the above system to find if two objects are connected or not like","keywords":["python","dynamic connectivity","algorithms"],"articleBody":"Given a set of N objects that support the following two commands:\n Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects\nAfter few union commands\nunion(1, 2)\nunion(5, 4)\nunion(7, 5)\nunion(9, 7)\nthe state of the system changes to\nWe can query the above system to find if two objects are connected or not like\nfind(0, 1) - False\nfind(1, 2) - True\nfind(4, 9) - True\nfind(8, 1) - False\nTo be formal, we can say that “connected to” has the following properties:\n Reflexive: a is connected to a. Symmetric: if a is connected to b, then b is conntected to a. Transitive: if a is connected to b and b is conntected to c, then a is connected to c.  Another common terminology in dynamic connectivity problems is Connected components. It refers to the maximal set of objects that are mutually connected.\nIn the above example, the conntected components are:\n{0), {1, 2}, {3}, {4, 5, 7, 9}, {6}, {8}\nThe union-find alorithms we are going to implement below can help us model objects of many different kinds. Some of the practical examples include:\n Pixesls in an image. Computers in a network. Friends in a network. Grid system for path finding problems.  When we are programming the union-find operations, it’s convenient to represent the set of obecjts and their connectivity using a list from 0 to N-1.\nThe overall goal is to design a data structure and algorithm for union-find that is effecient when:\n Number of ojects N can be huge. Number of operations M can be huge. Find and Union queries can be intermixed.  The first algo we will implement will be QuickFind.\nQuick-Find  We will used _id[] to store all the obecjts. The index will refer to the objects and the value will indicate the connectivity between two indices.  For example\n_id[] = [0, 1, 1, 3, 5, 5, 6, 5, 8, 5]\nHere, objects {1, 2} are connected and {4, 5, 7, 9} are connected.\nFind: Check if indices a and b have the same id.\nUnion: To merge indices a and b, change all entries whose id equals _id[a] to _id[b].\nfrom collections import defaultdict, Counter import random import time import matplotlib.pyplot as plt import numpy as np def plot(sequences): plt.figure(figsize=(12, 6)) for k, seq, label in sequences: plt.plot(k, seq, label=label) plt.legend() return plt class QuickFind: def __init__(self, n:int=10): self._id = list(range(n)) def __getitem__(self, ix:int) - int: return self._id[ix] def __len__(self) - int: return len(self._id) def find(self, a:int, b:int) - bool: return self._id[a] == self._id[b] def union(self, a:int, b:int) - None: root_of_a = self._id[a] root_of_b = self._id[b] for i, _ in enumerate(self._id): if self._id[i] == root_of_a: self._id[i] = root_of_b def simulate(self) - None: n = len(self._id) for _ in range(n): a = random.randint(0, n-1) b = random.randint(0, n-1) if random.random()  0.5: st = time.time() self.union(a, b) timings[\"union\"][n].append(time.time() - st) else: st = time.time() self.find(a, b) timings[\"find\"][n].append(time.time() - st) It’s easy to observe the worst case time complexity of QuickFind:\n Initialize: O(N) Union: O(N) Find: O(1)  Even though the operations don’t look too bad on their own, for a sequence of N union commands on N objects(a very common operation for such problems), this becomes O(N^2).\ntimings = {\"find\": defaultdict(list), \"union\": defaultdict(list), \"simulate\": []} print(\"simulating \", end=\"\") for i in range(100, 11000, 1000): print(i, end=\" \") qf = QuickFind(i) st = time.time() qf.simulate() timings[\"simulate\"].append(time.time() - st) simulating 100 1100 2100 3100 4100 5100 6100 7100 8100 9100 10100  plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\") ]); plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\"), (timings[\"union\"].keys(), timings[\"simulate\"], \"simulate\") ]); An improvement over QuickFind is the QuickUnion algorithm.\nQuick-Union Here also we use an array to store the objects, though the interpretation of the values in the array changes, now_id[i] is the parent of i.\nWe are essentially using the array to create a tree like structure. To find the root of any object i, we recursively traverse it’s parent till the index is same as the value, i.e.\nRoot of i is _id[_id[_id[…_id[i]…]]].\nclass QuickUnion: def __init__(self, n:int=10): self._id = list(range(n)) def __getitem__(self, ix:int) - int: return self._id[ix] def __len__(self) - int: return len(self._id) def root(self, ix:int) - int: while ix != self._id[ix]: ix = self._id[ix] return ix def find(self, a:int, b:int) - bool: return self.root(a) == self.root(b) def union(self, a:int, b:int) - None: root_of_a = self.root(a) root_of_b = self.root(b) self._id[root_of_a] = root_of_b def simulate(self) - None: n = len(self._id) for _ in range(n): a = random.randint(0, n-1) b = random.randint(0, n-1) if random.random()  0.5: st = time.time() self.union(a, b) timings[\"union\"][n].append(time.time() - st) else: st = time.time() self.find(a, b) timings[\"find\"][n].append(time.time() - st) def simulate_worst_case(self) - None: n = len(self._id) for i in range(n-1): st = time.time() self.union(i, i+1) timings[\"union\"][n].append(time.time() - st) for i in range(n): st = time.time() self.find(i, i) timings[\"find\"][n].append(time.time() - st) Here we can observe that the Union and Find operations have a time complexity of O(logN) on average, given that the tree remains balanced.\nThe problem occurs when the tree gets too tall. In the worst case, we can end up with one very tall skinny tree where the time complexity of Find operation becomes O(N). In this case, we again end up with O(N^2) for N finds on N objects.\nSo in the worst case:\n Initialize: O(N) Union: O(N) Find: O(N)  Average Case timings = {\"find\": defaultdict(list), \"union\": defaultdict(list), \"simulate\": []} print(\"simulating \", end=\"\") for i in range(100, 251000, 1000): if int(str(i)[:2]) % 11 == 0: print(i, end=\" \") qu = QuickUnion(i) st = time.time() qu.simulate() timings[\"simulate\"].append(time.time() - st) simulating 1100 11100 22100 33100 44100 55100 66100 77100 88100 99100 110100 111100 112100 113100 114100 115100 116100 117100 118100 119100 220100 221100 222100 223100 224100 225100 226100 227100 228100 229100  plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\") ]); plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\"), (timings[\"union\"].keys(), timings[\"simulate\"], \"simulate\") ]); Worst case timings = {\"find\": defaultdict(list), \"union\": defaultdict(list), \"simulate\": []} print(\"simulating \", end=\"\") for i in range(100, 11000, 1000): print(i, end=\" \") qu = QuickUnion(i) st = time.time() qu.simulate_worst_case() timings[\"simulate\"].append(time.time() - st) simulating 100 1100 2100 3100 4100 5100 6100 7100 8100 9100 10100  plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\") ]); plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\"), (timings[\"union\"].keys(), timings[\"simulate\"], \"simulate\") ]); QuickUnionWeighted The QuickUnion can easily be improved by trying to keep the trees balanced as the number of operations grow.\nThis can be done by keeping track of the size of the trees and using it for each union(a, b) operation. Now, instead of just changing the root of a to root of b, we compare the size of tree at a and the tree at b to decide whose root changes.\nIn the worst case now:\n Initialize: O(N) Union: O(logN) Find: O(logN)  class QuickUnionWeighted: def __init__(self, n:int=10): self._id = list(range(n)) self._sizes = [1] * n def __getitem__(self, ix:int) - int: return self._id[ix] def __len__(self) - int: return len(self._id) def root(self, ix:int) - int: while ix != self._id[ix]: ix = self._id[ix] return ix def find(self, a:int, b:int) - bool: return self.root(a) == self.root(b) def union(self, a:int, b:int) - None: root_of_a = self.root(a) root_of_b = self.root(b) if root_of_a == root_of_b: return if self._sizes[root_of_a]  self._sizes[root_of_b]: self._sizes[root_of_a] += self._sizes[root_of_b] self._id[root_of_b] = root_of_a else: self._sizes[root_of_b] += self._sizes[root_of_a] self._id[root_of_a] = root_of_b def simulate(self) - None: n = len(self._id) for _ in range(n): a = random.randint(0, n-1) b = random.randint(0, n-1) if random.random()  0.5: st = time.time() self.union(a, b) timings[\"union\"][n].append(time.time() - st) else: st = time.time() self.find(a, b) timings[\"find\"][n].append(time.time() - st) def simulate_worst_case(self) - None: n = len(self._id) for _ in range(n): a = random.randint(0, n-1) b = random.randint(0, n-1) st = time.time() self.union(a, b) timings[\"union\"][n].append(time.time() - st) for _ in range(n): a = random.randint(0, n-1) b = random.randint(0, n-1) st = time.time() self.find(a, b) timings[\"find\"][n].append(time.time() - st) With balanced trees, for N Find operations over N objects, our worst time complexity should be O(NlogN).\ntimings = {\"find\": defaultdict(list), \"union\": defaultdict(list), \"simulate\": []} print(\"simulating \", end=\"\") for i in range(100, 251000, 1000): if int(str(i)[:2]) % 11 == 0: print(i, end=\" \") quw = QuickUnionWeighted(i) st = time.time() quw.simulate() timings[\"simulate\"].append(time.time() - st) simulating 1100 11100 22100 33100 44100 55100 66100 77100 88100 99100 110100 111100 112100 113100 114100 115100 116100 117100 118100 119100 220100 221100 222100 223100 224100 225100 226100 227100 228100 229100  plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\") ]); plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\"), (timings[\"union\"].keys(), timings[\"simulate\"], \"simulate\") ]); timings = {\"find\": defaultdict(list), \"union\": defaultdict(list), \"simulate\": []} print(\"simulating \", end=\"\") for i in range(100, 251000, 1000): if int(str(i)[:2]) % 11 == 0: print(i, end=\" \") quw = QuickUnionWeighted(i) st = time.time() quw.simulate_worst_case() timings[\"simulate\"].append(time.time() - st) simulating 1100 11100 22100 33100 44100 55100 66100 77100 88100 99100 110100 111100 112100 113100 114100 115100 116100 117100 118100 119100 220100 221100 222100 223100 224100 225100 226100 227100 228100 229100  plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\") ]); plot([(timings[\"find\"].keys(), [np.mean(v) for t, v in timings[\"find\"].items()], \"find\"), (timings[\"union\"].keys(), [np.mean(v) for t, v in timings[\"union\"].items()], \"union\"), (timings[\"union\"].keys(), timings[\"simulate\"], \"simulate\") ]); Percolation Percolation is a model for many physical systems. The system can be represented in the following way:\n N-by-N grid of sites. Each site is open with probability p (or blocked with probability 1-p). System percolates if the top and bottom are connected by open sites.  One example can be water flowing through a block of bricks with open sites indicating porus material.\nThe likelihood of percolation depends on the site vacancy probability p.\nWe will use the QuickUnionWeighted algorithm to find the threshold for p where the liklehood of percolation changes suddenly from 0 to 1.\nWe will run lots of monte carlo simulation on a system:\n Which starts with all sites blocked. In each step, we randomly open a site and check if the system percolates. We keep repeating the last step till the system percolates. We estimate p as (# open sites) / (N * N). If there is such a threshold for p where “the liklehood of percolation changes suddenly from 0 to 1”, then a running mean of all the p over multiple simulations should give us that number according to the law of large numbers.  class PercolationModel: def __init__(self, n:int=10): self._id = list(range(n)) self._sizes = [1] * n self._open = [0] * n self._ixs = list(range(n)) self.n = int(np.sqrt(n)) self.nxn = n def reset(self) - None: self._id = list(range(self.nxn)) self._sizes = [1] * self.nxn self._open = [0] * self.nxn self._ixs = list(range(self.nxn)) def __getitem__(self, ix:int) - int: return self._id[ix] def __len__(self) - int: return len(self._id) def root(self, ix:int) - int: while ix != self._id[ix]: ix = self._id[ix] return ix def find(self, a:int, b:int) - bool: return self.root(a) == self.root(b) def is_valid_ix(self, r:int, c:int) - bool: return (r  -1 and r  self.n) and (c  -1 and c  self.n) def union(self, a:int, b:int) - None: root_of_a = self.root(a) root_of_b = self.root(b) if self._sizes[root_of_a]  self._sizes[root_of_b]: self._sizes[root_of_a] += self._sizes[root_of_b] self._id[root_of_b] = root_of_a else: self._sizes[root_of_b] += self._sizes[root_of_a] self._id[root_of_a] = root_of_b def open_site(self) - None: ix = random.sample(self._ixs, 1)[0] self._ixs.remove(ix) self._open[ix] = 1 r, c = ix // self.n, ix % self.n if self.is_valid_ix(r-1, c) and self._open[ix-self.n]: # up self.union(ix, ix-self.n) if self.is_valid_ix(r, c-1) and self._open[ix-1]: # left self.union(ix, ix-1) if self.is_valid_ix(r, c+1) and self._open[ix+1]: # right self.union(ix, ix+1) if self.is_valid_ix(r+1, c) and self._open[ix+self.n]: # down self.union(ix, ix+self.n) def percolates(self) - bool: last_r = self.n * (self.n-1) for c1 in range(self.n): for c2 in range(self.n): if self.find(c1, last_r+c2): return True return False def simulate(self, n_sims:int=1000, till_p=None) - (float, list): p = []; for i in range(n_sims): self.reset() n_open_sites = 0 if till_p: while (n_open_sites / self.nxn)  till_p: self.open_site() n_open_sites += 1 p.append(n_open_sites / self.nxn) else: while not self.percolates(): self.open_site() n_open_sites += 1 p.append(n_open_sites / self.nxn) return np.mean(p), [np.mean(p[:i+1]) for i in range(n_sims)] def display(self) - None: coords, colors = [], []; for r in range(pm.n): for c in range(pm.n): coords.append((r, c)) if pm._open[pm.n*r+c]: colors.append(\"lightblue\") else: colors.append(\"black\") plt.figure(figsize=(5, 5)) plt.scatter([c[0] for c in coords], [c[1] for c in coords], c=colors, s=740, marker=\"s\") plt.xticks([]); plt.yticks([]); Let’s see how the system looks at different values of p, for different 100-by-100 grids.\npm = PercolationModel(100) p, _ = pm.simulate(till_p=0.2) p 0.20000000000000004  pm.display() pm = PercolationModel(100) p, _ = pm.simulate(till_p=0.8) p 0.8000000000000002  pm.display() Let’s find the p threshold.\npm = PercolationModel(100) p, ps = pm.simulate(n_sims=2000) p 0.59062  pm.display() plt.figure(figsize=(12, 6)) plt.plot(list(range(len(ps))), ps); pm = PercolationModel(100) p, ps = pm.simulate(n_sims=5000) p 0.590384  pm.display() plt.figure(figsize=(12, 6)) plt.plot(list(range(len(ps))), ps);  Based on https://www.coursera.org/learn/algorithms-part1/home/week/1.\n","wordCount":"2147","inLanguage":"en","datePublished":"2022-04-07T13:40:40+05:30","dateModified":"2022-04-07T13:40:40+05:30","author":{"@type":"Person","name":"Utsav"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kuutsav.github.io/posts/dynamic_connectivity_and_percolation/"},"publisher":{"@type":"Organization","name":"ML\u0026Beyond","logo":{"@type":"ImageObject","url":"https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kuutsav.github.io accesskey=h title="ML&Beyond (Alt + H)">ML&Beyond</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://kuutsav.github.io/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://kuutsav.github.io>Home</a>&nbsp;»&nbsp;<a href=https://kuutsav.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+Dynamic Connectivity and Percolation
+</h1>
+<div class=post-meta><span title="2022-04-07 13:40:40 +0530 IST">April 7, 2022</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;Utsav
+</div>
+</header>
+<div class=post-content><p>Given a set of <strong>N</strong> objects that support the following two commands:</p>
+<ul>
+<li><strong>Union</strong>: Connect two objects.</li>
+<li><strong>Find/Connected</strong>: Is there a path connecting the two obejcts?</li>
+</ul>
+<p>For example, consider this set of 10 objects</p>
+<p><img loading=lazy src=/static/general/dc_objects.png alt=dc_objects.png>
+</p>
+<p>After few union commands</p>
+<p><strong>union(1, 2)</strong></p>
+<p><strong>union(5, 4)</strong></p>
+<p><strong>union(7, 5)</strong></p>
+<p><strong>union(9, 7)</strong></p>
+<p>the state of the system changes to</p>
+<p><img loading=lazy src=/static/general/dc_connected.png alt=dc_connected.png>
+</p>
+<p>We can query the above system to find if two objects are connected or not like</p>
+<p><strong>find(0, 1)</strong> -> False</p>
+<p><strong>find(1, 2)</strong> -> True</p>
+<p><strong>find(4, 9)</strong> -> True</p>
+<p><strong>find(8, 1)</strong> -> False</p>
+<p>To be formal, we can say that &ldquo;connected to&rdquo; has the following properties:</p>
+<ul>
+<li><strong>Reflexive</strong>: <em>a</em> is connected to <em>a</em>.</li>
+<li><strong>Symmetric</strong>: if <em>a</em> is connected to <em>b</em>, then <em>b</em> is conntected to <em>a</em>.</li>
+<li><strong>Transitive</strong>: if <em>a</em> is connected to <em>b</em> and <em>b</em> is conntected to <em>c</em>, then <em>a</em> is connected to <em>c</em>.</li>
+</ul>
+<p>Another common terminology in dynamic connectivity problems is <strong>Connected components</strong>. It refers to the maximal set of objects that are mutually connected.</p>
+<p>In the above example, the conntected components are:</p>
+<p>{0), {1, 2}, {3}, {4, 5, 7, 9}, {6}, {8}</p>
+<p>The union-find alorithms we are going to implement below can help us model objects of many different kinds. Some of the practical examples include:</p>
+<ul>
+<li>Pixesls in an image.</li>
+<li>Computers in a network.</li>
+<li>Friends in a network.</li>
+<li>Grid system for path finding problems.</li>
+</ul>
+<p>When we are programming the union-find operations, it&rsquo;s convenient to represent the set of obecjts and their connectivity using a list from 0 to N-1.</p>
+<p>The overall goal is to design a data structure and algorithm for union-find that is effecient when:</p>
+<ul>
+<li>Number of ojects <em>N</em> can be huge.</li>
+<li>Number of operations <em>M</em> can be huge.</li>
+<li>Find and Union queries can be intermixed.</li>
+</ul>
+<p>The first algo we will implement will be <strong>QuickFind</strong>.</p>
+<h3 id=quick-find>Quick-Find<a hidden class=anchor aria-hidden=true href=#quick-find>#</a></h3>
+<ul>
+<li>We will used _id[] to store all the obecjts.</li>
+<li>The index will refer to the objects and the value will indicate the connectivity between two indices.</li>
+</ul>
+<p>For example</p>
+<p>_id[] = [0, 1, 1, 3, 5, 5, 6, 5, 8, 5]</p>
+<p>Here, objects {1, 2} are connected and {4, 5, 7, 9} are connected.</p>
+<p><strong>Find</strong>: Check if indices a and b have the same id.</p>
+<p><strong>Union</strong>: To merge indices a and b, change all entries whose id equals _id[a] to _id[b].</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> collections <span style=color:#f92672>import</span> defaultdict, Counter
+<span style=color:#f92672>import</span> random
+<span style=color:#f92672>import</span> time
+
+<span style=color:#f92672>import</span> matplotlib.pyplot <span style=color:#66d9ef>as</span> plt
+<span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+
+
+<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>plot</span>(sequences):
+    plt<span style=color:#f92672>.</span>figure(figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>12</span>, <span style=color:#ae81ff>6</span>))
+    <span style=color:#66d9ef>for</span> k, seq, label <span style=color:#f92672>in</span> sequences:
+        plt<span style=color:#f92672>.</span>plot(k, seq, label<span style=color:#f92672>=</span>label)
+    plt<span style=color:#f92672>.</span>legend()
+    <span style=color:#66d9ef>return</span> plt
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>QuickFind</span>:
+
+    <span style=color:#66d9ef>def</span> __init__(self, n:int<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>):
+        self<span style=color:#f92672>.</span>_id <span style=color:#f92672>=</span> list(range(n))
+
+    <span style=color:#66d9ef>def</span> __getitem__(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_id[ix]
+
+    <span style=color:#66d9ef>def</span> __len__(self) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> len(self<span style=color:#f92672>.</span>_id)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>find</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> bool:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_id[a] <span style=color:#f92672>==</span> self<span style=color:#f92672>.</span>_id[b]
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>union</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        root_of_a <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_id[a]
+        root_of_b <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_id[b]
+        <span style=color:#66d9ef>for</span> i, _ <span style=color:#f92672>in</span> enumerate(self<span style=color:#f92672>.</span>_id):
+            <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>_id[i] <span style=color:#f92672>==</span> root_of_a:
+                self<span style=color:#f92672>.</span>_id[i] <span style=color:#f92672>=</span> root_of_b
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>simulate</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        n <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>_id)
+        <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(n):
+            a <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            b <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            <span style=color:#66d9ef>if</span> random<span style=color:#f92672>.</span>random() <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0.5</span>:
+                st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+                self<span style=color:#f92672>.</span>union(a, b)
+                timings[<span style=color:#e6db74>&#34;union&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st) 
+            <span style=color:#66d9ef>else</span>:
+                st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+                self<span style=color:#f92672>.</span>find(a, b)
+                timings[<span style=color:#e6db74>&#34;find&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><p>It&rsquo;s easy to observe the worst case time complexity of QuickFind:</p>
+<ul>
+<li><strong>Initialize</strong>: O(N)</li>
+<li><strong>Union</strong>: O(N)</li>
+<li><strong>Find</strong>: O(1)</li>
+</ul>
+<p>Even though the operations don&rsquo;t look too bad on their own, for a sequence of N union commands on N objects(a very common operation for such problems), this becomes <strong>O(N^2)</strong>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>timings <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;find&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;union&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;simulate&#34;</span>: []}
+
+print(<span style=color:#e6db74>&#34;simulating &#34;</span>, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>)
+<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>11000</span>, <span style=color:#ae81ff>1000</span>):
+    print(i, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; &#34;</span>)
+    qf <span style=color:#f92672>=</span> QuickFind(i)
+    st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+    qf<span style=color:#f92672>.</span>simulate()
+    timings[<span style=color:#e6db74>&#34;simulate&#34;</span>]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><pre><code>simulating 100 1100 2100 3100 4100 5100 6100 7100 8100 9100 10100 
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_9_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), timings[<span style=color:#e6db74>&#34;simulate&#34;</span>], <span style=color:#e6db74>&#34;simulate&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_10_0.png alt=png>
+</p>
+<p>An improvement over QuickFind is the QuickUnion algorithm.</p>
+<h3 id=quick-union>Quick-Union<a hidden class=anchor aria-hidden=true href=#quick-union>#</a></h3>
+<p>Here also we use an array to store the objects, though the interpretation of the values in the array changes, now_id[i] is the parent of i.</p>
+<p>We are essentially using the array to create a tree like structure. To find the root of any object i, we recursively traverse it&rsquo;s parent till the index is same as the value, i.e.</p>
+<p><em>Root</em> of i is _id[_id[_id[&mldr;_id[i]&mldr;]]].</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>QuickUnion</span>:
+
+    <span style=color:#66d9ef>def</span> __init__(self, n:int<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>):
+        self<span style=color:#f92672>.</span>_id <span style=color:#f92672>=</span> list(range(n))
+
+    <span style=color:#66d9ef>def</span> __getitem__(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_id[ix]
+
+    <span style=color:#66d9ef>def</span> __len__(self) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> len(self<span style=color:#f92672>.</span>_id)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>root</span>(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>while</span> ix <span style=color:#f92672>!=</span> self<span style=color:#f92672>.</span>_id[ix]:
+            ix <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_id[ix]
+        <span style=color:#66d9ef>return</span> ix
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>find</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> bool:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>root(a) <span style=color:#f92672>==</span> self<span style=color:#f92672>.</span>root(b)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>union</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        root_of_a <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>root(a)
+        root_of_b <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>root(b)
+        self<span style=color:#f92672>.</span>_id[root_of_a] <span style=color:#f92672>=</span> root_of_b
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>simulate</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        n <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>_id)
+        <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(n):
+            a <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            b <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            <span style=color:#66d9ef>if</span> random<span style=color:#f92672>.</span>random() <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0.5</span>:
+                st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+                self<span style=color:#f92672>.</span>union(a, b)
+                timings[<span style=color:#e6db74>&#34;union&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st) 
+            <span style=color:#66d9ef>else</span>:
+                st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+                self<span style=color:#f92672>.</span>find(a, b)
+                timings[<span style=color:#e6db74>&#34;find&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>simulate_worst_case</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        n <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>_id)
+        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>):
+            st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+            self<span style=color:#f92672>.</span>union(i, i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>)
+            timings[<span style=color:#e6db74>&#34;union&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st) 
+        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(n):
+            st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+            self<span style=color:#f92672>.</span>find(i, i)
+            timings[<span style=color:#e6db74>&#34;find&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><p>Here we can observe that the Union and Find operations have a time complexity of <strong>O(logN)</strong> on average, given that the tree remains balanced.</p>
+<p>The problem occurs when the tree gets too tall. In the worst case, we can end up with one very tall skinny tree where the time complexity of Find operation becomes <strong>O(N)</strong>. In this case, we again end up with <strong>O(N^2)</strong> for N finds on N objects.</p>
+<p>So in the worst case:</p>
+<ul>
+<li><strong>Initialize</strong>: O(N)</li>
+<li><strong>Union</strong>: O(N)</li>
+<li><strong>Find</strong>: O(N)</li>
+</ul>
+<h4 id=average-case>Average Case<a hidden class=anchor aria-hidden=true href=#average-case>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>timings <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;find&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;union&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;simulate&#34;</span>: []}
+
+print(<span style=color:#e6db74>&#34;simulating &#34;</span>, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>)
+<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>251000</span>, <span style=color:#ae81ff>1000</span>):
+    <span style=color:#66d9ef>if</span> int(str(i)[:<span style=color:#ae81ff>2</span>]) <span style=color:#f92672>%</span> <span style=color:#ae81ff>11</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+        print(i, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; &#34;</span>)
+    qu <span style=color:#f92672>=</span> QuickUnion(i)
+    st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+    qu<span style=color:#f92672>.</span>simulate()
+    timings[<span style=color:#e6db74>&#34;simulate&#34;</span>]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><pre><code>simulating 1100 11100 22100 33100 44100 55100 66100 77100 88100 99100 110100 111100 112100 113100 114100 115100 116100 117100 118100 119100 220100 221100 222100 223100 224100 225100 226100 227100 228100 229100 
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_15_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), timings[<span style=color:#e6db74>&#34;simulate&#34;</span>], <span style=color:#e6db74>&#34;simulate&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_16_0.png alt=png>
+</p>
+<h4 id=worst-case>Worst case<a hidden class=anchor aria-hidden=true href=#worst-case>#</a></h4>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>timings <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;find&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;union&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;simulate&#34;</span>: []}
+
+print(<span style=color:#e6db74>&#34;simulating &#34;</span>, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>)
+<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>11000</span>, <span style=color:#ae81ff>1000</span>):
+    print(i, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; &#34;</span>)
+    qu <span style=color:#f92672>=</span> QuickUnion(i)
+    st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+    qu<span style=color:#f92672>.</span>simulate_worst_case()
+    timings[<span style=color:#e6db74>&#34;simulate&#34;</span>]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><pre><code>simulating 100 1100 2100 3100 4100 5100 6100 7100 8100 9100 10100 
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_19_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), timings[<span style=color:#e6db74>&#34;simulate&#34;</span>], <span style=color:#e6db74>&#34;simulate&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_20_0.png alt=png>
+</p>
+<h3 id=quickunionweighted>QuickUnionWeighted<a hidden class=anchor aria-hidden=true href=#quickunionweighted>#</a></h3>
+<p>The QuickUnion can easily be improved by trying to keep the trees balanced as the number of operations grow.</p>
+<p>This can be done by keeping track of the size of the trees and using it for each <strong>union(a, b)</strong> operation. Now, instead of just changing the root of a to root of b, we compare the size of tree at a and the tree at b to decide whose root changes.</p>
+<p>In the worst case now:</p>
+<ul>
+<li><strong>Initialize</strong>: O(N)</li>
+<li><strong>Union</strong>: O(logN)</li>
+<li><strong>Find</strong>: O(logN)</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>QuickUnionWeighted</span>:
+
+    <span style=color:#66d9ef>def</span> __init__(self, n:int<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>):
+        self<span style=color:#f92672>.</span>_id <span style=color:#f92672>=</span> list(range(n))
+        self<span style=color:#f92672>.</span>_sizes <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> n
+
+    <span style=color:#66d9ef>def</span> __getitem__(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_id[ix]
+
+    <span style=color:#66d9ef>def</span> __len__(self) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> len(self<span style=color:#f92672>.</span>_id)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>root</span>(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>while</span> ix <span style=color:#f92672>!=</span> self<span style=color:#f92672>.</span>_id[ix]:
+            ix <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_id[ix]
+        <span style=color:#66d9ef>return</span> ix
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>find</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> bool:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>root(a) <span style=color:#f92672>==</span> self<span style=color:#f92672>.</span>root(b)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>union</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        root_of_a <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>root(a)
+        root_of_b <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>root(b)
+        <span style=color:#66d9ef>if</span> root_of_a <span style=color:#f92672>==</span> root_of_b:
+            <span style=color:#66d9ef>return</span>
+        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>_sizes[root_of_a] <span style=color:#f92672>&gt;</span> self<span style=color:#f92672>.</span>_sizes[root_of_b]:
+            self<span style=color:#f92672>.</span>_sizes[root_of_a] <span style=color:#f92672>+=</span> self<span style=color:#f92672>.</span>_sizes[root_of_b]
+            self<span style=color:#f92672>.</span>_id[root_of_b] <span style=color:#f92672>=</span> root_of_a
+        <span style=color:#66d9ef>else</span>:
+            self<span style=color:#f92672>.</span>_sizes[root_of_b] <span style=color:#f92672>+=</span> self<span style=color:#f92672>.</span>_sizes[root_of_a]
+            self<span style=color:#f92672>.</span>_id[root_of_a] <span style=color:#f92672>=</span> root_of_b
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>simulate</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        n <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>_id)
+        <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(n):
+            a <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            b <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            <span style=color:#66d9ef>if</span> random<span style=color:#f92672>.</span>random() <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>0.5</span>:
+                st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+                self<span style=color:#f92672>.</span>union(a, b)
+                timings[<span style=color:#e6db74>&#34;union&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st) 
+            <span style=color:#66d9ef>else</span>:
+                st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+                self<span style=color:#f92672>.</span>find(a, b)
+                timings[<span style=color:#e6db74>&#34;find&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>simulate_worst_case</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        n <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>_id)
+        <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(n):
+            a <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            b <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+            self<span style=color:#f92672>.</span>union(a, b)
+            timings[<span style=color:#e6db74>&#34;union&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st) 
+        <span style=color:#66d9ef>for</span> _ <span style=color:#f92672>in</span> range(n):
+            a <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            b <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>randint(<span style=color:#ae81ff>0</span>, n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+            st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+            self<span style=color:#f92672>.</span>find(a, b)
+            timings[<span style=color:#e6db74>&#34;find&#34;</span>][n]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><p>With balanced trees, for N Find operations over N objects, our worst time complexity should be <strong>O(NlogN)</strong>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>timings <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;find&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;union&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;simulate&#34;</span>: []}
+
+print(<span style=color:#e6db74>&#34;simulating &#34;</span>, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>)
+<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>251000</span>, <span style=color:#ae81ff>1000</span>):
+    <span style=color:#66d9ef>if</span> int(str(i)[:<span style=color:#ae81ff>2</span>]) <span style=color:#f92672>%</span> <span style=color:#ae81ff>11</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+        print(i, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; &#34;</span>)
+    quw <span style=color:#f92672>=</span> QuickUnionWeighted(i)
+    st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+    quw<span style=color:#f92672>.</span>simulate()
+    timings[<span style=color:#e6db74>&#34;simulate&#34;</span>]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><pre><code>simulating 1100 11100 22100 33100 44100 55100 66100 77100 88100 99100 110100 111100 112100 113100 114100 115100 116100 117100 118100 119100 220100 221100 222100 223100 224100 225100 226100 227100 228100 229100 
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_25_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), timings[<span style=color:#e6db74>&#34;simulate&#34;</span>], <span style=color:#e6db74>&#34;simulate&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_26_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>timings <span style=color:#f92672>=</span> {<span style=color:#e6db74>&#34;find&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;union&#34;</span>: defaultdict(list), <span style=color:#e6db74>&#34;simulate&#34;</span>: []}
+
+print(<span style=color:#e6db74>&#34;simulating &#34;</span>, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;&#34;</span>)
+<span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>100</span>, <span style=color:#ae81ff>251000</span>, <span style=color:#ae81ff>1000</span>):
+    <span style=color:#66d9ef>if</span> int(str(i)[:<span style=color:#ae81ff>2</span>]) <span style=color:#f92672>%</span> <span style=color:#ae81ff>11</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+        print(i, end<span style=color:#f92672>=</span><span style=color:#e6db74>&#34; &#34;</span>)
+    quw <span style=color:#f92672>=</span> QuickUnionWeighted(i)
+    st <span style=color:#f92672>=</span> time<span style=color:#f92672>.</span>time()
+    quw<span style=color:#f92672>.</span>simulate_worst_case()
+    timings[<span style=color:#e6db74>&#34;simulate&#34;</span>]<span style=color:#f92672>.</span>append(time<span style=color:#f92672>.</span>time() <span style=color:#f92672>-</span> st)
+</code></pre></div><pre><code>simulating 1100 11100 22100 33100 44100 55100 66100 77100 88100 99100 110100 111100 112100 113100 114100 115100 116100 117100 118100 119100 220100 221100 222100 223100 224100 225100 226100 227100 228100 229100 
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_28_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plot([(timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;find&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;find&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), [np<span style=color:#f92672>.</span>mean(v) <span style=color:#66d9ef>for</span> t, v <span style=color:#f92672>in</span> timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>items()], <span style=color:#e6db74>&#34;union&#34;</span>),
+      (timings[<span style=color:#e6db74>&#34;union&#34;</span>]<span style=color:#f92672>.</span>keys(), timings[<span style=color:#e6db74>&#34;simulate&#34;</span>], <span style=color:#e6db74>&#34;simulate&#34;</span>)
+]);
+</code></pre></div><p><img loading=lazy src=/static/general/output_29_0.png alt=png>
+</p>
+<h3 id=percolation>Percolation<a hidden class=anchor aria-hidden=true href=#percolation>#</a></h3>
+<p>Percolation is a model for many physical systems. The system can be represented in the following way:</p>
+<ul>
+<li><em>N-by-N</em> grid of sites.</li>
+<li>Each site is open with probability <em>p</em> (or blocked with probability <em>1-p</em>).</li>
+<li>System <strong>percolates</strong> if the top and bottom are connected by open sites.</li>
+</ul>
+<p>One example can be water flowing through a block of bricks with open sites indicating porus material.</p>
+<p>The likelihood of percolation depends on the site vacancy probability <em>p</em>.</p>
+<p>We will use the QuickUnionWeighted algorithm to find the threshold for <em>p</em> where the liklehood of percolation changes suddenly from 0 to 1.</p>
+<p>We will run lots of monte carlo simulation on a system:</p>
+<ul>
+<li>Which starts with all sites blocked.</li>
+<li>In each step, we randomly open a site and check if the system percolates.</li>
+<li>We keep repeating the last step till the system percolates.</li>
+<li>We estimate <em>p</em> as (# open sites) / (N * N).</li>
+<li>If there is such a threshold for <em>p</em> where &ldquo;the liklehood of percolation changes suddenly from 0 to 1&rdquo;, then a running mean of all the <em>p</em> over multiple simulations should give us that number according to the <a href=https://en.wikipedia.org/wiki/Law_of_large_numbers>law of large numbers</a>.</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>PercolationModel</span>:
+
+    <span style=color:#66d9ef>def</span> __init__(self, n:int<span style=color:#f92672>=</span><span style=color:#ae81ff>10</span>):
+        self<span style=color:#f92672>.</span>_id <span style=color:#f92672>=</span> list(range(n))
+        self<span style=color:#f92672>.</span>_sizes <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> n
+        self<span style=color:#f92672>.</span>_open <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> n
+        self<span style=color:#f92672>.</span>_ixs <span style=color:#f92672>=</span> list(range(n))
+        self<span style=color:#f92672>.</span>n <span style=color:#f92672>=</span> int(np<span style=color:#f92672>.</span>sqrt(n))
+        self<span style=color:#f92672>.</span>nxn <span style=color:#f92672>=</span> n
+    
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>reset</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        self<span style=color:#f92672>.</span>_id <span style=color:#f92672>=</span> list(range(self<span style=color:#f92672>.</span>nxn))
+        self<span style=color:#f92672>.</span>_sizes <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>] <span style=color:#f92672>*</span> self<span style=color:#f92672>.</span>nxn
+        self<span style=color:#f92672>.</span>_open <span style=color:#f92672>=</span> [<span style=color:#ae81ff>0</span>] <span style=color:#f92672>*</span> self<span style=color:#f92672>.</span>nxn
+        self<span style=color:#f92672>.</span>_ixs <span style=color:#f92672>=</span> list(range(self<span style=color:#f92672>.</span>nxn))
+
+    <span style=color:#66d9ef>def</span> __getitem__(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_id[ix]
+
+    <span style=color:#66d9ef>def</span> __len__(self) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>return</span> len(self<span style=color:#f92672>.</span>_id)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>root</span>(self, ix:int) <span style=color:#f92672>-&gt;</span> int:
+        <span style=color:#66d9ef>while</span> ix <span style=color:#f92672>!=</span> self<span style=color:#f92672>.</span>_id[ix]:
+            ix <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>_id[ix]
+        <span style=color:#66d9ef>return</span> ix
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>find</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> bool:
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>root(a) <span style=color:#f92672>==</span> self<span style=color:#f92672>.</span>root(b)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>is_valid_ix</span>(self, r:int, c:int) <span style=color:#f92672>-&gt;</span> bool:
+        <span style=color:#66d9ef>return</span> (r <span style=color:#f92672>&gt;</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span> <span style=color:#f92672>and</span> r <span style=color:#f92672>&lt;</span> self<span style=color:#f92672>.</span>n) <span style=color:#f92672>and</span> (c <span style=color:#f92672>&gt;</span> <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span> <span style=color:#f92672>and</span> c <span style=color:#f92672>&lt;</span> self<span style=color:#f92672>.</span>n)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>union</span>(self, a:int, b:int) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        root_of_a <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>root(a)
+        root_of_b <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>root(b)
+        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>_sizes[root_of_a] <span style=color:#f92672>&gt;</span> self<span style=color:#f92672>.</span>_sizes[root_of_b]:
+            self<span style=color:#f92672>.</span>_sizes[root_of_a] <span style=color:#f92672>+=</span> self<span style=color:#f92672>.</span>_sizes[root_of_b]
+            self<span style=color:#f92672>.</span>_id[root_of_b] <span style=color:#f92672>=</span> root_of_a
+        <span style=color:#66d9ef>else</span>:
+            self<span style=color:#f92672>.</span>_sizes[root_of_b] <span style=color:#f92672>+=</span> self<span style=color:#f92672>.</span>_sizes[root_of_a]
+            self<span style=color:#f92672>.</span>_id[root_of_a] <span style=color:#f92672>=</span> root_of_b
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>open_site</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        ix <span style=color:#f92672>=</span> random<span style=color:#f92672>.</span>sample(self<span style=color:#f92672>.</span>_ixs, <span style=color:#ae81ff>1</span>)[<span style=color:#ae81ff>0</span>]
+        self<span style=color:#f92672>.</span>_ixs<span style=color:#f92672>.</span>remove(ix)
+        self<span style=color:#f92672>.</span>_open[ix] <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
+        r, c <span style=color:#f92672>=</span> ix <span style=color:#f92672>//</span> self<span style=color:#f92672>.</span>n, ix <span style=color:#f92672>%</span> self<span style=color:#f92672>.</span>n
+        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>is_valid_ix(r<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>, c) <span style=color:#f92672>and</span> self<span style=color:#f92672>.</span>_open[ix<span style=color:#f92672>-</span>self<span style=color:#f92672>.</span>n]: <span style=color:#75715e># up</span>
+            self<span style=color:#f92672>.</span>union(ix, ix<span style=color:#f92672>-</span>self<span style=color:#f92672>.</span>n)
+        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>is_valid_ix(r, c<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>and</span> self<span style=color:#f92672>.</span>_open[ix<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]: <span style=color:#75715e># left</span>
+            self<span style=color:#f92672>.</span>union(ix, ix<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>is_valid_ix(r, c<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>) <span style=color:#f92672>and</span> self<span style=color:#f92672>.</span>_open[ix<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>]: <span style=color:#75715e># right</span>
+            self<span style=color:#f92672>.</span>union(ix, ix<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>)
+        <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>is_valid_ix(r<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>, c) <span style=color:#f92672>and</span> self<span style=color:#f92672>.</span>_open[ix<span style=color:#f92672>+</span>self<span style=color:#f92672>.</span>n]: <span style=color:#75715e># down</span>
+            self<span style=color:#f92672>.</span>union(ix, ix<span style=color:#f92672>+</span>self<span style=color:#f92672>.</span>n)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>percolates</span>(self) <span style=color:#f92672>-&gt;</span> bool:
+        last_r <span style=color:#f92672>=</span> self<span style=color:#f92672>.</span>n <span style=color:#f92672>*</span> (self<span style=color:#f92672>.</span>n<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>)
+        <span style=color:#66d9ef>for</span> c1 <span style=color:#f92672>in</span> range(self<span style=color:#f92672>.</span>n):
+            <span style=color:#66d9ef>for</span> c2 <span style=color:#f92672>in</span> range(self<span style=color:#f92672>.</span>n):
+                <span style=color:#66d9ef>if</span> self<span style=color:#f92672>.</span>find(c1, last_r<span style=color:#f92672>+</span>c2):
+                    <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>True</span>
+        <span style=color:#66d9ef>return</span> <span style=color:#66d9ef>False</span>
+    
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>simulate</span>(self, n_sims:int<span style=color:#f92672>=</span><span style=color:#ae81ff>1000</span>, till_p<span style=color:#f92672>=</span><span style=color:#66d9ef>None</span>) <span style=color:#f92672>-&gt;</span> (float, list):
+        p <span style=color:#f92672>=</span> [];
+        <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(n_sims):
+            self<span style=color:#f92672>.</span>reset()
+            n_open_sites <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+            <span style=color:#66d9ef>if</span> till_p:
+                <span style=color:#66d9ef>while</span> (n_open_sites <span style=color:#f92672>/</span> self<span style=color:#f92672>.</span>nxn) <span style=color:#f92672>&lt;</span> till_p:
+                    self<span style=color:#f92672>.</span>open_site()
+                    n_open_sites <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+                p<span style=color:#f92672>.</span>append(n_open_sites <span style=color:#f92672>/</span> self<span style=color:#f92672>.</span>nxn)
+            <span style=color:#66d9ef>else</span>:
+                <span style=color:#66d9ef>while</span> <span style=color:#f92672>not</span> self<span style=color:#f92672>.</span>percolates():
+                    self<span style=color:#f92672>.</span>open_site()
+                    n_open_sites <span style=color:#f92672>+=</span> <span style=color:#ae81ff>1</span>
+                p<span style=color:#f92672>.</span>append(n_open_sites <span style=color:#f92672>/</span> self<span style=color:#f92672>.</span>nxn)
+        <span style=color:#66d9ef>return</span> np<span style=color:#f92672>.</span>mean(p), [np<span style=color:#f92672>.</span>mean(p[:i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>]) <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(n_sims)]
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>display</span>(self) <span style=color:#f92672>-&gt;</span> <span style=color:#66d9ef>None</span>:
+        coords, colors <span style=color:#f92672>=</span> [], [];
+        <span style=color:#66d9ef>for</span> r <span style=color:#f92672>in</span> range(pm<span style=color:#f92672>.</span>n):
+            <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> range(pm<span style=color:#f92672>.</span>n):
+                coords<span style=color:#f92672>.</span>append((r, c))
+                <span style=color:#66d9ef>if</span> pm<span style=color:#f92672>.</span>_open[pm<span style=color:#f92672>.</span>n<span style=color:#f92672>*</span>r<span style=color:#f92672>+</span>c]:
+                    colors<span style=color:#f92672>.</span>append(<span style=color:#e6db74>&#34;lightblue&#34;</span>)
+                <span style=color:#66d9ef>else</span>:
+                    colors<span style=color:#f92672>.</span>append(<span style=color:#e6db74>&#34;black&#34;</span>)
+        plt<span style=color:#f92672>.</span>figure(figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>5</span>, <span style=color:#ae81ff>5</span>))
+        plt<span style=color:#f92672>.</span>scatter([c[<span style=color:#ae81ff>0</span>] <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> coords], [c[<span style=color:#ae81ff>1</span>] <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> coords], c<span style=color:#f92672>=</span>colors, s<span style=color:#f92672>=</span><span style=color:#ae81ff>740</span>, marker<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;s&#34;</span>)
+        plt<span style=color:#f92672>.</span>xticks([]); plt<span style=color:#f92672>.</span>yticks([]);
+</code></pre></div><p>Let&rsquo;s see how the system looks at different values of <em>p</em>, for different <em>100-by-100</em> grids.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm <span style=color:#f92672>=</span> PercolationModel(<span style=color:#ae81ff>100</span>)
+p, _ <span style=color:#f92672>=</span> pm<span style=color:#f92672>.</span>simulate(till_p<span style=color:#f92672>=</span><span style=color:#ae81ff>0.2</span>)
+p
+</code></pre></div><pre><code>0.20000000000000004
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm<span style=color:#f92672>.</span>display()
+</code></pre></div><p><img loading=lazy src=/static/general/output_34_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm <span style=color:#f92672>=</span> PercolationModel(<span style=color:#ae81ff>100</span>)
+p, _ <span style=color:#f92672>=</span> pm<span style=color:#f92672>.</span>simulate(till_p<span style=color:#f92672>=</span><span style=color:#ae81ff>0.8</span>)
+p
+</code></pre></div><pre><code>0.8000000000000002
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm<span style=color:#f92672>.</span>display()
+</code></pre></div><p><img loading=lazy src=/static/general/output_36_0.png alt=png>
+</p>
+<p>Let&rsquo;s find the <em>p</em> threshold.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm <span style=color:#f92672>=</span> PercolationModel(<span style=color:#ae81ff>100</span>)
+p, ps <span style=color:#f92672>=</span> pm<span style=color:#f92672>.</span>simulate(n_sims<span style=color:#f92672>=</span><span style=color:#ae81ff>2000</span>)
+p
+</code></pre></div><pre><code>0.59062
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm<span style=color:#f92672>.</span>display()
+</code></pre></div><p><img loading=lazy src=/static/general/output_39_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plt<span style=color:#f92672>.</span>figure(figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>12</span>, <span style=color:#ae81ff>6</span>))
+plt<span style=color:#f92672>.</span>plot(list(range(len(ps))), ps);
+</code></pre></div><p><img loading=lazy src=/static/general/output_40_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm <span style=color:#f92672>=</span> PercolationModel(<span style=color:#ae81ff>100</span>)
+p, ps <span style=color:#f92672>=</span> pm<span style=color:#f92672>.</span>simulate(n_sims<span style=color:#f92672>=</span><span style=color:#ae81ff>5000</span>)
+p
+</code></pre></div><pre><code>0.590384
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>pm<span style=color:#f92672>.</span>display()
+</code></pre></div><p><img loading=lazy src=/static/general/output_42_0.png alt=png>
+</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>plt<span style=color:#f92672>.</span>figure(figsize<span style=color:#f92672>=</span>(<span style=color:#ae81ff>12</span>, <span style=color:#ae81ff>6</span>))
+plt<span style=color:#f92672>.</span>plot(list(range(len(ps))), ps);
+</code></pre></div><p><img loading=lazy src=/static/general/output_43_0.png alt=png>
+</p>
+<hr>
+<p>Based on <a href=https://www.coursera.org/learn/algorithms-part1/home/week/1>https://www.coursera.org/learn/algorithms-part1/home/week/1</a>.</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://kuutsav.github.io/tags/python/>python</a></li>
+<li><a href=https://kuutsav.github.io/tags/dynamic-connectivity/>dynamic connectivity</a></li>
+<li><a href=https://kuutsav.github.io/tags/algorithms/>algorithms</a></li>
+</ul>
+<nav class=paginav>
+<a class=next href=https://kuutsav.github.io/posts/python_notes_2_sequences/>
+<span class=title>Next Page »</span>
+<br>
+<span>Python Notes, Part 2 - Sequences</span>
+</a>
+</nav>
+</footer><script src=https://utteranc.es/client.js repo=https://github.com/kuutsav/kuutsav.github.io issue-term=pathname theme=github-dark crossorigin=anonymous async></script>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://kuutsav.github.io>ML&Beyond</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>

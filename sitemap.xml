@@ -2,22 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://kuutsav.github.io/tags/algorithms/</loc>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/tags/dynamic-connectivity/</loc>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/posts/dynamic_connectivity_and_percolation/</loc>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
+  </url><url>
     <loc>https://kuutsav.github.io/</loc>
-    <lastmod>2022-04-05T10:21:20+05:30</lastmod>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
   </url><url>
     <loc>https://kuutsav.github.io/posts/</loc>
-    <lastmod>2022-04-05T10:21:20+05:30</lastmod>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
   </url><url>
     <loc>https://kuutsav.github.io/tags/python/</loc>
-    <lastmod>2022-04-05T10:21:20+05:30</lastmod>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
+  </url><url>
+    <loc>https://kuutsav.github.io/tags/</loc>
+    <lastmod>2022-04-07T13:40:40+05:30</lastmod>
   </url><url>
     <loc>https://kuutsav.github.io/posts/python_notes_2_sequences/</loc>
     <lastmod>2022-04-05T10:21:20+05:30</lastmod>
   </url><url>
     <loc>https://kuutsav.github.io/tags/sequences/</loc>
-    <lastmod>2022-04-05T10:21:20+05:30</lastmod>
-  </url><url>
-    <loc>https://kuutsav.github.io/tags/</loc>
     <lastmod>2022-04-05T10:21:20+05:30</lastmod>
   </url><url>
     <loc>https://kuutsav.github.io/tags/data-model/</loc>

@@ -31,7 +31,7 @@
 <meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
 <meta name=twitter:title content="ML&Beyond">
 <meta name=twitter:description content="Just another ML blog with a twist of Backend.">
-<script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ML\u0026Beyond","url":"https://kuutsav.github.io","description":"Just another ML blog with a twist of Backend.","thumbnailUrl":"https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E","sameAs":["https://github.com/kuutsav"]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"Organization","name":"ML\u0026Beyond","url":"https://kuutsav.github.io","description":"Just another ML blog with a twist of Backend.","thumbnailUrl":"https://kuutsav.github.io/%3Clink%20/%20abs%20url%3E","sameAs":["https://github.com/kuutsav","https://linkedin.com/in/krutsav"]}</script>
 </head>
 <body class=list id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
@@ -75,8 +75,29 @@
 <div class=social-icons>
 <a href=https://github.com/kuutsav target=_blank rel="noopener noreferrer me" title=Github><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37.0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44.0 0020 4.77 5.07 5.07.0 0019.91 1S18.73.65 16 2.48a13.38 13.38.0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07.0 005 4.77 5.44 5.44.0 003.5 8.55c0 5.42 3.3 6.61 6.44 7A3.37 3.37.0 009 18.13V22"/></svg>
 </a>
+<a href=https://linkedin.com/in/krutsav target=_blank rel="noopener noreferrer me" title=Linkedin><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+</a>
 </div>
 </footer>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>Dynamic Connectivity and Percolation
+</h2>
+</header>
+<section class=entry-content>
+<p>Given a set of N objects that support the following two commands:
+Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts? For example, consider this set of 10 objects
+After few union commands
+union(1, 2)
+union(5, 4)
+union(7, 5)
+union(9, 7)
+the state of the system changes to
+We can query the above system to find if two objects are connected or not like...</p>
+</section>
+<footer class=entry-footer><span title="2022-04-07 13:40:40 +0530 IST">April 7, 2022</span>&nbsp;·&nbsp;11 min&nbsp;·&nbsp;Utsav</footer>
+<a class=entry-link aria-label="post link to Dynamic Connectivity and Percolation" href=https://kuutsav.github.io/posts/dynamic_connectivity_and_percolation/></a>
 </article>
 <article class=post-entry>
 <header class=entry-header>
@@ -128,21 +149,6 @@ The directory structure is:
 </section>
 <footer class=entry-footer><span title="2021-11-05 00:46:25 +0530 IST">November 5, 2021</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Utsav</footer>
 <a class=entry-link aria-label="post link to MLOps Template, Part 3 - MLflow + MinIO" href=https://kuutsav.github.io/posts/mlops_template_3_mlflow_minio/></a>
-</article>
-<article class=post-entry>
-<header class=entry-header>
-<h2>MLOps Template, Part 2 - Dagster Pipeline
-</h2>
-</header>
-<section class=entry-content>
-<p>Here we will cover our small pipeline written in dagster.
-Dagster is a data orchestrator for machine learning, analytics, and ETL
-Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
-Solids and Pipelines # Dagster’s core abstractions are solids and pipelines.
-Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process....</p>
-</section>
-<footer class=entry-footer><span title="2021-10-26 00:46:25 +0530 IST">October 26, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav</footer>
-<a class=entry-link aria-label="post link to MLOps Template, Part 2 - Dagster Pipeline" href=https://kuutsav.github.io/posts/mlops_template_2_dagster/></a>
 </article>
 <footer class=page-footer>
 <nav class=pagination>
