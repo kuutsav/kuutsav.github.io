@@ -1,0 +1,467 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Revisiting Word2Vec Skip-Gram model | Utsav's blog</title>
+<meta name=keywords content="python,word2vec,skipgram">
+<meta name=description content="In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).">
+<meta name=author content="Utsav">
+<link rel=canonical href=https://kuutsav.github.io/posts/word2vec_skipgram/>
+<meta name=google-site-verification content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.5b6669296f7752e8bbe6f9aa7218528391220300ad1d35c93567559ac0717c06.css integrity="sha256-W2ZpKW93Uui75vmqchhSg5EiAwCtHTXJNWdVmsBxfAY=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://kuutsav.github.io/static/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPW21V2ET0"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-WPW21V2ET0',{anonymize_ip:!1})}</script>
+<meta property="og:title" content="Revisiting Word2Vec Skip-Gram model">
+<meta property="og:description" content="In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kuutsav.github.io/posts/word2vec_skipgram/"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-03-12T15:34:11+15:10">
+<meta property="article:modified_time" content="2021-03-12T15:34:11+15:10"><meta property="og:site_name" content="ExampleSite">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name=twitter:title content="Revisiting Word2Vec Skip-Gram model">
+<meta name=twitter:description content="In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kuutsav.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Revisiting Word2Vec Skip-Gram model","item":"https://kuutsav.github.io/posts/word2vec_skipgram/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Revisiting Word2Vec Skip-Gram model","name":"Revisiting Word2Vec Skip-Gram model","description":"In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.\nThe first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:\n Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).","keywords":["python","word2vec","skipgram"],"articleBody":"In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.\nThe first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:\n Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size). They don’t have any understanding of the text. They are sparse and can’t be used for any comparison as any two one-hot encoded vector from a set will be orthogonal.  Word2vec is able to tackle all these challenges. The architecture we define later will enable us to learn a distributed representation for each word/token in our corpus. The key idea being, we can represent a word by adding contextual information to it. Context refers to the words/tokens neighbouring the word/token of interest to us.\nOf course this technique is not perfect and has it’s own downsides. The key downside being we loose the word/token ordering while training the word2vec model, hence we are essentially dealing with a bag of words model. This makes the resulting embeddings not suitable for sentence level representations. We will cover other techniques later (RNNs, Transformers) that produce embeddings more suitable for sentences. For now our sole focus will be learning good word/token level embeddings.\nFirst we will import the necessary libraries from collections import Counter import re from typing import List import numpy as np import requests from sklearn.metrics.pairwise import cosine_similarity import torch import torch.nn as nn from torch.utils.data import DataLoader, Dataset The whole process of training the embeddings can be broken down into the following key steps:\n We define a class TextProcessor that has methods to pre-process the text. fetch_text() fetches the texts directly from urls containing our text data. process_text() applies basic pre-procesing steps to the text and creates tokens using white space tokenization. prepare_vocab() creates token to index mapping and vice versa. Create torch Dataset and Dataloader where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.  The window side determines the number of context words around a center word. For example, window size of 5 will create the follwing center and context pairs for the sentence “a quick brown fox jumps” with “brown” being the center word - [(“brown”, “a”), (“brown”, “quick”), (“brown”, “fox”), (“brown”, “jumps”)]   Create our SkipGramModel model by defining a custom model on top of the torch.nn.Module. Define our loss function, optimizer and scheduler. Train the model for a certain number of epochs.  Finally, we will create a similarity matrix(cosine similarity) using the trained embeddings and explore similar embeddings for some word query.\nFetching and preparing the data # We will be using the first four Harry Potter books. BASE_URL = \"https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter\" BOOK_URLS = [ f\"{BASE_URL}/Book%201%20-%20The%20Philosopher's%20Stone.txt\", f\"{BASE_URL}/Book%202%20-%20The%20Chamber%20of%20Secrets.txt\", f\"{BASE_URL}/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt\", f\"{BASE_URL}/Book%204%20-%20The%20Goblet%20of%20Fire.txt\" ] class TextProcessor: def __init__(self, urls: List[str]): self.urls = urls def fetch_text(self): self.text = \"\" for i, url in enumerate(self.urls): r = requests.get(url) self.text += \"\\n\\n\\n\" + r.text print(f\"Fetched {i+1}/{len(self.urls)}urls ...\") def process_text(self): print(\"Processing text ...\") sentences = re.split(\"\\n{2,}\", self.text) print(f\"{len(sentences)}sentences\") self.clean_sentences = [] for txt in sentences: txt = txt.strip().lower() txt = txt.replace(\"\\n\", \"\") txt = \" \".join(re.findall(\"\\w+\", txt)) if txt: self.clean_sentences.append(txt) # Tokens and token counter will be used later to create a vocabulary for # us which will be used to map words/tokens to indices and vice versa, to # create training data and recreate the texts from predictions respectively. print(f\"{len(sentences)}filtered sentences\") tokens = \" \".join(self.clean_sentences).split(\" \") print(f\"{len(tokens)}tokens\") self.token_counter = Counter(tokens) print(f\"{len(self.token_counter)}unique tokens\") def prepare_vocab(self, min_count: int): # min_count is the minimum number of times a token should appear in the # text to be considered in the vocabulary else they are assigned to a # default index which is equal to `len(vocab)`. self.w2ix = {} for i, (token, count) in enumerate( self.token_counter.most_common(len(self.token_counter)) ): if count  min_count: break else: self.w2ix[token] = i self.ix2w = {ix: w for w, ix in self.w2ix.items()} # Assign default index to rest of the tokens n = len(self.w2ix) for token, _ in self.token_counter.most_common(len(self.token_counter)): if token not in self.w2ix: self.w2ix[token] = n self.ix2w[n] = \"\" self.vocab_size = n + 1 print(f\"Vocab size: {self.vocab_size}\") text_processor = TextProcessor(BOOK_URLS) text_processor.fetch_text() Fetched 1/4 urls ... Fetched 2/4 urls ... Fetched 3/4 urls ... Fetched 4/4 urls ...  text_processor.process_text() Processing text ... 20033 sentences 20033 filtered sentences 501854 tokens 15078 unique tokens  text_processor.prepare_vocab(min_count=20) Vocab size: 2103  Preparing the torch Dataset and Dataloader The Dataloader will enable us to send data in batches during the forward pass of the model training.\nclass HarryPotterDataset(Dataset): def __init__(self, text_processor: TextProcessor, window_size: int=3): self.data = [] for txt in text_processor.clean_sentences: splits = txt.split(\" \") for i in range(window_size, len(splits) -1): center_word = splits[i] window_words = splits[i-window_size:i]+splits[i+1:i+window_size+1] for context in window_words: # Each data point under self.data will be a tuple with index 0 # containing the index(w2ix) for center_word and # index 1 containing the index(w2ix) for context_word self.data.append((text_processor.w2ix[center_word], text_processor.w2ix[context])) def __getitem__(self, ix: int): return self.data[ix] def __len__(self): return len(self.data) dataset = HarryPotterDataset(text_processor, 3) len(dataset) 2489461  dataloader = DataLoader(dataset, batch_size=64, shuffle=True) Creating the Word2Vec model using torch.nn.Module class SkipGramModel(nn.Module): def __init__(self, vocab_size: int, embedding_size: int=50): super().__init__() self.embedding = nn.Embedding(vocab_size, embedding_size) self.linear = nn.Linear(embedding_size, vocab_size) def forward(self, x): return self.linear(self.embedding(x)) The model architecure is Embedding - Linear - Softmax.\nEmbedding is nothing but “A simple lookup table that stores embeddings of a fixed dictionary and size” - pytorch documentation.\nBased on our model architecture, this layer will contain the trained token/word embeddings of interest to us and we will discard the weight matrix from the Linear layer.\nIn each forward pass we:\n Pass indices of center word as input x. These indices are looked up in the self.embedding table. We transform the vector from last step using the Linear layer to get another vector with dimension vocab_size. Finally we apply softmax and calcualte loss.  A trained model should output high values for the context indices for a given center word.\ndevice = torch.device(\"cuda\" if torch.cuda.is_available() else \"cpu\") model = SkipGramModel(text_processor.vocab_size, embedding_size=30).to(device) Defining our loss function, optimizer and scheduler criterion = nn.CrossEntropyLoss() optimizer = torch.optim.Adam(model.parameters(), lr=0.005) scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=5, gamma=0.5) N_EPOCHS = 10 STEP_TO_LOG = 10000 Training the model epoch_losses = [] batch_losses = [] for epoch in range(N_EPOCHS): losses = [] for i, data in enumerate(dataloader): inputs = data[0].long().to(device) outputs = data[1].long().to(device) pred = model(inputs) loss = criterion(pred, outputs) losses.append(loss.item()) loss.backward() optimizer.step() optimizer.zero_grad() if i % STEP_TO_LOG == 0: print(f\"epoch {epoch + 1}; steps={i:5}/{len(dataloader)}; loss={loss:}\") scheduler.step() batch_losses += losses epoch_losses.append(np.mean(losses)) print(f\"epoch {epoch + 1}; lr={scheduler._last_lr[0]}; loss={epoch_losses[-1]:}\\n\") epoch 1; steps= 0/38898; loss=7.80020 epoch 1; steps=10000/38898; loss=5.55375 epoch 1; steps=20000/38898; loss=5.58139 epoch 1; steps=30000/38898; loss=5.27452 epoch 1 ; lr=0.005; loss=5.60440 epoch 2; steps= 0/38898; loss=4.85012 epoch 2; steps=10000/38898; loss=5.81531 epoch 2; steps=20000/38898; loss=5.07261 epoch 2; steps=30000/38898; loss=5.62864 epoch 2 ; lr=0.005; loss=5.52841 epoch 3; steps= 0/38898; loss=5.27015 epoch 3; steps=10000/38898; loss=5.55336 epoch 3; steps=20000/38898; loss=5.67527 epoch 3; steps=30000/38898; loss=5.60372 epoch 3 ; lr=0.005; loss=5.52233 epoch 4; steps= 0/38898; loss=5.50681 epoch 4; steps=10000/38898; loss=5.48357 epoch 4; steps=20000/38898; loss=5.18897 epoch 4; steps=30000/38898; loss=5.74382 epoch 4 ; lr=0.005; loss=5.52111 epoch 5; steps= 0/38898; loss=5.67365 epoch 5; steps=10000/38898; loss=5.66463 epoch 5; steps=20000/38898; loss=5.82155 epoch 5; steps=30000/38898; loss=5.77744 epoch 5 ; lr=0.0025; loss=5.52081 epoch 6; steps= 0/38898; loss=5.54513 epoch 6; steps=10000/38898; loss=5.40478 epoch 6; steps=20000/38898; loss=5.71839 epoch 6; steps=30000/38898; loss=5.23344 epoch 6 ; lr=0.0025; loss=5.47719 epoch 7; steps= 0/38898; loss=4.93150 epoch 7; steps=10000/38898; loss=5.09374 epoch 7; steps=20000/38898; loss=5.47905 epoch 7; steps=30000/38898; loss=5.92455 epoch 7 ; lr=0.0025; loss=5.47128 epoch 8; steps= 0/38898; loss=5.22414 epoch 8; steps=10000/38898; loss=5.67435 epoch 8; steps=20000/38898; loss=5.55853 epoch 8; steps=30000/38898; loss=5.28791 epoch 8 ; lr=0.0025; loss=5.47099 epoch 9; steps= 0/38898; loss=5.33284 epoch 9; steps=10000/38898; loss=5.80998 epoch 9; steps=20000/38898; loss=6.04806 epoch 9; steps=30000/38898; loss=5.58979 epoch 9 ; lr=0.0025; loss=5.47106 epoch 10; steps= 0/38898; loss=5.09184 epoch 10; steps=10000/38898; loss=5.18391 epoch 10; steps=20000/38898; loss=5.66316 epoch 10; steps=30000/38898; loss=5.44824 epoch 10 ; lr=0.00125; loss=5.47111  weights = model.embedding.weight.detach().cpu().numpy() weights.shape (2103, 30)  Creating the similarity matrix similarity = cosine_similarity(weights, weights) def get_similar_words(input_word: str, n: int): if input_word not in text_processor.w2ix: print(\"word not in vocab\") else: input_word_ix = text_processor.w2ix[input_word] similarity_vector = similarity[input_word_ix] most_similar_ixs = np.argsort(similarity_vector)[-n:][::-1] most_similar_words = [(text_processor.ix2w[ix], similarity_vector[ix]) for ix in most_similar_ixs] for word, score in most_similar_words: print(f\"  {word}, score={score:.2f}\") Exploring similar embeddings for some queries … get_similar_words(\"snape\", 10)   snape, score= 1.00  karkaroff, score= 0.81  dumbledore, score= 0.79  lupin, score= 0.77  mcgonagall, score= 0.76  moody, score= 0.74  professor, score= 0.72  flitwick, score= 0.71  trelawney, score= 0.69  quirrell, score= 0.69  get_similar_words(\"vernon\", 10)   vernon, score= 1.00  aunt, score= 0.81  uncle, score= 0.79  dudley, score= 0.78  petunia, score= 0.70  marge, score= 0.62  furious, score= 0.59  telephone, score= 0.53  sister, score= 0.53  company, score= 0.52  get_similar_words(\"muggle\", 10)   muggle, score= 1.00  wizarding, score= 0.81  old, score= 0.65  yer, score= 0.63  international, score= 0.61  important, score= 0.61  our, score= 0.61  is, score= 0.61  young, score= 0.60  yourself, score= 0.60  get_similar_words(\"harry\", 10)   harry, score= 1.00  lupin, score= 0.64  ron, score= 0.63  hermione, score= 0.61  she, score= 0.57  he, score= 0.57  colin, score= 0.54  dumbledore, score= 0.52  furiously, score= 0.51  moody, score= 0.49  get_similar_words(\"slytherin\", 10)   slytherin, score= 1.00  gryffindor, score= 0.79  hufflepuff, score= 0.75  team, score= 0.71  heir, score= 0.71  ravenclaw, score= 0.66  goal, score= 0.64  seeker, score= 0.64  wood, score= 0.60  irish, score= 0.60  get_similar_words(\"malfoy\", 10)   malfoy, score= 1.00  goyle, score= 0.77  crabbe, score= 0.64  draco, score= 0.61  diggory, score= 0.59  lucius, score= 0.57  weasley, score= 0.51  laughing, score= 0.50  pettigrew, score= 0.50  percy, score= 0.50   There are various Intrisic and Extrinsic evaluation criterias for these embeddings. For Evaluation and Interpretation of the embeddings take a look here - https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation.\n","wordCount":"1667","inLanguage":"en","datePublished":"2021-03-12T15:34:11+15:10","dateModified":"2021-03-12T15:34:11+15:10","author":{"@type":"Person","name":"Utsav"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kuutsav.github.io/posts/word2vec_skipgram/"},"publisher":{"@type":"Organization","name":"Utsav's blog","logo":{"@type":"ImageObject","url":"https://kuutsav.github.io/static/favicon/favicon-32x32.png"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kuutsav.github.io accesskey=h title="Utsav's blog (Alt + H)">Utsav's blog</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://kuutsav.github.io/ title=Posts>
+<span>Posts</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://kuutsav.github.io>Home</a>&nbsp;»&nbsp;<a href=https://kuutsav.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+Revisiting Word2Vec Skip-Gram model
+</h1>
+<div class=post-meta><span title="2021-03-12 15:34:11 +1510 +1510">March 12, 2021</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;Utsav
+</div>
+</header>
+<div class=post-content><p>In this post, we will train a <code>Word2Vec skip-gram</code> model from scratch on some text and inspect the trained embeddings at the end.</p>
+<p>The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:</p>
+<ul>
+<li>Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</li>
+<li>They don&rsquo;t have any <code>understanding</code> of the text.</li>
+<li>They are sparse and can&rsquo;t be used for any comparison as any two one-hot encoded vector from a set will be orthogonal.</li>
+</ul>
+<p>Word2vec is able to tackle all these challenges. The architecture we define later will enable us to learn a <code>distributed representation</code> for each word/token in our corpus. The key idea being, we can represent a word by adding contextual information to it. Context refers to the words/tokens neighbouring the word/token of interest to us.</p>
+<p>Of course this technique is not perfect and has it&rsquo;s own downsides. The key downside being we loose the word/token ordering while training the word2vec model, hence we are essentially dealing with a <code>bag of words</code> model. This makes the resulting embeddings not suitable for sentence level representations. We will cover other techniques later (RNNs, Transformers) that produce embeddings more suitable for sentences. For now our sole focus will be learning good word/token level embeddings.</p>
+<h3 id=first-we-will-import-the-necessary-libraries>First we will import the necessary libraries<a hidden class=anchor aria-hidden=true href=#first-we-will-import-the-necessary-libraries>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> collections <span style=color:#f92672>import</span> Counter
+<span style=color:#f92672>import</span> re
+<span style=color:#f92672>from</span> typing <span style=color:#f92672>import</span> List
+
+<span style=color:#f92672>import</span> numpy <span style=color:#66d9ef>as</span> np
+<span style=color:#f92672>import</span> requests
+<span style=color:#f92672>from</span> sklearn.metrics.pairwise <span style=color:#f92672>import</span> cosine_similarity
+<span style=color:#f92672>import</span> torch
+<span style=color:#f92672>import</span> torch.nn <span style=color:#66d9ef>as</span> nn
+<span style=color:#f92672>from</span> torch.utils.data <span style=color:#f92672>import</span> DataLoader, Dataset
+</code></pre></div><p>The whole process of training the embeddings can be broken down into the following key steps:</p>
+<ol>
+<li>We define a class <code>TextProcessor</code> that has methods to pre-process the text.</li>
+<li><code>fetch_text()</code> fetches the texts directly from urls containing our text data.</li>
+<li><code>process_text()</code> applies basic pre-procesing steps to the text and creates tokens using white space tokenization.</li>
+<li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
+<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.
+<ol>
+<li>The window side determines the number of context words around a center word.</li>
+<li>For example, window size of 5 will create the follwing center and context pairs for the sentence &ldquo;a quick brown fox jumps&rdquo; with &ldquo;brown&rdquo; being the center word - [(&ldquo;brown&rdquo;, &ldquo;a&rdquo;), (&ldquo;brown&rdquo;, &ldquo;quick&rdquo;), (&ldquo;brown&rdquo;, &ldquo;fox&rdquo;), (&ldquo;brown&rdquo;, &ldquo;jumps&rdquo;)]</li>
+</ol>
+</li>
+<li>Create our <code>SkipGramModel</code> model by defining a custom model on top of the <code>torch.nn.Module</code>.</li>
+<li>Define our loss function, optimizer and scheduler.</li>
+<li>Train the model for a certain number of epochs.</li>
+</ol>
+<p>Finally, we will create a similarity matrix(cosine similarity) using the trained embeddings and explore similar embeddings for some word query.</p>
+<h3 id=fetching-and-preparing-the-data>Fetching and preparing the data<a hidden class=anchor aria-hidden=true href=#fetching-and-preparing-the-data>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#75715e># We will be using the first four Harry Potter books.</span>
+BASE_URL <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;https://raw.githubusercontent.com/formcept/whiteboard/master/nbviewer/notebooks/data/harrypotter&#34;</span>
+BOOK_URLS <span style=color:#f92672>=</span> [
+    <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>BASE_URL<span style=color:#e6db74>}</span><span style=color:#e6db74>/Book%201%20-%20The%20Philosopher&#39;s%20Stone.txt&#34;</span>,
+    <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>BASE_URL<span style=color:#e6db74>}</span><span style=color:#e6db74>/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&#34;</span>,
+    <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>BASE_URL<span style=color:#e6db74>}</span><span style=color:#e6db74>/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&#34;</span>,
+    <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>BASE_URL<span style=color:#e6db74>}</span><span style=color:#e6db74>/Book%204%20-%20The%20Goblet%20of%20Fire.txt&#34;</span>
+]
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TextProcessor</span>:
+    <span style=color:#66d9ef>def</span> __init__(self, urls: List[str]):
+        self<span style=color:#f92672>.</span>urls <span style=color:#f92672>=</span> urls
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>fetch_text</span>(self):
+        self<span style=color:#f92672>.</span>text <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+        <span style=color:#66d9ef>for</span> i, url <span style=color:#f92672>in</span> enumerate(self<span style=color:#f92672>.</span>urls):
+            r <span style=color:#f92672>=</span> requests<span style=color:#f92672>.</span>get(url)
+            self<span style=color:#f92672>.</span>text <span style=color:#f92672>+=</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n\n\n</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>+</span> r<span style=color:#f92672>.</span>text
+            print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Fetched </span><span style=color:#e6db74>{</span>i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span><span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>len(self<span style=color:#f92672>.</span>urls)<span style=color:#e6db74>}</span><span style=color:#e6db74> urls ...&#34;</span>)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>process_text</span>(self):
+        print(<span style=color:#e6db74>&#34;Processing text ...&#34;</span>)
+        sentences <span style=color:#f92672>=</span> re<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>{2,}&#34;</span>, self<span style=color:#f92672>.</span>text)
+        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>len(sentences)<span style=color:#e6db74>}</span><span style=color:#e6db74> sentences&#34;</span>)
+        self<span style=color:#f92672>.</span>clean_sentences <span style=color:#f92672>=</span> []
+        <span style=color:#66d9ef>for</span> txt <span style=color:#f92672>in</span> sentences:
+            txt <span style=color:#f92672>=</span> txt<span style=color:#f92672>.</span>strip()<span style=color:#f92672>.</span>lower()
+            txt <span style=color:#f92672>=</span> txt<span style=color:#f92672>.</span>replace(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>, <span style=color:#e6db74>&#34;&#34;</span>)
+            txt <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34; &#34;</span><span style=color:#f92672>.</span>join(re<span style=color:#f92672>.</span>findall(<span style=color:#e6db74>&#34;\w+&#34;</span>, txt))
+            <span style=color:#66d9ef>if</span> txt:
+                self<span style=color:#f92672>.</span>clean_sentences<span style=color:#f92672>.</span>append(txt)
+
+        <span style=color:#75715e># Tokens and token counter will be used later to create a vocabulary for</span>
+        <span style=color:#75715e># us which will be used to map words/tokens to indices and vice versa, to</span>
+        <span style=color:#75715e># create training data and recreate the texts from predictions respectively.</span>
+        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>len(sentences)<span style=color:#e6db74>}</span><span style=color:#e6db74> filtered sentences&#34;</span>)
+        tokens <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34; &#34;</span><span style=color:#f92672>.</span>join(self<span style=color:#f92672>.</span>clean_sentences)<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34; &#34;</span>)
+        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>len(tokens)<span style=color:#e6db74>}</span><span style=color:#e6db74> tokens&#34;</span>)
+        self<span style=color:#f92672>.</span>token_counter <span style=color:#f92672>=</span> Counter(tokens)
+        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;</span><span style=color:#e6db74>{</span>len(self<span style=color:#f92672>.</span>token_counter)<span style=color:#e6db74>}</span><span style=color:#e6db74> unique tokens&#34;</span>)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>prepare_vocab</span>(self, min_count: int):
+        <span style=color:#75715e># min_count is the minimum number of times a token should appear in the</span>
+        <span style=color:#75715e># text to be considered in the vocabulary else they are assigned to a</span>
+        <span style=color:#75715e># default index which is equal to `len(vocab)`.</span>
+        self<span style=color:#f92672>.</span>w2ix <span style=color:#f92672>=</span> {}
+        <span style=color:#66d9ef>for</span> i, (token, count) <span style=color:#f92672>in</span> enumerate(
+            self<span style=color:#f92672>.</span>token_counter<span style=color:#f92672>.</span>most_common(len(self<span style=color:#f92672>.</span>token_counter))
+        ):
+            <span style=color:#66d9ef>if</span> count <span style=color:#f92672>&lt;</span> min_count:
+                <span style=color:#66d9ef>break</span>
+            <span style=color:#66d9ef>else</span>:
+                self<span style=color:#f92672>.</span>w2ix[token] <span style=color:#f92672>=</span> i
+
+        self<span style=color:#f92672>.</span>ix2w <span style=color:#f92672>=</span> {ix: w <span style=color:#66d9ef>for</span> w, ix <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>w2ix<span style=color:#f92672>.</span>items()}
+
+        <span style=color:#75715e># Assign default index to rest of the tokens</span>
+        n <span style=color:#f92672>=</span> len(self<span style=color:#f92672>.</span>w2ix)
+        <span style=color:#66d9ef>for</span> token, _ <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>token_counter<span style=color:#f92672>.</span>most_common(len(self<span style=color:#f92672>.</span>token_counter)):
+            <span style=color:#66d9ef>if</span> token <span style=color:#f92672>not</span> <span style=color:#f92672>in</span> self<span style=color:#f92672>.</span>w2ix:
+                self<span style=color:#f92672>.</span>w2ix[token] <span style=color:#f92672>=</span> n
+        self<span style=color:#f92672>.</span>ix2w[n] <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&lt;unk&gt;&#34;</span>
+
+        self<span style=color:#f92672>.</span>vocab_size <span style=color:#f92672>=</span> n <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+        print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Vocab size: </span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>vocab_size<span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>text_processor <span style=color:#f92672>=</span> TextProcessor(BOOK_URLS)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>text_processor<span style=color:#f92672>.</span>fetch_text()
+</code></pre></div><pre><code>Fetched 1/4 urls ...
+Fetched 2/4 urls ...
+Fetched 3/4 urls ...
+Fetched 4/4 urls ...
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>text_processor<span style=color:#f92672>.</span>process_text()
+</code></pre></div><pre><code>Processing text ...
+20033 sentences
+20033 filtered sentences
+501854 tokens
+15078 unique tokens
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>text_processor<span style=color:#f92672>.</span>prepare_vocab(min_count<span style=color:#f92672>=</span><span style=color:#ae81ff>20</span>)
+</code></pre></div><pre><code>Vocab size: 2103
+</code></pre>
+<h3 id=preparing-the-torch-dataset-and-dataloader>Preparing the torch Dataset and Dataloader<a hidden class=anchor aria-hidden=true href=#preparing-the-torch-dataset-and-dataloader>#</a></h3>
+<p>The Dataloader will enable us to send data in batches during the forward pass of the model training.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>HarryPotterDataset</span>(Dataset):
+    <span style=color:#66d9ef>def</span> __init__(self, text_processor: TextProcessor,  window_size: int<span style=color:#f92672>=</span><span style=color:#ae81ff>3</span>):
+        self<span style=color:#f92672>.</span>data <span style=color:#f92672>=</span> []
+        <span style=color:#66d9ef>for</span> txt <span style=color:#f92672>in</span> text_processor<span style=color:#f92672>.</span>clean_sentences:
+            splits <span style=color:#f92672>=</span> txt<span style=color:#f92672>.</span>split(<span style=color:#e6db74>&#34; &#34;</span>)
+            <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(window_size, len(splits) <span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>):
+                center_word <span style=color:#f92672>=</span> splits[i]
+                window_words <span style=color:#f92672>=</span> splits[i<span style=color:#f92672>-</span>window_size:i]<span style=color:#f92672>+</span>splits[i<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>:i<span style=color:#f92672>+</span>window_size<span style=color:#f92672>+</span><span style=color:#ae81ff>1</span>]
+                <span style=color:#66d9ef>for</span> context <span style=color:#f92672>in</span> window_words:
+                    <span style=color:#75715e># Each data point under self.data will be a tuple with index 0</span>
+                    <span style=color:#75715e># containing the index(w2ix) for center_word and</span>
+                    <span style=color:#75715e># index 1 containing the index(w2ix) for context_word</span>
+                    self<span style=color:#f92672>.</span>data<span style=color:#f92672>.</span>append((text_processor<span style=color:#f92672>.</span>w2ix[center_word], text_processor<span style=color:#f92672>.</span>w2ix[context]))
+
+    <span style=color:#66d9ef>def</span> __getitem__(self, ix: int):
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>data[ix]
+  
+    <span style=color:#66d9ef>def</span> __len__(self):
+        <span style=color:#66d9ef>return</span> len(self<span style=color:#f92672>.</span>data)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dataset <span style=color:#f92672>=</span> HarryPotterDataset(text_processor, <span style=color:#ae81ff>3</span>)
+len(dataset)
+</code></pre></div><pre><code>2489461
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>dataloader <span style=color:#f92672>=</span> DataLoader(dataset, batch_size<span style=color:#f92672>=</span><span style=color:#ae81ff>64</span>, shuffle<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</code></pre></div><h3 id=creating-the-word2vec-model-using-torchnnmodule>Creating the Word2Vec model using torch.nn.Module<a hidden class=anchor aria-hidden=true href=#creating-the-word2vec-model-using-torchnnmodule>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>class</span> <span style=color:#a6e22e>SkipGramModel</span>(nn<span style=color:#f92672>.</span>Module):
+    <span style=color:#66d9ef>def</span> __init__(self, vocab_size: int, embedding_size: int<span style=color:#f92672>=</span><span style=color:#ae81ff>50</span>):
+        super()<span style=color:#f92672>.</span>__init__()
+        self<span style=color:#f92672>.</span>embedding <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Embedding(vocab_size, embedding_size)
+        self<span style=color:#f92672>.</span>linear <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>Linear(embedding_size, vocab_size)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>forward</span>(self, x):
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>linear(self<span style=color:#f92672>.</span>embedding(x))
+</code></pre></div><p>The model architecure is <code>Embedding -> Linear -> Softmax</code>.</p>
+<p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed dictionary and size&rdquo; - pytorch documentation.</p>
+<p>Based on our model architecture, this layer will contain the trained token/word
+embeddings of interest to us and we will discard the weight matrix from
+the <code>Linear</code> layer.</p>
+<p>In each forward pass we:</p>
+<ol>
+<li>Pass indices of center word as input <code>x</code>.</li>
+<li>These indices are looked up in the <code>self.embedding</code> table.</li>
+<li>We transform the vector from last step using the Linear layer to get another vector with dimension <code>vocab_size</code>.</li>
+<li>Finally we apply softmax and calcualte loss.</li>
+</ol>
+<p>A trained model should output high values for the <code>context indices</code> for a given
+center word.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>device <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>device(<span style=color:#e6db74>&#34;cuda&#34;</span> <span style=color:#66d9ef>if</span> torch<span style=color:#f92672>.</span>cuda<span style=color:#f92672>.</span>is_available() <span style=color:#66d9ef>else</span> <span style=color:#e6db74>&#34;cpu&#34;</span>)
+model <span style=color:#f92672>=</span> SkipGramModel(text_processor<span style=color:#f92672>.</span>vocab_size, embedding_size<span style=color:#f92672>=</span><span style=color:#ae81ff>30</span>)<span style=color:#f92672>.</span>to(device)
+</code></pre></div><h3 id=defining-our-loss-function-optimizer-and-scheduler>Defining our loss function, optimizer and scheduler<a hidden class=anchor aria-hidden=true href=#defining-our-loss-function-optimizer-and-scheduler>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>criterion <span style=color:#f92672>=</span> nn<span style=color:#f92672>.</span>CrossEntropyLoss()
+optimizer <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>optim<span style=color:#f92672>.</span>Adam(model<span style=color:#f92672>.</span>parameters(), lr<span style=color:#f92672>=</span><span style=color:#ae81ff>0.005</span>)
+scheduler <span style=color:#f92672>=</span> torch<span style=color:#f92672>.</span>optim<span style=color:#f92672>.</span>lr_scheduler<span style=color:#f92672>.</span>StepLR(optimizer, step_size<span style=color:#f92672>=</span><span style=color:#ae81ff>5</span>, gamma<span style=color:#f92672>=</span><span style=color:#ae81ff>0.5</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>N_EPOCHS <span style=color:#f92672>=</span>       <span style=color:#ae81ff>10</span>
+STEP_TO_LOG <span style=color:#f92672>=</span> <span style=color:#ae81ff>10000</span>
+</code></pre></div><h3 id=training-the-model>Training the model<a hidden class=anchor aria-hidden=true href=#training-the-model>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>epoch_losses <span style=color:#f92672>=</span> []
+batch_losses <span style=color:#f92672>=</span> []
+<span style=color:#66d9ef>for</span> epoch <span style=color:#f92672>in</span> range(N_EPOCHS):
+    losses <span style=color:#f92672>=</span> []
+    <span style=color:#66d9ef>for</span> i, data <span style=color:#f92672>in</span> enumerate(dataloader):
+        inputs <span style=color:#f92672>=</span> data[<span style=color:#ae81ff>0</span>]<span style=color:#f92672>.</span>long()<span style=color:#f92672>.</span>to(device)
+        outputs <span style=color:#f92672>=</span> data[<span style=color:#ae81ff>1</span>]<span style=color:#f92672>.</span>long()<span style=color:#f92672>.</span>to(device)
+        pred <span style=color:#f92672>=</span> model(inputs)
+        loss <span style=color:#f92672>=</span> criterion(pred, outputs)
+        losses<span style=color:#f92672>.</span>append(loss<span style=color:#f92672>.</span>item())
+        loss<span style=color:#f92672>.</span>backward()
+        optimizer<span style=color:#f92672>.</span>step()
+        optimizer<span style=color:#f92672>.</span>zero_grad()
+        <span style=color:#66d9ef>if</span> i <span style=color:#f92672>%</span> STEP_TO_LOG <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span>:
+            print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;epoch </span><span style=color:#e6db74>{</span>epoch <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#e6db74>}</span><span style=color:#e6db74>; steps=</span><span style=color:#e6db74>{</span>i<span style=color:#e6db74>:</span><span style=color:#e6db74>&gt;5</span><span style=color:#e6db74>}</span><span style=color:#e6db74>/</span><span style=color:#e6db74>{</span>len(dataloader)<span style=color:#e6db74>}</span><span style=color:#e6db74>; loss=</span><span style=color:#e6db74>{</span>loss<span style=color:#e6db74>:</span><span style=color:#e6db74>&lt;.5f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+    scheduler<span style=color:#f92672>.</span>step()
+    batch_losses <span style=color:#f92672>+=</span> losses
+    epoch_losses<span style=color:#f92672>.</span>append(np<span style=color:#f92672>.</span>mean(losses))
+    print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;epoch </span><span style=color:#e6db74>{</span>epoch <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span><span style=color:#e6db74>}</span><span style=color:#e6db74> ; lr=</span><span style=color:#e6db74>{</span>scheduler<span style=color:#f92672>.</span>_last_lr[<span style=color:#ae81ff>0</span>]<span style=color:#e6db74>}</span><span style=color:#e6db74>; loss=</span><span style=color:#e6db74>{</span>epoch_losses[<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]<span style=color:#e6db74>:</span><span style=color:#e6db74>&lt;.5f</span><span style=color:#e6db74>}</span><span style=color:#ae81ff>\n</span><span style=color:#e6db74>&#34;</span>)
+</code></pre></div><pre><code>epoch 1; steps=    0/38898; loss=7.80020
+epoch 1; steps=10000/38898; loss=5.55375
+epoch 1; steps=20000/38898; loss=5.58139
+epoch 1; steps=30000/38898; loss=5.27452
+epoch 1 ; lr=0.005; loss=5.60440
+
+epoch 2; steps=    0/38898; loss=4.85012
+epoch 2; steps=10000/38898; loss=5.81531
+epoch 2; steps=20000/38898; loss=5.07261
+epoch 2; steps=30000/38898; loss=5.62864
+epoch 2 ; lr=0.005; loss=5.52841
+
+epoch 3; steps=    0/38898; loss=5.27015
+epoch 3; steps=10000/38898; loss=5.55336
+epoch 3; steps=20000/38898; loss=5.67527
+epoch 3; steps=30000/38898; loss=5.60372
+epoch 3 ; lr=0.005; loss=5.52233
+
+epoch 4; steps=    0/38898; loss=5.50681
+epoch 4; steps=10000/38898; loss=5.48357
+epoch 4; steps=20000/38898; loss=5.18897
+epoch 4; steps=30000/38898; loss=5.74382
+epoch 4 ; lr=0.005; loss=5.52111
+
+epoch 5; steps=    0/38898; loss=5.67365
+epoch 5; steps=10000/38898; loss=5.66463
+epoch 5; steps=20000/38898; loss=5.82155
+epoch 5; steps=30000/38898; loss=5.77744
+epoch 5 ; lr=0.0025; loss=5.52081
+
+epoch 6; steps=    0/38898; loss=5.54513
+epoch 6; steps=10000/38898; loss=5.40478
+epoch 6; steps=20000/38898; loss=5.71839
+epoch 6; steps=30000/38898; loss=5.23344
+epoch 6 ; lr=0.0025; loss=5.47719
+
+epoch 7; steps=    0/38898; loss=4.93150
+epoch 7; steps=10000/38898; loss=5.09374
+epoch 7; steps=20000/38898; loss=5.47905
+epoch 7; steps=30000/38898; loss=5.92455
+epoch 7 ; lr=0.0025; loss=5.47128
+
+epoch 8; steps=    0/38898; loss=5.22414
+epoch 8; steps=10000/38898; loss=5.67435
+epoch 8; steps=20000/38898; loss=5.55853
+epoch 8; steps=30000/38898; loss=5.28791
+epoch 8 ; lr=0.0025; loss=5.47099
+
+epoch 9; steps=    0/38898; loss=5.33284
+epoch 9; steps=10000/38898; loss=5.80998
+epoch 9; steps=20000/38898; loss=6.04806
+epoch 9; steps=30000/38898; loss=5.58979
+epoch 9 ; lr=0.0025; loss=5.47106
+
+epoch 10; steps=    0/38898; loss=5.09184
+epoch 10; steps=10000/38898; loss=5.18391
+epoch 10; steps=20000/38898; loss=5.66316
+epoch 10; steps=30000/38898; loss=5.44824
+epoch 10 ; lr=0.00125; loss=5.47111
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>weights <span style=color:#f92672>=</span> model<span style=color:#f92672>.</span>embedding<span style=color:#f92672>.</span>weight<span style=color:#f92672>.</span>detach()<span style=color:#f92672>.</span>cpu()<span style=color:#f92672>.</span>numpy()
+weights<span style=color:#f92672>.</span>shape
+</code></pre></div><pre><code>(2103, 30)
+</code></pre>
+<h3 id=creating-the-similarity-matrix>Creating the similarity matrix<a hidden class=anchor aria-hidden=true href=#creating-the-similarity-matrix>#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>similarity <span style=color:#f92672>=</span> cosine_similarity(weights, weights)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>get_similar_words</span>(input_word: str, n: int):
+    <span style=color:#66d9ef>if</span> input_word <span style=color:#f92672>not</span> <span style=color:#f92672>in</span> text_processor<span style=color:#f92672>.</span>w2ix:
+        print(<span style=color:#e6db74>&#34;word not in vocab&#34;</span>)
+    <span style=color:#66d9ef>else</span>:
+        input_word_ix <span style=color:#f92672>=</span> text_processor<span style=color:#f92672>.</span>w2ix[input_word]
+        similarity_vector <span style=color:#f92672>=</span> similarity[input_word_ix]
+        most_similar_ixs <span style=color:#f92672>=</span> np<span style=color:#f92672>.</span>argsort(similarity_vector)[<span style=color:#f92672>-</span>n:][::<span style=color:#f92672>-</span><span style=color:#ae81ff>1</span>]
+        most_similar_words <span style=color:#f92672>=</span> [(text_processor<span style=color:#f92672>.</span>ix2w[ix], similarity_vector[ix])
+                              <span style=color:#66d9ef>for</span> ix <span style=color:#f92672>in</span> most_similar_ixs]
+        <span style=color:#66d9ef>for</span> word, score <span style=color:#f92672>in</span> most_similar_words:
+            print(<span style=color:#e6db74>f</span><span style=color:#e6db74>&#34; &gt; </span><span style=color:#e6db74>{</span>word<span style=color:#e6db74>}</span><span style=color:#e6db74>, score=</span><span style=color:#e6db74>{</span>score<span style=color:#e6db74>:</span><span style=color:#e6db74> .2f</span><span style=color:#e6db74>}</span><span style=color:#e6db74>&#34;</span>)
+</code></pre></div><h3 id=exploring-similar-embeddings-for-some-queries->Exploring similar embeddings for some queries &mldr;<a hidden class=anchor aria-hidden=true href=#exploring-similar-embeddings-for-some-queries->#</a></h3>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>get_similar_words(<span style=color:#e6db74>&#34;snape&#34;</span>, <span style=color:#ae81ff>10</span>)
+</code></pre></div><pre><code> &gt; snape, score= 1.00
+ &gt; karkaroff, score= 0.81
+ &gt; dumbledore, score= 0.79
+ &gt; lupin, score= 0.77
+ &gt; mcgonagall, score= 0.76
+ &gt; moody, score= 0.74
+ &gt; professor, score= 0.72
+ &gt; flitwick, score= 0.71
+ &gt; trelawney, score= 0.69
+ &gt; quirrell, score= 0.69
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>get_similar_words(<span style=color:#e6db74>&#34;vernon&#34;</span>, <span style=color:#ae81ff>10</span>)
+</code></pre></div><pre><code> &gt; vernon, score= 1.00
+ &gt; aunt, score= 0.81
+ &gt; uncle, score= 0.79
+ &gt; dudley, score= 0.78
+ &gt; petunia, score= 0.70
+ &gt; marge, score= 0.62
+ &gt; furious, score= 0.59
+ &gt; telephone, score= 0.53
+ &gt; sister, score= 0.53
+ &gt; company, score= 0.52
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>get_similar_words(<span style=color:#e6db74>&#34;muggle&#34;</span>, <span style=color:#ae81ff>10</span>)
+</code></pre></div><pre><code> &gt; muggle, score= 1.00
+ &gt; wizarding, score= 0.81
+ &gt; old, score= 0.65
+ &gt; yer, score= 0.63
+ &gt; international, score= 0.61
+ &gt; important, score= 0.61
+ &gt; our, score= 0.61
+ &gt; is, score= 0.61
+ &gt; young, score= 0.60
+ &gt; yourself, score= 0.60
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>get_similar_words(<span style=color:#e6db74>&#34;harry&#34;</span>, <span style=color:#ae81ff>10</span>)
+</code></pre></div><pre><code> &gt; harry, score= 1.00
+ &gt; lupin, score= 0.64
+ &gt; ron, score= 0.63
+ &gt; hermione, score= 0.61
+ &gt; she, score= 0.57
+ &gt; he, score= 0.57
+ &gt; colin, score= 0.54
+ &gt; dumbledore, score= 0.52
+ &gt; furiously, score= 0.51
+ &gt; moody, score= 0.49
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>get_similar_words(<span style=color:#e6db74>&#34;slytherin&#34;</span>, <span style=color:#ae81ff>10</span>)
+</code></pre></div><pre><code> &gt; slytherin, score= 1.00
+ &gt; gryffindor, score= 0.79
+ &gt; hufflepuff, score= 0.75
+ &gt; team, score= 0.71
+ &gt; heir, score= 0.71
+ &gt; ravenclaw, score= 0.66
+ &gt; goal, score= 0.64
+ &gt; seeker, score= 0.64
+ &gt; wood, score= 0.60
+ &gt; irish, score= 0.60
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>get_similar_words(<span style=color:#e6db74>&#34;malfoy&#34;</span>, <span style=color:#ae81ff>10</span>)
+</code></pre></div><pre><code> &gt; malfoy, score= 1.00
+ &gt; goyle, score= 0.77
+ &gt; crabbe, score= 0.64
+ &gt; draco, score= 0.61
+ &gt; diggory, score= 0.59
+ &gt; lucius, score= 0.57
+ &gt; weasley, score= 0.51
+ &gt; laughing, score= 0.50
+ &gt; pettigrew, score= 0.50
+ &gt; percy, score= 0.50
+</code></pre>
+<hr>
+<p>There are various Intrisic and Extrinsic evaluation criterias for these embeddings.
+For <code>Evaluation</code> and <code>Interpretation</code> of the embeddings take a look here - <a href=https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation>https://lena-voita.github.io/nlp_course/word_embeddings.html#evaluation</a>.</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://kuutsav.github.io/tags/python/>python</a></li>
+<li><a href=https://kuutsav.github.io/tags/word2vec/>word2vec</a></li>
+<li><a href=https://kuutsav.github.io/tags/skipgram/>skipgram</a></li>
+</ul>
+<nav class=paginav>
+<a class=prev href=https://kuutsav.github.io/posts/mlops_template_1_setup/>
+<span class=title>« Prev Page</span>
+<br>
+<span>MLOps Template, Part 1 - Setup</span>
+</a>
+</nav>
+</footer>
+<script src=https://utteranc.es/client.js repo=kuutsav/kuutsav.github.io issue-term=pathname label=comments theme=github-dark crossorigin=anonymous async></script>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://kuutsav.github.io>Utsav's blog</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>

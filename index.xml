@@ -50,6 +50,16 @@ My goal is to recollect as much as possible from memory and hopefully use/create
     </item>
     
     <item>
+      <title>Word2Vec Skip-Gram model for subword embeddings</title>
+      <link>https://kuutsav.github.io/posts/word2vec_skipgram_subword/</link>
+      <pubDate>Wed, 05 Jan 2022 15:34:11 +1510</pubDate>
+      
+      <guid>https://kuutsav.github.io/posts/word2vec_skipgram_subword/</guid>
+      <description>Most of the steps are similar to our post on Word2Vec Skip-Gram model. The key change is that we will train a model on subword tokens so that we can generate embeddings for out of vocab words and have some tolerance for typos.
+ The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors.</description>
+    </item>
+    
+    <item>
       <title>MLOps Template, Part 4 - FastAPI &#43; ElasticAPM</title>
       <link>https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/</link>
       <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
@@ -92,6 +102,17 @@ Solids are individual units of computation that we wire together to form pipelin
       <description>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.
 These steps are necessary for operationalization of any machine-learning based model.
  These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.</description>
+    </item>
+    
+    <item>
+      <title>Revisiting Word2Vec Skip-Gram model</title>
+      <link>https://kuutsav.github.io/posts/word2vec_skipgram/</link>
+      <pubDate>Fri, 12 Mar 2021 15:34:11 +1510</pubDate>
+      
+      <guid>https://kuutsav.github.io/posts/word2vec_skipgram/</guid>
+      <description>In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</description>
     </item>
     
     
