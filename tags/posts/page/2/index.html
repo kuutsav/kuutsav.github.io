@@ -3,11 +3,11 @@
 <meta http-equiv=x-ua-compatible content="IE=edge">
 <meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
 <meta name=robots content="index, follow">
-<title>404 Page not found | Utsav's blog</title>
+<title>Posts | Utsav's blog</title>
 <meta name=keywords content>
-<meta name=description content="Just another ML blog with a twist of Backend.">
+<meta name=description content="Posts - Utsav's blog">
 <meta name=author content="Utsav">
-<link rel=canonical href=https://kuutsav.github.io/404.html>
+<link rel=canonical href=https://kuutsav.github.io/posts/>
 <meta name=google-site-verification content="XYZabc">
 <link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
@@ -17,20 +17,22 @@
 <link rel=mask-icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <meta name=theme-color content="#2e2e33">
 <meta name=msapplication-TileColor content="#2e2e33">
+<link rel=alternate type=application/rss+xml href=https://kuutsav.github.io/posts/index.xml>
 <noscript>
 <style>#theme-toggle,.top-link{display:none}</style>
 <style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
 </noscript>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-WPW21V2ET0"></script>
 <script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-WPW21V2ET0',{anonymize_ip:!1})}</script>
-<meta property="og:title" content="404 Page not found">
+<meta property="og:title" content="Posts">
 <meta property="og:description" content="Just another ML blog with a twist of Backend.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://kuutsav.github.io/404.html"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="og:site_name" content="Utsav's blog">
+<meta property="og:url" content="https://kuutsav.github.io/posts/"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="og:site_name" content="Utsav's blog">
 <meta name=twitter:card content="summary_large_image">
 <meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
-<meta name=twitter:title content="404 Page not found">
+<meta name=twitter:title content="Posts">
 <meta name=twitter:description content="Just another ML blog with a twist of Backend.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kuutsav.github.io/posts/"}]}</script>
 </head>
 <body class=list id=top>
 <script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
@@ -63,7 +65,67 @@
 </nav>
 </header>
 <main class=main>
-<div class=not-found>404</div>
+<header class=page-header><div class=breadcrumbs><a href=https://kuutsav.github.io>Home</a></div>
+<h1>Posts</h1>
+</header>
+<article class=post-entry>
+<header class=entry-header>
+<h2>MLOps Template, Part 3 - MLflow + MinIO
+</h2>
+</header>
+<section class=entry-content>
+<p>In the last part, we saw our pipeline at the end. Steps 1-5 deal with data manipulation. We train our model in step 6 and that’s where MLflow comes into picture.
+@pipeline def ml_pipeline(): # 1. fetch training data texts, target = get_training_dataset() # 2. minimal text preprocessing # 3. tfidf vectorization vectorizer, X = get_vectorizer_and_features(preprocess_text(texts)) # 4. target encoding target_encoder, encoded_target = get_targetencoder_and_encoded_targets(target) # 5. train test split X_train, X_test, y_train, y_test = train_test_split(X, encoded_target) # 6....</p>
+</section>
+<footer class=entry-footer><span title="2021-11-05 00:46:25 +0530 IST">November 5, 2021</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Utsav</footer>
+<a class=entry-link aria-label="post link to MLOps Template, Part 3 - MLflow + MinIO" href=https://kuutsav.github.io/posts/mlops_template_3_mlflow_minio/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>MLOps Template, Part 2 - Dagster Pipeline
+</h2>
+</header>
+<section class=entry-content>
+<p>Here we will cover our small pipeline written in dagster.
+Dagster is a data orchestrator for machine learning, analytics, and ETL
+Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
+Solids and Pipelines # Dagster’s core abstractions are solids and pipelines.
+Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process....</p>
+</section>
+<footer class=entry-footer><span title="2021-10-26 00:46:25 +0530 IST">October 26, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav</footer>
+<a class=entry-link aria-label="post link to MLOps Template, Part 2 - Dagster Pipeline" href=https://kuutsav.github.io/posts/mlops_template_2_dagster/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>MLOps Template, Part 1 - Setup
+</h2>
+</header>
+<section class=entry-content>
+<p>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.
+These steps are necessary for operationalization of any machine-learning based model.
+These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later....</p>
+</section>
+<footer class=entry-footer><span title="2021-10-22 00:46:25 +0530 IST">October 22, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Utsav</footer>
+<a class=entry-link aria-label="post link to MLOps Template, Part 1 - Setup" href=https://kuutsav.github.io/posts/mlops_template_1_setup/></a>
+</article>
+<article class=post-entry>
+<header class=entry-header>
+<h2>Revisiting Word2Vec Skip-Gram model
+</h2>
+</header>
+<section class=entry-content>
+<p>In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size)....</p>
+</section>
+<footer class=entry-footer><span title="2021-03-12 15:34:11 +1510 +1510">March 12, 2021</span>&nbsp;·&nbsp;8 min&nbsp;·&nbsp;Utsav</footer>
+<a class=entry-link aria-label="post link to Revisiting Word2Vec Skip-Gram model" href=https://kuutsav.github.io/posts/word2vec_skipgram/></a>
+</article>
+<footer class=page-footer>
+<nav class=pagination>
+<a class=prev href=https://kuutsav.github.io/posts/>« Prev Page</a>
+</nav>
+</footer>
 </main>
 <footer class=footer>
 <span>&copy; 2022 <a href=https://kuutsav.github.io>Utsav's blog</a></span>

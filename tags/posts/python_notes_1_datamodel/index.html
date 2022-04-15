@@ -1,0 +1,467 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Python Notes, Part 1 - Data Model | Utsav's blog</title>
+<meta name=keywords content="python,data model">
+<meta name=description content="This series of python posts will be based on the book Fluent Python by Luciano Ramalho.
+My goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.
+ One of the best things about python is it&rsquo;s consistency. Once someone has spent enough time with python and it&rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.">
+<meta name=author content="Utsav">
+<link rel=canonical href=https://kuutsav.github.io/posts/python_notes_1_datamodel/>
+<meta name=google-site-verification content="XYZabc">
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://kuutsav.github.io/static/favicon/apple-touch-icon.png>
+<link rel=mask-icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<noscript>
+<style>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:rgb(29, 30, 32);--entry:rgb(46, 46, 51);--primary:rgb(218, 218, 219);--secondary:rgb(155, 156, 157);--tertiary:rgb(65, 66, 68);--content:rgb(196, 196, 197);--hljs-bg:rgb(46, 46, 51);--code-bg:rgb(55, 56, 62);--border:rgb(51, 51, 51)}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-WPW21V2ET0"></script>
+<script>var doNotTrack=!1;if(!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date),gtag('config','G-WPW21V2ET0',{anonymize_ip:!1})}</script>
+<meta property="og:title" content="Python Notes, Part 1 - Data Model">
+<meta property="og:description" content="This series of python posts will be based on the book Fluent Python by Luciano Ramalho.
+My goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.
+ One of the best things about python is it&rsquo;s consistency. Once someone has spent enough time with python and it&rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://kuutsav.github.io/posts/python_notes_1_datamodel/"><meta property="og:image" content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2022-03-05T10:09:25+05:30">
+<meta property="article:modified_time" content="2022-03-05T10:09:25+05:30"><meta property="og:site_name" content="Utsav's blog">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://kuutsav.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E">
+<meta name=twitter:title content="Python Notes, Part 1 - Data Model">
+<meta name=twitter:description content="This series of python posts will be based on the book Fluent Python by Luciano Ramalho.
+My goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.
+ One of the best things about python is it&rsquo;s consistency. Once someone has spent enough time with python and it&rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Posts","item":"https://kuutsav.github.io/posts/"},{"@type":"ListItem","position":3,"name":"Python Notes, Part 1 - Data Model","item":"https://kuutsav.github.io/posts/python_notes_1_datamodel/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Python Notes, Part 1 - Data Model","name":"Python Notes, Part 1 - Data Model","description":"This series of python posts will be based on the book Fluent Python by Luciano Ramalho.\nMy goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.\n One of the best things about python is it\u0026rsquo;s consistency. Once someone has spent enough time with python and it\u0026rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.","keywords":["python","data model"],"articleBody":"This series of python posts will be based on the book Fluent Python by Luciano Ramalho.\nMy goal is to recollect as much as possible from memory and hopefully use/create some new examples other than those already mentioned in the book.\n One of the best things about python is it’s consistency. Once someone has spent enough time with python and it’s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.\nWhat is considered pythonic is a very subjective matter, but we can always look at the “Zen of Python” for some guidance.\nimport this The Zen of Python, by Tim Peters Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex. Complex is better than complicated. Flat is better than nested. Sparse is better than dense. Readability counts. Special cases aren't special enough to break the rules. Although practicality beats purity. Errors should never pass silently. Unless explicitly silenced. In the face of ambiguity, refuse the temptation to guess. There should be one-- and preferably only one --obvious way to do it. Although that way may not be obvious at first unless you're Dutch. Now is better than never. Although never is often better than *right* now. If the implementation is hard to explain, it's a bad idea. If the implementation is easy to explain, it may be a good idea. Namespaces are one honking great idea -- let's do more of those!  Special Methods (dunder methods) The heart of what makes an object pythonic is the Python Data Model. Python Data Model provides apis that help us create consistent behavior for our python objects. We achieve this consistency by adding special methods called dunder methods(or double underscore methods) to our objects.\nBefore looking into dunder methods, lets look at a simple object to demonstrate a point about python objects and the consistency we keep talking about.\nTypically in Object Oriented Design we define a class which encapsulates some data and the associated methods that act on the data.\nSuppose we have an object which internally maintains a collection and we want to know the length of the collection, typically the OOO design will go something like\nMyObject.len() or MyObject.size() ... whether it’s len(), length(), size() or something else is the choice of the designer of this API and the users need to read the documentation/specification before using the object.\nIn python, we do this by calling len(MyObject). Now this is not a typical OOP behaviour, but this is what is magical about python. Under the hood, len() refers to the __len__ dunder method of the object. By adding these special methods to our class definition, we can provide consistent behaviour to our objects so that new users can start using them easily and in a predictable manner(as long as they expect this behaviour).\nPython has many more dunder methods. These methods provide a framework for building almost everything in python, be it iterators, collections, string representations, classes, coroutines, etc.\nLet’s look at more dunder methods using the following example\nfrom dataclasses import dataclass import random @dataclass class DiePair: die1: int die2: int class TwoDieRoll: def __init__(self): self._pairs = [DiePair(die1=i, die2=j) for i in range(1, 7) for j in range(1, 7)] def __getitem__(self, ix: int): return self._pairs[ix] def __len__(self): return len(self._pairs) def roll(self): return random.choice(self._pairs) two_dies = TwoDieRoll() len(two_dies) 36  two_dies[10] DiePair(die1=2, die2=5)  Beyond indexing, by adding __getitem__ we get to access to other features like slicing\ntwo_dies[:5] [DiePair(die1=1, die2=1), DiePair(die1=1, die2=2), DiePair(die1=1, die2=3), DiePair(die1=1, die2=4), DiePair(die1=1, die2=5)]  two_dies[-5:] [DiePair(die1=6, die2=2), DiePair(die1=6, die2=3), DiePair(die1=6, die2=4), DiePair(die1=6, die2=5), DiePair(die1=6, die2=6)]  Our object two_dies is also an iterable now\nfor die_pair in two_dies: print(die_pair) DiePair(die1=1, die2=1) DiePair(die1=1, die2=2) DiePair(die1=1, die2=3) DiePair(die1=1, die2=4) DiePair(die1=1, die2=5) DiePair(die1=1, die2=6) DiePair(die1=2, die2=1) DiePair(die1=2, die2=2) DiePair(die1=2, die2=3) ...  Iteration is often implicit, for example\nDiePair(1, 5) in two_dies True  DiePair(1, 8) in two_dies False  Both the above example work without the __contains__ dunder method in our class. In it’s absence, the in operator does a sequential scan.\nWe can use built in modules to add methods like roll() to our class.\ntwo_dies.roll() DiePair(die1=3, die2=1)  We can also sort the dies in reverse order based on die2.\nsorted(two_dies, key=lambda die: die.die2, reverse=True) [DiePair(die1=1, die2=6), DiePair(die1=2, die2=6), DiePair(die1=3, die2=6), DiePair(die1=4, die2=6), DiePair(die1=5, die2=6), DiePair(die1=6, die2=6), DiePair(die1=1, die2=5), DiePair(die1=2, die2=5), DiePair(die1=3, die2=5), ...]  All this is possible because of __getitem__ which makes our object behave like a python collection.\nDunder methods are not called directly by the user, but internally by the interpreter, except in special cases like metaprogramming or in the __init__ of a class to initialize the base class it’s deriving from.\nThat does not mean we can’t invoke them explicitly.\ntwo_dies.__len__() 36  More uses of dunder methods Dunder methods have lots of other uses as well. For example\n Emulating numeric types(operator overloading) String representation for objects  etc …\nEmulating Numeric Types Let’s create a class that allows us to create vectors we use in physics or to represent data.\nimport math class Vector: def __init__(self, x: int, y: int): self.x = x self.y = y def __repr__(self): return f\"Vector({self.x}, {self.y})\" def __add__(self, other_vector): return Vector(self.x + other_vector.x, self.y + other_vector.y) def __mul__(self, scalar: int): return Vector(scalar * self.x, scalar * self.y) def __abs__(self): return math.hypot(self.x, self.y) By adding __add__ and __mul__ special methods, we can start adding two vectors and multiplying scalars to our vectors like we expect.\nvector1 = Vector(1, 2) vector2 = Vector(10, 3) vector1 + vector2 Vector(11, 5)  vector2 * 3 Vector(30, 9)  abs(Vector(3, 4)) 5.0  String representation of objects The __repr__ method allows us to create a string representation for the object. This is useful for debugging/logging purposes. If possible, it should return a string that describes exactly how the object is created.\nvector1 Vector(1, 2)  vector2 Vector(10, 3)  We also have a __str__ method that returns a string describing the object. Typically this is a description of the object for the end user.\nWhen the __repr__ is descriptive enough, the __str__ method can be avoided as it defaults to __repr__.\nFrom stackoverflow:\n My rule of thumb: repr is for developers, str is for customers.\n Collection API The UML diagram shows the three essential interface every collection should implement\n Iterable Sized Container  Three very important specializations of collection are\n Sequence: formalizing the interface of built-ins like list and str; Mapping: implemented by dict, collections.defaultdict, etc.; Set: the interface of the set and frozenset built-in types.  For example, let’s create a list\nmy_list = [1, 2, 3] dir(my_list) ['__add__', '__class__', '__contains__', '__delattr__', '__delitem__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__getitem__', '__gt__', '__hash__', '__iadd__', '__imul__', '__init__', '__init_subclass__', '__iter__', '__le__', '__len__', '__lt__', '__mul__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__reversed__', '__rmul__', '__setattr__', '__setitem__', '__sizeof__', '__str__', '__subclasshook__', 'append', 'clear', 'copy', 'count', 'extend', 'index', 'insert', 'pop', 'remove', 'reverse', 'sort']  The dir() method shows all the methods and special methods available for an object. Here we can see all the essential interfacs as well as others. The built in python collections implement these special methods for us.\nLet’s look at a set now.\nmy_set = {1, 2, 3} dir(my_set) ['__and__', '__class__', '__contains__', '__delattr__', '__dir__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__iand__', '__init__', '__init_subclass__', '__ior__', '__isub__', '__iter__', '__ixor__', '__le__', '__len__', '__lt__', '__ne__', '__new__', '__or__', '__rand__', '__reduce__', '__reduce_ex__', '__repr__', '__ror__', '__rsub__', '__rxor__', '__setattr__', '__sizeof__', '__str__', '__sub__', '__subclasshook__', '__xor__', 'add', 'clear', 'copy', 'difference', 'difference_update', 'discard', 'intersection', 'intersection_update', 'isdisjoint', 'issubset', 'issuperset', 'pop', 'remove', 'symmetric_difference', 'symmetric_difference_update', 'union', 'update']  {1, 2, 3} - {1, 2} {3}  We are able to do the above operation because of the special method __sub__ that’s been provided to us by default.\nFor a complete reference/guide on this topic, one can refer https://docs.python.org/3/reference/datamodel.html.\n","wordCount":"1279","inLanguage":"en","datePublished":"2022-03-05T10:09:25+05:30","dateModified":"2022-03-05T10:09:25+05:30","author":{"@type":"Person","name":"Utsav"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://kuutsav.github.io/posts/python_notes_1_datamodel/"},"publisher":{"@type":"Organization","name":"Utsav's blog","logo":{"@type":"ImageObject","url":"https://kuutsav.github.io/static/favicon/favicon-32x32.png"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://kuutsav.github.io accesskey=h title="Utsav's blog (Alt + H)">Utsav's blog</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://kuutsav.github.io/ title=Posts>
+<span>Posts</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+<li>
+<a href=https://kuutsav.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://kuutsav.github.io>Home</a>&nbsp;»&nbsp;<a href=https://kuutsav.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+Python Notes, Part 1 - Data Model
+</h1>
+<div class=post-meta><span title="2022-03-05 10:09:25 +0530 IST">March 5, 2022</span>&nbsp;·&nbsp;7 min&nbsp;·&nbsp;Utsav
+</div>
+</header>
+<div class=post-content><p>This series of python posts will be based on the book <strong>Fluent Python by Luciano Ramalho</strong>.</p>
+<p>My goal is to recollect as much as possible from memory and hopefully use/create some new
+examples other than those already mentioned in the book.</p>
+<hr>
+<p>One of the best things about python is it&rsquo;s consistency. Once someone has spent enough
+time with python and it&rsquo;s ecosystem, they tend to adapt easily to new tools, modules as
+long as they are written in a <em>pythonic</em> way.</p>
+<p>What is considered <em>pythonic</em> is a very subjective matter, but we can always look at the
+&ldquo;Zen of Python&rdquo; for some guidance.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> this
+</code></pre></div><pre><code>The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+</code></pre>
+<h3 id=special-methods-dunder-methods>Special Methods (dunder methods)<a hidden class=anchor aria-hidden=true href=#special-methods-dunder-methods>#</a></h3>
+<p>The heart of what makes an object <em>pythonic</em> is the <strong>Python Data Model</strong>.
+Python Data Model provides apis that help us create consistent behavior for our python objects.
+We achieve this consistency by adding special methods called <strong>dunder methods</strong>(or double underscore methods)
+to our objects.</p>
+<p>Before looking into dunder methods, lets look at a simple object to demonstrate a point about python
+objects and the consistency we keep talking about.</p>
+<p>Typically in Object Oriented Design we define a class which encapsulates some data and the associated methods
+that act on the data.</p>
+<p>Suppose we have an object which internally maintains a collection and we want to know the length of the
+collection, typically the OOO design will go something like</p>
+<pre tabindex=0><code>MyObject.len()
+or
+MyObject.size()
+...
+</code></pre><p>whether it&rsquo;s <code>len()</code>, <code>length()</code>, <code>size()</code> or something else is the choice of the designer of this API and the
+users need to read the documentation/specification before using the object.</p>
+<p>In python, we do this by calling <code>len(MyObject)</code>. Now this is not a typical OOP behaviour, but this is what
+is magical about python. Under the hood, <code>len()</code> refers to the <code>__len__</code> dunder method of the object.
+By adding these special methods to our class definition, we can provide consistent behaviour to our objects
+so that new users can start using them easily and in a predictable manner(as long as they expect this behaviour).</p>
+<p>Python has many more dunder methods. These methods provide a framework for building almost
+everything in python, be it <strong>iterators, collections, string representations, classes, coroutines, etc</strong>.</p>
+<p>Let&rsquo;s look at more dunder methods using the following example</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>from</span> dataclasses <span style=color:#f92672>import</span> dataclass
+<span style=color:#f92672>import</span> random
+
+
+<span style=color:#a6e22e>@dataclass</span>
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>DiePair</span>:
+    die1: int
+    die2: int
+
+
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>TwoDieRoll</span>:
+
+    <span style=color:#66d9ef>def</span> __init__(self):
+        self<span style=color:#f92672>.</span>_pairs <span style=color:#f92672>=</span> [DiePair(die1<span style=color:#f92672>=</span>i, die2<span style=color:#f92672>=</span>j) <span style=color:#66d9ef>for</span> i <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>7</span>) <span style=color:#66d9ef>for</span> j <span style=color:#f92672>in</span> range(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>7</span>)]
+
+    <span style=color:#66d9ef>def</span> __getitem__(self, ix: int):
+        <span style=color:#66d9ef>return</span> self<span style=color:#f92672>.</span>_pairs[ix]
+
+    <span style=color:#66d9ef>def</span> __len__(self):
+        <span style=color:#66d9ef>return</span> len(self<span style=color:#f92672>.</span>_pairs)
+
+    <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>roll</span>(self):
+        <span style=color:#66d9ef>return</span> random<span style=color:#f92672>.</span>choice(self<span style=color:#f92672>.</span>_pairs)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>two_dies <span style=color:#f92672>=</span> TwoDieRoll()
+
+len(two_dies)
+</code></pre></div><pre><code>36
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>two_dies[<span style=color:#ae81ff>10</span>]
+</code></pre></div><pre><code>DiePair(die1=2, die2=5)
+</code></pre>
+<p>Beyond indexing, by adding <code>__getitem__</code> we get to access to other features like slicing</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>two_dies[:<span style=color:#ae81ff>5</span>]
+</code></pre></div><pre><code>[DiePair(die1=1, die2=1),
+ DiePair(die1=1, die2=2),
+ DiePair(die1=1, die2=3),
+ DiePair(die1=1, die2=4),
+ DiePair(die1=1, die2=5)]
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>two_dies[<span style=color:#f92672>-</span><span style=color:#ae81ff>5</span>:]
+</code></pre></div><pre><code>[DiePair(die1=6, die2=2),
+ DiePair(die1=6, die2=3),
+ DiePair(die1=6, die2=4),
+ DiePair(die1=6, die2=5),
+ DiePair(die1=6, die2=6)]
+</code></pre>
+<p>Our object <code>two_dies</code> is also an <code>iterable</code> now</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#66d9ef>for</span> die_pair <span style=color:#f92672>in</span> two_dies:
+    print(die_pair)
+</code></pre></div><pre><code>DiePair(die1=1, die2=1)
+DiePair(die1=1, die2=2)
+DiePair(die1=1, die2=3)
+DiePair(die1=1, die2=4)
+DiePair(die1=1, die2=5)
+DiePair(die1=1, die2=6)
+DiePair(die1=2, die2=1)
+DiePair(die1=2, die2=2)
+DiePair(die1=2, die2=3)
+...
+</code></pre>
+<p>Iteration is often implicit, for example</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>DiePair(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>5</span>) <span style=color:#f92672>in</span> two_dies
+</code></pre></div><pre><code>True
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>DiePair(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>8</span>) <span style=color:#f92672>in</span> two_dies
+</code></pre></div><pre><code>False
+</code></pre>
+<p>Both the above example work without the <code>__contains__</code> dunder method in our class. In it&rsquo;s
+absence, the <strong>in</strong> operator does a sequential scan.</p>
+<p>We can use built in modules to add methods like <code>roll()</code> to our class.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>two_dies<span style=color:#f92672>.</span>roll()
+</code></pre></div><pre><code>DiePair(die1=3, die2=1)
+</code></pre>
+<p>We can also sort the dies in reverse order based on die2.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>sorted(two_dies, key<span style=color:#f92672>=</span><span style=color:#66d9ef>lambda</span> die: die<span style=color:#f92672>.</span>die2, reverse<span style=color:#f92672>=</span><span style=color:#66d9ef>True</span>)
+</code></pre></div><pre><code>[DiePair(die1=1, die2=6),
+ DiePair(die1=2, die2=6),
+ DiePair(die1=3, die2=6),
+ DiePair(die1=4, die2=6),
+ DiePair(die1=5, die2=6),
+ DiePair(die1=6, die2=6),
+ DiePair(die1=1, die2=5),
+ DiePair(die1=2, die2=5),
+ DiePair(die1=3, die2=5),
+ ...]
+</code></pre>
+<p>All this is possible because of <code>__getitem__</code> which makes our object behave like a python collection.</p>
+<p>Dunder methods are not called directly by the user, but internally by the interpreter, except in special
+cases like metaprogramming or in the <code>__init__</code> of a class to initialize the base class it&rsquo;s deriving from.</p>
+<p>That does not mean we can&rsquo;t invoke them explicitly.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>two_dies<span style=color:#f92672>.</span>__len__()
+</code></pre></div><pre><code>36
+</code></pre>
+<h3 id=more-uses-of-dunder-methods>More uses of dunder methods<a hidden class=anchor aria-hidden=true href=#more-uses-of-dunder-methods>#</a></h3>
+<p>Dunder methods have lots of other uses as well. For example</p>
+<ul>
+<li>Emulating numeric types(operator overloading)</li>
+<li>String representation for objects</li>
+</ul>
+<p>etc &mldr;</p>
+<h3 id=emulating-numeric-types>Emulating Numeric Types<a hidden class=anchor aria-hidden=true href=#emulating-numeric-types>#</a></h3>
+<p>Let&rsquo;s create a class that allows us to create vectors we use in physics or to represent data.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> math
+
+
+<span style=color:#66d9ef>class</span> <span style=color:#a6e22e>Vector</span>:
+    
+    <span style=color:#66d9ef>def</span> __init__(self, x: int, y: int):
+        self<span style=color:#f92672>.</span>x <span style=color:#f92672>=</span> x
+        self<span style=color:#f92672>.</span>y <span style=color:#f92672>=</span> y
+
+    <span style=color:#66d9ef>def</span> __repr__(self):
+        <span style=color:#66d9ef>return</span> <span style=color:#e6db74>f</span><span style=color:#e6db74>&#34;Vector(</span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>x<span style=color:#e6db74>}</span><span style=color:#e6db74>, </span><span style=color:#e6db74>{</span>self<span style=color:#f92672>.</span>y<span style=color:#e6db74>}</span><span style=color:#e6db74>)&#34;</span>
+
+    <span style=color:#66d9ef>def</span> __add__(self, other_vector):
+        <span style=color:#66d9ef>return</span> Vector(self<span style=color:#f92672>.</span>x <span style=color:#f92672>+</span> other_vector<span style=color:#f92672>.</span>x, self<span style=color:#f92672>.</span>y <span style=color:#f92672>+</span> other_vector<span style=color:#f92672>.</span>y)
+
+    <span style=color:#66d9ef>def</span> __mul__(self, scalar: int):
+        <span style=color:#66d9ef>return</span> Vector(scalar <span style=color:#f92672>*</span> self<span style=color:#f92672>.</span>x, scalar <span style=color:#f92672>*</span> self<span style=color:#f92672>.</span>y)
+    
+    <span style=color:#66d9ef>def</span> __abs__(self):
+        <span style=color:#66d9ef>return</span> math<span style=color:#f92672>.</span>hypot(self<span style=color:#f92672>.</span>x, self<span style=color:#f92672>.</span>y)
+</code></pre></div><p>By adding <code>__add__</code> and <code>__mul__</code> special methods, we can start adding two vectors and multiplying scalars
+to our vectors like we expect.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>vector1 <span style=color:#f92672>=</span> Vector(<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>)
+vector2 <span style=color:#f92672>=</span> Vector(<span style=color:#ae81ff>10</span>, <span style=color:#ae81ff>3</span>)
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>vector1 <span style=color:#f92672>+</span> vector2
+</code></pre></div><pre><code>Vector(11, 5)
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>vector2 <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span>
+</code></pre></div><pre><code>Vector(30, 9)
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>abs(Vector(<span style=color:#ae81ff>3</span>, <span style=color:#ae81ff>4</span>))
+</code></pre></div><pre><code>5.0
+</code></pre>
+<h3 id=string-representation-of-objects>String representation of objects<a hidden class=anchor aria-hidden=true href=#string-representation-of-objects>#</a></h3>
+<p>The <code>__repr__</code> method allows us to create a string representation for the object. This is
+useful for debugging/logging purposes. If possible, it should return a string that describes
+exactly how the object is created.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>vector1
+</code></pre></div><pre><code>Vector(1, 2)
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>vector2
+</code></pre></div><pre><code>Vector(10, 3)
+</code></pre>
+<p>We also have a <code>__str__</code> method that returns a string describing the object. Typically this is a
+description of the object for the end user.</p>
+<p>When the <code>__repr__</code> is descriptive enough, the <code>__str__</code> method can be avoided as it defaults to <code>__repr__</code>.</p>
+<p>From <a href=https://stackoverflow.com/questions/1436703/what-is-the-difference-between-str-and-repr>stackoverflow</a>:</p>
+<blockquote>
+<p>My rule of thumb: <strong>repr</strong> is for developers, <strong>str</strong> is for customers.</p>
+</blockquote>
+<h3 id=collection-api>Collection API<a hidden class=anchor aria-hidden=true href=#collection-api>#</a></h3>
+<p><img loading=lazy src=/static/python_notes/flpy_0102.png alt="collection api">
+</p>
+<p>The UML diagram shows the three essential interface every collection should implement</p>
+<ul>
+<li>Iterable</li>
+<li>Sized</li>
+<li>Container</li>
+</ul>
+<p>Three very important specializations of collection are</p>
+<ul>
+<li>Sequence: formalizing the interface of built-ins like list and str;</li>
+<li>Mapping: implemented by dict, collections.defaultdict, etc.;</li>
+<li>Set: the interface of the set and frozenset built-in types.</li>
+</ul>
+<p>For example, let&rsquo;s create a list</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_list <span style=color:#f92672>=</span> [<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>]
+dir(my_list)
+</code></pre></div><pre><code>['__add__',
+ '__class__',
+ '__contains__',
+ '__delattr__',
+ '__delitem__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__getitem__',
+ '__gt__',
+ '__hash__',
+ '__iadd__',
+ '__imul__',
+ '__init__',
+ '__init_subclass__',
+ '__iter__',
+ '__le__',
+ '__len__',
+ '__lt__',
+ '__mul__',
+ '__ne__',
+ '__new__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__reversed__',
+ '__rmul__',
+ '__setattr__',
+ '__setitem__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ 'append',
+ 'clear',
+ 'copy',
+ 'count',
+ 'extend',
+ 'index',
+ 'insert',
+ 'pop',
+ 'remove',
+ 'reverse',
+ 'sort']
+</code></pre>
+<p>The <code>dir()</code> method shows all the methods and special methods available for an object.
+Here we can see all the essential interfacs as well as others. The built in python collections
+implement these special methods for us.</p>
+<p>Let&rsquo;s look at a set now.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>my_set <span style=color:#f92672>=</span> {<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>}
+dir(my_set)
+</code></pre></div><pre><code>['__and__',
+ '__class__',
+ '__contains__',
+ '__delattr__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__gt__',
+ '__hash__',
+ '__iand__',
+ '__init__',
+ '__init_subclass__',
+ '__ior__',
+ '__isub__',
+ '__iter__',
+ '__ixor__',
+ '__le__',
+ '__len__',
+ '__lt__',
+ '__ne__',
+ '__new__',
+ '__or__',
+ '__rand__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__ror__',
+ '__rsub__',
+ '__rxor__',
+ '__setattr__',
+ '__sizeof__',
+ '__str__',
+ '__sub__',
+ '__subclasshook__',
+ '__xor__',
+ 'add',
+ 'clear',
+ 'copy',
+ 'difference',
+ 'difference_update',
+ 'discard',
+ 'intersection',
+ 'intersection_update',
+ 'isdisjoint',
+ 'issubset',
+ 'issuperset',
+ 'pop',
+ 'remove',
+ 'symmetric_difference',
+ 'symmetric_difference_update',
+ 'union',
+ 'update']
+</code></pre>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python>{<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>, <span style=color:#ae81ff>3</span>} <span style=color:#f92672>-</span> {<span style=color:#ae81ff>1</span>, <span style=color:#ae81ff>2</span>}
+</code></pre></div><pre><code>{3}
+</code></pre>
+<p>We are able to do the above operation because of the special method <code>__sub__</code> that&rsquo;s been provided to us
+by default.</p>
+<p>For a complete reference/guide on this topic, one can refer <a href=https://docs.python.org/3/reference/datamodel.html>https://docs.python.org/3/reference/datamodel.html</a>.</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://kuutsav.github.io/tags/python/>python</a></li>
+<li><a href=https://kuutsav.github.io/tags/data-model/>data model</a></li>
+</ul>
+<nav class=paginav>
+<a class=prev href=https://kuutsav.github.io/posts/python_notes_2_sequences/>
+<span class=title>« Prev Page</span>
+<br>
+<span>Python Notes, Part 2 - Sequences</span>
+</a>
+<a class=next href=https://kuutsav.github.io/posts/word2vec_skipgram_subword/>
+<span class=title>Next Page »</span>
+<br>
+<span>Word2Vec Skip-Gram model for subword embeddings</span>
+</a>
+</nav>
+</footer>
+<br><br>
+<div id=disqus_thread></div>
+<script>(function(){var a=document,b=a.createElement('script');b.src='https://https-kuutsav-github-io-2.disqus.com/embed.js',b.setAttribute('data-timestamp',+new Date),(a.head||a.body).appendChild(b)})()</script>
+<noscript>Please enable JavaScript to view the <a href=https://disqus.com/?ref_noscript>comments powered by Disqus.</a></noscript>
+<script id=dsq-count-scr src=//https-kuutsav-github-io-2.disqus.com/count.js async></script>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2022 <a href=https://kuutsav.github.io>Utsav's blog</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)" class=top-link id=top-link accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</a>
+<script>let menu=document.getElementById('menu');menu&&(menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)}),document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
