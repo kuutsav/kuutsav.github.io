@@ -11,7 +11,7 @@ The directory structure is:
 <meta name=author content="Utsav">
 <link rel=canonical href=https://kuutsav.github.io/posts/mlops_template_4_fastapi_elasticapm/>
 <meta name=google-site-verification content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c2f5abb2f6fec59691ca83015edfb2cde23b492f4b2e5537bbd7d55c9b6a1130.css integrity="sha256-wvWrsvb+xZaRyoMBXt+yzeI7SS9LLlU3u9fVXJtqETA=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
@@ -82,7 +82,23 @@ MLOps Template, Part 4 - FastAPI + ElasticAPM
 </h1>
 <div class=post-meta><span title="2021-11-19 00:46:25 +0530 IST">November 19, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav
 </div>
-</header>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#model-artifacts aria-label="Model Artifacts">Model Artifacts</a></li>
+<li>
+<a href=#predict-endpoint-httpsgithubcomkuutsavmlopsblobmastermlopsapproutesendpointspredictpy aria-label="Predict Endpoint #">Predict Endpoint <a href=https://github.com/kuutsav/MLOps/blob/master/mlops/app/routes/endpoints/predict.py>#</a></a></li>
+<li>
+<a href=#elasticapm aria-label=ElasticAPM>ElasticAPM</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
 <div class=post-content><p>We will use FastAPI to serve our trained models behind a REST endpoint.
 FastAPI is a web framework built on top of Starlette.
 Scripts related to the APIs are located at <a href=https://github.com/kuutsav/MLOps/tree/master/mlops/app>MLOps/app</a>.</p>
@@ -150,7 +166,7 @@ classifier <code>sk_model.predict_proba()</code>.</p>
 and return the predictions by wrapping around the <code>PredictResponseModel</code> pydantic
 model for data validation.</p>
 <p>The API can be accessed at <code>http://127.0.0.1:8010/docs</code>.</p>
-<p><img loading=lazy src=/static/mlops_template/fastapi1.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/fastapi1.png#center alt=Image>
 </p>
 <h2 id=elasticapm>ElasticAPM<a hidden class=anchor aria-hidden=true href=#elasticapm>#</a></h2>
 <p>We have also added <a href=https://www.elastic.co/apm/><code>ElasticAPM</code></a> as a middleware for
@@ -181,8 +197,8 @@ app <span style=color:#f92672>=</span> get_fastapi_application()
 </code></pre></div><p>Once we start using the <code>/predict</code> endpoint, we can head over to <code>http://localhost:5601/</code>
 to look at the app related metrics like <code>Latency</code>, <code>Throughput</code> etc, and system
 level metrics like <code>CPU usage</code> and <code>System memory usage</code>.</p>
-<p><img loading=lazy src=/static/mlops_template/elasticapm1.png alt=Image>
-<img loading=lazy src=/static/mlops_template/elasticapm2.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/elasticapm1.png#center alt=Image>
+<img loading=lazy src=/static/mlops_template/elasticapm2.png#center alt=Image>
 </p>
 <p>Under the hood, it uses <code>Elastic Search</code>, <code>Kibana</code> and an <code>APM server</code> launched
 using the <code>docker-compose-monitoring.yaml</code> during the setup.</p>

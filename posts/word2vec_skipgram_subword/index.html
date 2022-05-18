@@ -10,7 +10,7 @@
 <meta name=author content="Utsav">
 <link rel=canonical href=https://kuutsav.github.io/posts/word2vec_skipgram_subword/>
 <meta name=google-site-verification content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c2f5abb2f6fec59691ca83015edfb2cde23b492f4b2e5537bbd7d55c9b6a1130.css integrity="sha256-wvWrsvb+xZaRyoMBXt+yzeI7SS9LLlU3u9fVXJtqETA=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
@@ -79,7 +79,33 @@ Word2Vec Skip-Gram model for subword embeddings
 </h1>
 <div class=post-meta><span title="2022-01-05 15:34:11 +1510 +1510">January 5, 2022</span>&nbsp;·&nbsp;13 min&nbsp;·&nbsp;Utsav
 </div>
-</header>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#first-we-will-import-the-necessary-libraries aria-label="First we will import the necessary libraries">First we will import the necessary libraries</a></li>
+<li>
+<a href=#fetching-and-preparing-the-data aria-label="Fetching and preparing the data">Fetching and preparing the data</a></li>
+<li>
+<a href=#preparing-the-torch-dataset-and-dataloader aria-label="Preparing the torch Dataset and Dataloader">Preparing the torch Dataset and Dataloader</a></li>
+<li>
+<a href=#creating-the-word2vec-model-using-torchnnmodule aria-label="Creating the Word2Vec model using torch.nn.Module.">Creating the Word2Vec model using <code>torch.nn.Module</code>.</a></li>
+<li>
+<a href=#defining-our-loss-function-optimizer-and-scheduler aria-label="Defining our loss function, optimizer and scheduler">Defining our loss function, optimizer and scheduler</a></li>
+<li>
+<a href=#training-the-model aria-label="Training the model">Training the model</a></li>
+<li>
+<a href=#creating-the-similarity-matrix aria-label="Creating the similarity matrix">Creating the similarity matrix</a></li>
+<li>
+<a href=#exploring-similar-embeddings-for-some-queries- aria-label="Exploring similar embeddings for some queries &amp;hellip;">Exploring similar embeddings for some queries &mldr;</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
 <div class=post-content><blockquote>
 <p>Most of the steps are similar to our post on <a href=/posts/word2vec_skipgram/>Word2Vec Skip-Gram model</a>. The key change is that we will train a model on subword tokens so that we can generate embeddings for out of vocab words and have some tolerance for typos.</p>
 </blockquote>
@@ -108,7 +134,7 @@ Word2Vec Skip-Gram model for subword embeddings
 <li><code>fetch_text()</code> fetches the texts directly from urls containing our text data.</li>
 <li><code>process_text()</code> applies basic pre-procesing steps to the text and creates tokens using white space tokenization.</li>
 <li><code>prepare_vocab()</code> creates token to index mapping and vice versa.</li>
-<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, (center_word_ix, context_word_ix); i.e. pairs of indices of center word and context based on a pre defined window size.</li>
+<li>Create torch <code>Dataset</code> and <code>Dataloader</code> where each index in the dataset will be a tuple, <code>(center_word_ix, context_word_ix)</code>; i.e. pairs of indices of center word and context based on a pre defined window size.</li>
 <li>Create our <code>SkipGramModel</code> model by defining a custom model on top of the <code>torch.nn.Module</code>.</li>
 <li>Define our loss function, optimizer and scheduler.</li>
 <li>Train the model for a certain number of epochs.</li>

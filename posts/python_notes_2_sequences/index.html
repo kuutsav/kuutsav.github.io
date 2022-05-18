@@ -11,7 +11,7 @@ Python offers two types of sequences:
 <meta name=author content="Utsav">
 <link rel=canonical href=https://kuutsav.github.io/posts/python_notes_2_sequences/>
 <meta name=google-site-verification content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c2f5abb2f6fec59691ca83015edfb2cde23b492f4b2e5537bbd7d55c9b6a1130.css integrity="sha256-wvWrsvb+xZaRyoMBXt+yzeI7SS9LLlU3u9fVXJtqETA=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
@@ -82,7 +82,42 @@ Python Notes, Part 2 - Sequences
 </h1>
 <div class=post-meta><span title="2022-04-05 10:21:20 +0530 IST">April 5, 2022</span>&nbsp;·&nbsp;9 min&nbsp;·&nbsp;Utsav
 </div>
-</header>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#list-comprehensions aria-label="List Comprehensions">List Comprehensions</a></li>
+<li>
+<a href=#generator-expressions aria-label="Generator Expressions">Generator Expressions</a></li>
+<li>
+<a href=#tuples aria-label=Tuples>Tuples</a></li>
+<li>
+<a href=#immutaiblity-of-tuples aria-label="Immutaiblity of Tuples">Immutaiblity of Tuples</a><ul>
+<li>
+<a href=#tuples-can-be-constant-folded aria-label="Tuples can be constant folded">Tuples can be constant folded</a></li>
+<li>
+<a href=#tuples-do-not-need-to-be-copied aria-label="Tuples do not need to be copied">Tuples do not need to be copied</a></li>
+<li>
+<a href=#tuples-do-not-over-allocate aria-label="Tuples do not over-allocate">Tuples do not over-allocate</a></li></ul>
+</li>
+<li>
+<a href=#unpacking-sequences-and-iterables aria-label="Unpacking sequences and iterables">Unpacking sequences and iterables</a></li>
+<li>
+<a href=#slicing aria-label=Slicing>Slicing</a></li>
+<li>
+<a href=#using--with-sequences aria-label="Using * with Sequences">Using * with Sequences</a></li>
+<li>
+<a href=#augmented-assignment-with-sequences aria-label="Augmented Assignment with Sequences">Augmented Assignment with Sequences</a></li>
+<li>
+<a href=#usage aria-label=Usage>Usage</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
 <div class=post-content><p>Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types.</p>
 <p>Python offers two types of sequences:</p>
 <ul>

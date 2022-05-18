@@ -13,7 +13,7 @@ Solids are individual units of computation that we wire together to form pipelin
 <meta name=author content="Utsav">
 <link rel=canonical href=https://kuutsav.github.io/posts/mlops_template_2_dagster/>
 <meta name=google-site-verification content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c2f5abb2f6fec59691ca83015edfb2cde23b492f4b2e5537bbd7d55c9b6a1130.css integrity="sha256-wvWrsvb+xZaRyoMBXt+yzeI7SS9LLlU3u9fVXJtqETA=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
@@ -88,7 +88,29 @@ MLOps Template, Part 2 - Dagster Pipeline
 </h1>
 <div class=post-meta><span title="2021-10-26 00:46:25 +0530 IST">October 26, 2021</span>&nbsp;·&nbsp;3 min&nbsp;·&nbsp;Utsav
 </div>
-</header>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#solids-and-pipelines-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipeline aria-label="Solids and Pipelines #">Solids and Pipelines <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline>#</a></a></li>
+<li>
+<a href=#dataset aria-label=Dataset>Dataset</a></li>
+<li>
+<a href=#solid-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-solid aria-label="Solid #">Solid <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-solid>#</a></a></li>
+<li>
+<a href=#outputdefinition-httpsdocsdagsterio_apidocssolidsdagsteroutputdefinition aria-label="OutputDefinition #">OutputDefinition <a href=https://docs.dagster.io/_apidocs/solids#dagster.OutputDefinition>#</a></a></li>
+<li>
+<a href=#pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelinehello-pipeline aria-label="Pipeline #">Pipeline <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#hello-pipeline>#</a></a></li>
+<li>
+<a href=#executing-our-first-pipeline-httpsdocsdagsteriotutorialintro-tutorialsingle-solid-pipelineexecuting-our-first-pipeline aria-label="Executing Our First Pipeline #">Executing Our First Pipeline <a href=https://docs.dagster.io/tutorial/intro-tutorial/single-solid-pipeline#executing-our-first-pipeline>#</a></a>
+</li>
+</ul>
+</div>
+</details>
+</div>
 <div class=post-content><p>Here we will cover our small pipeline written in dagster.</p>
 <blockquote>
 <p><a href=https://dagster.io/>Dagster is a data orchestrator for machine learning, analytics, and ETL</a></p>
@@ -209,12 +231,12 @@ the pipeline file.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ dagit -f mlops/pipeline.py
 <span style=color:#75715e># Loading repository... Serving on http://127.0.0.1:3000</span>
 </code></pre></div><p>We can head over to the browser and look at the pipeline.</p>
-<p><img loading=lazy src=/static/mlops_template/dagster1.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/dagster1.png#center alt=Image>
 </p>
 <p>To execute the pipeline from the UI, head over to the <code>playground</code> section and
 click <code>Launch Execution</code> (at the bottom right).</p>
 <p>If the pipeline executed successfully, you should see logs like this.</p>
-<p><img loading=lazy src=/static/mlops_template/dagster_execution.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/dagster_execution.png#center alt=Image>
 </p>
 <p>The pipeline we just executed registered our trained model using <code>MLflow</code> and
 stored the model artifacts using <code>minio</code>.</p>

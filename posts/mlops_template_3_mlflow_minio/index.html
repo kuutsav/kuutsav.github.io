@@ -10,7 +10,7 @@
 <meta name=author content="Utsav">
 <link rel=canonical href=https://kuutsav.github.io/posts/mlops_template_3_mlflow_minio/>
 <meta name=google-site-verification content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c2f5abb2f6fec59691ca83015edfb2cde23b492f4b2e5537bbd7d55c9b6a1130.css integrity="sha256-wvWrsvb+xZaRyoMBXt+yzeI7SS9LLlU3u9fVXJtqETA=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
@@ -79,7 +79,23 @@ MLOps Template, Part 3 - MLflow + MinIO
 </h1>
 <div class=post-meta><span title="2021-11-05 00:46:25 +0530 IST">November 5, 2021</span>&nbsp;·&nbsp;4 min&nbsp;·&nbsp;Utsav
 </div>
-</header>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#mlflow-httpswwwmlfloworgdocslatestindexhtml aria-label="MLflow #">MLflow <a href=https://www.mlflow.org/docs/latest/index.html>#</a></a></li>
+<li>
+<a href=#tracking-httpswwwmlfloworgdocslatesttrackinghtml aria-label="Tracking #">Tracking <a href=https://www.mlflow.org/docs/latest/tracking.html>#</a></a></li>
+<li>
+<a href=#registry-httpswwwmlfloworgdocslatestmodel-registryhtml aria-label="Registry #">Registry <a href=https://www.mlflow.org/docs/latest/model-registry.html#>#</a></a>
+</li>
+</ul>
+</div>
+</details>
+</div>
 <div class=post-content><p>In the last part, we saw our pipeline at the end. Steps 1-5 deal with data manipulation. We train our model in step 6 and that&rsquo;s where <code>MLflow</code> comes into picture.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#a6e22e>@pipeline</span>
 <span style=color:#66d9ef>def</span> <span style=color:#a6e22e>ml_pipeline</span>():
@@ -192,10 +208,10 @@ Each subsequent run of the pipeline with the same <code>artifact_path</code> and
 </code></pre></div><p>Heading over to the experiment section at <code>http://127.0.0.1:5000</code>, we can see
 the registry entry for each of our runs, along with the logged metrics and
 model parameters.</p>
-<p><img loading=lazy src=/static/mlops_template/mlflow1.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/mlflow1.png#center alt=Image>
 </p>
 <p>For each run, we can also look at the artifact location.</p>
-<p><img loading=lazy src=/static/mlops_template/mlflow_artifact.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/mlflow_artifact.png#center alt=Image>
 </p>
 <p>When we created the experiment, we speficified
 <code>artifact_location=os.getenv("MLFLOW_ARTIFACT_LOCATION")</code> where
@@ -204,7 +220,7 @@ model artifacts locally at the directory <code>minio_data</code> we created duri
 setup.</p>
 <p>We can head over to <code>http://127.0.0.1:9001/buckets/mlflow/browse</code> to look at
 the saved model artifacts.</p>
-<p><img loading=lazy src=/static/mlops_template/minio_artifact.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/minio_artifact.png#center alt=Image>
 </p>
 <p>In the next part, we will look at serving the trained model being a REST endpoint.</p>
 </div>

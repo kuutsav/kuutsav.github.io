@@ -11,7 +11,7 @@ These steps are necessary for operationalization of any machine-learning based m
 <meta name=author content="Utsav">
 <link rel=canonical href=https://kuutsav.github.io/posts/mlops_template_1_setup/>
 <meta name=google-site-verification content="XYZabc">
-<link crossorigin=anonymous href=/assets/css/stylesheet.min.5ddd754f917f7a681ad66e4e8f4e6589eb5c631eaca844073efec6c33cfa9b33.css integrity="sha256-Xd11T5F/emga1m5Oj05lietcYx6sqEQHPv7Gwzz6mzM=" rel="preload stylesheet" as=style>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.c2f5abb2f6fec59691ca83015edfb2cde23b492f4b2e5537bbd7d55c9b6a1130.css integrity="sha256-wvWrsvb+xZaRyoMBXt+yzeI7SS9LLlU3u9fVXJtqETA=" rel="preload stylesheet" as=style>
 <script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
 <link rel=icon href=https://kuutsav.github.io/static/favicon/favicon-32x32.png>
 <link rel=icon type=image/png sizes=16x16 href=https://kuutsav.github.io/static/favicon/favicon-16x16.png>
@@ -82,7 +82,41 @@ MLOps Template, Part 1 - Setup
 </h1>
 <div class=post-meta><span title="2021-10-22 00:46:25 +0530 IST">October 22, 2021</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;Utsav
 </div>
-</header>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<span class=details>Table of Contents</span>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#bstackb aria-label=Stack>Stack</a></li>
+<li>
+<a href=#bdev-setupb aria-label="Dev Setup">Dev Setup</a><ul>
+<li>
+<a href=#poetry-httpspython-poetryorg aria-label="Poetry #">Poetry <a href=https://python-poetry.org/>#</a></a></li>
+<li>
+<a href=#pre-commit-httpspre-commitcom aria-label="pre-commit #">pre-commit <a href=https://pre-commit.com/>#</a></a></li>
+<li>
+<a href=#minio aria-label=Minio>Minio</a></li>
+<li>
+<a href=#install-python-packages aria-label="Install python packages">Install python packages</a></li>
+<li>
+<a href=#mlflow aria-label=MLflow>MLflow</a></li>
+<li>
+<a href=#minio-1 aria-label=MinIO>MinIO</a></li>
+<li>
+<a href=#dagster aria-label=Dagster>Dagster</a></li>
+<li>
+<a href=#elasticapm aria-label=ElasticAPM>ElasticAPM</a></li>
+<li>
+<a href=#fastapi aria-label=FastAPI>FastAPI</a>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</details>
+</div>
 <div class=post-content><p>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.</p>
 <p>These steps are necessary for operationalization of any <code>machine-learning</code> based
 model.</p>
@@ -127,7 +161,7 @@ $ mlflow server <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>    --backend-store-uri sqlite:///mlflow.db <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>    --default-artifact-root s3://mlflow <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>    --host 0.0.0.0
-</code></pre></div><p><img loading=lazy src=/static/mlops_template/mlflow.png alt=Image>
+</code></pre></div><p><img loading=lazy src=/static/mlops_template/mlflow.png#center alt=Image>
 </p>
 <h3 id=minio-1>MinIO<a hidden class=anchor aria-hidden=true href=#minio-1>#</a></h3>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ export MINIO_ROOT_USER<span style=color:#f92672>=</span>minioadmin
@@ -149,22 +183,22 @@ $ minio server minio_data --console-address <span style=color:#e6db74>&#34;:9001
 
 <span style=color:#75715e># Documentation: https://docs.min.io</span>
 </code></pre></div><p>Go to <code>http://127.0.0.1:9001/buckets/</code> and create a bucket called <code>mlflow</code>.</p>
-<p><img loading=lazy src=/static/mlops_template/minio.png alt=Image>
+<p><img loading=lazy src=/static/mlops_template/minio.png#center alt=Image>
 </p>
 <h3 id=dagster>Dagster<a hidden class=anchor aria-hidden=true href=#dagster>#</a></h3>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ poetry shell
 $ dagit -f mlops/pipeline.py
-</code></pre></div><p><img loading=lazy src=/static/mlops_template/dagster.png alt=Image>
+</code></pre></div><p><img loading=lazy src=/static/mlops_template/dagster.png#center alt=Image>
 </p>
 <h3 id=elasticapm>ElasticAPM<a hidden class=anchor aria-hidden=true href=#elasticapm>#</a></h3>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ docker-compose -f docker-compose-monitoring.yaml up
-</code></pre></div><p><img loading=lazy src=/static/mlops_template/elastic_apm.png alt=Image>
+</code></pre></div><p><img loading=lazy src=/static/mlops_template/elastic_apm.png#center alt=Image>
 </p>
 <h3 id=fastapi>FastAPI<a hidden class=anchor aria-hidden=true href=#fastapi>#</a></h3>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>$ poetry shell
 $ export PYTHONPATH<span style=color:#f92672>=</span>.
 $ python mlops/app/application.py
-</code></pre></div><p><img loading=lazy src=/static/mlops_template/fastapi.png alt=FastAPI>
+</code></pre></div><p><img loading=lazy src=/static/mlops_template/fastapi.png#center alt=FastAPI>
 </p>
 </div>
 <footer class=post-footer>
