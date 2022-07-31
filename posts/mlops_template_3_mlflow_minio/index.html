@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>MLOps Template, Part 3 - MLflow &#43; MinIO | Utsav&#39;Log</title>
+
+    
+    
+    
+    <meta property="og:site_name" content="Utsav&#39;Log" />
+    <meta property="og:title" content="MLOps Template, Part 3 - MLflow &#43; MinIO | Utsav&#39;Log"/>
+    <meta itemprop="name" content="MLOps Template, Part 3 - MLflow &#43; MinIO | Utsav&#39;Log" />
+    <meta name="twitter:title" content="MLOps Template, Part 3 - MLflow &#43; MinIO | Utsav&#39;Log" />
+    <meta name="application-name" content="MLOps Template, Part 3 - MLflow &#43; MinIO | Utsav&#39;Log" /><meta name="twitter:card" content="summary"/>
+
+    <meta name="description" content="ML and Backend stuff" />
+    <meta name="twitter:description" content="ML and Backend stuff"/>
+    <meta itemprop="description" content="ML and Backend stuff"/>
+    <meta property="og:description" content="ML and Backend stuff" />
+
+    
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+    
+    <link rel="stylesheet" href="/sass/main.min.3f6178155abae4dffe563223f47300954fb71d4b007be75733f26fa1f8524296.css">
+    
+</head>
+    
+    <script>
+        (function() {
+            const colorSchemeKey = 'ThemeColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'ThemeColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.userColorScheme = 'dark';
+        } else {
+            document.documentElement.dataset.userColorScheme = 'light';
+        }
+    })();
+</script>
+
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="/">
+                    
+                    
+                        <img src="/favicon.ico" />
+                    
+                    Utsav&#39;Log
+                    </a>
+            </div>
+            <div class="flex">
+                
+                
+                    <button id="dark-mode-button">
+                    <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    </button>
+                
+            </div>
+            </div>
+    </div>
+</nav>
+
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>MLOps Template, Part 3 - MLflow &#43; MinIO</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                             <time>November 05, 2021</time>
+                             · 4 minutes
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="/tags/minio/">#minio</a>
+                            
+                            <a href="/tags/mlflow/">#mlflow</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <p>In the last part, we saw our pipeline at the end. Steps 1-5 deal with data manipulation. We train our model in step 6 and that&rsquo;s where <code>MLflow</code> comes into picture.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pipeline</span>
+<span class="k">def</span> <span class="nf">ml_pipeline</span><span class="p">():</span>
+    <span class="c1"># 1. fetch training data</span>
+    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">get_training_dataset</span><span class="p">()</span>
+    <span class="c1"># 2. minimal text preprocessing</span>
+    <span class="c1"># 3. tfidf vectorization</span>
+    <span class="n">vectorizer</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">get_vectorizer_and_features</span><span class="p">(</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+    <span class="c1"># 4. target encoding</span>
+    <span class="n">target_encoder</span><span class="p">,</span> <span class="n">encoded_target</span> <span class="o">=</span> <span class="n">get_targetencoder_and_encoded_targets</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="c1"># 5. train test split</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">encoded_target</span><span class="p">)</span>
+    <span class="c1"># 6. model training, validation, registry, artifact storage</span>
+    <span class="n">train_clf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="mlflow-httpswwwmlfloworgdocslatestindexhtml">
+    <a href="#mlflow-httpswwwmlfloworgdocslatestindexhtml" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    MLflow <a href="https://www.mlflow.org/docs/latest/index.html">#</a>
+</h2>
+<blockquote>
+<p>MLflow is an open source platform for managing the end-to-end machine learning lifecycle. It tackles four primary functions:</p>
+<p>Tracking experiments to record and compare parameters and results (MLflow Tracking).</p>
+<p>Packaging ML code in a reusable, reproducible form in order to share with other data scientists or transfer to production (MLflow Projects).</p>
+<p>Managing and deploying models from a variety of ML libraries to a variety of model serving and inference platforms (MLflow Models).</p>
+<p>Providing a central model store to collaboratively manage the full lifecycle of an MLflow Model, including model versioning, stage transitions, and annotations (MLflow Model Registry).</p>
+</blockquote>
+<p>For our usecase, we mainly focus on <code>Mlflow Tracking</code> and <code>Mlflow Registry</code>.
+<a href="https://github.com/kuutsav/MLOps/blob/master/mlops/pipeline.py#L94"><code>train_clf()</code></a> internally calls <a href="https://github.com/kuutsav/MLOps/blob/master/mlops/ml_workflow/naive_bayes_clf.py#L25"><code>train_and_validate_clf()</code></a> located at <code>mlops/ml_workflow/naive_bayes_clf.py</code>.</p>
+<p>This script has as all the MLflow components and we will look at those in detail.</p>
+<h2 id="tracking-httpswwwmlfloworgdocslatesttrackinghtml">
+    <a href="#tracking-httpswwwmlfloworgdocslatesttrackinghtml" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Tracking <a href="https://www.mlflow.org/docs/latest/tracking.html">#</a>
+</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># setting env vars for minio artifact storage</span>
+<span class="n">set_env_vars</span><span class="p">()</span>
+
+<span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_TRACKING_URI&#34;</span><span class="p">))</span>
+
+<span class="c1"># creates a new mlflow experiment MLFLOW_EXPERIMENT_NAME if it doesn&#39;t exist</span>
+<span class="n">exps</span> <span class="o">=</span> <span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">MlflowClient</span><span class="p">()</span><span class="o">.</span><span class="n">list_experiments</span><span class="p">()]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">create_experiment</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">),</span>
+        <span class="n">artifact_location</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_ARTIFACT_LOCATION&#34;</span><span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>MLflow runs can be recorded to local files, to a SQLAlchemy compatible database, or remotely to a tracking server. By default, the MLflow Python API logs runs locally to files in an mlruns directory wherever you ran your program. You can then run mlflow ui to see the logged runs.</p>
+<p>To log runs remotely, set the MLFLOW_TRACKING_URI environment variable to a tracking server’s URI or call mlflow.set_tracking_uri().</p>
+<p>There are different kinds of remote tracking URIs:</p>
+<ul>
+<li>Local file path (specified as file:/my/local/dir), where data is just directly stored locally.</li>
+<li>Database encoded as <code>&lt;dialect&gt;+&lt;driver&gt;://&lt;username&gt;:&lt;password&gt;@&lt;host&gt;:&lt;port&gt;/&lt;database&gt;</code>. MLflow supports the dialects mysql, mssql, sqlite, and postgresql. For more details, see SQLAlchemy database uri.</li>
+<li>HTTP server (specified as https://my-server:5000), which is a server hosting an MLflow tracking server.</li>
+<li>Databricks workspace (specified as databricks or as <code>databricks://&lt;profileName&gt;</code>, a Databricks CLI profile. Refer to Access the MLflow tracking server from outside Databricks [AWS] [Azure], or the quickstart to easily get started with hosted MLflow on Databricks Community Edition.</li>
+</ul>
+</blockquote>
+<p>We use <code>sqlite</code> for tracking. <code>MLFLOW_TRACKING_URI=sqlite:///mlflow.db</code>.
+This file stays at the root directory of the project.</p>
+<blockquote>
+<p>You can optionally organize runs into experiments, which group together runs for a specific task. You can create an experiment using the mlflow experiments CLI, with mlflow.create_experiment(), or using the corresponding REST parameters. The MLflow API and UI let you create and search for experiments.</p>
+</blockquote>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># setting env vars for minio artifact storage</span>
+<span class="n">set_env_vars</span><span class="p">()</span>
+
+<span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_TRACKING_URI&#34;</span><span class="p">))</span>
+
+<span class="c1"># creates a new mlflow experiment MLFLOW_EXPERIMENT_NAME if it doesn&#39;t exist</span>
+<span class="n">exps</span> <span class="o">=</span> <span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">MlflowClient</span><span class="p">()</span><span class="o">.</span><span class="n">list_experiments</span><span class="p">()]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">create_experiment</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">),</span>
+        <span class="n">artifact_location</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_ARTIFACT_LOCATION&#34;</span><span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>First time we execute the pipeline, experiment <code>MLFLOW_EXPERIMENT_NAME=MLOps</code> is
+created and is used for subsequent runs.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train_and_validate_clf</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">))</span>
+
+    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&#34;NAIVE_BAYES_CLF&#34;</span><span class="p">):</span>
+        <span class="c1"># ignoring rest of the script</span>
+        <span class="k">pass</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="registry-httpswwwmlfloworgdocslatestmodel-registryhtml">
+    <a href="#registry-httpswwwmlfloworgdocslatestmodel-registryhtml" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Registry <a href="https://www.mlflow.org/docs/latest/model-registry.html#">#</a>
+</h2>
+<p>Under an experiment, we can log metrics, log model parameters, save and version
+model artifacts.
+These steps come under the purview of <code>model-registry</code>.
+Here, we log</p>
+<ul>
+<li>classifier parameter <code>alpha</code></li>
+<li>classification metrics <code>precision</code>, <code>recall</code> and <code>f1_score</code></li>
+</ul>
+<p>We also save and version the model using <code>mlflow.sklearn.log_model</code>.
+Each subsequent run of the pipeline with the same <code>artifact_path</code> and
+<code>registered_model_name</code> increases the model version by 1 in the registry.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train_and_validate_clf</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">))</span>
+
+    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&#34;NAIVE_BAYES_CLF&#34;</span><span class="p">):</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_param</span><span class="p">(</span><span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">get_params</span><span class="p">()[</span><span class="s2">&#34;alpha&#34;</span><span class="p">])</span>
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">precision_recall_fscore_support</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&#34;weighted&#34;</span><span class="p">)</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;precision&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;recall&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;f1_score&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span>
+            <span class="n">sk_model</span><span class="o">=</span><span class="n">clf</span><span class="p">,</span>
+            <span class="n">artifact_path</span><span class="o">=</span><span class="s2">&#34;naive-bayes-model&#34;</span><span class="p">,</span>
+            <span class="n">registered_model_name</span><span class="o">=</span><span class="s2">&#34;sk-learn-naive-bayes-clf-model&#34;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Heading over to the experiment section at <code>http://127.0.0.1:5000</code>, we can see
+the registry entry for each of our runs, along with the logged metrics and
+model parameters.</p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/mlflow1.png" 
+    alt="Image" 
+     
+    width=3540 
+    height="1448"  /></p>
+<p>For each run, we can also look at the artifact location.</p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/mlflow_artifact.png" 
+    alt="Image" 
+     
+    width=3530 
+    height="1482"  /></p>
+<p>When we created the experiment, we speficified
+<code>artifact_location=os.getenv(&quot;MLFLOW_ARTIFACT_LOCATION&quot;)</code> where
+<code>MLFLOW_ARTIFACT_LOCATION=s3://mlflow</code>. Internally, this stores the
+model artifacts locally at the directory <code>minio_data</code> we created during the
+setup.</p>
+<p>We can head over to <code>http://127.0.0.1:9001/buckets/mlflow/browse</code> to look at
+the saved model artifacts.</p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/minio_artifact.png" 
+    alt="Image" 
+     
+    width=3530 
+    height="1482"  /></p>
+<p>In the next part, we will look at serving the trained model being a REST endpoint.</p>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="/posts/mlops_template_2_dagster/" title="Previous post (older)">
+            <span>Previous</span>
+            MLOps Template, Part 2 - Dagster Pipeline
+            </a>
+        
+        
+        
+        <a rel="next" href="/posts/mlops_template_4_fastapi_elasticapm/" title="Next post (newer)">
+            <span>Next</span>
+            MLOps Template, Part 4 - FastAPI &#43; ElasticAPM
+            </a> 
+        
+    </nav>
+    
+</div>
+ 
+<div class="container">
+    
+    <script src="https://giscus.app/client.js" 
+        data-repo="WingLim/hugo-tania"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkzMTYyNjQzMDc="
+        
+        data-category="Comments"
+        data-category-id="DIC_kwDOEtnPc84B_WKP"
+        
+        data-mapping="pathname"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-theme="light"
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
+
+</div>
+
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="/index.xml">RSS</a>
+            
+            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            
+        </nav>
+
+        
+    </section>
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    data-enable-footnotes="true"
+    ></script>
+</footer>
+
+    </body>
+</html>

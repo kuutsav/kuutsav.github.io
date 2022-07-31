@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/tags/</link>
+    <description>Recent content in Tags on Utsav&#39;Log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 07 Apr 2022 13:40:40 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>algorithms</title>
+      <link>https://iutsav.dev/tags/algorithms/</link>
+      <pubDate>Thu, 07 Apr 2022 13:40:40 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/algorithms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dynamic connectivity</title>
+      <link>https://iutsav.dev/tags/dynamic-connectivity/</link>
+      <pubDate>Thu, 07 Apr 2022 13:40:40 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/dynamic-connectivity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://iutsav.dev/tags/python/</link>
+      <pubDate>Thu, 07 Apr 2022 13:40:40 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>sequences</title>
+      <link>https://iutsav.dev/tags/sequences/</link>
+      <pubDate>Tue, 05 Apr 2022 10:21:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/sequences/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data model</title>
+      <link>https://iutsav.dev/tags/data-model/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/data-model/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>elasticapm</title>
+      <link>https://iutsav.dev/tags/elasticapm/</link>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/elasticapm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>fastapi</title>
+      <link>https://iutsav.dev/tags/fastapi/</link>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/fastapi/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>minio</title>
+      <link>https://iutsav.dev/tags/minio/</link>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/minio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mlflow</title>
+      <link>https://iutsav.dev/tags/mlflow/</link>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/mlflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dagster</title>
+      <link>https://iutsav.dev/tags/dagster/</link>
+      <pubDate>Tue, 26 Oct 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/dagster/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>skipgram</title>
+      <link>https://iutsav.dev/tags/skipgram/</link>
+      <pubDate>Fri, 12 Mar 2021 15:34:11 +1510</pubDate>
+      
+      <guid>https://iutsav.dev/tags/skipgram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>word2vec</title>
+      <link>https://iutsav.dev/tags/word2vec/</link>
+      <pubDate>Fri, 12 Mar 2021 15:34:11 +1510</pubDate>
+      
+      <guid>https://iutsav.dev/tags/word2vec/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Python Notes, Part 1 - Data Model | Utsav&#39;Log</title>
+
+    
+    
+    
+    <meta property="og:site_name" content="Utsav&#39;Log" />
+    <meta property="og:title" content="Python Notes, Part 1 - Data Model | Utsav&#39;Log"/>
+    <meta itemprop="name" content="Python Notes, Part 1 - Data Model | Utsav&#39;Log" />
+    <meta name="twitter:title" content="Python Notes, Part 1 - Data Model | Utsav&#39;Log" />
+    <meta name="application-name" content="Python Notes, Part 1 - Data Model | Utsav&#39;Log" /><meta name="twitter:card" content="summary"/>
+
+    <meta name="description" content="ML and Backend stuff" />
+    <meta name="twitter:description" content="ML and Backend stuff"/>
+    <meta itemprop="description" content="ML and Backend stuff"/>
+    <meta property="og:description" content="ML and Backend stuff" />
+
+    
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+    
+    <link rel="stylesheet" href="/sass/main.min.3f6178155abae4dffe563223f47300954fb71d4b007be75733f26fa1f8524296.css">
+    
+</head>
+    
+    <script>
+        (function() {
+            const colorSchemeKey = 'ThemeColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'ThemeColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.userColorScheme = 'dark';
+        } else {
+            document.documentElement.dataset.userColorScheme = 'light';
+        }
+    })();
+</script>
+
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="/">
+                    
+                    
+                        <img src="/favicon.ico" />
+                    
+                    Utsav&#39;Log
+                    </a>
+            </div>
+            <div class="flex">
+                
+                
+                    <button id="dark-mode-button">
+                    <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    </button>
+                
+            </div>
+            </div>
+    </div>
+</nav>
+
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Python Notes, Part 1 - Data Model</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                             <time>March 05, 2022</time>
+                             · 7 minutes
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="/tags/python/">#python</a>
+                            
+                            <a href="/tags/data-model/">#data model</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <p>One of the best things about python is it&rsquo;s consistency. Once someone has spent enough
+time with python and it&rsquo;s ecosystem, they tend to adapt easily to new tools, modules as
+long as they are written in a <em>pythonic</em> way.</p>
+<p>What is considered <em>pythonic</em> is a very subjective matter, but we can always look at the
+&ldquo;Zen of Python&rdquo; for some guidance.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">this</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>The Zen of Python, by Tim Peters
+
+Beautiful is better than ugly.
+Explicit is better than implicit.
+Simple is better than complex.
+Complex is better than complicated.
+Flat is better than nested.
+Sparse is better than dense.
+Readability counts.
+Special cases aren't special enough to break the rules.
+Although practicality beats purity.
+Errors should never pass silently.
+Unless explicitly silenced.
+In the face of ambiguity, refuse the temptation to guess.
+There should be one-- and preferably only one --obvious way to do it.
+Although that way may not be obvious at first unless you're Dutch.
+Now is better than never.
+Although never is often better than *right* now.
+If the implementation is hard to explain, it's a bad idea.
+If the implementation is easy to explain, it may be a good idea.
+Namespaces are one honking great idea -- let's do more of those!
+</code></pre>
+<h3 id="special-methods-dunder-methods">
+    <a href="#special-methods-dunder-methods" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Special Methods (dunder methods)
+</h3>
+<p>The heart of what makes an object <em>pythonic</em> is the <strong>Python Data Model</strong>.
+Python Data Model provides apis that help us create consistent behavior for our python objects.
+We achieve this consistency by adding special methods called <strong>dunder methods</strong>(or double underscore methods)
+to our objects.</p>
+<p>Before looking into dunder methods, lets look at a simple object to demonstrate a point about python
+objects and the consistency we keep talking about.</p>
+<p>Typically in Object Oriented Design we define a class which encapsulates some data and the associated methods
+that act on the data.</p>
+<p>Suppose we have an object which internally maintains a collection and we want to know the length of the
+collection, typically the OOO design will go something like</p>
+<pre tabindex="0"><code>MyObject.len()
+or
+MyObject.size()
+...
+</code></pre><p>whether it&rsquo;s <code>len()</code>, <code>length()</code>, <code>size()</code> or something else is the choice of the designer of this API and the
+users need to read the documentation/specification before using the object.</p>
+<p>In python, we do this by calling <code>len(MyObject)</code>. Now this is not a typical OOP behaviour, but this is what
+is magical about python. Under the hood, <code>len()</code> refers to the <code>__len__</code> dunder method of the object.
+By adding these special methods to our class definition, we can provide consistent behaviour to our objects
+so that new users can start using them easily and in a predictable manner(as long as they expect this behaviour).</p>
+<p>Python has many more dunder methods. These methods provide a framework for building almost
+everything in python, be it <strong>iterators, collections, string representations, classes, coroutines, etc</strong>.</p>
+<p>Let&rsquo;s look at more dunder methods using the following example</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">DiePair</span><span class="p">:</span>
+    <span class="n">die1</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">die2</span><span class="p">:</span> <span class="nb">int</span>
+
+
+<span class="k">class</span> <span class="nc">TwoDieRoll</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pairs</span> <span class="o">=</span> <span class="p">[</span><span class="n">DiePair</span><span class="p">(</span><span class="n">die1</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">die2</span><span class="o">=</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pairs</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pairs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">roll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_pairs</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">two_dies</span> <span class="o">=</span> <span class="n">TwoDieRoll</span><span class="p">()</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">two_dies</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>36
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">two_dies</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DiePair(die1=2, die2=5)
+</code></pre>
+<p>Beyond indexing, by adding <code>__getitem__</code> we get to access to other features like slicing</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">two_dies</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>[DiePair(die1=1, die2=1),
+ DiePair(die1=1, die2=2),
+ DiePair(die1=1, die2=3),
+ DiePair(die1=1, die2=4),
+ DiePair(die1=1, die2=5)]
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">two_dies</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">:]</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>[DiePair(die1=6, die2=2),
+ DiePair(die1=6, die2=3),
+ DiePair(die1=6, die2=4),
+ DiePair(die1=6, die2=5),
+ DiePair(die1=6, die2=6)]
+</code></pre>
+<p>Our object <code>two_dies</code> is also an <code>iterable</code> now</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">die_pair</span> <span class="ow">in</span> <span class="n">two_dies</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">die_pair</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DiePair(die1=1, die2=1)
+DiePair(die1=1, die2=2)
+DiePair(die1=1, die2=3)
+DiePair(die1=1, die2=4)
+DiePair(die1=1, die2=5)
+DiePair(die1=1, die2=6)
+DiePair(die1=2, die2=1)
+DiePair(die1=2, die2=2)
+DiePair(die1=2, die2=3)
+...
+</code></pre>
+<p>Iteration is often implicit, for example</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">DiePair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="ow">in</span> <span class="n">two_dies</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>True
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">DiePair</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="ow">in</span> <span class="n">two_dies</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>False
+</code></pre>
+<p>Both the above example work without the <code>__contains__</code> dunder method in our class. In it&rsquo;s
+absence, the <strong>in</strong> operator does a sequential scan.</p>
+<p>We can use built in modules to add methods like <code>roll()</code> to our class.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">two_dies</span><span class="o">.</span><span class="n">roll</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DiePair(die1=3, die2=1)
+</code></pre>
+<p>We can also sort the dies in reverse order based on die2.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">sorted</span><span class="p">(</span><span class="n">two_dies</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">die</span><span class="p">:</span> <span class="n">die</span><span class="o">.</span><span class="n">die2</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>[DiePair(die1=1, die2=6),
+ DiePair(die1=2, die2=6),
+ DiePair(die1=3, die2=6),
+ DiePair(die1=4, die2=6),
+ DiePair(die1=5, die2=6),
+ DiePair(die1=6, die2=6),
+ DiePair(die1=1, die2=5),
+ DiePair(die1=2, die2=5),
+ DiePair(die1=3, die2=5),
+ ...]
+</code></pre>
+<p>All this is possible because of <code>__getitem__</code> which makes our object behave like a python collection.</p>
+<p>Dunder methods are not called directly by the user, but internally by the interpreter, except in special
+cases like metaprogramming or in the <code>__init__</code> of a class to initialize the base class it&rsquo;s deriving from.</p>
+<p>That does not mean we can&rsquo;t invoke them explicitly.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">two_dies</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>36
+</code></pre>
+<h3 id="more-uses-of-dunder-methods">
+    <a href="#more-uses-of-dunder-methods" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    More uses of dunder methods
+</h3>
+<p>Dunder methods have lots of other uses as well. For example</p>
+<ul>
+<li>Emulating numeric types(operator overloading)</li>
+<li>String representation for objects</li>
+</ul>
+<h3 id="emulating-numeric-types">
+    <a href="#emulating-numeric-types" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Emulating Numeric Types
+</h3>
+<p>Let&rsquo;s create a class that allows us to create vectors we use in physics or to represent data.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">math</span>
+
+
+<span class="k">class</span> <span class="nc">Vector</span><span class="p">:</span>
+    
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&#34;Vector(</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">)&#34;</span>
+
+    <span class="k">def</span> <span class="fm">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_vector</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">other_vector</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">other_vector</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__mul__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Vector</span><span class="p">(</span><span class="n">scalar</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">scalar</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+    
+    <span class="k">def</span> <span class="fm">__abs__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">hypot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>By adding <code>__add__</code> and <code>__mul__</code> special methods, we can start adding two vectors and multiplying scalars
+to our vectors like we expect.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">vector1</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">vector2</span> <span class="o">=</span> <span class="n">Vector</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">vector1</span> <span class="o">+</span> <span class="n">vector2</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Vector(11, 5)
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">vector2</span> <span class="o">*</span> <span class="mi">3</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Vector(30, 9)
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">abs</span><span class="p">(</span><span class="n">Vector</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>5.0
+</code></pre>
+<h3 id="string-representation-of-objects">
+    <a href="#string-representation-of-objects" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    String representation of objects
+</h3>
+<p>The <code>__repr__</code> method allows us to create a string representation for the object. This is
+useful for debugging/logging purposes. If possible, it should return a string that describes
+exactly how the object is created.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">vector1</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Vector(1, 2)
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">vector2</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Vector(10, 3)
+</code></pre>
+<p>We also have a <code>__str__</code> method that returns a string describing the object. Typically this is a
+description of the object for the end user.</p>
+<p>When the <code>__repr__</code> is descriptive enough, the <code>__str__</code> method can be avoided as it defaults to <code>__repr__</code>.</p>
+<p>From <a href="https://stackoverflow.com/questions/1436703/what-is-the-difference-between-str-and-repr">stackoverflow</a>:</p>
+<blockquote>
+<p>My rule of thumb: <strong>repr</strong> is for developers, <strong>str</strong> is for customers.</p>
+</blockquote>
+<h3 id="collection-api">
+    <a href="#collection-api" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Collection API
+</h3>
+<p><img loading="lazy" 
+    src="/../static/python_notes/flpy_0102.png" 
+    alt="collection api" 
+     
+    width=1000 
+    height="702"  /></p>
+<p>The UML diagram shows the three essential interface every collection should implement</p>
+<ul>
+<li>Iterable</li>
+<li>Sized</li>
+<li>Container</li>
+</ul>
+<p>Three very important specializations of collection are</p>
+<ul>
+<li>Sequence: formalizing the interface of built-ins like list and str;</li>
+<li>Mapping: implemented by dict, collections.defaultdict, etc.;</li>
+<li>Set: the interface of the set and frozenset built-in types.</li>
+</ul>
+<p>For example, let&rsquo;s create a list</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="nb">dir</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>['__add__',
+ '__class__',
+ '__contains__',
+ '__delattr__',
+ '__delitem__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__getitem__',
+ '__gt__',
+ '__hash__',
+ '__iadd__',
+ '__imul__',
+ '__init__',
+ '__init_subclass__',
+ '__iter__',
+ '__le__',
+ '__len__',
+ '__lt__',
+ '__mul__',
+ '__ne__',
+ '__new__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__reversed__',
+ '__rmul__',
+ '__setattr__',
+ '__setitem__',
+ '__sizeof__',
+ '__str__',
+ '__subclasshook__',
+ 'append',
+ 'clear',
+ 'copy',
+ 'count',
+ 'extend',
+ 'index',
+ 'insert',
+ 'pop',
+ 'remove',
+ 'reverse',
+ 'sort']
+</code></pre>
+<p>The <code>dir()</code> method shows all the methods and special methods available for an object.
+Here we can see all the essential interfacs as well as others. The built in python collections
+implement these special methods for us.</p>
+<p>Let&rsquo;s look at a set now.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_set</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span>
+<span class="nb">dir</span><span class="p">(</span><span class="n">my_set</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>['__and__',
+ '__class__',
+ '__contains__',
+ '__delattr__',
+ '__dir__',
+ '__doc__',
+ '__eq__',
+ '__format__',
+ '__ge__',
+ '__getattribute__',
+ '__gt__',
+ '__hash__',
+ '__iand__',
+ '__init__',
+ '__init_subclass__',
+ '__ior__',
+ '__isub__',
+ '__iter__',
+ '__ixor__',
+ '__le__',
+ '__len__',
+ '__lt__',
+ '__ne__',
+ '__new__',
+ '__or__',
+ '__rand__',
+ '__reduce__',
+ '__reduce_ex__',
+ '__repr__',
+ '__ror__',
+ '__rsub__',
+ '__rxor__',
+ '__setattr__',
+ '__sizeof__',
+ '__str__',
+ '__sub__',
+ '__subclasshook__',
+ '__xor__',
+ 'add',
+ 'clear',
+ 'copy',
+ 'difference',
+ 'difference_update',
+ 'discard',
+ 'intersection',
+ 'intersection_update',
+ 'isdisjoint',
+ 'issubset',
+ 'issuperset',
+ 'pop',
+ 'remove',
+ 'symmetric_difference',
+ 'symmetric_difference_update',
+ 'union',
+ 'update']
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">}</span> <span class="o">-</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>{3}
+</code></pre>
+<p>We are able to do the above operation because of the special method <code>__sub__</code> that&rsquo;s been provided to us
+by default.</p>
+<h3 id="references">
+    <a href="#references" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    References
+</h3>
+<p>[1] Luciano Ramalho. &ldquo;<a href="https://www.oreilly.com/library/view/fluent-python/9781491946237/">Fluent Python</a>&rdquo;.</p>
+<p>[2] <a href="https://docs.python.org/3/reference/datamodel.html">https://docs.python.org/3/reference/datamodel.html</a>.</p>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="/posts/mlops_template_4_fastapi_elasticapm/" title="Previous post (older)">
+            <span>Previous</span>
+            MLOps Template, Part 4 - FastAPI &#43; ElasticAPM
+            </a>
+        
+        
+        
+        <a rel="next" href="/posts/python_notes_2_sequences/" title="Next post (newer)">
+            <span>Next</span>
+            Python Notes, Part 2 - Sequences
+            </a> 
+        
+    </nav>
+    
+</div>
+ 
+<div class="container">
+    
+    <script src="https://giscus.app/client.js" 
+        data-repo="WingLim/hugo-tania"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkzMTYyNjQzMDc="
+        
+        data-category="Comments"
+        data-category-id="DIC_kwDOEtnPc84B_WKP"
+        
+        data-mapping="pathname"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-theme="light"
+        crossorigin="anonymous"
+        async
+        >
+</script>
+
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
+
+</div>
+
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="/index.xml">RSS</a>
+            
+            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            
+        </nav>
+
+        
+    </section>
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    data-enable-footnotes="true"
+    ></script>
+</footer>
+
+    </body>
+</html>

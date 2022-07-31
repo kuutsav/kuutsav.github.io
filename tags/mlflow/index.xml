@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>mlflow on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/tags/mlflow/</link>
+    <description>Recent content in mlflow on Utsav&#39;Log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 05 Nov 2021 00:46:25 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/mlflow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MLOps Template, Part 3 - MLflow &#43; MinIO</title>
+      <link>https://iutsav.dev/posts/mlops_template_3_mlflow_minio/</link>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/mlops_template_3_mlflow_minio/</guid>
+      <description>In the last part, we saw our pipeline at the end. Steps 1-5 deal with data manipulation. We train our model in step 6 and that&amp;rsquo;s where MLflow comes into picture.
+1 2 3 4 5 6 7 8 9 10 11 12 13  @pipeline def ml_pipeline(): # 1. fetch training data texts, target = get_training_dataset() # 2. minimal text preprocessing # 3. tfidf vectorization vectorizer, X = get_vectorizer_and_features(preprocess_text(texts)) # 4.</description>
+    </item>
+    
+    <item>
+      <title>MLOps Template, Part 1 - Setup</title>
+      <link>https://iutsav.dev/posts/mlops_template_1_setup/</link>
+      <pubDate>Fri, 22 Oct 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/mlops_template_1_setup/</guid>
+      <description>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.
+These steps are necessary for operationalization of any machine-learning based model.
+ These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.</description>
+    </item>
+    
+  </channel>
+</rss>
