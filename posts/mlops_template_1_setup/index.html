@@ -25,9 +25,9 @@
     
 
 
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.3f6178155abae4dffe563223f47300954fb71d4b007be75733f26fa1f8524296.css">
+    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
     
 </head>
     
@@ -95,20 +95,20 @@
                             
                               
                             
-                             <time>October 22, 2021</time>
-                             · 2 minutes
+                            By Kumar Utsav | <time>October 22, 2021</time>
+                            | 2 minutes
                         </div>
                         <div class="tags">
                             
-                            <a href="/tags/mlflow/">#mlflow</a>
+                            <a href="/tags/mlflow/">mlflow</a>
                             
-                            <a href="/tags/minio/">#minio</a>
+                            <a href="/tags/minio/">minio</a>
                             
-                            <a href="/tags/fastapi/">#fastapi</a>
+                            <a href="/tags/fastapi/">fastapi</a>
                             
-                            <a href="/tags/elasticapm/">#elasticapm</a>
+                            <a href="/tags/elasticapm/">elasticapm</a>
                             
-                            <a href="/tags/dagster/">#dagster</a>
+                            <a href="/tags/dagster/">dagster</a>
                             
                         </div>
                     </div>
@@ -168,10 +168,10 @@ model.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py <span class="p">|</span> python -
-$ poetry --version
-<span class="c1"># Poetry version 1.1.10</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py <span class="p">|</span> python -
+</span></span><span class="line"><span class="cl">$ poetry --version
+</span></span><span class="line"><span class="cl"><span class="c1"># Poetry version 1.1.10</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="pre-commit-httpspre-commitcom">
     <a href="#pre-commit-httpspre-commitcom" class="anchor">
@@ -190,10 +190,10 @@ $ poetry --version
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ pip install pre-commit
-$ pre-commit --version
-<span class="c1"># pre-commit 2.15.0</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ pip install pre-commit
+</span></span><span class="line"><span class="cl">$ pre-commit --version
+</span></span><span class="line"><span class="cl"><span class="c1"># pre-commit 2.15.0</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="minio">
     <a href="#minio" class="anchor">
@@ -212,8 +212,8 @@ $ pre-commit --version
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">brew install minio/stable/minio
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">brew install minio/stable/minio
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="install-python-packages">
     <a href="#install-python-packages" class="anchor">
@@ -234,12 +234,12 @@ $ pre-commit --version
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ poetry install
-
-<span class="c1"># Installing dependencies from lock file</span>
-<span class="c1"># No dependencies to install or update</span>
-<span class="c1"># Installing the current project: mlops (0.1.0)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ poetry install
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Installing dependencies from lock file</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># No dependencies to install or update</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Installing the current project: mlops (0.1.0)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="mlflow">
     <a href="#mlflow" class="anchor">
@@ -265,24 +265,19 @@ $ pre-commit --version
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ poetry shell
-$ <span class="nb">export</span> <span class="nv">MLFLOW_S3_ENDPOINT_URL</span><span class="o">=</span>http://127.0.0.1:9000
-$ <span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>minioadmin
-$ <span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>minioadmin
-
-<span class="c1"># make sure that the backend store and artifact locations are same in the .env file as well</span>
-$ mlflow server <span class="se">\
-</span><span class="se"></span>    --backend-store-uri sqlite:///mlflow.db <span class="se">\
-</span><span class="se"></span>    --default-artifact-root s3://mlflow <span class="se">\
-</span><span class="se"></span>    --host 0.0.0.0
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ poetry shell
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">MLFLOW_S3_ENDPOINT_URL</span><span class="o">=</span>http://127.0.0.1:9000
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>minioadmin
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>minioadmin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># make sure that the backend store and artifact locations are same in the .env file as well</span>
+</span></span><span class="line"><span class="cl">$ mlflow server <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --backend-store-uri sqlite:///mlflow.db <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --default-artifact-root s3://mlflow <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --host 0.0.0.0
+</span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" 
-    src="/../static/mlops_template/mlflow.png" 
-    alt="Image" 
-     
-    width=3540 
-    height="1448"  /></p>
+</div><p><img loading="lazy" src="/../static/mlops_template/mlflow.png" alt="Image"  width=3540 height="1448" /></p>
 <h3 id="minio-1">
     <a href="#minio-1" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -315,33 +310,28 @@ $ mlflow server <span class="se">\
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ <span class="nb">export</span> <span class="nv">MINIO_ROOT_USER</span><span class="o">=</span>minioadmin
-$ <span class="nb">export</span> <span class="nv">MINIO_ROOT_PASSWORD</span><span class="o">=</span>minioadmin
-
-$ mkdir minio_data
-$ minio server minio_data --console-address <span class="s2">&#34;:9001&#34;</span>
-
-<span class="c1"># API: http://192.168.29.103:9000  http://10.119.80.13:9000  http://127.0.0.1:9000</span>
-<span class="c1"># RootUser: minioadmin</span>
-<span class="c1"># RootPass: minioadmin</span>
-
-<span class="c1"># Console: http://192.168.29.103:9001 http://10.119.80.13:9001 http://127.0.0.1:9001</span>
-<span class="c1"># RootUser: minioadmin</span>
-<span class="c1"># RootPass: minioadmin</span>
-
-<span class="c1"># Command-line: https://docs.min.io/docs/minio-client-quickstart-guide</span>
-<span class="c1">#    $ mc alias set myminio http://192.168.29.103:9000 minioadmin minioadmin</span>
-
-<span class="c1"># Documentation: https://docs.min.io</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">MINIO_ROOT_USER</span><span class="o">=</span>minioadmin
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">MINIO_ROOT_PASSWORD</span><span class="o">=</span>minioadmin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ mkdir minio_data
+</span></span><span class="line"><span class="cl">$ minio server minio_data --console-address <span class="s2">&#34;:9001&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># API: http://192.168.29.103:9000  http://10.119.80.13:9000  http://127.0.0.1:9000</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># RootUser: minioadmin</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># RootPass: minioadmin</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Console: http://192.168.29.103:9001 http://10.119.80.13:9001 http://127.0.0.1:9001</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># RootUser: minioadmin</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># RootPass: minioadmin</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Command-line: https://docs.min.io/docs/minio-client-quickstart-guide</span>
+</span></span><span class="line"><span class="cl"><span class="c1">#    $ mc alias set myminio http://192.168.29.103:9000 minioadmin minioadmin</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="c1"># Documentation: https://docs.min.io</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>Go to <code>http://127.0.0.1:9001/buckets/</code> and create a bucket called <code>mlflow</code>.</p>
-<p><img loading="lazy" 
-    src="/../static/mlops_template/minio.png" 
-    alt="Image" 
-     
-    width=3560 
-    height="1422"  /></p>
+<p><img loading="lazy" src="/../static/mlops_template/minio.png" alt="Image"  width=3560 height="1422" /></p>
 <h3 id="dagster">
     <a href="#dagster" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -358,16 +348,11 @@ $ minio server minio_data --console-address <span class="s2">&#34;:9001&#34;</sp
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ poetry shell
-$ dagit -f mlops/pipeline.py
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ poetry shell
+</span></span><span class="line"><span class="cl">$ dagit -f mlops/pipeline.py
+</span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" 
-    src="/../static/mlops_template/dagster.png" 
-    alt="Image" 
-     
-    width=3566 
-    height="1514"  /></p>
+</div><p><img loading="lazy" src="/../static/mlops_template/dagster.png" alt="Image"  width=3566 height="1514" /></p>
 <h3 id="elasticapm">
     <a href="#elasticapm" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -383,15 +368,10 @@ $ dagit -f mlops/pipeline.py
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ docker-compose -f docker-compose-monitoring.yaml up
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker-compose -f docker-compose-monitoring.yaml up
+</span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" 
-    src="/../static/mlops_template/elastic_apm.png" 
-    alt="Image" 
-     
-    width=3566 
-    height="1514"  /></p>
+</div><p><img loading="lazy" src="/../static/mlops_template/elastic_apm.png" alt="Image"  width=3566 height="1514" /></p>
 <h3 id="fastapi">
     <a href="#fastapi" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -409,17 +389,12 @@ $ dagit -f mlops/pipeline.py
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ poetry shell
-$ <span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>.
-$ python mlops/app/application.py
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ poetry shell
+</span></span><span class="line"><span class="cl">$ <span class="nb">export</span> <span class="nv">PYTHONPATH</span><span class="o">=</span>.
+</span></span><span class="line"><span class="cl">$ python mlops/app/application.py
+</span></span></code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" 
-    src="/../static/mlops_template/fastapi.png" 
-    alt="FastAPI" 
-     
-    width=3556 
-    height="1846"  /></p>
+</div><p><img loading="lazy" src="/../static/mlops_template/fastapi.png" alt="FastAPI"  width=3556 height="1846" /></p>
 
     </div>
 </div>
@@ -446,48 +421,50 @@ $ python mlops/app/application.py
  
 <div class="container">
     
-    <script src="https://giscus.app/client.js" 
-        data-repo="kuutsav/kuutsav.github.io"
-        data-repo-id="R_kgDOHvsC_Q"
-        
-        data-category="Comments"
-        data-category-id="DIC_kwDOHvsC_c4CQiYb"
-        
-        data-mapping="pathname"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-theme="light"
-        crossorigin="anonymous"
-        async
-        >
-</script>
+    <script
+  src="https://giscus.app/client.js"
+  data-repo="kuutsav/kuutsav.github.io"
+  data-repo-id="R_kgDOHvsC_Q"
+  data-category="Announcements"
+  data-category-id="DIC_kwDOHvsC_c4CQiYa"
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async
+></script>
 
 <script>
-    function setGiscusTeheme(theme) {
-        let giscus = document.querySelector('.giscus iframe');
-        if (giscus) {
-            giscus.contentWindow.postMessage(
-                {
-                    giscus: {
-                        setConfig: {
-                            theme: theme
-                        }
-                    }
-                },
-                'https://giscus.app'
-            )
-        }
+  function setGiscusTheme(theme) {
+    let giscus = document.querySelector(".giscus iframe");
+    if (giscus) {
+      giscus.contentWindow.postMessage(
+        {
+          giscus: {
+            setConfig: {
+              theme: theme,
+            },
+          },
+        },
+        "https://giscus.app"
+      );
     }
+  }
 
-    addEventListener('message', event => {
-        if (event.origin !== 'https://giscus.app') return;
-        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
-    });
+  addEventListener("message", (event) => {
+    if (event.origin !== "https://giscus.app") return;
+    setGiscusTheme(document.documentElement.dataset.userColorScheme);
+  });
 
-    window.addEventListener('onColorSchemeChange', (e) => {
-        setGiscusTeheme(e.detail)
-    })
+  window.addEventListener("onColorSchemeChange", (e) => {
+    setGiscusTheme(e.detail);
+  });
 </script>
+
 
 </div>
 
@@ -507,7 +484,7 @@ $ python mlops/app/application.py
 
         
     </section>
-    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

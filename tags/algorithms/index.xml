@@ -14,7 +14,7 @@
       
       <guid>https://iutsav.dev/posts/dynamic_connectivity_and_percolation/</guid>
       <description>Given a set of N objects that support the following two commands:
- Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects
+Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts? For example, consider this set of 10 objects
 After few union commands union(2, 3), union(6, 5), union(8, 6), union(10, 8) the state of the system changes to
 We can query the above system to find if two objects are connected or not like find(0, 1) == False, find(1, 2) == True, find(4, 9) == True, find(8, 1) == False</description>
     </item>

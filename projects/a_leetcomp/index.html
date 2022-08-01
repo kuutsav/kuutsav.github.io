@@ -25,9 +25,9 @@
     
 
 
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.3f6178155abae4dffe563223f47300954fb71d4b007be75733f26fa1f8524296.css">
+    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
     
 </head>
     
@@ -95,8 +95,8 @@
                             
                               
                             
-                             <time>January 26, 2022</time>
-                             · 0 minutes
+                            By Kumar Utsav | <time>January 26, 2022</time>
+                            | 0 minutes
                         </div>
                         <div class="tags">
                             
@@ -118,54 +118,61 @@
         
         
         
+        <a rel="next" href="/projects/b_information_retrieval/" title="Next post (newer)">
+            <span>Next</span>
+            information-retrieval
+            </a> 
+        
     </nav>
     
 </div>
  
 <div class="container">
     
-    <script src="https://giscus.app/client.js" 
-        data-repo="kuutsav/kuutsav.github.io"
-        data-repo-id="R_kgDOHvsC_Q"
-        
-        data-category="Comments"
-        data-category-id="DIC_kwDOHvsC_c4CQiYb"
-        
-        data-mapping="pathname"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-theme="light"
-        crossorigin="anonymous"
-        async
-        >
-</script>
+    <script
+  src="https://giscus.app/client.js"
+  data-repo="kuutsav/kuutsav.github.io"
+  data-repo-id="R_kgDOHvsC_Q"
+  data-category="Announcements"
+  data-category-id="DIC_kwDOHvsC_c4CQiYa"
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async
+></script>
 
 <script>
-    function setGiscusTeheme(theme) {
-        let giscus = document.querySelector('.giscus iframe');
-        if (giscus) {
-            giscus.contentWindow.postMessage(
-                {
-                    giscus: {
-                        setConfig: {
-                            theme: theme
-                        }
-                    }
-                },
-                'https://giscus.app'
-            )
-        }
+  function setGiscusTheme(theme) {
+    let giscus = document.querySelector(".giscus iframe");
+    if (giscus) {
+      giscus.contentWindow.postMessage(
+        {
+          giscus: {
+            setConfig: {
+              theme: theme,
+            },
+          },
+        },
+        "https://giscus.app"
+      );
     }
+  }
 
-    addEventListener('message', event => {
-        if (event.origin !== 'https://giscus.app') return;
-        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
-    });
+  addEventListener("message", (event) => {
+    if (event.origin !== "https://giscus.app") return;
+    setGiscusTheme(document.documentElement.dataset.userColorScheme);
+  });
 
-    window.addEventListener('onColorSchemeChange', (e) => {
-        setGiscusTeheme(e.detail)
-    })
+  window.addEventListener("onColorSchemeChange", (e) => {
+    setGiscusTheme(e.detail);
+  });
 </script>
+
 
 </div>
 
@@ -185,7 +192,7 @@
 
         
     </section>
-    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

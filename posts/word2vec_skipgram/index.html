@@ -25,9 +25,9 @@
     
 
 
-    <link rel="shortcut icon" type="image/x-icon" href="/static/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.3f6178155abae4dffe563223f47300954fb71d4b007be75733f26fa1f8524296.css">
+    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
     
 </head>
     
@@ -95,16 +95,16 @@
                             
                               
                             
-                             <time>March 12, 2021</time>
-                             · 9 minutes
+                            By Kumar Utsav | <time>March 12, 2021</time>
+                            | 9 minutes
                         </div>
                         <div class="tags">
                             
-                            <a href="/tags/python/">#python</a>
+                            <a href="/tags/python/">python</a>
                             
-                            <a href="/tags/word2vec/">#word2vec</a>
+                            <a href="/tags/word2vec/">word2vec</a>
                             
-                            <a href="/tags/skipgram/">#skipgram</a>
+                            <a href="/tags/skipgram/">skipgram</a>
                             
                         </div>
                     </div>
@@ -147,17 +147,17 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
-<span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">requests</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">requests</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">Dataset</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>The whole process of training the embeddings can be broken down into the following key steps:</p>
 <ol>
@@ -200,17 +200,17 @@
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># We will be using the first four Harry Potter books.</span>
-<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&#34;https://raw.githubusercontent.com/formcept/&#34;</span>
-<span class="n">BASE_URL</span> <span class="o">+=</span> <span class="s2">&#34;whiteboard/master/nbviewer/notebooks/data/harrypotter&#34;</span>
-
-<span class="n">BOOK_URLS</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%201%20-%20The%20Philosopher&#39;s%20Stone.txt&#34;</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&#34;</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&#34;</span><span class="p">,</span>
-    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%204%20-%20The%20Goblet%20of%20Fire.txt&#34;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># We will be using the first four Harry Potter books.</span>
+</span></span><span class="line"><span class="cl"><span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&#34;https://raw.githubusercontent.com/formcept/&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="n">BASE_URL</span> <span class="o">+=</span> <span class="s2">&#34;whiteboard/master/nbviewer/notebooks/data/harrypotter&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">BOOK_URLS</span> <span class="o">=</span> <span class="p">[</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%201%20-%20The%20Philosopher&#39;s%20Stone.txt&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%202%20-%20The%20Chamber%20of%20Secrets.txt&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%203%20-%20The%20Prisoner%20of%20Azkaban.txt&#34;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">    <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">BASE_URL</span><span class="si">}</span><span class="s2">/Book%204%20-%20The%20Goblet%20of%20Fire.txt&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">]</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -272,63 +272,63 @@
 </span><span class="lnt">56
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">TextProcessor</span><span class="p">:</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="n">urls</span>
-
-    <span class="k">def</span> <span class="nf">fetch_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">urls</span><span class="p">):</span>
-            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">+=</span> <span class="s2">&#34;</span><span class="se">\n\n\n</span><span class="s2">&#34;</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Fetched </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">urls</span><span class="p">)</span><span class="si">}</span><span class="s2"> urls ...&#34;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">process_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Processing text ...&#34;</span><span class="p">)</span>
-        <span class="n">sentences</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">{2,}&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span><span class="si">}</span><span class="s2"> sentences&#34;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">clean_sentences</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
-            <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-            <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
-            <span class="n">txt</span> <span class="o">=</span> <span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&#34;\w+&#34;</span><span class="p">,</span> <span class="n">txt</span><span class="p">))</span>
-            <span class="k">if</span> <span class="n">txt</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">clean_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-
-        <span class="c1"># Tokens and token counter will be used later to create a vocabulary for</span>
-        <span class="c1"># us which will be used to map words/tokens to indices and vice versa, to</span>
-        <span class="c1"># create training data and recreate the texts from predictions respectively.</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span><span class="si">}</span><span class="s2"> filtered sentences&#34;</span><span class="p">)</span>
-        <span class="n">tokens</span> <span class="o">=</span> <span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clean_sentences</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens&#34;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="p">)</span><span class="si">}</span><span class="s2"> unique tokens&#34;</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">prepare_vocab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="c1"># min_count is the minimum number of times a token should appear in the</span>
-        <span class="c1"># text to be considered in the vocabulary else they are assigned to a</span>
-        <span class="c1"># default index which is equal to `len(vocab)`.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="p">))</span>
-        <span class="p">):</span>
-            <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">min_count</span><span class="p">:</span>
-                <span class="k">break</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">ix2w</span> <span class="o">=</span> <span class="p">{</span><span class="n">ix</span><span class="p">:</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">ix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
-
-        <span class="c1"># Assign default index to rest of the tokens</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="p">)):</span>
-            <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ix2w</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;&lt;unk&gt;&#34;</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Vocab size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">TextProcessor</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">urls</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">urls</span> <span class="o">=</span> <span class="n">urls</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">fetch_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">url</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">urls</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">text</span> <span class="o">+=</span> <span class="s2">&#34;</span><span class="se">\n\n\n</span><span class="s2">&#34;</span> <span class="o">+</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Fetched </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">urls</span><span class="p">)</span><span class="si">}</span><span class="s2"> urls ...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">process_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Processing text ...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">sentences</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">{2,}&#34;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span><span class="si">}</span><span class="s2"> sentences&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">clean_sentences</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">            <span class="n">txt</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="n">txt</span> <span class="o">=</span> <span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&#34;\w+&#34;</span><span class="p">,</span> <span class="n">txt</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">txt</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">clean_sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Tokens and token counter will be used later to create a vocabulary for</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># us which will be used to map words/tokens to indices and vice versa, to</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># create training data and recreate the texts from predictions respectively.</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span><span class="si">}</span><span class="s2"> filtered sentences&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">tokens</span> <span class="o">=</span> <span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">clean_sentences</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span><span class="si">}</span><span class="s2"> tokens&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="p">)</span><span class="si">}</span><span class="s2"> unique tokens&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">prepare_vocab</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">min_count</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># min_count is the minimum number of times a token should appear in the</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># text to be considered in the vocabulary else they are assigned to a</span>
+</span></span><span class="line"><span class="cl">        <span class="c1"># default index which is equal to `len(vocab)`.</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span> <span class="o">=</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">        <span class="p">):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">count</span> <span class="o">&lt;</span> <span class="n">min_count</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="k">break</span>
+</span></span><span class="line"><span class="cl">            <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">ix2w</span> <span class="o">=</span> <span class="p">{</span><span class="n">ix</span><span class="p">:</span> <span class="n">w</span> <span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">ix</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="c1"># Assign default index to rest of the tokens</span>
+</span></span><span class="line"><span class="cl">        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">token</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">token_counter</span><span class="p">)):</span>
+</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">token</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                <span class="bp">self</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">token</span><span class="p">]</span> <span class="o">=</span> <span class="n">n</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">ix2w</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;&lt;unk&gt;&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span> <span class="o">=</span> <span class="n">n</span> <span class="o">+</span> <span class="mi">1</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Vocab size: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">vocab_size</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -338,11 +338,11 @@
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">text_processor</span> <span class="o">=</span> <span class="n">TextProcessor</span><span class="p">(</span><span class="n">BOOK_URLS</span><span class="p">)</span>
-<span class="n">text_processor</span><span class="o">.</span><span class="n">fetch_text</span><span class="p">()</span>
-<span class="n">text_processor</span><span class="o">.</span><span class="n">process_text</span><span class="p">()</span>
-<span class="n">text_processor</span><span class="o">.</span><span class="n">prepare_vocab</span><span class="p">(</span><span class="n">min_count</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">text_processor</span> <span class="o">=</span> <span class="n">TextProcessor</span><span class="p">(</span><span class="n">BOOK_URLS</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">text_processor</span><span class="o">.</span><span class="n">fetch_text</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">text_processor</span><span class="o">.</span><span class="n">process_text</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">text_processor</span><span class="o">.</span><span class="n">prepare_vocab</span><span class="p">(</span><span class="n">min_count</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>Fetched 1/4 urls ...
 Fetched 2/4 urls ...
@@ -397,32 +397,32 @@ Vocab size: 2103
 </span><span class="lnt">25
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">HarryPotterDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_processor</span><span class="p">:</span> <span class="n">TextProcessor</span><span class="p">,</span>  <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">text_processor</span> <span class="o">=</span> <span class="n">text_processor</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_init_data</span><span class="p">()</span>
-    
-    <span class="k">def</span> <span class="nf">_init_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">clean_sentences</span><span class="p">:</span>
-            <span class="n">splits</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">window_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-                <span class="n">center_word</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-                <span class="n">window_words</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">window_size</span><span class="p">:</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">window_words</span><span class="p">:</span>
-                    <span class="c1"># Each data point under self.data will be a tuple with index 0</span>
-                    <span class="c1"># containing the index(w2ix) for center_word and</span>
-                    <span class="c1"># index 1 containing the index(w2ix) for context_word</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="p">(</span><span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">center_word</span><span class="p">],</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">context</span><span class="p">])</span>
-                    <span class="p">)</span>
-
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
-  
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">HarryPotterDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_processor</span><span class="p">:</span> <span class="n">TextProcessor</span><span class="p">,</span>  <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">text_processor</span> <span class="o">=</span> <span class="n">text_processor</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_init_data</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_init_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">clean_sentences</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="n">splits</span> <span class="o">=</span> <span class="n">txt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">window_size</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">splits</span><span class="p">)</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">                <span class="n">center_word</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                <span class="n">window_words</span> <span class="o">=</span> <span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="n">window_size</span><span class="p">:</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="n">splits</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">                <span class="k">for</span> <span class="n">context</span> <span class="ow">in</span> <span class="n">window_words</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># Each data point under self.data will be a tuple with index 0</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># containing the index(w2ix) for center_word and</span>
+</span></span><span class="line"><span class="cl">                    <span class="c1"># index 1 containing the index(w2ix) for context_word</span>
+</span></span><span class="line"><span class="cl">                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span></span><span class="line"><span class="cl">                        <span class="p">(</span><span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">center_word</span><span class="p">],</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">context</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">  
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -431,10 +431,10 @@ Vocab size: 2103
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">dataset</span> <span class="o">=</span> <span class="n">HarryPotterDataset</span><span class="p">(</span><span class="n">text_processor</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dataset</span> <span class="o">=</span> <span class="n">HarryPotterDataset</span><span class="p">(</span><span class="n">text_processor</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>2489461
 </code></pre>
@@ -460,15 +460,15 @@ Vocab size: 2103
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">SkipGramModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
-
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">SkipGramModel</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">50</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">embedding</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Embedding</span><span class="p">(</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">embedding_size</span><span class="p">,</span> <span class="n">vocab_size</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><p>The model architecure is <code>Embedding -&gt; Linear -&gt; Softmax</code>.</p>
 <p><code>Embedding</code> is nothing but &ldquo;A simple lookup table that stores embeddings of a fixed
@@ -491,9 +491,9 @@ center word.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&#34;cuda&#34;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&#34;cpu&#34;</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">SkipGramModel</span><span class="p">(</span><span class="n">text_processor</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&#34;cuda&#34;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&#34;cpu&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">SkipGramModel</span><span class="p">(</span><span class="n">text_processor</span><span class="o">.</span><span class="n">vocab_size</span><span class="p">,</span> <span class="n">embedding_size</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="defining-our-loss-function-optimizer-and-scheduler">
     <a href="#defining-our-loss-function-optimizer-and-scheduler" class="anchor">
@@ -512,10 +512,10 @@ center word.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
-<span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">criterion</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.005</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="n">scheduler</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">StepLR</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">step_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -523,9 +523,9 @@ center word.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">N_EPOCHS</span> <span class="o">=</span>       <span class="mi">10</span>
-<span class="n">STEP_TO_LOG</span> <span class="o">=</span> <span class="mi">10000</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">N_EPOCHS</span> <span class="o">=</span>       <span class="mi">10</span>
+</span></span><span class="line"><span class="cl"><span class="n">STEP_TO_LOG</span> <span class="o">=</span> <span class="mi">10000</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="training-the-model">
     <a href="#training-the-model" class="anchor">
@@ -559,25 +559,25 @@ center word.</p>
 </span><span class="lnt">18
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">epoch_losses</span><span class="p">,</span> <span class="n">batch_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_EPOCHS</span><span class="p">):</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
-        <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
-        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">STEP_TO_LOG</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">; steps=</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span><span class="si">}</span><span class="s2">; loss=</span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">&lt;.5f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-    <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-    <span class="n">batch_losses</span> <span class="o">+=</span> <span class="n">losses</span>
-    <span class="n">epoch_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">losses</span><span class="p">))</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> ; lr=</span><span class="si">{</span><span class="n">scheduler</span><span class="o">.</span><span class="n">_last_lr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">; loss=</span><span class="si">{</span><span class="n">epoch_losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;.5f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">epoch_losses</span><span class="p">,</span> <span class="n">batch_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">N_EPOCHS</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="n">losses</span> <span class="o">=</span> <span class="p">[]</span>
+</span></span><span class="line"><span class="cl">    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">        <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">long</span><span class="p">()</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">outputs</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">        <span class="n">losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</span></span><span class="line"><span class="cl">        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="n">STEP_TO_LOG</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2">; steps=</span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span><span class="si">}</span><span class="s2">; loss=</span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">&lt;.5f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">    <span class="n">batch_losses</span> <span class="o">+=</span> <span class="n">losses</span>
+</span></span><span class="line"><span class="cl">    <span class="n">epoch_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">losses</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;epoch </span><span class="si">{</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="si">}</span><span class="s2"> ; lr=</span><span class="si">{</span><span class="n">scheduler</span><span class="o">.</span><span class="n">_last_lr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">; loss=</span><span class="si">{</span><span class="n">epoch_losses</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">&lt;.5f</span><span class="si">}</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>epoch 1; steps=    0/38898; loss=7.80020
 epoch 1; steps=10000/38898; loss=5.55375
@@ -645,9 +645,9 @@ epoch 10 ; lr=0.00125; loss=5.47111
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">weights</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-<span class="n">weights</span><span class="o">.</span><span class="n">shape</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">weights</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">embedding</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">weights</span><span class="o">.</span><span class="n">shape</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code>(2103, 30)
 </code></pre>
@@ -666,8 +666,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">similarity</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">similarity</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">weights</span><span class="p">,</span> <span class="n">weights</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -684,18 +684,18 @@ epoch 10 ; lr=0.00125; loss=5.47111
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_similar_words</span><span class="p">(</span><span class="n">input_word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">input_word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;word not in vocab&#34;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">input_word_ix</span> <span class="o">=</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">input_word</span><span class="p">]</span>
-        <span class="n">similarity_vector</span> <span class="o">=</span> <span class="n">similarity</span><span class="p">[</span><span class="n">input_word_ix</span><span class="p">]</span>
-        <span class="n">most_similar_ixs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">similarity_vector</span><span class="p">)[</span><span class="o">-</span><span class="n">n</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">most_similar_words</span> <span class="o">=</span> <span class="p">[(</span><span class="n">text_processor</span><span class="o">.</span><span class="n">ix2w</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">similarity_vector</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
-                              <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">most_similar_ixs</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">most_similar_words</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34; &gt; </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2">, score=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2"> .2f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_similar_words</span><span class="p">(</span><span class="n">input_word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">input_word</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;word not in vocab&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">else</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="n">input_word_ix</span> <span class="o">=</span> <span class="n">text_processor</span><span class="o">.</span><span class="n">w2ix</span><span class="p">[</span><span class="n">input_word</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">similarity_vector</span> <span class="o">=</span> <span class="n">similarity</span><span class="p">[</span><span class="n">input_word_ix</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">most_similar_ixs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">similarity_vector</span><span class="p">)[</span><span class="o">-</span><span class="n">n</span><span class="p">:][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">most_similar_words</span> <span class="o">=</span> <span class="p">[(</span><span class="n">text_processor</span><span class="o">.</span><span class="n">ix2w</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span> <span class="n">similarity_vector</span><span class="p">[</span><span class="n">ix</span><span class="p">])</span>
+</span></span><span class="line"><span class="cl">                              <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="n">most_similar_ixs</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">word</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">most_similar_words</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34; &gt; </span><span class="si">{</span><span class="n">word</span><span class="si">}</span><span class="s2">, score=</span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2"> .2f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><h3 id="exploring-similar-embeddings-for-some-queries">
     <a href="#exploring-similar-embeddings-for-some-queries" class="anchor">
@@ -712,8 +712,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;snape&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;snape&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code> &gt; snape, score= 1.00
  &gt; karkaroff, score= 0.81
@@ -731,8 +731,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;vernon&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;vernon&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code> &gt; vernon, score= 1.00
  &gt; aunt, score= 0.81
@@ -750,8 +750,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;muggle&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;muggle&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code> &gt; muggle, score= 1.00
  &gt; wizarding, score= 0.81
@@ -769,8 +769,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;harry&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;harry&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code> &gt; harry, score= 1.00
  &gt; lupin, score= 0.64
@@ -788,8 +788,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;slytherin&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;slytherin&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code> &gt; slytherin, score= 1.00
  &gt; gryffindor, score= 0.79
@@ -807,8 +807,8 @@ epoch 10 ; lr=0.00125; loss=5.47111
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;malfoy&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-</code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">get_similar_words</span><span class="p">(</span><span class="s2">&#34;malfoy&#34;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+</span></span></code></pre></td></tr></table>
 </div>
 </div><pre><code> &gt; malfoy, score= 1.00
  &gt; goyle, score= 0.77
@@ -844,48 +844,50 @@ For <code>Evaluation</code> and <code>Interpretation</code> of the embeddings ta
  
 <div class="container">
     
-    <script src="https://giscus.app/client.js" 
-        data-repo="kuutsav/kuutsav.github.io"
-        data-repo-id="R_kgDOHvsC_Q"
-        
-        data-category="Comments"
-        data-category-id="DIC_kwDOHvsC_c4CQiYb"
-        
-        data-mapping="pathname"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-theme="light"
-        crossorigin="anonymous"
-        async
-        >
-</script>
+    <script
+  src="https://giscus.app/client.js"
+  data-repo="kuutsav/kuutsav.github.io"
+  data-repo-id="R_kgDOHvsC_Q"
+  data-category="Announcements"
+  data-category-id="DIC_kwDOHvsC_c4CQiYa"
+  data-mapping="pathname"
+  data-strict="1"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="light"
+  data-lang="en"
+  crossorigin="anonymous"
+  async
+></script>
 
 <script>
-    function setGiscusTeheme(theme) {
-        let giscus = document.querySelector('.giscus iframe');
-        if (giscus) {
-            giscus.contentWindow.postMessage(
-                {
-                    giscus: {
-                        setConfig: {
-                            theme: theme
-                        }
-                    }
-                },
-                'https://giscus.app'
-            )
-        }
+  function setGiscusTheme(theme) {
+    let giscus = document.querySelector(".giscus iframe");
+    if (giscus) {
+      giscus.contentWindow.postMessage(
+        {
+          giscus: {
+            setConfig: {
+              theme: theme,
+            },
+          },
+        },
+        "https://giscus.app"
+      );
     }
+  }
 
-    addEventListener('message', event => {
-        if (event.origin !== 'https://giscus.app') return;
-        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
-    });
+  addEventListener("message", (event) => {
+    if (event.origin !== "https://giscus.app") return;
+    setGiscusTheme(document.documentElement.dataset.userColorScheme);
+  });
 
-    window.addEventListener('onColorSchemeChange', (e) => {
-        setGiscusTeheme(e.detail)
-    })
+  window.addEventListener("onColorSchemeChange", (e) => {
+    setGiscusTheme(e.detail);
+  });
 </script>
+
 
 </div>
 
@@ -905,7 +907,7 @@ For <code>Evaluation</code> and <code>Interpretation</code> of the embeddings ta
 
         
     </section>
-    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

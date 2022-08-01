@@ -8,6 +8,15 @@
     <language>en-us</language>
     <lastBuildDate>Wed, 26 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://iutsav.dev/projects/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>information-retrieval</title>
+      <link>https://iutsav.dev/projects/b_information_retrieval/</link>
+      <pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://iutsav.dev/projects/b_information_retrieval/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>LeetComp</title>
       <link>https://iutsav.dev/projects/a_leetcomp/</link>
       <pubDate>Wed, 26 Jan 2022 00:00:00 +0000</pubDate>

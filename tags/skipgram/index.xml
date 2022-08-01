@@ -15,7 +15,7 @@
       <guid>https://iutsav.dev/posts/word2vec_skipgram/</guid>
       <description>In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
 The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
- Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</description>
+Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</description>
     </item>
     
   </channel>
