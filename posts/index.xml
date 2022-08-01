@@ -6,7 +6,17 @@
     <description>Recent content in Posts on Utsav&#39;Log</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 07 Apr 2022 13:40:40 +0530</lastBuildDate><atom:link href="https://iutsav.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Aug 2022 19:34:14 +0530</lastBuildDate><atom:link href="https://iutsav.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Information Retrieval, Part 1 - The Inverted Index</title>
+      <link>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</link>
+      <pubDate>Mon, 01 Aug 2022 19:34:14 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</guid>
+      <description>IR in it&amp;rsquo;s most basic form answers the question &amp;ldquo;how relevant is a given query for a document&amp;rdquo;. The challenge is that we don&amp;rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &amp;ldquo;needle in the haystack&amp;rdquo; or the &amp;ldquo;relevant documents for a query&amp;rdquo;.
+Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc.</description>
+    </item>
+    
     <item>
       <title>Dynamic Connectivity and Percolation</title>
       <link>https://iutsav.dev/posts/dynamic_connectivity_and_percolation/</link>
