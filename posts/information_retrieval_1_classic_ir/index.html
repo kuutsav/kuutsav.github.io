@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
+    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
     
 </head>
     
@@ -65,7 +65,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log
+                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -95,8 +95,8 @@
                             
                               
                             
-                            By Kumar Utsav | <time>August 01, 2022</time>
-                            | 16 minutes
+                            By Kumar Utsav &nbsp;·&nbsp; <time>August 01, 2022</time>
+                            &nbsp;·&nbsp; 16 minutes
                         </div>
                         <div class="tags">
                             
@@ -115,7 +115,7 @@
 
     <div class="article-post">
     <p>IR in it&rsquo;s most basic form answers the question &ldquo;how relevant is a given <em>query</em> for a <em>document</em>&rdquo;. The challenge is that we don&rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &ldquo;needle in the haystack&rdquo; or the &ldquo;relevant <em>documents</em> for a <em>query</em>&rdquo;.</p>
-<p>Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applicatations of IR like cleaning up the markup in case of web pages. The documents could also be in different languagues, encodings, etc. These variations present their own unique sets of challenges. For example, it&rsquo;s common to build separate pre-processing text piplines for each languague.</p>
+<p>Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applicatations of IR like cleaning up the markup in case of web pages. The documents could also be in different languagues, encodings, etc. These variations present their own unique sets of challenges. For example, it&rsquo;s common to build separate pre-processing text pipelines for each languague.</p>
 <h2 id="relevance">
     <a href="#relevance" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -134,18 +134,13 @@
 <li>If a document is longer, words will tend to appear more often. So we need to take the document length into account as well.</li>
 <li>It would be pretty slow if we start counting the words in all the documents after a query arrives, hence we need to store the counts in a data structure that supports efficient lookups for a query.</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"><img loading="lazy" src="/../static/information_retrieval/relevance.png" alt=""  width=960 height="540" /></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Fig. 1. Illustration of IR with a query and documents sorted by relevancy.</td>
-</tr>
-</tbody>
-</table>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/relevance.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 1. Illustration of IR with a query and documents sorted by relevancy.</center>
 <h2 id="inverted-index">
     <a href="#inverted-index" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -166,18 +161,13 @@
 <li><strong>Average document length</strong></li>
 </ul>
 <p>The statistics are saved in a format that is accessible by a given term/word.</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"><img loading="lazy" src="/../static/information_retrieval/inverted_index.png" alt=""  width=960 height="540" /></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Fig. 2. Illustration of statistics stored in an Inverted Index.</td>
-</tr>
-</tbody>
-</table>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/inverted_index.png" 
+    alt="" 
+     
+    width=1952 
+    height="880"  /></p>
+<center class="img-caption">Fig. 2. Illustration of statistics stored in an Inverted Index.</center><br>
 <p>The term frequencies are stored in a &ldquo;posting list&rdquo; which is nothing but a list of document id and term frequency pairs. Every document gets an internal document id; which can be a simple integers for non web-scale data.</p>
 <h2 id="creating-the-inverted-index">
     <a href="#creating-the-inverted-index" class="anchor">
@@ -205,16 +195,16 @@
 A naive baseline could split each query/document by whitespace and punctuation character.
 Improvements over the naive model typically involes keeping the abbreviations, names, numbers together as one token, etc. For example, look at the <a href="https://nlp.stanford.edu/software/tokenizer.shtml">stanford tokenizer</a>.</p>
 <pre tabindex="0"><code>$ cat &gt;sample.txt
-&#34;Oh, no,&#34; she&#39;s saying, &#34;our $400 blender can&#39;t handle something this hard!&#34;
+&quot;Oh, no,&quot; she's saying, &quot;our $400 blender can't handle something this hard!&quot;
 $ java edu.stanford.nlp.process.PTBTokenizer sample.txt
 ``
 Oh
 ,
 no
 ,
-&#39;&#39;
+''
 she
-&#39;s
+'s
 saying
 ,
 ``
@@ -223,13 +213,13 @@ $
 400
 blender
 ca
-n&#39;t
+n't
 handle
 something
 this
 hard
 !
-&#39;&#39;
+''
 PTBTokenizer tokenized 23 tokens at 370.97 tokens per second.
 </code></pre><h3 id="stemming">
     <a href="#stemming" class="anchor">
@@ -250,7 +240,7 @@ The result of this mapping of text will be something like:
 <code>the boy's cars are different colors -&gt; the boy car be differ color</code></p>
 <p>However, the two words differ in their flavor. Stemming usually refers to a crude heuristic process that chops off the ends of words in the hope of achieving this goal correctly most of the time, and often includes the removal of derivational affixes. Lemmatization usually refers to doing things properly with the use of a vocabulary and morphological analysis of words, normally aiming to remove inflectional endings only and to return the base or dictionary form of a word, which is known as the lemma . If confronted with the token saw, stemming might return just s, whereas lemmatization would attempt to return either see or saw depending on whether the use of the token was as a verb or a noun. The two may also differ in that stemming most commonly collapses derivationally related words, whereas lemmatization commonly only collapses the different inflectional forms of a lemma. Linguistic processing for stemming or lemmatization is often done by an additional plug-in component to the indexing process, and a number of such components exist, both commercial and open-source.</p>
 <p>The most common algorithm for stemming English, and one that has repeatedly been shown to be empirically very effective, is Porter&rsquo;s algorithm (Porter, 1980).</p>
-<p><a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html">Stemming and lemmatization</a></p>
+<p>Source: <a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html">Stemming and lemmatization</a></p>
 </blockquote>
 <h3 id="stop-word-removal">
     <a href="#stop-word-removal" class="anchor">
@@ -291,18 +281,13 @@ The result of this mapping of text will be something like:
 <li>Use a scoring model that uses the term statistics to score the documents.</li>
 <li>Sort the documents by the scores in a descending order and show to the user.</li>
 </ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:center"><img loading="lazy" src="/../static/information_retrieval/search_workflow.png" alt=""  width=960 height="540" /></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Fig. 3. Illustration of the search workflow using Inverted Index.</td>
-</tr>
-</tbody>
-</table>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/search_workflow.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 3. Illustration of the search workflow using Inverted Index.</center><br>
 <p>Note that a document could be relevant without containing the exact query terms. This is the biggest drawback of the classic IR techniques we are discussing here.</p>
 <p>Dense retrieval techniques which we will cover later help us address this problem.</p>
 <h3 id="types-of-queries">
@@ -366,7 +351,12 @@ The result of this mapping of text will be something like:
 Using the raw frequencies here is not the best solution for IR problems. We either use relative frequenies or <code>log</code> to dampen the frequencies <code>tf(t,d) = log(1 + tf(t,d))</code>.</li>
 <li><strong>Inverse Document Frequency <em>idf</em>(t)</strong>: It&rsquo;s a measure of the &ldquo;informativeness&rdquo; of a term for a document. Not that rare terms are more informative than frequent terms. Common way of defining IDF is <code>idf(t) = log(|D| / df(t))</code>. Here <code>|D|</code> is the total number of documents and <code>df(t)</code> is the number of documents in which the term t appears.</li>
 </ul>
-<p><img loading="lazy" src="/../static/information_retrieval/tfidf.png" alt=""  width=436 height="81" /></p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/tfidf.png" 
+    alt="" 
+     
+    width=436 
+    height="81"  /></p>
 <p>where ∑ is the sum over all the terms in the query, 𝑡𝑓(𝑡,𝑑) is the frequency of term t in document, |𝐷| is the total number of documents, 𝑑𝑓(𝑡) is the number of documents in which the term t appears.</p>
 <p>Beyond IR, <em>TF_IDF</em> is also used for other NLP tasks like finding keywords in a document, Latent Sematic Analysis(LSA), classification, etc.</p>
 <p>Although the formulation in scikit-learn is not exactly the same, we can still look at <em>TF_IDF</em> in action.</p>
@@ -386,21 +376,26 @@ Using the raw frequencies here is not the best solution for IR problems. We eith
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;the quick brown fox jumps over the lazy dog&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;the fox and the crow&#34;</span><span class="p">,</span> <span class="s2">&#34;the smart crow&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">todense</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl"><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">docs</span>
-</span></span><span class="line"><span class="cl"><span class="n">df</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;the quick brown fox jumps over the lazy dog&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;the fox and the crow&#34;</span><span class="p">,</span> <span class="s2">&#34;the smart crow&#34;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">todense</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">docs</span>
+<span class="n">df</span>
+</code></pre></td></tr></table>
 </div>
-</div><p><img loading="lazy" src="/../static/information_retrieval/tfidf_table.png" alt=""  width=953 height="110" /></p>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/tfidf_table.png" 
+    alt="" 
+     
+    width=953 
+    height="110"  /></p>
 <p>For downstream ML tasks like classification(given we have the class labels), this matrix notation works perfectly.
 But computing, storing and updating this in matrix form for retrieval problems is not feasible due to the sparsity of this matrix for large number of documents.</p>
 <p>For example, if we have 1m documents with average term length of 1000 and vocabulary size of 100k(pretty reasonable at scale), we end up with a matrix of size 1,000,000 x 100,000 of which ~1,000,000 x 90,000 or ~90% of the terms will be 0. Though this is a very conservative estimate, it makes it obvious that storing the <em>TF_IDF</em> for web scale data is not feasible in this format. We use inverted index we discussed earlier to store this info.</p>
@@ -416,7 +411,12 @@ But computing, storing and updating this in matrix form for retrieval problems i
 </h3>
 <p><em>BM25</em> is the backbone of most open source text based search engines over the last decade. It improves over the <em>TF_IDF</em> by taking into account the normalization of document length by average document length.</p>
 <p>There are two hyperparameters k and b that can be tuned to define the influence of document length normalization.</p>
-<p><img loading="lazy" src="/../static/information_retrieval/bm25_1.png" alt=""  width=594 height="75" /></p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/bm25_1.png" 
+    alt="" 
+     
+    width=594 
+    height="75"  /></p>
 <p>where ∑ is the sum over all the terms in the query, 𝑡𝑓(𝑡,𝑑) is the frequency of term t in document d, 𝑑𝑙(𝑑) is the document length, 𝑎𝑣𝑔𝑑𝑙 is the average document length, |𝐷| is the Total number of documents, 𝑑𝑓(𝑡) is the number of documents in which the term t appears, 𝑘1,b are the hyperparameters.</p>
 <p>Not that this formulation is simpler than the original formula. More complex parts related to query length have not much practical implications for IR.
 The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term frequency saturation is stronger in <em>BM25</em>.</p>
@@ -427,7 +427,7 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
 </ul>
 <p>Typical values of k and b are <code>1.2 &lt; k &lt; 2</code>, <code>0.5 &lt; b &lt; 0.8</code>.</p>
 <p>There are other forumations of <em>BM25</em> that take into account the title, abstract, headers etc. from the documents. We can essentially control the weights we want to assign to each component.</p>
-<h2 id="oversimiplified-implementation-of-the-inverted-index-_tf_idf_">
+<h3 id="oversimiplified-implementation-of-the-inverted-index-_tf_idf_">
     <a href="#oversimiplified-implementation-of-the-inverted-index-_tf_idf_" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
             <path fill-rule="evenodd"
@@ -436,7 +436,7 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
         </svg>
     </a>
     Oversimiplified implementation of the Inverted Index (<em>TF_IDF</em>)
-</h2>
+</h3>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">  1
@@ -566,132 +566,132 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
 </span><span class="lnt">125
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">math</span>
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">re</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">spacy</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">spacy.lang.en.stop_words</span> <span class="kn">import</span> <span class="n">STOP_WORDS</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;en_core_web_sm&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">class</span> <span class="nc">InvertedIndex</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">    A toy implementation of the &#34;Inverted Index&#34;.
-</span></span></span><span class="line"><span class="cl"><span class="s2">    &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># note that we are not using a postings list here but</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># a dictionary to maintain the term frequency counts</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span> <span class="o">=</span> <span class="p">[]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_check_txt_not_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;txt can&#39;t be empty&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">get_terms_from_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Pre-processing pipeline applied to both the query and the documents.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            txt (str): Input query or document.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            List[str]: Terms from a query/document.
-</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&#34;\w+&#34;</span><span class="p">,</span> <span class="n">txt</span><span class="o">.</span><span class="n">lower</span><span class="p">())))</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">STOP_WORDS</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_update_doc_lenghts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Utility method that helps maintain the statistic &#34;Document lenghts&#34;.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            doc_length (int): Length of a new document.
-</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_length</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">_add_term_to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Utility method that helps maintain the statistic &#34;Term frequencies&#34;.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            term (str): Term from a document.
-</span></span></span><span class="line"><span class="cl"><span class="s2">            doc_id (str): Document Id.
-</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">][</span><span class="n">doc_id</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">index_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Method used to update the inverted index for a document.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            txt (str): Input document.
-</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_terms_from_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_update_doc_lenghts</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="bp">self</span><span class="o">.</span><span class="n">_add_term_to_index</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">get_docs_from_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">defaultdict</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns document ids and term frequencies for a an input term.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            term (str): Input term.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            defaultdict: Document ids and term frequencies.
-</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="nf">score_query</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&#34;or&#34;</span>
-</span></span><span class="line"><span class="cl">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
-</span></span><span class="line"><span class="cl">        <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns documents and their scores for a query. Documents are sorted in the
-</span></span></span><span class="line"><span class="cl"><span class="s2">        descening order of their scores.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Args:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            txt (str): Input query.
-</span></span></span><span class="line"><span class="cl"><span class="s2">            k (int): N top documents to return.
-</span></span></span><span class="line"><span class="cl"><span class="s2">            match_type (str): Boolean filter to either take an intersection(and) or
-</span></span></span><span class="line"><span class="cl"><span class="s2">                union(and) when aggregating documents by terms.
-</span></span></span><span class="line"><span class="cl"><span class="s2">
-</span></span></span><span class="line"><span class="cl"><span class="s2">        Returns:
-</span></span></span><span class="line"><span class="cl"><span class="s2">            List[Tuple[int, float]]: List of document ids and scores.
-</span></span></span><span class="line"><span class="cl"><span class="s2">        &#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">        <span class="k">assert</span> <span class="n">match_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&#34;or&#34;</span><span class="p">,</span> <span class="s2">&#34;and&#34;</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">match_type</span><span class="si">}</span><span class="s2"> is not a valid boolean filter&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_terms_from_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">valid_docs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">term</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">terms</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">match_type</span> <span class="o">==</span> <span class="s2">&#34;or&#34;</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">                <span class="n">valid_docs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docs_from_term</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">            <span class="k">elif</span> <span class="n">match_type</span> <span class="o">==</span> <span class="s2">&#34;and&#34;</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">                <span class="n">valid_docs</span><span class="o">.</span><span class="n">intersection_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docs_from_term</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="n">doc_scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">term_frequency</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">                <span class="k">if</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">valid_docs</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">score</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">term_frequency</span><span class="p">)</span> <span class="o">*</span> \
-</span></span><span class="line"><span class="cl">                        <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]))</span>
-</span></span><span class="line"><span class="cl">                    <span class="n">doc_scores</span><span class="p">[</span><span class="n">doc</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc_scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">k</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">spacy</span>
+<span class="kn">from</span> <span class="nn">spacy.lang.en.stop_words</span> <span class="kn">import</span> <span class="n">STOP_WORDS</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;en_core_web_sm&#34;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">InvertedIndex</span><span class="p">:</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    A toy implementation of the &#34;Inverted Index&#34;.
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># note that we are not using a postings list here but</span>
+        <span class="c1"># a dictionary to maintain the term frequency counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_check_txt_not_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;txt can&#39;t be empty&#34;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_terms_from_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Pre-processing pipeline applied to both the query and the documents.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            txt (str): Input query or document.
+</span><span class="s2">
+</span><span class="s2">        Returns:
+</span><span class="s2">            List[str]: Terms from a query/document.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&#34;\w+&#34;</span><span class="p">,</span> <span class="n">txt</span><span class="o">.</span><span class="n">lower</span><span class="p">())))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span>
+                <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">STOP_WORDS</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_update_doc_lenghts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Utility method that helps maintain the statistic &#34;Document lenghts&#34;.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            doc_length (int): Length of a new document.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_length</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_term_to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Utility method that helps maintain the statistic &#34;Term frequencies&#34;.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            term (str): Term from a document.
+</span><span class="s2">            doc_id (str): Document Id.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">][</span><span class="n">doc_id</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">index_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Method used to update the inverted index for a document.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            txt (str): Input document.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_terms_from_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_doc_lenghts</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_term_to_index</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_docs_from_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">defaultdict</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Returns document ids and term frequencies for a an input term.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            term (str): Input term.
+</span><span class="s2">
+</span><span class="s2">        Returns:
+</span><span class="s2">            defaultdict: Document ids and term frequencies.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">score_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&#34;or&#34;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Returns documents and their scores for a query. Documents are sorted in the
+</span><span class="s2">        descening order of their scores.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            txt (str): Input query.
+</span><span class="s2">            k (int): N top documents to return.
+</span><span class="s2">            match_type (str): Boolean filter to either take an intersection(and) or
+</span><span class="s2">                union(and) when aggregating documents by terms.
+</span><span class="s2">
+</span><span class="s2">        Returns:
+</span><span class="s2">            List[Tuple[int, float]]: List of document ids and scores.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">assert</span> <span class="n">match_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&#34;or&#34;</span><span class="p">,</span> <span class="s2">&#34;and&#34;</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">match_type</span><span class="si">}</span><span class="s2"> is not a valid boolean filter&#34;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_terms_from_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+
+        <span class="n">valid_docs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">term</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">terms</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">match_type</span> <span class="o">==</span> <span class="s2">&#34;or&#34;</span><span class="p">:</span>
+                <span class="n">valid_docs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docs_from_term</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">match_type</span> <span class="o">==</span> <span class="s2">&#34;and&#34;</span><span class="p">:</span>
+                <span class="n">valid_docs</span><span class="o">.</span><span class="n">intersection_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docs_from_term</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">doc_scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">term_frequency</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">valid_docs</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">term_frequency</span><span class="p">)</span> <span class="o">*</span> \
+                        <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]))</span>
+                    <span class="n">doc_scores</span><span class="p">[</span><span class="n">doc</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc_scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -707,17 +707,17 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">inverted_index</span> <span class="o">=</span> <span class="n">InvertedIndex</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">documents</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">()[</span><span class="s2">&#34;data&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Indexing ...&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">documents</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]):</span>  <span class="c1"># Index the first 1000 documents</span>
-</span></span><span class="line"><span class="cl">    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">inverted_index</span><span class="o">.</span><span class="n">index_text</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+
+<span class="n">inverted_index</span> <span class="o">=</span> <span class="n">InvertedIndex</span><span class="p">()</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">()[</span><span class="s2">&#34;data&#34;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Indexing ...&#34;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">documents</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]):</span>  <span class="c1"># Index the first 1000 documents</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
+    <span class="n">inverted_index</span><span class="o">.</span><span class="n">index_text</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>Indexing ...
 100 200 300 400 500 600 700 800 900
@@ -727,8 +727,8 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">query</span> <span class="o">=</span> <span class="s2">&#34;Computer ram&#34;</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">query</span> <span class="o">=</span> <span class="s2">&#34;Computer ram&#34;</span>
+</code></pre></td></tr></table>
 </div>
 </div><div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -736,9 +736,9 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">doc_id</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">score_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&#34;or&#34;</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Score    : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">4.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">Document : </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="n">doc_id</span><span class="p">])[:</span><span class="mi">500</span><span class="p">]</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">doc_id</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">score_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&#34;or&#34;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Score    : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">4.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">Document : </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="n">doc_id</span><span class="p">])[:</span><span class="mi">500</span><span class="p">]</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Score : 8.245<br>
 Document : &lsquo;From: <a href="mailto:richg@sequent.com">richg@sequent.com</a> (Richard Garrett)\nSubject: Computers for sale ( PC and amiga )\nArticle-I.D.: sequent.1993Apr21.151726.26547\nDistribution: na\nOrganization: Sequent Computer Systems, Inc.\nLines: 57\nNntp-Posting-Host: crg8.sequent.com\n\nIts time for a little house cleaning after my PC upgrade. I have the following\nfor sale:\n\nLeading Technology PC partner (286) sytsem. includes\n\t80286 12mhz intel cpu\n\t85Mb IDE drive (brand new - canabalized from new system)\n\t3.5 and 5.24 f &hellip;</p>
@@ -760,9 +760,9 @@ Document : &lsquo;From: <a href="mailto:afung@athena.mit.edu">afung@athena.mit.e
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">doc_id</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">score_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&#34;and&#34;</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Score    : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">4.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">Document : </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="n">doc_id</span><span class="p">])[:</span><span class="mi">500</span><span class="p">]</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">doc_id</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">score_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&#34;and&#34;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Score    : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">4.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">Document : </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="n">doc_id</span><span class="p">])[:</span><span class="mi">500</span><span class="p">]</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Score : 8.245<br>
 Document : &lsquo;From: <a href="mailto:richg@sequent.com">richg@sequent.com</a> (Richard Garrett)\nSubject: Computers for sale ( PC and amiga )\nArticle-I.D.: sequent.1993Apr21.151726.26547\nDistribution: na\nOrganization: Sequent Computer Systems, Inc.\nLines: 57\nNntp-Posting-Host: crg8.sequent.com\n\nIts time for a little house cleaning after my PC upgrade. I have the following\nfor sale:\n\nLeading Technology PC partner (286) sytsem. includes\n\t80286 12mhz intel cpu\n\t85Mb IDE drive (brand new - canabalized from new system)\n\t3.5 and 5.24 f &hellip;</p>
@@ -778,6 +778,7 @@ Document : &ldquo;Subject: XV under MS-DOS ?!?\nFrom: NO E-MAIL <a href="mailto:
 <hr>
 <p>Score : 4.705<br>
 Document : &ldquo;From: <a href="mailto:Dale_Adams@gateway.qm.apple.com">Dale_Adams@gateway.qm.apple.com</a> (Dale Adams)\nSubject: Re: HELP INSTALL RAM ON CENTRIS 610\nOrganization: Apple Computer Inc.\nLines: 23\n\nIn article <a href="mailto:C5115s.5Fy@murdoch.acc.Virginia.EDU">C5115s.5Fy@murdoch.acc.Virginia.EDU</a> \njht9e@faraday.clas.Virginia.EDU (Jason Harvey Titus) writes:\n&gt; I had asked everyone about problems installing a 4 meg\n&gt; simm and an 8 meg simm in my Centris 610, but the folks at the\n&gt; local Apple store called the folks in Cupertino and found that\n&gt; you can&rsquo;t have simms of different speeds &hellip;</p>
+<br>
 <hr>
 <h2 id="references">
     <a href="#references" class="anchor">
@@ -811,50 +812,48 @@ Document : &ldquo;From: <a href="mailto:Dale_Adams@gateway.qm.apple.com">Dale_Ad
  
 <div class="container">
     
-    <script
-  src="https://giscus.app/client.js"
-  data-repo="kuutsav/kuutsav.github.io"
-  data-repo-id="R_kgDOHvsC_Q"
-  data-category="Announcements"
-  data-category-id="DIC_kwDOHvsC_c4CQiYa"
-  data-mapping="pathname"
-  data-strict="1"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="light"
-  data-lang="en"
-  crossorigin="anonymous"
-  async
-></script>
-
-<script>
-  function setGiscusTheme(theme) {
-    let giscus = document.querySelector(".giscus iframe");
-    if (giscus) {
-      giscus.contentWindow.postMessage(
-        {
-          giscus: {
-            setConfig: {
-              theme: theme,
-            },
-          },
-        },
-        "https://giscus.app"
-      );
-    }
-  }
-
-  addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    setGiscusTheme(document.documentElement.dataset.userColorScheme);
-  });
-
-  window.addEventListener("onColorSchemeChange", (e) => {
-    setGiscusTheme(e.detail);
-  });
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
 </script>
 
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
 
 </div>
 
@@ -868,13 +867,13 @@ Document : &ldquo;From: <a href="mailto:Dale_Adams@gateway.qm.apple.com">Dale_Ad
             
             <a href="/index.xml">RSS</a>
             
-            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
             
         </nav>
 
         
     </section>
-    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

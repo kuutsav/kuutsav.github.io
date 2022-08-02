@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
+    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
     
 </head>
     
@@ -65,7 +65,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log
+                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -95,8 +95,8 @@
                             
                               
                             
-                            By Kumar Utsav | <time>November 19, 2021</time>
-                            | 3 minutes
+                            By Kumar Utsav &nbsp;·&nbsp; <time>November 19, 2021</time>
+                            &nbsp;·&nbsp; 3 minutes
                         </div>
                         <div class="tags">
                             
@@ -127,14 +127,14 @@ Scripts related to the APIs are located at <a href="https://github.com/kuutsav/M
 </span><span class="lnt">7
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">├── application.py     <span class="c1"># FastAPI app and launcher uvicorn.run</span>
-</span></span><span class="line"><span class="cl">├── models             <span class="c1"># pydantic model for reponse validation</span>
-</span></span><span class="line"><span class="cl">│   └── predict.py     <span class="c1"># pydantic model for predict endpoint</span>
-</span></span><span class="line"><span class="cl">└── routes             <span class="c1"># to maintain larger applications</span>
-</span></span><span class="line"><span class="cl">    ├── endpoints
-</span></span><span class="line"><span class="cl">    │   └── predict.py <span class="c1"># predict endpoint</span>
-</span></span><span class="line"><span class="cl">    └── router.py      <span class="c1"># APIRouter module to maintain larger apps</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">├── application.py     <span class="c1"># FastAPI app and launcher uvicorn.run</span>
+├── models             <span class="c1"># pydantic model for reponse validation</span>
+│   └── predict.py     <span class="c1"># pydantic model for predict endpoint</span>
+└── routes             <span class="c1"># to maintain larger applications</span>
+    ├── endpoints
+    │   └── predict.py <span class="c1"># predict endpoint</span>
+    └── router.py      <span class="c1"># APIRouter module to maintain larger apps</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Though we have used the <code>APIRouter</code> module here, it&rsquo;s really needed when
 we have lots of API endpoints in a larger app.</p>
@@ -168,18 +168,18 @@ Here we load the version number 1 of our <code>sk-learn-naive-bayes-clf-model</c
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># manually pick the model version from trained models</span>
-</span></span><span class="line"><span class="cl"><span class="n">sk_model</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">model_uri</span><span class="o">=</span><span class="s2">&#34;models:/sk-learn-naive-bayes-clf-model/1&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># mlflow does not store data manipulation routines like label encoding</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># we need to manage the LabelEncoder and TfidfVectorizer ourselves</span>
-</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/target_encoder.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">target_encoder</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/vectorizer.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Loaded model artifacts&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># manually pick the model version from trained models</span>
+<span class="n">sk_model</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">model_uri</span><span class="o">=</span><span class="s2">&#34;models:/sk-learn-naive-bayes-clf-model/1&#34;</span><span class="p">)</span>
+
+<span class="c1"># mlflow does not store data manipulation routines like label encoding</span>
+<span class="c1"># we need to manage the LabelEncoder and TfidfVectorizer ourselves</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/target_encoder.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">target_encoder</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/vectorizer.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Loaded model artifacts&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Beyond the trained classifier, we also need the <code>TfidfVectorizer</code> to vectorize
 the text and <code>LabelEncoder</code> to map the predictions to actual labels.</p>
@@ -203,18 +203,18 @@ artifacts realted to the ML algorithm. <a href="https://www.mlflow.org/docs/late
 </span><span class="lnt">11
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># manually pick the model version from trained models</span>
-</span></span><span class="line"><span class="cl"><span class="n">sk_model</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">model_uri</span><span class="o">=</span><span class="s2">&#34;models:/sk-learn-naive-bayes-clf-model/1&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># mlflow does not store data manipulation routines like label encoding</span>
-</span></span><span class="line"><span class="cl"><span class="c1"># we need to manage the TfidfVectorizer and TfidfVectorizer ourselves</span>
-</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/target_encoder.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">target_encoder</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/vectorizer.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Loaded model artifacts&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># manually pick the model version from trained models</span>
+<span class="n">sk_model</span> <span class="o">=</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">load_model</span><span class="p">(</span><span class="n">model_uri</span><span class="o">=</span><span class="s2">&#34;models:/sk-learn-naive-bayes-clf-model/1&#34;</span><span class="p">)</span>
+
+<span class="c1"># mlflow does not store data manipulation routines like label encoding</span>
+<span class="c1"># we need to manage the TfidfVectorizer and TfidfVectorizer ourselves</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/target_encoder.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">target_encoder</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">BASE_DIR</span> <span class="o">/</span> <span class="s2">&#34;artifacts/vectorizer.pkl&#34;</span><span class="p">,</span> <span class="s2">&#34;rb&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">vectorizer</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;Loaded model artifacts&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="predict-endpoint-httpsgithubcomkuutsavmlopsblobmastermlopsapproutesendpointspredictpy">
     <a href="#predict-endpoint-httpsgithubcomkuutsavmlopsblobmastermlopsapproutesendpointspredictpy" class="anchor">
@@ -241,17 +241,17 @@ artifacts realted to the ML algorithm. <a href="https://www.mlflow.org/docs/late
 </span><span class="lnt">10
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&#34;/predict&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">predit</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PredictResponseModel</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Received text for prediction: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">processed_text_list</span> <span class="o">=</span> <span class="n">preprocess_text</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">    <span class="n">x</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">processed_text_list</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">pred</span> <span class="o">=</span> <span class="n">sk_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mapped_pred</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">target_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-</span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Prediction: </span><span class="si">{</span><span class="n">mapped_pred</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">PredictResponseModel</span><span class="p">(</span><span class="n">preds</span><span class="o">=</span><span class="n">mapped_pred</span><span class="p">)</span><span class="o">.</span><span class="n">preds</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&#34;/predict&#34;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">predit</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PredictResponseModel</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Received text for prediction: </span><span class="si">{</span><span class="n">text</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="n">processed_text_list</span> <span class="o">=</span> <span class="n">preprocess_text</span><span class="p">([</span><span class="n">text</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">processed_text_list</span><span class="p">)</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">sk_model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">mapped_pred</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">target_encoder</span><span class="o">.</span><span class="n">classes_</span><span class="p">,</span> <span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Prediction: </span><span class="si">{</span><span class="n">mapped_pred</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">PredictResponseModel</span><span class="p">(</span><span class="n">preds</span><span class="o">=</span><span class="n">mapped_pred</span><span class="p">)</span><span class="o">.</span><span class="n">preds</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Here, we preprocess the text using <code>preprocess_text()</code>, vectorize it using
 <code>vectorizer.transform()</code> and finally generate predictions using the
@@ -260,7 +260,12 @@ classifier <code>sk_model.predict_proba()</code>.</p>
 and return the predictions by wrapping around the <code>PredictResponseModel</code> pydantic
 model for data validation.</p>
 <p>The API can be accessed at <code>http://127.0.0.1:8010/docs</code>.</p>
-<p><img loading="lazy" src="/../static//mlops_template/fastapi1.png" alt="Image"  width=3556 height="1846" /></p>
+<p><img loading="lazy" 
+    src="/../static//mlops_template/fastapi1.png" 
+    alt="Image" 
+     
+    width=3556 
+    height="1846"  /></p>
 <h2 id="elasticapm">
     <a href="#elasticapm" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -300,36 +305,46 @@ monitoring our FastAPI application. <a href="https://github.com/kuutsav/MLOps/bl
 </span><span class="lnt">23
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">uvicorn</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">elasticapm.contrib.starlette</span> <span class="kn">import</span> <span class="n">ElasticAPM</span><span class="p">,</span> <span class="n">make_apm_client</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">mlops.app.routes.router</span> <span class="kn">import</span> <span class="n">api_router</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_fastapi_application</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">FastAPI</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">application</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&#34;MLOps&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">application</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="n">ElasticAPM</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">make_apm_client</span><span class="p">({</span><span class="s2">&#34;SERVICE_NAME&#34;</span><span class="p">:</span> <span class="s2">&#34;MLOps Example&#34;</span><span class="p">})</span>
-</span></span><span class="line"><span class="cl">    <span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">application</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">api_router</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">application</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">app</span> <span class="o">=</span> <span class="n">get_fastapi_application</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;*** Starting Prediction Server ***&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8010</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">uvicorn</span>
+<span class="kn">from</span> <span class="nn">elasticapm.contrib.starlette</span> <span class="kn">import</span> <span class="n">ElasticAPM</span><span class="p">,</span> <span class="n">make_apm_client</span>
+<span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span>
+<span class="kn">from</span> <span class="nn">loguru</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="kn">from</span> <span class="nn">mlops.app.routes.router</span> <span class="kn">import</span> <span class="n">api_router</span>
+
+
+<span class="k">def</span> <span class="nf">get_fastapi_application</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">FastAPI</span><span class="p">:</span>
+    <span class="n">application</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&#34;MLOps&#34;</span><span class="p">)</span>
+    <span class="n">application</span><span class="o">.</span><span class="n">add_middleware</span><span class="p">(</span>
+        <span class="n">ElasticAPM</span><span class="p">,</span> <span class="n">client</span><span class="o">=</span><span class="n">make_apm_client</span><span class="p">({</span><span class="s2">&#34;SERVICE_NAME&#34;</span><span class="p">:</span> <span class="s2">&#34;MLOps Example&#34;</span><span class="p">})</span>
+    <span class="p">)</span>
+    <span class="n">application</span><span class="o">.</span><span class="n">include_router</span><span class="p">(</span><span class="n">api_router</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">application</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">get_fastapi_application</span><span class="p">()</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&#34;__main__&#34;</span><span class="p">:</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&#34;*** Starting Prediction Server ***&#34;</span><span class="p">)</span>
+    <span class="n">uvicorn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s2">&#34;127.0.0.1&#34;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8010</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Once we start using the <code>/predict</code> endpoint, we can head over to <code>http://localhost:5601/</code>
 to look at the app related metrics like <code>Latency</code>, <code>Throughput</code> etc, and system
 level metrics like <code>CPU usage</code> and <code>System memory usage</code>.</p>
-<p><img loading="lazy" src="/../static/mlops_template/elasticapm1.png" alt="Image"  width=3556 height="1846" />
-<img loading="lazy" src="/../static/mlops_template/elasticapm2.png" alt="Image"  width=3556 height="1846" /></p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/elasticapm1.png" 
+    alt="Image" 
+     
+    width=3556 
+    height="1846"  />
+<img loading="lazy" 
+    src="/../static/mlops_template/elasticapm2.png" 
+    alt="Image" 
+     
+    width=3556 
+    height="1846"  /></p>
 <p>Under the hood, it uses <code>Elastic Search</code>, <code>Kibana</code> and an <code>APM server</code> launched
 using the <code>docker-compose-monitoring.yaml</code> during the setup.</p>
 <p>The dashboard also provides a trace for each request.</p>
@@ -359,50 +374,48 @@ using the <code>docker-compose-monitoring.yaml</code> during the setup.</p>
  
 <div class="container">
     
-    <script
-  src="https://giscus.app/client.js"
-  data-repo="kuutsav/kuutsav.github.io"
-  data-repo-id="R_kgDOHvsC_Q"
-  data-category="Announcements"
-  data-category-id="DIC_kwDOHvsC_c4CQiYa"
-  data-mapping="pathname"
-  data-strict="1"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="light"
-  data-lang="en"
-  crossorigin="anonymous"
-  async
-></script>
-
-<script>
-  function setGiscusTheme(theme) {
-    let giscus = document.querySelector(".giscus iframe");
-    if (giscus) {
-      giscus.contentWindow.postMessage(
-        {
-          giscus: {
-            setConfig: {
-              theme: theme,
-            },
-          },
-        },
-        "https://giscus.app"
-      );
-    }
-  }
-
-  addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    setGiscusTheme(document.documentElement.dataset.userColorScheme);
-  });
-
-  window.addEventListener("onColorSchemeChange", (e) => {
-    setGiscusTheme(e.detail);
-  });
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
 </script>
 
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
 
 </div>
 
@@ -416,13 +429,13 @@ using the <code>docker-compose-monitoring.yaml</code> during the setup.</p>
             
             <a href="/index.xml">RSS</a>
             
-            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
             
         </nav>
 
         
     </section>
-    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

@@ -2,12 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://iutsav.dev/projects/b_information_retrieval/</loc>
-    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://iutsav.dev/projects/a_leetcomp/</loc>
-    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://iutsav.dev/</loc>
     <lastmod>2022-08-01T19:34:14+05:30</lastmod>
     <priority>0</priority>
@@ -50,9 +44,6 @@
   </url><url>
     <loc>https://iutsav.dev/posts/python_notes_1_datamodel/</loc>
     <lastmod>2022-03-05T10:09:25+05:30</lastmod>
-  </url><url>
-    <loc>https://iutsav.dev/projects/</loc>
-    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://iutsav.dev/tags/elasticapm/</loc>
     <lastmod>2021-11-19T00:46:25+05:30</lastmod>

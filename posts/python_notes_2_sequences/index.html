@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
+    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
     
 </head>
     
@@ -65,7 +65,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log
+                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -95,8 +95,8 @@
                             
                               
                             
-                            By Kumar Utsav | <time>April 05, 2022</time>
-                            | 9 minutes
+                            By Kumar Utsav &nbsp;·&nbsp; <time>April 05, 2022</time>
+                            &nbsp;·&nbsp; 9 minutes
                         </div>
                         <div class="tags">
                             
@@ -157,9 +157,9 @@ such cases. Listcomps are also faster than <em>map</em> and <em>filter</em>.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">%%</span><span class="n">timeit</span>
-</span></span><span class="line"><span class="cl"><span class="n">even_squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">even_squares</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>14.6 µs ± 47.1 ns per loop (mean ± std. dev. of 7 runs, 100000 loops each)
 </code></pre>
@@ -168,8 +168,8 @@ such cases. Listcomps are also faster than <em>map</em> and <em>filter</em>.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">even_squares</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">print</span><span class="p">(</span><span class="n">even_squares</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296,
 1444, 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624,
@@ -181,9 +181,9 @@ such cases. Listcomps are also faster than <em>map</em> and <em>filter</em>.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="o">%%</span><span class="n">timeit</span>
-</span></span><span class="line"><span class="cl"><span class="n">even_squares</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">timeit</span>
+<span class="n">even_squares</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>33.6 µs ± 867 ns per loop (mean ± std. dev. of 7 runs, 10000 loops each)
 </code></pre>
@@ -192,8 +192,8 @@ such cases. Listcomps are also faster than <em>map</em> and <em>filter</em>.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">even_squares</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">print</span><span class="p">(</span><span class="n">even_squares</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444,
 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900,
@@ -218,9 +218,9 @@ whole list to feed into another constructor.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">even_squares</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="n">even_squares</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">even_squares</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">even_squares</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(0, 4, 16, 36, 64, 100, 144, 196, 256, 324, 400, 484, 576, 676, 784, 900, 1024, 1156, 1296, 1444,
 1600, 1764, 1936, 2116, 2304, 2500, 2704, 2916, 3136, 3364, 3600, 3844, 4096, 4356, 4624, 4900,
@@ -245,10 +245,10 @@ along with &ldquo;unpacking&rdquo; make for very readable way to access elements
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">for</span> <span class="n">country</span><span class="p">,</span> <span class="n">capital</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&#34;India&#34;</span><span class="p">,</span> <span class="s2">&#34;New Delhi&#34;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Afganistan&#34;</span><span class="p">,</span> <span class="s2">&#34;Kabul&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">                         <span class="p">(</span><span class="s2">&#34;Canada&#34;</span><span class="p">,</span> <span class="s2">&#34;Ottawa&#34;</span><span class="p">)]:</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">capital</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">country</span><span class="p">,</span> <span class="n">capital</span> <span class="ow">in</span> <span class="p">[(</span><span class="s2">&#34;India&#34;</span><span class="p">,</span> <span class="s2">&#34;New Delhi&#34;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&#34;Afganistan&#34;</span><span class="p">,</span> <span class="s2">&#34;Kabul&#34;</span><span class="p">),</span>
+                         <span class="p">(</span><span class="s2">&#34;Canada&#34;</span><span class="p">,</span> <span class="s2">&#34;Ottawa&#34;</span><span class="p">)]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">country</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">capital</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>India/New Delhi
 Afganistan/Kabul
@@ -287,10 +287,10 @@ Canada/Ottawa
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">dis</span> <span class="kn">import</span> <span class="n">dis</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">dis</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="s2">&#34;(10, &#39;abc&#39;)&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s2">&#34;eval&#34;</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">dis</span> <span class="kn">import</span> <span class="n">dis</span>
+
+<span class="n">dis</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="s2">&#34;(10, &#39;abc&#39;)&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s2">&#34;eval&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>  1           0 LOAD_CONST               0 ((10, 'abc'))
               2 RETURN_VALUE
@@ -300,8 +300,8 @@ Canada/Ottawa
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">dis</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="s2">&#34;[10, &#39;abc&#39;]&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s2">&#34;eval&#34;</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">dis</span><span class="p">(</span><span class="nb">compile</span><span class="p">(</span><span class="s2">&#34;[10, &#39;abc&#39;]&#34;</span><span class="p">,</span> <span class="s2">&#34;&#34;</span><span class="p">,</span> <span class="s2">&#34;eval&#34;</span><span class="p">))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>  1           0 LOAD_CONST               0 (10)
               2 LOAD_CONST               1 ('abc')
@@ -325,10 +325,10 @@ Canada/Ottawa
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">a</span> <span class="ow">is</span> <span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>True
 </code></pre>
@@ -339,10 +339,10 @@ Canada/Ottawa
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="ow">is</span> <span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">a</span> <span class="ow">is</span> <span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>False
 </code></pre>
@@ -363,10 +363,10 @@ Canada/Ottawa
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">sys</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>120
 </code></pre>
@@ -375,8 +375,8 @@ Canada/Ottawa
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">sys</span><span class="o">.</span><span class="n">getsizeof</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>192
 </code></pre>
@@ -387,8 +387,9 @@ Canada/Ottawa
 * sequence of appends() in the presence of a poorly-performing
 * system realloc().
 * The growth pattern is:  0, 4, 8, 16, 25, 35, 46, 58, 72, 88, ...
-* Note: new_allocated won&#39;t overflow because the largest possible value
+* Note: new_allocated won't overflow because the largest possible value
 *       is PY_SSIZE_T_MAX * (9 / 8) + 6 which always fits in a size_t.
+
 </code></pre><p>Coming back to the immutability aspect of Tuples, the fact that tuples are container style sequences,
 they can hold mutable objects.</p>
 <div class="highlight"><div class="chroma">
@@ -398,10 +399,10 @@ they can hold mutable objects.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>True
 </code></pre>
@@ -411,9 +412,9 @@ they can hold mutable objects.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">b</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">99</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">==</span> <span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>False
 </code></pre>
@@ -422,8 +423,8 @@ they can hold mutable objects.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(10, 'alpha', [1, 2, 99])
 </code></pre>
@@ -434,8 +435,8 @@ A tuple without mutable objects can be used as a key for a dict. This can be ver
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">hash</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">hash</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>1614661222696736202
 </code></pre>
@@ -444,8 +445,8 @@ A tuple without mutable objects can be used as a key for a dict. This can be ver
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">hash</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">hash</span><span class="p">((</span><span class="mi">10</span><span class="p">,</span> <span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>---------------------------------------------------------------------------
 
@@ -475,9 +476,9 @@ even if the object doesn&rsquo;t support index notation [].</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">country</span><span class="p">,</span> <span class="n">capital</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;India&#34;</span><span class="p">,</span> <span class="s2">&#34;New Delhi&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">country</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">country</span><span class="p">,</span> <span class="n">capital</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&#34;India&#34;</span><span class="p">,</span> <span class="s2">&#34;New Delhi&#34;</span><span class="p">)</span>
+<span class="n">country</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>'India'
 </code></pre>
@@ -486,8 +487,8 @@ even if the object doesn&rsquo;t support index notation [].</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">capital</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">capital</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>'New Delhi'
 </code></pre>
@@ -500,11 +501,11 @@ even if the object doesn&rsquo;t support index notation [].</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
-</span></span><span class="line"><span class="cl"><span class="n">b</span> <span class="o">=</span> <span class="mi">20</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">b</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(20, 10)
 </code></pre>
@@ -515,9 +516,9 @@ even if the object doesn&rsquo;t support index notation [].</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rest</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">rest</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(0, 1, [2, 3, 4])
 </code></pre>
@@ -527,9 +528,9 @@ even if the object doesn&rsquo;t support index notation [].</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">a</span><span class="p">,</span> <span class="n">rest</span><span class="p">,</span> <span class="n">b</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">rest</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span> <span class="n">rest</span><span class="p">,</span> <span class="n">b</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(0, [1, 2, 3, 4, 5, 6, 7, 8], 9)
 </code></pre>
@@ -543,12 +544,12 @@ even if the object doesn&rsquo;t support index notation [].</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">shopping_cart</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;apple&#34;</span><span class="p">,</span> <span class="p">(</span><span class="mf">3.2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;milk&#34;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">))]</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="s1">&#39;item&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;cost&#39;</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;qnt&#39;</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;total&#39;</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">28</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">qnt</span><span class="p">)</span> <span class="ow">in</span> <span class="n">shopping_cart</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">item</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">qnt</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cost</span><span class="o">*</span><span class="n">qnt</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">shopping_cart</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&#34;apple&#34;</span><span class="p">,</span> <span class="p">(</span><span class="mf">3.2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;milk&#34;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">20</span><span class="p">))]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="s1">&#39;item&#39;</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="s1">&#39;cost&#39;</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;qnt&#39;</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="s1">&#39;total&#39;</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="mi">28</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">qnt</span><span class="p">)</span> <span class="ow">in</span> <span class="n">shopping_cart</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">item</span><span class="si">:</span><span class="s2">&lt;10</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="n">cost</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">qnt</span><span class="si">:</span><span class="s2">&gt;4</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cost</span><span class="o">*</span><span class="n">qnt</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>item       | cost  qnt total
 ----------------------------
@@ -578,9 +579,9 @@ has many convenient side effects:</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">my_list</span><span class="p">[:</span><span class="mi">3</span><span class="p">],</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>([0, 1, 2], [3, 4, 5, 6, 7, 8, 9])
 </code></pre>
@@ -602,19 +603,19 @@ to slices we can be more explicit instead of needing the user to figure out what
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">invoice</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
-</span></span></span><span class="line"><span class="cl"><span class="s2">1  apple  $3.2 10
-</span></span></span><span class="line"><span class="cl"><span class="s2">2  banana $1.5. 5
-</span></span></span><span class="line"><span class="cl"><span class="s2">&#34;&#34;&#34;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">SKU_ID</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">SKU_NAME</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">PRICE</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="n">QUANTITY</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="n">sku_line</span> <span class="ow">in</span> <span class="n">invoice</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="n">sku_line</span><span class="p">[</span><span class="n">SKU_ID</span><span class="p">],</span> <span class="n">sku_line</span><span class="p">[</span><span class="n">SKU_NAME</span><span class="p">],</span> <span class="n">sku_line</span><span class="p">[</span><span class="n">PRICE</span><span class="p">],</span> <span class="n">sku_line</span><span class="p">[</span><span class="n">QUANTITY</span><span class="p">])</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">invoice</span> <span class="o">=</span> <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">1  apple  $3.2 10
+</span><span class="s2">2  banana $1.5. 5
+</span><span class="s2">&#34;&#34;&#34;</span>
+
+<span class="n">SKU_ID</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">SKU_NAME</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">PRICE</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">)</span>
+<span class="n">QUANTITY</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">sku_line</span> <span class="ow">in</span> <span class="n">invoice</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">sku_line</span><span class="p">[</span><span class="n">SKU_ID</span><span class="p">],</span> <span class="n">sku_line</span><span class="p">[</span><span class="n">SKU_NAME</span><span class="p">],</span> <span class="n">sku_line</span><span class="p">[</span><span class="n">PRICE</span><span class="p">],</span> <span class="n">sku_line</span><span class="p">[</span><span class="n">QUANTITY</span><span class="p">])</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>1  apple  $3.2 10
 2  banana $1.5  5
@@ -630,11 +631,11 @@ rows and columns.</p>
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
-</span></span><span class="line"><span class="cl"><span class="n">arr</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">]])</span>
+<span class="n">arr</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>array([[1, 2, 3],
        [4, 5, 6]])
@@ -644,8 +645,8 @@ rows and columns.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">arr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>  <span class="c1"># all rows, columns 2 and 3</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">arr</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>  <span class="c1"># all rows, columns 2 and 3</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>array([[2, 3],
        [5, 6]])
@@ -657,9 +658,9 @@ rows and columns.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">my_list</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 </code></pre>
@@ -669,9 +670,9 @@ rows and columns.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">my_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>
+<span class="n">my_list</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[0, 1, 2, 30, 40, 5, 6, 7, 8, 9]
 </code></pre>
@@ -681,9 +682,9 @@ rows and columns.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">del</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">del</span> <span class="n">my_list</span><span class="p">[</span><span class="mi">3</span><span class="p">:</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">my_list</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[0, 1, 2, 5, 6, 7, 8, 9]
 </code></pre>
@@ -705,10 +706,10 @@ rows and columns.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">new_list</span> <span class="o">=</span> <span class="n">my_list</span> <span class="o">*</span> <span class="mi">3</span>
-</span></span><span class="line"><span class="cl"><span class="n">new_list</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">new_list</span> <span class="o">=</span> <span class="n">my_list</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">new_list</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[1, 2, 3, 1, 2, 3, 1, 2, 3]
 </code></pre>
@@ -717,8 +718,8 @@ rows and columns.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">id</span><span class="p">(</span><span class="n">my_list</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">new_list</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">id</span><span class="p">(</span><span class="n">my_list</span><span class="p">),</span> <span class="nb">id</span><span class="p">(</span><span class="n">new_list</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>(140325040574144, 140325040580864)
 </code></pre>
@@ -730,9 +731,9 @@ we end of referring to the same object.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">weird_board</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&#34;_&#34;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
-</span></span><span class="line"><span class="cl"><span class="n">weird_board</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">weird_board</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&#34;_&#34;</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="mi">3</span>
+<span class="n">weird_board</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[['_', '_', '_'], ['_', '_', '_'], ['_', '_', '_']]
 </code></pre>
@@ -741,8 +742,8 @@ we end of referring to the same object.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">weird_board</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">weird_board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">weird_board</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="n">weird_board</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>True
 </code></pre>
@@ -753,9 +754,9 @@ we end of referring to the same object.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">weird_board</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;X&#34;</span>
-</span></span><span class="line"><span class="cl"><span class="n">weird_board</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">weird_board</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&#34;X&#34;</span>
+<span class="n">weird_board</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[['_', '_', 'X'], ['_', '_', 'X'], ['_', '_', 'X']]
 </code></pre>
@@ -778,10 +779,10 @@ Python falls back to calling <code>__add__</code>.</p>
 </span><span class="lnt">3
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+<span class="n">my_list</span> <span class="o">+=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]</span>
+<span class="n">my_list</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[1, 2, 3, 4, 5]
 </code></pre>
@@ -806,9 +807,9 @@ some common operation on them(i.e. they should all &ldquo;quack&rdquo; whether o
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;30&#34;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&#34;5&#34;</span><span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="n">my_list</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">my_list</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">&#34;30&#34;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&#34;5&#34;</span><span class="p">]</span>
+<span class="n">my_list</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[1, 2, '30', 4, '5']
 </code></pre>
@@ -817,8 +818,8 @@ some common operation on them(i.e. they should all &ldquo;quack&rdquo; whether o
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">sorted</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">sorted</span><span class="p">(</span><span class="n">my_list</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>---------------------------------------------------------------------------
 
@@ -839,8 +840,8 @@ method provided by us.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">sorted</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">sorted</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[1, 2, 4, '5', '30']
 </code></pre>
@@ -849,11 +850,13 @@ method provided by us.</p>
 <pre tabindex="0" class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nb">sorted</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">sorted</span><span class="p">(</span><span class="n">my_list</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><pre><code>[1, 2, '30', 4, '5']
 </code></pre>
+<br>
+<hr>
 <h3 id="references">
     <a href="#references" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -891,50 +894,48 @@ method provided by us.</p>
  
 <div class="container">
     
-    <script
-  src="https://giscus.app/client.js"
-  data-repo="kuutsav/kuutsav.github.io"
-  data-repo-id="R_kgDOHvsC_Q"
-  data-category="Announcements"
-  data-category-id="DIC_kwDOHvsC_c4CQiYa"
-  data-mapping="pathname"
-  data-strict="1"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="light"
-  data-lang="en"
-  crossorigin="anonymous"
-  async
-></script>
-
-<script>
-  function setGiscusTheme(theme) {
-    let giscus = document.querySelector(".giscus iframe");
-    if (giscus) {
-      giscus.contentWindow.postMessage(
-        {
-          giscus: {
-            setConfig: {
-              theme: theme,
-            },
-          },
-        },
-        "https://giscus.app"
-      );
-    }
-  }
-
-  addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    setGiscusTheme(document.documentElement.dataset.userColorScheme);
-  });
-
-  window.addEventListener("onColorSchemeChange", (e) => {
-    setGiscusTheme(e.detail);
-  });
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
 </script>
 
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
 
 </div>
 
@@ -948,13 +949,13 @@ method provided by us.</p>
             
             <a href="/index.xml">RSS</a>
             
-            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
             
         </nav>
 
         
     </section>
-    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

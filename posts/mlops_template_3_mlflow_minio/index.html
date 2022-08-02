@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
+    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
     
 </head>
     
@@ -65,7 +65,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log
+                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -95,8 +95,8 @@
                             
                               
                             
-                            By Kumar Utsav | <time>November 05, 2021</time>
-                            | 4 minutes
+                            By Kumar Utsav &nbsp;·&nbsp; <time>November 05, 2021</time>
+                            &nbsp;·&nbsp; 4 minutes
                         </div>
                         <div class="tags">
                             
@@ -130,20 +130,20 @@
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@pipeline</span>
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">ml_pipeline</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 1. fetch training data</span>
-</span></span><span class="line"><span class="cl">    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">get_training_dataset</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 2. minimal text preprocessing</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 3. tfidf vectorization</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vectorizer</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">get_vectorizer_and_features</span><span class="p">(</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 4. target encoding</span>
-</span></span><span class="line"><span class="cl">    <span class="n">target_encoder</span><span class="p">,</span> <span class="n">encoded_target</span> <span class="o">=</span> <span class="n">get_targetencoder_and_encoded_targets</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 5. train test split</span>
-</span></span><span class="line"><span class="cl">    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">encoded_target</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 6. model training, validation, registry, artifact storage</span>
-</span></span><span class="line"><span class="cl">    <span class="n">train_clf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pipeline</span>
+<span class="k">def</span> <span class="nf">ml_pipeline</span><span class="p">():</span>
+    <span class="c1"># 1. fetch training data</span>
+    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">get_training_dataset</span><span class="p">()</span>
+    <span class="c1"># 2. minimal text preprocessing</span>
+    <span class="c1"># 3. tfidf vectorization</span>
+    <span class="n">vectorizer</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">get_vectorizer_and_features</span><span class="p">(</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+    <span class="c1"># 4. target encoding</span>
+    <span class="n">target_encoder</span><span class="p">,</span> <span class="n">encoded_target</span> <span class="o">=</span> <span class="n">get_targetencoder_and_encoded_targets</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="c1"># 5. train test split</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">encoded_target</span><span class="p">)</span>
+    <span class="c1"># 6. model training, validation, registry, artifact storage</span>
+    <span class="n">train_clf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="mlflow-httpswwwmlfloworgdocslatestindexhtml">
     <a href="#mlflow-httpswwwmlfloworgdocslatestindexhtml" class="anchor">
@@ -191,19 +191,19 @@
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># setting env vars for minio artifact storage</span>
-</span></span><span class="line"><span class="cl"><span class="n">set_env_vars</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_TRACKING_URI&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># creates a new mlflow experiment MLFLOW_EXPERIMENT_NAME if it doesn&#39;t exist</span>
-</span></span><span class="line"><span class="cl"><span class="n">exps</span> <span class="o">=</span> <span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">MlflowClient</span><span class="p">()</span><span class="o">.</span><span class="n">list_experiments</span><span class="p">()]</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mlflow</span><span class="o">.</span><span class="n">create_experiment</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">        <span class="n">artifact_location</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_ARTIFACT_LOCATION&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># setting env vars for minio artifact storage</span>
+<span class="n">set_env_vars</span><span class="p">()</span>
+
+<span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_TRACKING_URI&#34;</span><span class="p">))</span>
+
+<span class="c1"># creates a new mlflow experiment MLFLOW_EXPERIMENT_NAME if it doesn&#39;t exist</span>
+<span class="n">exps</span> <span class="o">=</span> <span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">MlflowClient</span><span class="p">()</span><span class="o">.</span><span class="n">list_experiments</span><span class="p">()]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">create_experiment</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">),</span>
+        <span class="n">artifact_location</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_ARTIFACT_LOCATION&#34;</span><span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><blockquote>
 <p>MLflow runs can be recorded to local files, to a SQLAlchemy compatible database, or remotely to a tracking server. By default, the MLflow Python API logs runs locally to files in an mlruns directory wherever you ran your program. You can then run mlflow ui to see the logged runs.</p>
@@ -237,19 +237,19 @@ This file stays at the root directory of the project.</p>
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="c1"># setting env vars for minio artifact storage</span>
-</span></span><span class="line"><span class="cl"><span class="n">set_env_vars</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_TRACKING_URI&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="c1"># creates a new mlflow experiment MLFLOW_EXPERIMENT_NAME if it doesn&#39;t exist</span>
-</span></span><span class="line"><span class="cl"><span class="n">exps</span> <span class="o">=</span> <span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">MlflowClient</span><span class="p">()</span><span class="o">.</span><span class="n">list_experiments</span><span class="p">()]</span>
-</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mlflow</span><span class="o">.</span><span class="n">create_experiment</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">        <span class="n">artifact_location</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_ARTIFACT_LOCATION&#34;</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1"># setting env vars for minio artifact storage</span>
+<span class="n">set_env_vars</span><span class="p">()</span>
+
+<span class="n">mlflow</span><span class="o">.</span><span class="n">set_tracking_uri</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_TRACKING_URI&#34;</span><span class="p">))</span>
+
+<span class="c1"># creates a new mlflow experiment MLFLOW_EXPERIMENT_NAME if it doesn&#39;t exist</span>
+<span class="n">exps</span> <span class="o">=</span> <span class="p">[</span><span class="n">exp</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">exp</span> <span class="ow">in</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">tracking</span><span class="o">.</span><span class="n">MlflowClient</span><span class="p">()</span><span class="o">.</span><span class="n">list_experiments</span><span class="p">()]</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">)</span> <span class="ow">in</span> <span class="n">exps</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">create_experiment</span><span class="p">(</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">),</span>
+        <span class="n">artifact_location</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_ARTIFACT_LOCATION&#34;</span><span class="p">),</span>
+    <span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>First time we execute the pipeline, experiment <code>MLFLOW_EXPERIMENT_NAME=MLOps</code> is
 created and is used for subsequent runs.</p>
@@ -265,15 +265,15 @@ created and is used for subsequent runs.</p>
 </span><span class="lnt">8
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">train_and_validate_clf</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&#34;NAIVE_BAYES_CLF&#34;</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="c1"># ignoring rest of the script</span>
-</span></span><span class="line"><span class="cl">        <span class="k">pass</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train_and_validate_clf</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">))</span>
+
+    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&#34;NAIVE_BAYES_CLF&#34;</span><span class="p">):</span>
+        <span class="c1"># ignoring rest of the script</span>
+        <span class="k">pass</span>
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="registry-httpswwwmlfloworgdocslatestmodel-registryhtml">
     <a href="#registry-httpswwwmlfloworgdocslatestmodel-registryhtml" class="anchor">
@@ -321,35 +321,45 @@ Each subsequent run of the pipeline with the same <code>artifact_path</code> and
 </span><span class="lnt">21
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">train_and_validate_clf</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-</span></span><span class="line"><span class="cl">    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&#34;NAIVE_BAYES_CLF&#34;</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">        <span class="n">clf</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_param</span><span class="p">(</span><span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">get_params</span><span class="p">()[</span><span class="s2">&#34;alpha&#34;</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">scores</span> <span class="o">=</span> <span class="n">precision_recall_fscore_support</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&#34;weighted&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;precision&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;recall&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;f1_score&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
-</span></span><span class="line"><span class="cl">        <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">            <span class="n">sk_model</span><span class="o">=</span><span class="n">clf</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">            <span class="n">artifact_path</span><span class="o">=</span><span class="s2">&#34;naive-bayes-model&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">            <span class="n">registered_model_name</span><span class="o">=</span><span class="s2">&#34;sk-learn-naive-bayes-clf-model&#34;</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">        <span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train_and_validate_clf</span><span class="p">(</span>
+    <span class="n">X_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">X_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_train</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">y_test</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="n">mlflow</span><span class="o">.</span><span class="n">set_experiment</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&#34;MLFLOW_EXPERIMENT_NAME&#34;</span><span class="p">))</span>
+
+    <span class="k">with</span> <span class="n">mlflow</span><span class="o">.</span><span class="n">start_run</span><span class="p">(</span><span class="n">run_name</span><span class="o">=</span><span class="s2">&#34;NAIVE_BAYES_CLF&#34;</span><span class="p">):</span>
+        <span class="n">clf</span> <span class="o">=</span> <span class="n">MultinomialNB</span><span class="p">()</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_param</span><span class="p">(</span><span class="s2">&#34;alpha&#34;</span><span class="p">,</span> <span class="n">clf</span><span class="o">.</span><span class="n">get_params</span><span class="p">()[</span><span class="s2">&#34;alpha&#34;</span><span class="p">])</span>
+        <span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">clf</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+        <span class="n">scores</span> <span class="o">=</span> <span class="n">precision_recall_fscore_support</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="s2">&#34;weighted&#34;</span><span class="p">)</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;precision&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;recall&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">log_metric</span><span class="p">(</span><span class="s2">&#34;f1_score&#34;</span><span class="p">,</span> <span class="n">scores</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="n">mlflow</span><span class="o">.</span><span class="n">sklearn</span><span class="o">.</span><span class="n">log_model</span><span class="p">(</span>
+            <span class="n">sk_model</span><span class="o">=</span><span class="n">clf</span><span class="p">,</span>
+            <span class="n">artifact_path</span><span class="o">=</span><span class="s2">&#34;naive-bayes-model&#34;</span><span class="p">,</span>
+            <span class="n">registered_model_name</span><span class="o">=</span><span class="s2">&#34;sk-learn-naive-bayes-clf-model&#34;</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">classification_report</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Heading over to the experiment section at <code>http://127.0.0.1:5000</code>, we can see
 the registry entry for each of our runs, along with the logged metrics and
 model parameters.</p>
-<p><img loading="lazy" src="/../static/mlops_template/mlflow1.png" alt="Image"  width=3540 height="1448" /></p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/mlflow1.png" 
+    alt="Image" 
+     
+    width=3540 
+    height="1448"  /></p>
 <p>For each run, we can also look at the artifact location.</p>
-<p><img loading="lazy" src="/../static/mlops_template/mlflow_artifact.png" alt="Image"  width=3530 height="1482" /></p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/mlflow_artifact.png" 
+    alt="Image" 
+     
+    width=3530 
+    height="1482"  /></p>
 <p>When we created the experiment, we speficified
 <code>artifact_location=os.getenv(&quot;MLFLOW_ARTIFACT_LOCATION&quot;)</code> where
 <code>MLFLOW_ARTIFACT_LOCATION=s3://mlflow</code>. Internally, this stores the
@@ -357,7 +367,12 @@ model artifacts locally at the directory <code>minio_data</code> we created duri
 setup.</p>
 <p>We can head over to <code>http://127.0.0.1:9001/buckets/mlflow/browse</code> to look at
 the saved model artifacts.</p>
-<p><img loading="lazy" src="/../static/mlops_template/minio_artifact.png" alt="Image"  width=3530 height="1482" /></p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/minio_artifact.png" 
+    alt="Image" 
+     
+    width=3530 
+    height="1482"  /></p>
 <p>In the next part, we will look at serving the trained model being a REST endpoint.</p>
 
     </div>
@@ -385,50 +400,48 @@ the saved model artifacts.</p>
  
 <div class="container">
     
-    <script
-  src="https://giscus.app/client.js"
-  data-repo="kuutsav/kuutsav.github.io"
-  data-repo-id="R_kgDOHvsC_Q"
-  data-category="Announcements"
-  data-category-id="DIC_kwDOHvsC_c4CQiYa"
-  data-mapping="pathname"
-  data-strict="1"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="light"
-  data-lang="en"
-  crossorigin="anonymous"
-  async
-></script>
-
-<script>
-  function setGiscusTheme(theme) {
-    let giscus = document.querySelector(".giscus iframe");
-    if (giscus) {
-      giscus.contentWindow.postMessage(
-        {
-          giscus: {
-            setConfig: {
-              theme: theme,
-            },
-          },
-        },
-        "https://giscus.app"
-      );
-    }
-  }
-
-  addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    setGiscusTheme(document.documentElement.dataset.userColorScheme);
-  });
-
-  window.addEventListener("onColorSchemeChange", (e) => {
-    setGiscusTheme(e.detail);
-  });
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
 </script>
 
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
 
 </div>
 
@@ -442,13 +455,13 @@ the saved model artifacts.</p>
             
             <a href="/index.xml">RSS</a>
             
-            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
             
         </nav>
 
         
     </section>
-    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>

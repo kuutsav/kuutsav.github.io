@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.ab99ff095f832511e24ffb2fba2b51ad473b2f7e9301d674eba2c6c3a6e8bd81.css">
+    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
     
 </head>
     
@@ -65,7 +65,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log
+                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -95,8 +95,8 @@
                             
                               
                             
-                            By Kumar Utsav | <time>October 26, 2021</time>
-                            | 4 minutes
+                            By Kumar Utsav &nbsp;·&nbsp; <time>October 26, 2021</time>
+                            &nbsp;·&nbsp; 4 minutes
                         </div>
                         <div class="tags">
                             
@@ -161,7 +161,7 @@ numerical answer or a text description or a place or human name etc.</p>
 <td><code>ENTITY</code></td>
 </tr>
 <tr>
-<td>How can I find a list of celebrities &rsquo; real names ?</td>
+<td>How can I find a list of celebrities ' real names ?</td>
 <td><code>DESCRIPTION</code></td>
 </tr>
 <tr>
@@ -218,19 +218,19 @@ loads the data from csv and returns</p>
 </span><span class="lnt">12
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@solid</span><span class="p">(</span>
-</span></span><span class="line"><span class="cl">    <span class="n">output_defs</span><span class="o">=</span><span class="p">[</span>
-</span></span><span class="line"><span class="cl">        <span class="n">OutputDefinition</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;texts&#34;</span><span class="p">,</span> <span class="n">is_required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">        <span class="n">OutputDefinition</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;target&#34;</span><span class="p">,</span> <span class="n">is_required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-</span></span><span class="line"><span class="cl">    <span class="p">]</span>
-</span></span><span class="line"><span class="cl"><span class="p">)</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">get_training_dataset</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">dataloaders</span><span class="o">.</span><span class="n">get_input_dataset</span><span class="p">(</span><span class="n">INPUT_DATASET_LOC</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Loaded data; N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">, Targets=</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="n">Output</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="s2">&#34;texts&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">yield</span> <span class="n">Output</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&#34;target&#34;</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nd">@solid</span><span class="p">(</span>
+    <span class="n">output_defs</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">OutputDefinition</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;texts&#34;</span><span class="p">,</span> <span class="n">is_required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">OutputDefinition</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;target&#34;</span><span class="p">,</span> <span class="n">is_required</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_training_dataset</span><span class="p">(</span><span class="n">context</span><span class="p">):</span>
+    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">dataloaders</span><span class="o">.</span><span class="n">get_input_dataset</span><span class="p">(</span><span class="n">INPUT_DATASET_LOC</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Loaded data; N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">, Targets=</span><span class="si">{</span><span class="nb">set</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">Output</span><span class="p">(</span><span class="n">texts</span><span class="p">,</span> <span class="s2">&#34;texts&#34;</span><span class="p">)</span>
+    <span class="k">yield</span> <span class="n">Output</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="s2">&#34;target&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><h2 id="outputdefinition-httpsdocsdagsterio_apidocssolidsdagsteroutputdefinition">
     <a href="#outputdefinition-httpsdocsdagsterio_apidocssolidsdagsteroutputdefinition" class="anchor">
@@ -256,12 +256,12 @@ loads the data from csv and returns</p>
 </span><span class="lnt">5
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@solid</span>
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">preprocess_text</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
-</span></span><span class="line"><span class="cl">    <span class="n">texts</span> <span class="o">=</span> <span class="n">text_preprocessing</span><span class="o">.</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Text pre-processing done; N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="k">return</span> <span class="n">texts</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nd">@solid</span>
+<span class="k">def</span> <span class="nf">preprocess_text</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">texts</span><span class="p">):</span>
+    <span class="n">texts</span> <span class="o">=</span> <span class="n">text_preprocessing</span><span class="o">.</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Text pre-processing done; N=</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">texts</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Here, we are doing some text preprocessing. Since we are not returning
 mulitple outputs here, we can avoid <code>OutputDefinition</code>.</p>
@@ -297,20 +297,20 @@ mulitple outputs here, we can avoid <code>OutputDefinition</code>.</p>
 </span><span class="lnt">13
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="line"><span class="cl"><span class="nd">@pipeline</span>
-</span></span><span class="line"><span class="cl"><span class="k">def</span> <span class="nf">ml_pipeline</span><span class="p">():</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 1. fetch training data</span>
-</span></span><span class="line"><span class="cl">    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">get_training_dataset</span><span class="p">()</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 2. minimal text preprocessing</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 3. tfidf vectorization</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vectorizer</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">get_vectorizer_and_features</span><span class="p">(</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 4. target encoding</span>
-</span></span><span class="line"><span class="cl">    <span class="n">target_encoder</span><span class="p">,</span> <span class="n">encoded_target</span> <span class="o">=</span> <span class="n">get_targetencoder_and_encoded_targets</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 5. train test split</span>
-</span></span><span class="line"><span class="cl">    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">encoded_target</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl">    <span class="c1"># 6. model training, validation, registry, artifact storage</span>
-</span></span><span class="line"><span class="cl">    <span class="n">train_clf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nd">@pipeline</span>
+<span class="k">def</span> <span class="nf">ml_pipeline</span><span class="p">():</span>
+    <span class="c1"># 1. fetch training data</span>
+    <span class="n">texts</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">get_training_dataset</span><span class="p">()</span>
+    <span class="c1"># 2. minimal text preprocessing</span>
+    <span class="c1"># 3. tfidf vectorization</span>
+    <span class="n">vectorizer</span><span class="p">,</span> <span class="n">X</span> <span class="o">=</span> <span class="n">get_vectorizer_and_features</span><span class="p">(</span><span class="n">preprocess_text</span><span class="p">(</span><span class="n">texts</span><span class="p">))</span>
+    <span class="c1"># 4. target encoding</span>
+    <span class="n">target_encoder</span><span class="p">,</span> <span class="n">encoded_target</span> <span class="o">=</span> <span class="n">get_targetencoder_and_encoded_targets</span><span class="p">(</span><span class="n">target</span><span class="p">)</span>
+    <span class="c1"># 5. train test split</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">encoded_target</span><span class="p">)</span>
+    <span class="c1"># 6. model training, validation, registry, artifact storage</span>
+    <span class="n">train_clf</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>Here we call few solids like <code>get_training_dataset</code>, <code>preprocess_text</code>,
 <code>get_vectorizer_and_features</code>, etc.</p>
@@ -335,16 +335,26 @@ the pipeline file.</p>
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ dagit -f mlops/pipeline.py
-</span></span><span class="line"><span class="cl"><span class="c1"># Loading repository... Serving on http://127.0.0.1:3000</span>
-</span></span></code></pre></td></tr></table>
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash">$ dagit -f mlops/pipeline.py
+<span class="c1"># Loading repository... Serving on http://127.0.0.1:3000</span>
+</code></pre></td></tr></table>
 </div>
 </div><p>We can head over to the browser and look at the pipeline.</p>
-<p><img loading="lazy" src="/../static/mlops_template/dagster1.png" alt="Image"  width=3566 height="1514" /></p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/dagster1.png" 
+    alt="Image" 
+     
+    width=3566 
+    height="1514"  /></p>
 <p>To execute the pipeline from the UI, head over to the <code>playground</code> section and
 click <code>Launch Execution</code> (at the bottom right).</p>
 <p>If the pipeline executed successfully, you should see logs like this.</p>
-<p><img loading="lazy" src="/../static/mlops_template/dagster_execution.png" alt="Image"  width=3556 height="1918" /></p>
+<p><img loading="lazy" 
+    src="/../static/mlops_template/dagster_execution.png" 
+    alt="Image" 
+     
+    width=3556 
+    height="1918"  /></p>
 <p>The pipeline we just executed registered our trained model using <code>MLflow</code> and
 stored the model artifacts using <code>minio</code>.</p>
 <p>We will look at those components in the next part.</p>
@@ -374,50 +384,48 @@ stored the model artifacts using <code>minio</code>.</p>
  
 <div class="container">
     
-    <script
-  src="https://giscus.app/client.js"
-  data-repo="kuutsav/kuutsav.github.io"
-  data-repo-id="R_kgDOHvsC_Q"
-  data-category="Announcements"
-  data-category-id="DIC_kwDOHvsC_c4CQiYa"
-  data-mapping="pathname"
-  data-strict="1"
-  data-reactions-enabled="1"
-  data-emit-metadata="0"
-  data-input-position="bottom"
-  data-theme="light"
-  data-lang="en"
-  crossorigin="anonymous"
-  async
-></script>
-
-<script>
-  function setGiscusTheme(theme) {
-    let giscus = document.querySelector(".giscus iframe");
-    if (giscus) {
-      giscus.contentWindow.postMessage(
-        {
-          giscus: {
-            setConfig: {
-              theme: theme,
-            },
-          },
-        },
-        "https://giscus.app"
-      );
-    }
-  }
-
-  addEventListener("message", (event) => {
-    if (event.origin !== "https://giscus.app") return;
-    setGiscusTheme(document.documentElement.dataset.userColorScheme);
-  });
-
-  window.addEventListener("onColorSchemeChange", (e) => {
-    setGiscusTheme(e.detail);
-  });
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
 </script>
 
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
 
 </div>
 
@@ -431,13 +439,13 @@ stored the model artifacts using <code>minio</code>.</p>
             
             <a href="/index.xml">RSS</a>
             
-            <a href="https://gohugo.io/">© 2022 Powered by Hugo</a>
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
             
         </nav>
 
         
     </section>
-    <script defer src="/ts/features.dd8e5b18a6dda91367e396fd8dc9b9f83a1993065f709a53e056e0f2e9096ea1.js" 
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
     data-enable-footnotes="true"
     ></script>
 </footer>
