@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/posts/</link>
+    <description>Recent content in Posts on Utsav&#39;Log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Aug 2022 19:34:14 +0530</lastBuildDate><atom:link href="https://iutsav.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Information Retrieval, Part 1 - The Inverted Index</title>
+      <link>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</link>
+      <pubDate>Mon, 01 Aug 2022 19:34:14 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</guid>
+      <description>IR in it&amp;rsquo;s most basic form answers the question &amp;ldquo;how relevant is a given query for a document&amp;rdquo;. The challenge is that we don&amp;rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &amp;ldquo;needle in the haystack&amp;rdquo; or the &amp;ldquo;relevant documents for a query&amp;rdquo;.
+Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc.</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Connectivity and Percolation</title>
+      <link>https://iutsav.dev/posts/dynamic_connectivity_and_percolation/</link>
+      <pubDate>Thu, 07 Apr 2022 13:40:40 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/dynamic_connectivity_and_percolation/</guid>
+      <description>Given a set of N objects that support the following two commands:
+ Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects
+After few union commands union(2, 3), union(6, 5), union(8, 6), union(10, 8) the state of the system changes to
+We can query the above system to find if two objects are connected or not like find(0, 1) == False, find(1, 2) == True, find(4, 9) == True, find(8, 1) == False</description>
+    </item>
+    
+    <item>
+      <title>Python Notes, Part 2 - Sequences</title>
+      <link>https://iutsav.dev/posts/python_notes_2_sequences/</link>
+      <pubDate>Tue, 05 Apr 2022 10:21:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/python_notes_2_sequences/</guid>
+      <description>Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types. Python offers two types of sequences:
+ Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it&amp;rsquo;s own memory.</description>
+    </item>
+    
+    <item>
+      <title>Python Notes, Part 1 - Data Model</title>
+      <link>https://iutsav.dev/posts/python_notes_1_datamodel/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/python_notes_1_datamodel/</guid>
+      <description>One of the best things about python is it&amp;rsquo;s consistency. Once someone has spent enough time with python and it&amp;rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.
+What is considered pythonic is a very subjective matter, but we can always look at the &amp;ldquo;Zen of Python&amp;rdquo; for some guidance.
+1  import this   The Zen of Python, by Tim Peters Beautiful is better than ugly.</description>
+    </item>
+    
+    <item>
+      <title>MLOps Template, Part 4 - FastAPI &#43; ElasticAPM</title>
+      <link>https://iutsav.dev/posts/mlops_template_4_fastapi_elasticapm/</link>
+      <pubDate>Fri, 19 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/mlops_template_4_fastapi_elasticapm/</guid>
+      <description>We will use FastAPI to serve our trained models behind a REST endpoint. FastAPI is a web framework built on top of Starlette. Scripts related to the APIs are located at MLOps/app.
+The directory structure is:
+1 2 3 4 5 6 7  ├── application.py # FastAPI app and launcher uvicorn.run ├── models # pydantic model for reponse validation │ └── predict.py # pydantic model for predict endpoint └── routes # to maintain larger applications ├── endpoints │ └── predict.</description>
+    </item>
+    
+    <item>
+      <title>MLOps Template, Part 3 - MLflow &#43; MinIO</title>
+      <link>https://iutsav.dev/posts/mlops_template_3_mlflow_minio/</link>
+      <pubDate>Fri, 05 Nov 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/mlops_template_3_mlflow_minio/</guid>
+      <description>In the last part, we saw our pipeline at the end. Steps 1-5 deal with data manipulation. We train our model in step 6 and that&amp;rsquo;s where MLflow comes into picture.
+1 2 3 4 5 6 7 8 9 10 11 12 13  @pipeline def ml_pipeline(): # 1. fetch training data texts, target = get_training_dataset() # 2. minimal text preprocessing # 3. tfidf vectorization vectorizer, X = get_vectorizer_and_features(preprocess_text(texts)) # 4.</description>
+    </item>
+    
+    <item>
+      <title>MLOps Template, Part 2 - Dagster Pipeline</title>
+      <link>https://iutsav.dev/posts/mlops_template_2_dagster/</link>
+      <pubDate>Tue, 26 Oct 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/mlops_template_2_dagster/</guid>
+      <description>Here we will cover our small pipeline written in dagster.
+ Dagster is a data orchestrator for machine learning, analytics, and ETL
+ Dagster is a second generation data orchestrator that focues on being data-driven rather than task-driven(like Airflow).
+   Solids and Pipelines #   Dagster&amp;rsquo;s core abstractions are solids and pipelines.
+Solids are individual units of computation that we wire together to form pipelines. By default, all solids in a pipeline execute in the same process.</description>
+    </item>
+    
+    <item>
+      <title>MLOps Template, Part 1 - Setup</title>
+      <link>https://iutsav.dev/posts/mlops_template_1_setup/</link>
+      <pubDate>Fri, 22 Oct 2021 00:46:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/mlops_template_1_setup/</guid>
+      <description>In this series of posts, we will take a small dataset and go through various steps like building Data pipelines, ML workflow management, API development and Monitoring.
+These steps are necessary for operationalization of any machine-learning based model.
+ These posts are in no way exhaustive in covering the breadth of MLOps.Several key pieces like the CI/CD pipeline, monitoring for drift, etc are missing at the moment, which might get added later.</description>
+    </item>
+    
+    <item>
+      <title>Revisiting Word2Vec skip-gram model</title>
+      <link>https://iutsav.dev/posts/word2vec_skipgram/</link>
+      <pubDate>Fri, 12 Mar 2021 15:34:11 +1510</pubDate>
+      
+      <guid>https://iutsav.dev/posts/word2vec_skipgram/</guid>
+      <description>In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</description>
+    </item>
+    
+  </channel>
+</rss>

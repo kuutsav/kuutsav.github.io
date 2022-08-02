@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Information Retrieval, Part 1 - The Inverted Index | Utsav&#39;Log</title>
+
+    
+    
+    
+    <meta property="og:site_name" content="Utsav&#39;Log" />
+    <meta property="og:title" content="Information Retrieval, Part 1 - The Inverted Index | Utsav&#39;Log"/>
+    <meta itemprop="name" content="Information Retrieval, Part 1 - The Inverted Index | Utsav&#39;Log" />
+    <meta name="twitter:title" content="Information Retrieval, Part 1 - The Inverted Index | Utsav&#39;Log" />
+    <meta name="application-name" content="Information Retrieval, Part 1 - The Inverted Index | Utsav&#39;Log" /><meta name="twitter:card" content="summary"/>
+
+    <meta name="description" content="ML and Backend stuff" />
+    <meta name="twitter:description" content="ML and Backend stuff"/>
+    <meta itemprop="description" content="ML and Backend stuff"/>
+    <meta property="og:description" content="ML and Backend stuff" />
+
+    
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    
+    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
+    
+</head>
+    
+    <script>
+        (function() {
+            const colorSchemeKey = 'ThemeColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'ThemeColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.userColorScheme = 'dark';
+        } else {
+            document.documentElement.dataset.userColorScheme = 'light';
+        }
+    })();
+</script>
+
+
+    <body class="dark">
+        <nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="/">
+                    
+                    
+                        <img src="/favicon.ico" />
+                    
+                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
+                    </a>
+            </div>
+            <div class="flex">
+                
+                
+                    <button id="dark-mode-button">
+                    <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    </button>
+                
+            </div>
+            </div>
+    </div>
+</nav>
+
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Information Retrieval, Part 1 - The Inverted Index</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Kumar Utsav &nbsp;·&nbsp; <time>August 01, 2022</time>
+                            &nbsp;·&nbsp; 16 minutes
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="/tags/python/">python</a>
+                            
+                            <a href="/tags/information-retrievel/">information-retrievel</a>
+                            
+                            <a href="/tags/inverted-index/">inverted-index</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <p>IR in it&rsquo;s most basic form answers the question &ldquo;how relevant is a given <em>query</em> for a <em>document</em>&rdquo;. The challenge is that we don&rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &ldquo;needle in the haystack&rdquo; or the &ldquo;relevant <em>documents</em> for a <em>query</em>&rdquo;.</p>
+<p>Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applicatations of IR like cleaning up the markup in case of web pages. The documents could also be in different languagues, encodings, etc. These variations present their own unique sets of challenges. For example, it&rsquo;s common to build separate pre-processing text pipelines for each languague.</p>
+<h2 id="relevance">
+    <a href="#relevance" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Relevance
+</h2>
+<p>To answer the question &ldquo;how relevant is a given <em>query</em> for a <em>document</em>&rdquo;, we first need to precisely define relevance.</p>
+<p>Relevance in the context of queries and documents captures the following key ideas:</p>
+<ul>
+<li>A query can consist of many words, we break the query down into these individual words using a text processing pipeline which we will cover later.</li>
+<li>If a word appears more often in a document, it&rsquo;s more relevant. We can capture this by counting the words in a document .</li>
+<li>If a document is longer, words will tend to appear more often. So we need to take the document length into account as well.</li>
+<li>It would be pretty slow if we start counting the words in all the documents after a query arrives, hence we need to store the counts in a data structure that supports efficient lookups for a query.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/relevance.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 1. Illustration of IR with a query and documents sorted by relevancy.</center>
+<h2 id="inverted-index">
+    <a href="#inverted-index" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Inverted Index
+</h2>
+<p>An inverted index helps us solve the last point we mentioned under Relevance, &ldquo;It would be pretty slow if we start counting the words in all the documents after a query arrives, hence we need to store the counts in a data structure that supports efficient lookups for a query.&rdquo;</p>
+<p>Inverted index allows us to efficienty retrieve documents from large collections. It does this by storing term/word statistics from the documents beforehand(that the scoring model needs).</p>
+<p>The statistics stored in the inverted index are:</p>
+<ul>
+<li><strong>Document frequency</strong>: How many documents contain the term.</li>
+<li><strong>Term frequency per document</strong>: How often does the term appear in a document.</li>
+<li><strong>Document length</strong></li>
+<li><strong>Average document length</strong></li>
+</ul>
+<p>The statistics are saved in a format that is accessible by a given term/word.</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/inverted_index.png" 
+    alt="" 
+     
+    width=1952 
+    height="880"  /></p>
+<center class="img-caption">Fig. 2. Illustration of statistics stored in an Inverted Index.</center><br>
+<p>The term frequencies are stored in a &ldquo;posting list&rdquo; which is nothing but a list of document id and term frequency pairs. Every document gets an internal document id; which can be a simple integers for non web-scale data.</p>
+<h2 id="creating-the-inverted-index">
+    <a href="#creating-the-inverted-index" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Creating the Inverted Index
+</h2>
+<p>The process of creating the inverted index involves creating a text processing pipeline which is applied both the documents as well as incoming queries.</p>
+<p>A typical pipeline looks like: <code>Tokenization</code> -&gt; <code>Stemming</code> -&gt; <code>Stop words removal</code>.</p>
+<h3 id="tokenization">
+    <a href="#tokenization" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Tokenization
+</h3>
+<p>Tokenization essentially involves splitting the query or document into invdividual terms/words.
+A naive baseline could split each query/document by whitespace and punctuation character.
+Improvements over the naive model typically involes keeping the abbreviations, names, numbers together as one token, etc. For example, look at the <a href="https://nlp.stanford.edu/software/tokenizer.shtml">stanford tokenizer</a>.</p>
+<pre tabindex="0"><code>$ cat &gt;sample.txt
+&quot;Oh, no,&quot; she's saying, &quot;our $400 blender can't handle something this hard!&quot;
+$ java edu.stanford.nlp.process.PTBTokenizer sample.txt
+``
+Oh
+,
+no
+,
+''
+she
+'s
+saying
+,
+``
+our
+$
+400
+blender
+ca
+n't
+handle
+something
+this
+hard
+!
+''
+PTBTokenizer tokenized 23 tokens at 370.97 tokens per second.
+</code></pre><h3 id="stemming">
+    <a href="#stemming" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Stemming
+</h3>
+<p>Stemming involves reducing the terms/words to their &ldquo;roots&rdquo; before indexing. An advanved form of stemming called Lemmatization invloves reducing the inflectional/variant forms to base form (am, are, is -&gt; be). Lemmatization is computationally expensive.</p>
+<blockquote>
+<p>For grammatical reasons, documents are going to use different forms of a word, such as organize, organizes, and organizing. Additionally, there are families of derivationally related words with similar meanings, such as democracy, democratic, and democratization. In many situations, it seems as if it would be useful for a search for one of these words to return documents that contain another word in the set.</p>
+<p>The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form. For instance:
+<code>am, are, is -&gt; be</code>, <code>car, cars, car's, cars' -&gt; car</code>.
+The result of this mapping of text will be something like:
+<code>the boy's cars are different colors -&gt; the boy car be differ color</code></p>
+<p>However, the two words differ in their flavor. Stemming usually refers to a crude heuristic process that chops off the ends of words in the hope of achieving this goal correctly most of the time, and often includes the removal of derivational affixes. Lemmatization usually refers to doing things properly with the use of a vocabulary and morphological analysis of words, normally aiming to remove inflectional endings only and to return the base or dictionary form of a word, which is known as the lemma . If confronted with the token saw, stemming might return just s, whereas lemmatization would attempt to return either see or saw depending on whether the use of the token was as a verb or a noun. The two may also differ in that stemming most commonly collapses derivationally related words, whereas lemmatization commonly only collapses the different inflectional forms of a lemma. Linguistic processing for stemming or lemmatization is often done by an additional plug-in component to the indexing process, and a number of such components exist, both commercial and open-source.</p>
+<p>The most common algorithm for stemming English, and one that has repeatedly been shown to be empirically very effective, is Porter&rsquo;s algorithm (Porter, 1980).</p>
+<p>Source: <a href="https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html">Stemming and lemmatization</a></p>
+</blockquote>
+<h3 id="stop-word-removal">
+    <a href="#stop-word-removal" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Stop word removal
+</h3>
+<p>This simply involves removing the most common words that appear across all the documents. Typically, articles and pronouns are generally classified as stop words. Stop words play no significance in the scoring algorithms used for classic IR hence we remove them.</p>
+<p>For example, &ldquo;a&rdquo;, &ldquo;the&rdquo;, &ldquo;there&rdquo;, etc.</p>
+<h2 id="search-and-relevance-scoring">
+    <a href="#search-and-relevance-scoring" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Search and Relevance Scoring
+</h2>
+<h3 id="search-workflow">
+    <a href="#search-workflow" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Search workflow
+</h3>
+<p>The search workflow typically invloves:</p>
+<ul>
+<li>Passing the query throught the pre processing pipeline we just discussed to get the terms.</li>
+<li>Look up the statistics for each term from the inverted index.</li>
+<li>Use a scoring model that uses the term statistics to score the documents.</li>
+<li>Sort the documents by the scores in a descending order and show to the user.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/search_workflow.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 3. Illustration of the search workflow using Inverted Index.</center><br>
+<p>Note that a document could be relevant without containing the exact query terms. This is the biggest drawback of the classic IR techniques we are discussing here.</p>
+<p>Dense retrieval techniques which we will cover later help us address this problem.</p>
+<h3 id="types-of-queries">
+    <a href="#types-of-queries" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Types of queries
+</h3>
+<p>Once the query has been broken into individual words, there are many ways they can be used to fetch statistics from the inverted index:</p>
+<ul>
+<li><strong>Exact matching</strong>: Match full words or concatenate multiple query words with &ldquo;or&rdquo;.</li>
+<li><strong>Boolean queries</strong>: &ldquo;and&rdquo; / &ldquo;or&rdquo; / &ldquo;not&rdquo; operators between words.</li>
+<li><strong>Expanded queries</strong>: Ddd synonyms and other similar words into the query.</li>
+</ul>
+<p>Beyond this we can also augment the queries using wildcard querie, phonetic queries, etc.</p>
+<h3 id="spell-checking">
+    <a href="#spell-checking" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Spell checking
+</h3>
+<p>Another way to improve the quality of retrieval is to use spell correctors to:</p>
+<ul>
+<li>Correct the docuemnts being indexed.</li>
+<li>Correct user queries to retrieve correct documents - e.g. the google sytle os &ldquo;did you mean&rdquo;.</li>
+</ul>
+<h2 id="scoring-models">
+    <a href="#scoring-models" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Scoring models
+</h2>
+<p>The scoring model captures relevance in a mathematical model. Note that here we are only cosidering the free text queries here or &ldquo;ad-hoc&rdquo; document retrieval, other factors could also come into play in real life scenarios like pagerank, recency, click counts etc.</p>
+<p>Another drawback of the scoring models we are about the discuss is the fact they don&rsquo;t consider meaning of the terms. Terms/words are essentially just discrete symbols. Similarly documents are stream of meaningless symbols. The word order is not important as well.</p>
+<p>Dense retrieval techniques which we will cover later help us address this problem.</p>
+<h3 id="tf_idf">
+    <a href="#tf_idf" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    TF_IDF
+</h3>
+<p>The <em>TF_IDF</em> has two components:</p>
+<ul>
+<li><strong>Term Frequency <em>tf</em>(t,d)</strong>: How often does the term t appear in the document d.
+Using the raw frequencies here is not the best solution for IR problems. We either use relative frequenies or <code>log</code> to dampen the frequencies <code>tf(t,d) = log(1 + tf(t,d))</code>.</li>
+<li><strong>Inverse Document Frequency <em>idf</em>(t)</strong>: It&rsquo;s a measure of the &ldquo;informativeness&rdquo; of a term for a document. Not that rare terms are more informative than frequent terms. Common way of defining IDF is <code>idf(t) = log(|D| / df(t))</code>. Here <code>|D|</code> is the total number of documents and <code>df(t)</code> is the number of documents in which the term t appears.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/tfidf.png" 
+    alt="" 
+     
+    width=436 
+    height="81"  /></p>
+<p>where ∑ is the sum over all the terms in the query, 𝑡𝑓(𝑡,𝑑) is the frequency of term t in document, |𝐷| is the total number of documents, 𝑑𝑓(𝑡) is the number of documents in which the term t appears.</p>
+<p>Beyond IR, <em>TF_IDF</em> is also used for other NLP tasks like finding keywords in a document, Latent Sematic Analysis(LSA), classification, etc.</p>
+<p>Although the formulation in scikit-learn is not exactly the same, we can still look at <em>TF_IDF</em> in action.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">docs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;the quick brown fox jumps over the lazy dog&#34;</span><span class="p">,</span>
+        <span class="s2">&#34;the fox and the crow&#34;</span><span class="p">,</span> <span class="s2">&#34;the smart crow&#34;</span><span class="p">]</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.feature_extraction.text</span> <span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+
+<span class="n">vectorizer</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">vectorizer</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">todense</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="n">vectorizer</span><span class="o">.</span><span class="n">get_feature_names_out</span><span class="p">())</span>
+<span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">docs</span>
+<span class="n">df</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/tfidf_table.png" 
+    alt="" 
+     
+    width=953 
+    height="110"  /></p>
+<p>For downstream ML tasks like classification(given we have the class labels), this matrix notation works perfectly.
+But computing, storing and updating this in matrix form for retrieval problems is not feasible due to the sparsity of this matrix for large number of documents.</p>
+<p>For example, if we have 1m documents with average term length of 1000 and vocabulary size of 100k(pretty reasonable at scale), we end up with a matrix of size 1,000,000 x 100,000 of which ~1,000,000 x 90,000 or ~90% of the terms will be 0. Though this is a very conservative estimate, it makes it obvious that storing the <em>TF_IDF</em> for web scale data is not feasible in this format. We use inverted index we discussed earlier to store this info.</p>
+<h3 id="bm25-aka-bestmatch25">
+    <a href="#bm25-aka-bestmatch25" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    BM25 aka &ldquo;BestMatch25&rdquo;
+</h3>
+<p><em>BM25</em> is the backbone of most open source text based search engines over the last decade. It improves over the <em>TF_IDF</em> by taking into account the normalization of document length by average document length.</p>
+<p>There are two hyperparameters k and b that can be tuned to define the influence of document length normalization.</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/bm25_1.png" 
+    alt="" 
+     
+    width=594 
+    height="75"  /></p>
+<p>where ∑ is the sum over all the terms in the query, 𝑡𝑓(𝑡,𝑑) is the frequency of term t in document d, 𝑑𝑙(𝑑) is the document length, 𝑎𝑣𝑔𝑑𝑙 is the average document length, |𝐷| is the Total number of documents, 𝑑𝑓(𝑡) is the number of documents in which the term t appears, 𝑘1,b are the hyperparameters.</p>
+<p>Not that this formulation is simpler than the original formula. More complex parts related to query length have not much practical implications for IR.
+The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term frequency saturation is stronger in <em>BM25</em>.</p>
+<p>The hyperparametrs:</p>
+<ul>
+<li><strong>k</strong>: Controls term frequency scaling.</li>
+<li><strong>b</strong>: Conrols the document length normalization.</li>
+</ul>
+<p>Typical values of k and b are <code>1.2 &lt; k &lt; 2</code>, <code>0.5 &lt; b &lt; 0.8</code>.</p>
+<p>There are other forumations of <em>BM25</em> that take into account the title, abstract, headers etc. from the documents. We can essentially control the weights we want to assign to each component.</p>
+<h3 id="oversimiplified-implementation-of-the-inverted-index-_tf_idf_">
+    <a href="#oversimiplified-implementation-of-the-inverted-index-_tf_idf_" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Oversimiplified implementation of the Inverted Index (<em>TF_IDF</em>)
+</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="kn">import</span> <span class="nn">spacy</span>
+<span class="kn">from</span> <span class="nn">spacy.lang.en.stop_words</span> <span class="kn">import</span> <span class="n">STOP_WORDS</span>
+
+<span class="n">nlp</span> <span class="o">=</span> <span class="n">spacy</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&#34;en_core_web_sm&#34;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">InvertedIndex</span><span class="p">:</span>
+    <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">    A toy implementation of the &#34;Inverted Index&#34;.
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># note that we are not using a postings list here but</span>
+        <span class="c1"># a dictionary to maintain the term frequency counts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">_check_txt_not_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">txt</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&#34;txt can&#39;t be empty&#34;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_terms_from_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Pre-processing pipeline applied to both the query and the documents.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            txt (str): Input query or document.
+</span><span class="s2">
+</span><span class="s2">        Returns:
+</span><span class="s2">            List[str]: Terms from a query/document.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">doc</span> <span class="o">=</span> <span class="n">nlp</span><span class="p">(</span><span class="s2">&#34; &#34;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s2">&#34;\w+&#34;</span><span class="p">,</span> <span class="n">txt</span><span class="o">.</span><span class="n">lower</span><span class="p">())))</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">doc</span>
+                <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">lemma_</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">STOP_WORDS</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_update_doc_lenghts</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">doc_length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Utility method that helps maintain the statistic &#34;Document lenghts&#34;.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            doc_length (int): Length of a new document.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">doc_length</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_add_term_to_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">doc_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Utility method that helps maintain the statistic &#34;Term frequencies&#34;.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            term (str): Term from a document.
+</span><span class="s2">            doc_id (str): Document Id.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">][</span><span class="n">doc_id</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">index_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Method used to update the inverted index for a document.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            txt (str): Input document.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_terms_from_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_doc_lenghts</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">terms</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_term_to_index</span><span class="p">(</span><span class="n">term</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_docs_from_term</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">term</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">defaultdict</span><span class="p">:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Returns document ids and term frequencies for a an input term.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            term (str): Input term.
+</span><span class="s2">
+</span><span class="s2">        Returns:
+</span><span class="s2">            defaultdict: Document ids and term frequencies.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">score_query</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">txt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">match_type</span><span class="p">:</span> <span class="nb">str</span><span class="o">=</span><span class="s2">&#34;or&#34;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+        <span class="s2">&#34;&#34;&#34;
+</span><span class="s2">        Returns documents and their scores for a query. Documents are sorted in the
+</span><span class="s2">        descening order of their scores.
+</span><span class="s2">
+</span><span class="s2">        Args:
+</span><span class="s2">            txt (str): Input query.
+</span><span class="s2">            k (int): N top documents to return.
+</span><span class="s2">            match_type (str): Boolean filter to either take an intersection(and) or
+</span><span class="s2">                union(and) when aggregating documents by terms.
+</span><span class="s2">
+</span><span class="s2">        Returns:
+</span><span class="s2">            List[Tuple[int, float]]: List of document ids and scores.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">assert</span> <span class="n">match_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&#34;or&#34;</span><span class="p">,</span> <span class="s2">&#34;and&#34;</span><span class="p">),</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">match_type</span><span class="si">}</span><span class="s2"> is not a valid boolean filter&#34;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_txt_not_empty</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+        <span class="n">terms</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_terms_from_text</span><span class="p">(</span><span class="n">txt</span><span class="p">)</span>
+
+        <span class="n">valid_docs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">term</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">terms</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">match_type</span> <span class="o">==</span> <span class="s2">&#34;or&#34;</span><span class="p">:</span>
+                <span class="n">valid_docs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docs_from_term</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="n">match_type</span> <span class="o">==</span> <span class="s2">&#34;and&#34;</span><span class="p">:</span>
+                <span class="n">valid_docs</span><span class="o">.</span><span class="n">intersection_update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_docs_from_term</span><span class="p">(</span><span class="n">term</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="n">doc_scores</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">term</span> <span class="ow">in</span> <span class="n">terms</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">doc</span><span class="p">,</span> <span class="n">term_frequency</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">doc</span> <span class="ow">in</span> <span class="n">valid_docs</span><span class="p">:</span>
+                    <span class="n">score</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">term_frequency</span><span class="p">)</span> <span class="o">*</span> \
+                        <span class="n">math</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_index</span><span class="p">[</span><span class="n">term</span><span class="p">]))</span>
+                    <span class="n">doc_scores</span><span class="p">[</span><span class="n">doc</span><span class="p">]</span> <span class="o">+=</span> <span class="n">score</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">doc_scores</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)[:</span><span class="n">k</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_doc_lengths</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">fetch_20newsgroups</span>
+
+<span class="n">inverted_index</span> <span class="o">=</span> <span class="n">InvertedIndex</span><span class="p">()</span>
+
+<span class="n">documents</span> <span class="o">=</span> <span class="n">fetch_20newsgroups</span><span class="p">()[</span><span class="s2">&#34;data&#34;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Indexing ...&#34;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">doc</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">documents</span><span class="p">[:</span><span class="mi">1000</span><span class="p">]):</span>  <span class="c1"># Index the first 1000 documents</span>
+    <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">i</span> <span class="o">%</span> <span class="mi">100</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&#34; &#34;</span><span class="p">)</span>
+    <span class="n">inverted_index</span><span class="o">.</span><span class="n">index_text</span><span class="p">(</span><span class="n">doc</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Indexing ...
+100 200 300 400 500 600 700 800 900
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">query</span> <span class="o">=</span> <span class="s2">&#34;Computer ram&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">doc_id</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">score_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&#34;or&#34;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Score    : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">4.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">Document : </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="n">doc_id</span><span class="p">])[:</span><span class="mi">500</span><span class="p">]</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Score : 8.245<br>
+Document : &lsquo;From: <a href="mailto:richg@sequent.com">richg@sequent.com</a> (Richard Garrett)\nSubject: Computers for sale ( PC and amiga )\nArticle-I.D.: sequent.1993Apr21.151726.26547\nDistribution: na\nOrganization: Sequent Computer Systems, Inc.\nLines: 57\nNntp-Posting-Host: crg8.sequent.com\n\nIts time for a little house cleaning after my PC upgrade. I have the following\nfor sale:\n\nLeading Technology PC partner (286) sytsem. includes\n\t80286 12mhz intel cpu\n\t85Mb IDE drive (brand new - canabalized from new system)\n\t3.5 and 5.24 f &hellip;</p>
+<hr>
+<p>Score : 7.497<br>
+Document : &ldquo;From: <a href="mailto:rosa@ghost.dsi.unimi.it">rosa@ghost.dsi.unimi.it</a> (massimo rossi)\nSubject: ide &amp;scsi controller\nOrganization: Computer Science Dep. - Milan University\nLines: 16\n\nhi folks\ni have 2 hd first is an seagate 130mb\nthe second a cdc 340mb (with a future domain no ram)\ni&rsquo;d like to change my 2 controller ide &amp; scsi and buy\na new one with ram (at least 1mb) that could controll \nall of them\nany companies?\nhow many $?\nand is it possible via hw or via sw select how divide\nthe ram cache for 2 hd? (for example usin &hellip;</p>
+<hr>
+<p>Score : 6.218<br>
+Document : &ldquo;From: <a href="mailto:lingeke2@mentor.cc.purdue.edu">lingeke2@mentor.cc.purdue.edu</a> (Ken Linger)\nSubject: 32 Bit System Zone\nOrganization: Purdue University\nX-Newsreader: TIN [version 1.1 PL8]\nLines: 32\n\nA week or so ago, I posted about a problem with my SE/30: I have 20 megs\nor true RAM, yet if I set my extensions to use a large amount of memory\n(total of all extensions) then my system will crash before the finder\ncomes up. What I meant was having a large amount of fonts load, or\nsounds, or huge disk caches with a control panel &hellip;</p>
+<hr>
+<p>Score : 5.523<br>
+Document : &ldquo;From: <a href="mailto:ebosco@us.oracle.com">ebosco@us.oracle.com</a> (Eric Bosco)\nSubject: Windows 3.1 keeps crashing: Please HELP\nNntp-Posting-Host: monica.us.oracle.com\nReply-To: <a href="mailto:ebosco@us.oracle.com">ebosco@us.oracle.com</a>\nOrganization: Oracle Corp., Redwood Shores CA\nX-Disclaimer: This message was written by an unauthenticated user\n at Oracle Corporation. The opinions expressed are those\n of the user and not necessarily those of Oracle.\nLines: 41\n\n\nAs the subjects says, Windows 3.1 keeps crashing (givinh me GPF) on me &hellip;</p>
+<hr>
+<p>Score : 5.356<br>
+Document : &lsquo;From: <a href="mailto:afung@athena.mit.edu">afung@athena.mit.edu</a> (Archon Fung)\nSubject: wrong RAM in Duo?\nOrganization: Massachusetts Institute of Technology\nLines: 9\nDistribution: world\nNNTP-Posting-Host: thobbes.mit.edu\n\nA few posts back, somebody mentioned that the Duo might crash if it has\nthe wrong kind (non-self refreshing) of RAM in it. My Duo crashes\nsometimes after sleep, and I am wondering if there is any software which\nwill tell me whether or not I have the right kind of RAM installed. I\nhad thought that the &hellip;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">doc_id</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="n">inverted_index</span><span class="o">.</span><span class="n">score_query</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="s2">&#34;and&#34;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Score    : </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">4.3f</span><span class="si">}</span><span class="se">\n</span><span class="s2">Document : </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">documents</span><span class="p">[</span><span class="n">doc_id</span><span class="p">])[:</span><span class="mi">500</span><span class="p">]</span><span class="si">}</span><span class="s2"> ...</span><span class="se">\n</span><span class="s2">---</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Score : 8.245<br>
+Document : &lsquo;From: <a href="mailto:richg@sequent.com">richg@sequent.com</a> (Richard Garrett)\nSubject: Computers for sale ( PC and amiga )\nArticle-I.D.: sequent.1993Apr21.151726.26547\nDistribution: na\nOrganization: Sequent Computer Systems, Inc.\nLines: 57\nNntp-Posting-Host: crg8.sequent.com\n\nIts time for a little house cleaning after my PC upgrade. I have the following\nfor sale:\n\nLeading Technology PC partner (286) sytsem. includes\n\t80286 12mhz intel cpu\n\t85Mb IDE drive (brand new - canabalized from new system)\n\t3.5 and 5.24 f &hellip;</p>
+<hr>
+<p>Score : 7.497<br>
+Document : &ldquo;From: <a href="mailto:rosa@ghost.dsi.unimi.it">rosa@ghost.dsi.unimi.it</a> (massimo rossi)\nSubject: ide &amp;scsi controller\nOrganization: Computer Science Dep. - Milan University\nLines: 16\n\nhi folks\ni have 2 hd first is an seagate 130mb\nthe second a cdc 340mb (with a future domain no ram)\ni&rsquo;d like to change my 2 controller ide &amp; scsi and buy\na new one with ram (at least 1mb) that could controll \nall of them\nany companies?\nhow many $?\nand is it possible via hw or via sw select how divide\nthe ram cache for 2 hd? (for example usin &hellip;</p>
+<hr>
+<p>Score : 5.523<br>
+Document : &ldquo;From: <a href="mailto:ebosco@us.oracle.com">ebosco@us.oracle.com</a> (Eric Bosco)\nSubject: Windows 3.1 keeps crashing: Please HELP\nNntp-Posting-Host: monica.us.oracle.com\nReply-To: <a href="mailto:ebosco@us.oracle.com">ebosco@us.oracle.com</a>\nOrganization: Oracle Corp., Redwood Shores CA\nX-Disclaimer: This message was written by an unauthenticated user\n at Oracle Corporation. The opinions expressed are those\n of the user and not necessarily those of Oracle.\nLines: 41\n\n\nAs the subjects says, Windows 3.1 keeps crashing (givinh me GPF) on me &hellip;</p>
+<hr>
+<p>Score : 5.236<br>
+Document : &ldquo;Subject: XV under MS-DOS ?!?\nFrom: NO E-MAIL <a href="mailto:ADDRESS@eicn.etna.ch">ADDRESS@eicn.etna.ch</a>\nOrganization: EICN, Switzerland\nLines: 24\n\nHi &hellip; Recently I found XV for MS-DOS in a subdirectory of GNU-CC (GNUISH). I \nuse frequently XV on a Sun Spark Station 1 and I never had problems, but when I\nstart it on my computer with -h option, it display the help menu and when I\nstart it with a GIF-File my Hard disk turns 2 or 3 seconds and the prompt come\nback.\n\nMy computer is a little 386/25 with copro, 4 Mega rams, Ts &hellip;</p>
+<hr>
+<p>Score : 4.705<br>
+Document : &ldquo;From: <a href="mailto:Dale_Adams@gateway.qm.apple.com">Dale_Adams@gateway.qm.apple.com</a> (Dale Adams)\nSubject: Re: HELP INSTALL RAM ON CENTRIS 610\nOrganization: Apple Computer Inc.\nLines: 23\n\nIn article <a href="mailto:C5115s.5Fy@murdoch.acc.Virginia.EDU">C5115s.5Fy@murdoch.acc.Virginia.EDU</a> \njht9e@faraday.clas.Virginia.EDU (Jason Harvey Titus) writes:\n&gt; I had asked everyone about problems installing a 4 meg\n&gt; simm and an 8 meg simm in my Centris 610, but the folks at the\n&gt; local Apple store called the folks in Cupertino and found that\n&gt; you can&rsquo;t have simms of different speeds &hellip;</p>
+<br>
+<hr>
+<h2 id="references">
+    <a href="#references" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    References
+</h2>
+<p>[1] Sebastian Hofstätter. &ldquo;<a href="https://www.youtube.com/playlist?list=PLSg1mducmHTPZPDoal4m59pPxxsceXF-y">Advanced Information Retrieval 2021 @ TU Wien</a>&rdquo;</p>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="/posts/dynamic_connectivity_and_percolation/" title="Previous post (older)">
+            <span>Previous</span>
+            Dynamic Connectivity and Percolation
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+ 
+<div class="container">
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
+
+</div>
+
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="/index.xml">RSS</a>
+            
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
+            
+        </nav>
+
+        
+    </section>
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    data-enable-footnotes="true"
+    ></script>
+</footer>
+
+    </body>
+</html>

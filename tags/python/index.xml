@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/tags/python/</link>
+    <description>Recent content in python on Utsav&#39;Log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 01 Aug 2022 19:34:14 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Information Retrieval, Part 1 - The Inverted Index</title>
+      <link>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</link>
+      <pubDate>Mon, 01 Aug 2022 19:34:14 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</guid>
+      <description>IR in it&amp;rsquo;s most basic form answers the question &amp;ldquo;how relevant is a given query for a document&amp;rdquo;. The challenge is that we don&amp;rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &amp;ldquo;needle in the haystack&amp;rdquo; or the &amp;ldquo;relevant documents for a query&amp;rdquo;.
+Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc.</description>
+    </item>
+    
+    <item>
+      <title>Dynamic Connectivity and Percolation</title>
+      <link>https://iutsav.dev/posts/dynamic_connectivity_and_percolation/</link>
+      <pubDate>Thu, 07 Apr 2022 13:40:40 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/dynamic_connectivity_and_percolation/</guid>
+      <description>Given a set of N objects that support the following two commands:
+ Union: Connect two objects. Find/Connected: Is there a path connecting the two obejcts?  For example, consider this set of 10 objects
+After few union commands union(2, 3), union(6, 5), union(8, 6), union(10, 8) the state of the system changes to
+We can query the above system to find if two objects are connected or not like find(0, 1) == False, find(1, 2) == True, find(4, 9) == True, find(8, 1) == False</description>
+    </item>
+    
+    <item>
+      <title>Python Notes, Part 2 - Sequences</title>
+      <link>https://iutsav.dev/posts/python_notes_2_sequences/</link>
+      <pubDate>Tue, 05 Apr 2022 10:21:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/python_notes_2_sequences/</guid>
+      <description>Python provides a variety of sequences; understanding these builtin sequences saves us from reinventing the wheel. We can also aspire to create APIs that support existing and user created sequence types. Python offers two types of sequences:
+ Container sequences: These hold items of different types, for example list, tuple, etc. Flat sequences: These hold items of the same type, for example str, bytes, etc.  A container sequence holds references to objects where as a flat sequence contains the value of the contents in it&amp;rsquo;s own memory.</description>
+    </item>
+    
+    <item>
+      <title>Python Notes, Part 1 - Data Model</title>
+      <link>https://iutsav.dev/posts/python_notes_1_datamodel/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/python_notes_1_datamodel/</guid>
+      <description>One of the best things about python is it&amp;rsquo;s consistency. Once someone has spent enough time with python and it&amp;rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.
+What is considered pythonic is a very subjective matter, but we can always look at the &amp;ldquo;Zen of Python&amp;rdquo; for some guidance.
+1  import this   The Zen of Python, by Tim Peters Beautiful is better than ugly.</description>
+    </item>
+    
+    <item>
+      <title>Revisiting Word2Vec skip-gram model</title>
+      <link>https://iutsav.dev/posts/word2vec_skipgram/</link>
+      <pubDate>Fri, 12 Mar 2021 15:34:11 +1510</pubDate>
+      
+      <guid>https://iutsav.dev/posts/word2vec_skipgram/</guid>
+      <description>In this post, we will train a Word2Vec skip-gram model from scratch on some text and inspect the trained embeddings at the end.
+The first step for using any kind of NLP pipeline is to vectorize the text. Traditionally, we used to do this using one-hot representation of vectors. This had various downsides like:
+ Vectors tend to be very long as their size depends on the vocabulary size of the corpus(which grows with the corpus size).</description>
+    </item>
+    
+  </channel>
+</rss>

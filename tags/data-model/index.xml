@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data model on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/tags/data-model/</link>
+    <description>Recent content in data model on Utsav&#39;Log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 05 Mar 2022 10:09:25 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/data-model/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python Notes, Part 1 - Data Model</title>
+      <link>https://iutsav.dev/posts/python_notes_1_datamodel/</link>
+      <pubDate>Sat, 05 Mar 2022 10:09:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/python_notes_1_datamodel/</guid>
+      <description>One of the best things about python is it&amp;rsquo;s consistency. Once someone has spent enough time with python and it&amp;rsquo;s ecosystem, they tend to adapt easily to new tools, modules as long as they are written in a pythonic way.
+What is considered pythonic is a very subjective matter, but we can always look at the &amp;ldquo;Zen of Python&amp;rdquo; for some guidance.
+1  import this   The Zen of Python, by Tim Peters Beautiful is better than ugly.</description>
+    </item>
+    
+  </channel>
+</rss>
