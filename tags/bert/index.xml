@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bert on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/tags/bert/</link>
+    <description>Recent content in bert on Utsav&#39;Log</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 04 Aug 2022 13:15:20 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/bert/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Information Retrieval, Part 3 - Finetuning BERT for IR</title>
+      <link>https://iutsav.dev/posts/information_retrieval_3_finetuning_bert_for_ir/</link>
+      <pubDate>Thu, 04 Aug 2022 13:15:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/information_retrieval_3_finetuning_bert_for_ir/</guid>
+      <description>We will briefly talk about sparse and dense represenations of texts and take a quick glance at techniques that came before the Transformers.
+   Sparse representation of text: One-hot vectors  Traditionally we use a one-hot vectors to represent text as vectors. For example, for a sentence &amp;ldquo;a quick brown fox&amp;rdquo;, we could end up with following one hot vectors.
+[1, 0, 0, 0] - a [0, 1, 0, 0] - quick [0, 0, 1, 1] - brown [0, 0, 0, 1] - fox  It&amp;rsquo;s easy to see that for larger vocabularies such as web pages, faq articles, etc.</description>
+    </item>
+    
+  </channel>
+</rss>

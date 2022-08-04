@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
+    <link rel="stylesheet" href="/sass/main.min.3101c25d65f64a34081728b4cce6848575dfbf9a39a7a13c3bb54aa72cdd1f1f.css">
     
 </head>
     
@@ -56,7 +56,23 @@
 
 
     <body class="dark">
-        <nav class="navbar">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+<nav class="navbar">
     <div class="container">
         <div class="flex">
             <div>
@@ -65,7 +81,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
+                    Utsav&#39;Log&nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -351,13 +367,8 @@ The result of this mapping of text will be something like:
 Using the raw frequencies here is not the best solution for IR problems. We either use relative frequenies or <code>log</code> to dampen the frequencies <code>tf(t,d) = log(1 + tf(t,d))</code>.</li>
 <li><strong>Inverse Document Frequency <em>idf</em>(t)</strong>: It&rsquo;s a measure of the &ldquo;informativeness&rdquo; of a term for a document. Not that rare terms are more informative than frequent terms. Common way of defining IDF is <code>idf(t) = log(|D| / df(t))</code>. Here <code>|D|</code> is the total number of documents and <code>df(t)</code> is the number of documents in which the term t appears.</li>
 </ul>
-<p><img loading="lazy" 
-    src="/../static/information_retrieval/tfidf.png" 
-    alt="" 
-     
-    width=436 
-    height="81"  /></p>
-<p>where ∑ is the sum over all the terms in the query, 𝑡𝑓(𝑡,𝑑) is the frequency of term t in document, |𝐷| is the total number of documents, 𝑑𝑓(𝑡) is the number of documents in which the term t appears.</p>
+<p>$$ TFIDF(q, d) = \sum_{t\in T_d \cap T_q} \log(1 + tf_{t,d}) * \log(\frac{\vert D \vert}{df_t}) $$</p>
+<p>Where $\sum$ is the sum over all the terms in the query, $tf_{t,d}$ is the frequency of term t in document, ${\vert D \vert}$ is the total number of documents, ${df_t}$ is the number of documents in which the term t appears.</p>
 <p>Beyond IR, <em>TF_IDF</em> is also used for other NLP tasks like finding keywords in a document, Latent Sematic Analysis(LSA), classification, etc.</p>
 <p>Although the formulation in scikit-learn is not exactly the same, we can still look at <em>TF_IDF</em> in action.</p>
 <div class="highlight"><div class="chroma">
@@ -411,13 +422,8 @@ But computing, storing and updating this in matrix form for retrieval problems i
 </h3>
 <p><em>BM25</em> is the backbone of most open source text based search engines over the last decade. It improves over the <em>TF_IDF</em> by taking into account the normalization of document length by average document length.</p>
 <p>There are two hyperparameters k and b that can be tuned to define the influence of document length normalization.</p>
-<p><img loading="lazy" 
-    src="/../static/information_retrieval/bm25_1.png" 
-    alt="" 
-     
-    width=594 
-    height="75"  /></p>
-<p>where ∑ is the sum over all the terms in the query, 𝑡𝑓(𝑡,𝑑) is the frequency of term t in document d, 𝑑𝑙(𝑑) is the document length, 𝑎𝑣𝑔𝑑𝑙 is the average document length, |𝐷| is the Total number of documents, 𝑑𝑓(𝑡) is the number of documents in which the term t appears, 𝑘1,b are the hyperparameters.</p>
+<p>$$ BM25(q, d) = \sum_{t\in T_d \cap T_q} \frac{tf_{t,d}}{k_1((1-b) + b\frac{dl_d}{avgdl})+tf_{t,d}} * \log(\frac{\vert D \vert - df_t + 0.5}{df_t + 0.5}) $$</p>
+<p>Where $\sum$ is the sum over all the terms in the query, $tf_{t,d}$ is the frequency of term t in document d, ${dl_d}$ is the document length, ${avgdl}$ is the average document length, $\vert D \vert$ is the Total number of documents, ${df_t}$ is the number of documents in which the term t appears, ${k_1}$ and b are the hyperparameters.</p>
 <p>Not that this formulation is simpler than the original formula. More complex parts related to query length have not much practical implications for IR.
 The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term frequency saturation is stronger in <em>BM25</em>.</p>
 <p>The hyperparametrs:</p>
@@ -805,6 +811,11 @@ Document : &ldquo;From: <a href="mailto:Dale_Adams@gateway.qm.apple.com">Dale_Ad
             </a>
         
         
+        
+        <a rel="next" href="/posts/information_retrieval_2_evaluation_metrics/" title="Next post (newer)">
+            <span>Next</span>
+            Information Retrieval, Part 2 - Evaluation metrics
+            </a> 
         
     </nav>
     

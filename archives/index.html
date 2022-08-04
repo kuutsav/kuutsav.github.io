@@ -27,7 +27,7 @@
 
     <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
     
-    <link rel="stylesheet" href="/sass/main.min.640779438110b85aacf6cf9dbf426701d8a3b308e7cfd49dbc8759410212c8f6.css">
+    <link rel="stylesheet" href="/sass/main.min.3101c25d65f64a34081728b4cce6848575dfbf9a39a7a13c3bb54aa72cdd1f1f.css">
     
 </head>
     
@@ -56,7 +56,23 @@
 
 
     <body class="dark">
-        <nav class="navbar">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+<nav class="navbar">
     <div class="container">
         <div class="flex">
             <div>
@@ -65,7 +81,7 @@
                     
                         <img src="/favicon.ico" />
                     
-                    Utsav&#39;Log &nbsp;<span class="title-underscore">_</span>
+                    Utsav&#39;Log&nbsp;<span class="title-underscore">_</span>
                     </a>
             </div>
             <div class="flex">
@@ -108,6 +124,24 @@
             <section>
                 <h2>2022</h2>
                 <div class="posts">
+                    
+                    <div class="post">
+                        <a href="/posts/information_retrieval_3_finetuning_bert_for_ir/">
+                            <div class="post-row">
+                                <time>Aug 04</time>
+                                <h3>Information Retrieval, Part 3 - Finetuning BERT for IR</h3>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <div class="post">
+                        <a href="/posts/information_retrieval_2_evaluation_metrics/">
+                            <div class="post-row">
+                                <time>Aug 04</time>
+                                <h3>Information Retrieval, Part 2 - Evaluation metrics</h3>
+                            </div>
+                        </a>
+                    </div>
                     
                     <div class="post">
                         <a href="/posts/information_retrieval_1_classic_ir/">

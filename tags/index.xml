@@ -6,13 +6,49 @@
     <description>Recent content in Tags on Utsav&#39;Log</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Aug 2022 19:34:14 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 04 Aug 2022 13:15:20 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>bert</title>
+      <link>https://iutsav.dev/tags/bert/</link>
+      <pubDate>Thu, 04 Aug 2022 13:15:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/bert/</guid>
+      <description></description>
+    </item>
+    
     <item>
       <title>information-retrievel</title>
       <link>https://iutsav.dev/tags/information-retrievel/</link>
-      <pubDate>Mon, 01 Aug 2022 19:34:14 +0530</pubDate>
+      <pubDate>Thu, 04 Aug 2022 13:15:20 +0530</pubDate>
       
       <guid>https://iutsav.dev/tags/information-retrievel/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>python</title>
+      <link>https://iutsav.dev/tags/python/</link>
+      <pubDate>Thu, 04 Aug 2022 13:15:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>semantic-search</title>
+      <link>https://iutsav.dev/tags/semantic-search/</link>
+      <pubDate>Thu, 04 Aug 2022 13:15:20 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/semantic-search/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>evaluation</title>
+      <link>https://iutsav.dev/tags/evaluation/</link>
+      <pubDate>Thu, 04 Aug 2022 13:15:16 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/tags/evaluation/</guid>
       <description></description>
     </item>
     
@@ -22,15 +58,6 @@
       <pubDate>Mon, 01 Aug 2022 19:34:14 +0530</pubDate>
       
       <guid>https://iutsav.dev/tags/inverted-index/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>python</title>
-      <link>https://iutsav.dev/tags/python/</link>
-      <pubDate>Mon, 01 Aug 2022 19:34:14 +0530</pubDate>
-      
-      <guid>https://iutsav.dev/tags/python/</guid>
       <description></description>
     </item>
     

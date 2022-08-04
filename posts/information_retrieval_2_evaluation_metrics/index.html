@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Information Retrieval, Part 2 - Evaluation metrics | Utsav&#39;Log</title>
+
+    
+    
+    
+    <meta property="og:site_name" content="Utsav&#39;Log" />
+    <meta property="og:title" content="Information Retrieval, Part 2 - Evaluation metrics | Utsav&#39;Log"/>
+    <meta itemprop="name" content="Information Retrieval, Part 2 - Evaluation metrics | Utsav&#39;Log" />
+    <meta name="twitter:title" content="Information Retrieval, Part 2 - Evaluation metrics | Utsav&#39;Log" />
+    <meta name="application-name" content="Information Retrieval, Part 2 - Evaluation metrics | Utsav&#39;Log" /><meta name="twitter:card" content="summary"/>
+
+    <meta name="description" content="ML and Backend stuff" />
+    <meta name="twitter:description" content="ML and Backend stuff"/>
+    <meta itemprop="description" content="ML and Backend stuff"/>
+    <meta property="og:description" content="ML and Backend stuff" />
+
+    
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    
+    <link rel="stylesheet" href="/sass/main.min.3101c25d65f64a34081728b4cce6848575dfbf9a39a7a13c3bb54aa72cdd1f1f.css">
+    
+</head>
+    
+    <script>
+        (function() {
+            const colorSchemeKey = 'ThemeColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'ThemeColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.userColorScheme = 'dark';
+        } else {
+            document.documentElement.dataset.userColorScheme = 'light';
+        }
+    })();
+</script>
+
+
+    <body class="dark">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="/">
+                    
+                    
+                        <img src="/favicon.ico" />
+                    
+                    Utsav&#39;Log&nbsp;<span class="title-underscore">_</span>
+                    </a>
+            </div>
+            <div class="flex">
+                
+                
+                    <button id="dark-mode-button">
+                    <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    </button>
+                
+            </div>
+            </div>
+    </div>
+</nav>
+
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Information Retrieval, Part 2 - Evaluation metrics</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Kumar Utsav &nbsp;·&nbsp; <time>August 04, 2022</time>
+                            &nbsp;·&nbsp; 8 minutes
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="/tags/python/">python</a>
+                            
+                            <a href="/tags/information-retrievel/">information-retrievel</a>
+                            
+                            <a href="/tags/evaluation/">evaluation</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <p>Here we are only going to look at offline evaluation metrics. We won&rsquo;t cover online evaluation techniques like click-through rate or running A/B tests where a subset of users are presented results from a newer test system.</p>
+<h2 id="offline-evaluation">
+    <a href="#offline-evaluation" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Offline evaluation
+</h2>
+<p>The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labelled dataset where we have queries mapped to relvevant documents. The documents could either be graded or non-graded(binary). For example, a graded relevance score could be on a scale of 0-5 with 5 being the most relevant.</p>
+<p>Labelled data typicalls comes form manual annotations or click data.</p>
+<p>It&rsquo;s also not necessary to have just 1 document tagged as relevant for each query. TREC collections have 100s of documents tagged as relevant per quuery. On the other hand MSMARCO has ~1 document tagged as relevant per query. This tends to be quite noisy but easy to scale hence more variability in the queries.</p>
+<h2 id="binary-labels">
+    <a href="#binary-labels" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Binary labels
+</h2>
+<h3 id="precisionk">
+    <a href="#precisionk" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Precision@k
+</h3>
+<p>Precision@k corresponds to the number of relevant documents among top k retrieved documents.</p>
+<p>$$ Precision@k = \frac{TP@k}{TP@k + FP@k} $$</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/precision@k.png" 
+    alt="" 
+     
+    width=2190 
+    height="1006"  /></p>
+<center class="img-caption">Fig. 1. Illustration of Precision@k for evaluating IR models.</center><br/>
+<p>Precision fails to take into account the ordering of the relevant documents. For example consider the models A and B (Fig 2) where model A outputs <code>[1,1,1,0,0](first 3 relevant)</code> and model B outputs <code>[0,0,1,1,1](indices 3-5 relevant)</code>; both the models get the same score <code>Precision@5=3/5</code>.</p>
+<h3 id="mapk-mean-average-precision">
+    <a href="#mapk-mean-average-precision" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    MAP@k: Mean Average Precision
+</h3>
+<p><em>Average Precision(AP)</em> evaluates whether all the relevant items selected by the model are ranked higher or not.
+Every time we find a relevant document, we look at the full picture of what came before.</p>
+<p>MAP squeezes complex evaluation into a single number. It&rsquo;s essentially the mean of AP over all the queries.</p>
+<p>$$ AP@k(q) = \frac{\sum_{i=1}^k P(q)@i * rel(q)_i}{|rel(q)|} $$</p>
+<p>$$ MAP@k(Q) = \frac{1}{|Q|} * \sum_{q\in Q} AP@k(q) $$</p>
+<p>Where $\vert Q \vert$ is the number of queries, $P(q)@i$ is the precision of query q after first i documents, ${rel(q)_i}$ is the binary relevance of doc at position i, ${\vert rel(q) \vert}$ is the number of relevant documents.</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/ap.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 2. Illustration of AveragePrecision@k for evaluating IR models.</center><br/>
+<h3 id="mrr-mean-reciprocal-rank">
+    <a href="#mrr-mean-reciprocal-rank" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    MRR: Mean Reciprocal Rank
+</h3>
+<p>MRR puts focus on the first relevant document. It&rsquo;s applicable when the system needs to return only the top matching document or the user only cares about the top result.</p>
+<p>$$ MRR(Q) = \frac{1}{|Q|} * \sum_{q\in Q} \frac{1}{FirstRank(q)} $$</p>
+<p>Where $\vert Q \vert$ is the number of queries and ${FirstRank(q)}$ is the returns the rank of first relevant dcuments for 1 query.</p>
+<p>MRR(for 1 query) for different positions can be seen below. Notice the sharp fall in the values beyond the top few places.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">math</span>
+
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="o">%</span><span class="n">matplotlib</span> <span class="n">inline</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">N</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">5</span><span class="p">));</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="mi">1</span><span class="o">/</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">)],</span> <span class="n">c</span><span class="o">=</span><span class="s2">&#34;b&#34;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&#34;1/x&#34;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">();</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">));</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/output_5_0.png" 
+    alt="" 
+     
+    width=775 
+    height="282"  /></p>
+<center class="img-caption">Fig. 3. FirstRank for various indices.</center><br/>
+<p>** Note that the metrics related to <strong>Recall</strong> are not used in general because it is easy to achieve a recall of 100% by returning all documents for a query.</p>
+<h2 id="graded-labels">
+    <a href="#graded-labels" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Graded labels
+</h2>
+<h3 id="ndcgk-normalized-discounted-cumulative-gain">
+    <a href="#ndcgk-normalized-discounted-cumulative-gain" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    nDCG@k: Normalized Discounted Cumulative Gain
+</h3>
+<p>To understand nDCG, first let&rsquo;s look at CG i.e. Cumulative Gain. We simply add up the relevace scores for top k documents returned for a query.</p>
+<p>$$ CG@k(q) = \sum_{i=1}^k rel(q)_i $$</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/cg@k.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 3. Illustration of CumulativeGain@k for evaluating IR models.</center><br/>
+<p>Note that CG does not take into account the position of the document. For example consider the models A and B where model A outputs <code>[5,2,4,0,1]</code> and model B outputs <code>[2,0,5,1,4]</code>; both the models get the same score <code>CG@5=12</code>.</p>
+<p>DCG i.e. Discounted Cumulative Gain improves on CG by adding a discounting factor for each position.</p>
+<p>$$ DCG@k(q) = \sum_{i=1}^k \frac{rel(q)_i}{log_2(i+1)} $$</p>
+<p>here ${rel(q)_i}$ is the graded relevance of doc at position i.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+
+
+<span class="k">def</span> <span class="nf">_get_dcg_at_k</span><span class="p">(</span><span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&#34;position(i)&#34;</span><span class="p">,</span> <span class="s2">&#34;relevance(i)&#34;</span><span class="p">,</span> <span class="s2">&#34;log2(i+1)&#34;</span><span class="p">,</span> <span class="s2">&#34;relevance(i) / log2(i+1)&#34;</span><span class="p">]</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">score</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">scores</span><span class="p">):</span>
+        <span class="n">position</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">position</span><span class="p">,</span> <span class="n">score</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">position</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">score</span> <span class="o">/</span> <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">position</span><span class="o">+</span><span class="mi">1</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">cols</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_dcg_at_k</span><span class="p">(</span><span class="n">scores</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">_get_dcg_at_k</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+    
+    <span class="n">dcg_so_far</span> <span class="o">=</span> <span class="s2">&#34;&#34;</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dcg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&#34;relevance(i) / log2(i+1)&#34;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">dcg_so_far</span><span class="p">:</span>
+            <span class="n">dcg_so_far</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">dcg</span><span class="si">:</span><span class="s2">2.2f</span><span class="si">}</span><span class="s2">&#34;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dcg_so_far</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">dcg_so_far</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">dcg</span><span class="si">:</span><span class="s2">2.2f</span><span class="si">}</span><span class="s2">&#34;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;DCG@</span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">dcg_so_far</span><span class="si">:</span><span class="s2">&lt;32</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="nb">eval</span><span class="p">(</span><span class="n">dcg_so_far</span><span class="p">)</span><span class="si">:</span><span class="s2">2.2f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">df</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Now we can compare the results from the two models A and B we mentioned earlier.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_dcg_at_k</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># model A</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DCG@1 = 5.00                             = 5.00
+DCG@2 = 5.00 + 1.26                      = 6.26
+DCG@3 = 5.00 + 1.26 + 2.00               = 8.26
+DCG@4 = 5.00 + 1.26 + 2.00 + 0.00        = 8.26
+DCG@5 = 5.00 + 1.26 + 2.00 + 0.00 + 0.39 = 8.65
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>position(i)</th>
+      <th>relevance(i)</th>
+      <th>log2(i+1)</th>
+      <th>relevance(i) / log2(i+1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>1.584963</td>
+      <td>1.261860</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>2.321928</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>1</td>
+      <td>2.584963</td>
+      <td>0.386853</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_dcg_at_k</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>  <span class="c1"># model B</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DCG@1 = 2.00                             = 2.00
+DCG@2 = 2.00 + 0.00                      = 2.00
+DCG@3 = 2.00 + 0.00 + 2.50               = 4.50
+DCG@4 = 2.00 + 0.00 + 2.50 + 0.43        = 4.93
+DCG@5 = 2.00 + 0.00 + 2.50 + 0.43 + 1.55 = 6.48
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>position(i)</th>
+      <th>relevance(i)</th>
+      <th>log2(i+1)</th>
+      <th>relevance(i) / log2(i+1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>2</td>
+      <td>1.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>0</td>
+      <td>1.584963</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>5</td>
+      <td>2.000000</td>
+      <td>2.500000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>2.321928</td>
+      <td>0.430677</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>4</td>
+      <td>2.584963</td>
+      <td>1.547411</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>DCG solves the problem with CG but it also has a drawback, it can&rsquo;t be used to compare queries/models that return different number of results.
+For example consider query A and B where query A returns <code>[5,2,4]</code> query B returns <code>[5,2,4,0,1]</code>;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_dcg_at_k</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>  <span class="c1"># query A</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DCG@1 = 5.00                             = 5.00
+DCG@2 = 5.00 + 1.26                      = 6.26
+DCG@3 = 5.00 + 1.26 + 2.00               = 8.26
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>position(i)</th>
+      <th>relevance(i)</th>
+      <th>log2(i+1)</th>
+      <th>relevance(i) / log2(i+1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5</td>
+      <td>1.000000</td>
+      <td>5.00000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>1.584963</td>
+      <td>1.26186</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>2.000000</td>
+      <td>2.00000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_dcg_at_k</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># query B</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DCG@1 = 5.00                             = 5.00
+DCG@2 = 5.00 + 1.26                      = 6.26
+DCG@3 = 5.00 + 1.26 + 2.00               = 8.26
+DCG@4 = 5.00 + 1.26 + 2.00 + 0.00        = 8.26
+DCG@5 = 5.00 + 1.26 + 2.00 + 0.00 + 0.39 = 8.65
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>position(i)</th>
+      <th>relevance(i)</th>
+      <th>log2(i+1)</th>
+      <th>relevance(i) / log2(i+1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>2</td>
+      <td>1.584963</td>
+      <td>1.261860</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>4</td>
+      <td>2.000000</td>
+      <td>2.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>0</td>
+      <td>2.321928</td>
+      <td>0.000000</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>1</td>
+      <td>2.584963</td>
+      <td>0.386853</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>Query B got higher DCG because it returned 5 documents whereas query A only returned 3. We can&rsquo;t say that query B was better than query A.
+nDCG fixes this issue by adding a normalization factor on top of DCG.</p>
+<p>$$ nDCG@k(Q) = \frac{1}{|Q|} * \sum_{q\in Q} \frac{DCG@k(q)}{DCG@k(sorted(rel(q)))} $$</p>
+<p>Where $\vert Q \vert$ is the number of queries.</p>
+<p>The normalization factor 𝐷𝐶𝐺@𝑘(𝑠𝑜𝑟𝑡𝑒𝑑(𝑟𝑒𝑙(𝑞))) is the Ideal DCG@k. This is calculated by sorting the graded relevance scores returned for a query and then calculating the DCG@k. nDCG@k always lie between 0 and 1.</p>
+<p>Now we can compare queries/models with different number of results.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_dcg_at_k</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>  <span class="c1"># Ideal DCG@k for query A</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DCG@1 = 5.00                             = 5.00
+DCG@2 = 5.00 + 2.52                      = 7.52
+DCG@3 = 5.00 + 2.52 + 1.00               = 8.52
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>position(i)</th>
+      <th>relevance(i)</th>
+      <th>log2(i+1)</th>
+      <th>relevance(i) / log2(i+1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>4</td>
+      <td>1.584963</td>
+      <td>2.523719</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>2</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>nDCG@3 for query A = 8.26 / 8.52 = 0.9694</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">get_dcg_at_k</span><span class="p">(</span><span class="nb">sorted</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>  <span class="c1"># Ideal DCG@k for query B</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>DCG@1 = 5.00                             = 5.00
+DCG@2 = 5.00 + 2.52                      = 7.52
+DCG@3 = 5.00 + 2.52 + 1.00               = 8.52
+DCG@4 = 5.00 + 2.52 + 1.00 + 0.43        = 8.95
+DCG@5 = 5.00 + 2.52 + 1.00 + 0.43 + 0.00 = 8.95
+</code></pre>
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+<pre><code>.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+</code></pre>
+<p></style></p>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>position(i)</th>
+      <th>relevance(i)</th>
+      <th>log2(i+1)</th>
+      <th>relevance(i) / log2(i+1)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>5</td>
+      <td>1.000000</td>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>2</td>
+      <td>4</td>
+      <td>1.584963</td>
+      <td>2.523719</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>3</td>
+      <td>2</td>
+      <td>2.000000</td>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>4</td>
+      <td>1</td>
+      <td>2.321928</td>
+      <td>0.430677</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0</td>
+      <td>2.584963</td>
+      <td>0.000000</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+<p>nDCG@5 for query B = 8.65 / 8.95 = 0.9664</p>
+<br>
+<hr>
+<h2 id="references">
+    <a href="#references" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    References
+</h2>
+<p>[1] Sebastian Hofstätter. &ldquo;<a href="https://www.youtube.com/playlist?list=PLSg1mducmHTPZPDoal4m59pPxxsceXF-y">Advanced Information Retrieval 2021 @ TU Wien</a>&rdquo;</p>
+<p>[2] Amit Chaudhary. <a href="https://amitness.com/2020/08/information-retrieval-evaluation">https://amitness.com/2020/08/information-retrieval-evaluation</a></p>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="/posts/information_retrieval_1_classic_ir/" title="Previous post (older)">
+            <span>Previous</span>
+            Information Retrieval, Part 1 - The Inverted Index
+            </a>
+        
+        
+        
+        <a rel="next" href="/posts/information_retrieval_3_finetuning_bert_for_ir/" title="Next post (newer)">
+            <span>Next</span>
+            Information Retrieval, Part 3 - Finetuning BERT for IR
+            </a> 
+        
+    </nav>
+    
+</div>
+ 
+<div class="container">
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
+
+</div>
+
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="/index.xml">RSS</a>
+            
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
+            
+        </nav>
+
+        
+    </section>
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    data-enable-footnotes="true"
+    ></script>
+</footer>
+
+    </body>
+</html>

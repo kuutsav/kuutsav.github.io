@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="theme-color" content="dark">
+    <title>Information Retrieval, Part 3 - Finetuning BERT for IR | Utsav&#39;Log</title>
+
+    
+    
+    
+    <meta property="og:site_name" content="Utsav&#39;Log" />
+    <meta property="og:title" content="Information Retrieval, Part 3 - Finetuning BERT for IR | Utsav&#39;Log"/>
+    <meta itemprop="name" content="Information Retrieval, Part 3 - Finetuning BERT for IR | Utsav&#39;Log" />
+    <meta name="twitter:title" content="Information Retrieval, Part 3 - Finetuning BERT for IR | Utsav&#39;Log" />
+    <meta name="application-name" content="Information Retrieval, Part 3 - Finetuning BERT for IR | Utsav&#39;Log" /><meta name="twitter:card" content="summary"/>
+
+    <meta name="description" content="ML and Backend stuff" />
+    <meta name="twitter:description" content="ML and Backend stuff"/>
+    <meta itemprop="description" content="ML and Backend stuff"/>
+    <meta property="og:description" content="ML and Backend stuff" />
+
+    
+
+
+    <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+    
+    <link rel="stylesheet" href="/sass/main.min.3101c25d65f64a34081728b4cce6848575dfbf9a39a7a13c3bb54aa72cdd1f1f.css">
+    
+</head>
+    
+    <script>
+        (function() {
+            const colorSchemeKey = 'ThemeColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'ThemeColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.documentElement.dataset.userColorScheme = 'dark';
+        } else {
+            document.documentElement.dataset.userColorScheme = 'light';
+        }
+    })();
+</script>
+
+
+    <body class="dark">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js"></script>
+
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body);"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+            delimiters: [
+                {left: "$$", right: "$$", display: true},
+                {left: "$", right: "$", display: false}
+            ]
+        });
+    });
+</script>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="flex">
+            <div>
+                <a class="brand" href="/">
+                    
+                    
+                        <img src="/favicon.ico" />
+                    
+                    Utsav&#39;Log&nbsp;<span class="title-underscore">_</span>
+                    </a>
+            </div>
+            <div class="flex">
+                
+                
+                    <button id="dark-mode-button">
+                    <svg class="light" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M30.312.776C32 19 20 32 .776 30.312c8.199 7.717 21.091 7.588 29.107-.429C37.9 21.867 38.03 8.975 30.312.776z"/><path d="M30.705 15.915a1.163 1.163 0 1 0 1.643 1.641a1.163 1.163 0 0 0-1.643-1.641zm-16.022 14.38a1.74 1.74 0 0 0 0 2.465a1.742 1.742 0 1 0 0-2.465zm13.968-2.147a2.904 2.904 0 0 1-4.108 0a2.902 2.902 0 0 1 0-4.107a2.902 2.902 0 0 1 4.108 0a2.902 2.902 0 0 1 0 4.107z" fill="#FFCC4D"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    <svg class="dark" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" focusable="false" width="1em" height="1em" style="-ms-transform: rotate(360deg); -webkit-transform: rotate(360deg); transform: rotate(360deg);" preserveAspectRatio="xMidYMid meet" viewBox="0 0 36 36"><path fill="#FFD983" d="M16 2s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2V2zm18 14s2 0 2 2s-2 2-2 2h-2s-2 0-2-2s2-2 2-2h2zM4 16s2 0 2 2s-2 2-2 2H2s-2 0-2-2s2-2 2-2h2zm5.121-8.707s1.414 1.414 0 2.828s-2.828 0-2.828 0L4.878 8.708s-1.414-1.414 0-2.829c1.415-1.414 2.829 0 2.829 0l1.414 1.414zm21 21s1.414 1.414 0 2.828s-2.828 0-2.828 0l-1.414-1.414s-1.414-1.414 0-2.828s2.828 0 2.828 0l1.414 1.414zm-.413-18.172s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zm-21 21s-1.414 1.414-2.828 0s0-2.828 0-2.828l1.414-1.414s1.414-1.414 2.828 0s0 2.828 0 2.828l-1.414 1.414zM16 32s0-2 2-2s2 2 2 2v2s0 2-2 2s-2-2-2-2v-2z"/><circle fill="#FFD983" cx="18" cy="18" r="10"/><rect x="0" y="0" width="36" height="36" fill="rgba(0, 0, 0, 0)" /></svg>
+                    </button>
+                
+            </div>
+            </div>
+    </div>
+</nav>
+
+        <main>
+            
+<div class="container">
+    <article>
+        <header class="article-header">
+            <div class="thumb">
+                <div>
+                    <h1>Information Retrieval, Part 3 - Finetuning BERT for IR</h1>
+                    <div class="post-meta">
+                        <div>
+                            
+                            
+                              
+                            
+                            By Kumar Utsav &nbsp;·&nbsp; <time>August 04, 2022</time>
+                            &nbsp;·&nbsp; 19 minutes
+                        </div>
+                        <div class="tags">
+                            
+                            <a href="/tags/python/">python</a>
+                            
+                            <a href="/tags/information-retrievel/">information-retrievel</a>
+                            
+                            <a href="/tags/bert/">bert</a>
+                            
+                            <a href="/tags/semantic-search/">semantic-search</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </article>
+
+    <div class="article-post">
+    <p>We will briefly talk about sparse and dense represenations of texts and take a quick glance at techniques that came before the Transformers.</p>
+<h2 id="sparse-representation-of-text-one-hot-vectors">
+    <a href="#sparse-representation-of-text-one-hot-vectors" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Sparse representation of text: One-hot vectors
+</h2>
+<p>Traditionally we use a one-hot vectors to represent text as vectors. For example, for a sentence &ldquo;a quick brown fox&rdquo;, we could end up with following one hot vectors.</p>
+<pre><code>[1, 0, 0, 0] - a
+[0, 1, 0, 0] - quick
+[0, 0, 1, 1] - brown
+[0, 0, 0, 1] - fox
+</code></pre>
+<p>It&rsquo;s easy to see that for larger vocabularies such as web pages, faq articles, etc. i.e. the kind we typically see in IR settings, these vectors will be very long and very sparse with the dimensionality equal to the vocab size.</p>
+<p>These vectors also have no information about the words they represent. For example, here &ldquo;quick&rdquo; is as similar to &ldquo;fox&rdquo; as it is to the word &ldquo;brown&rdquo;.</p>
+<p>** Vocab size refers to the number of unique tokens/terms used in a collection of documents.</p>
+<h2 id="distributional-semantics">
+    <a href="#distributional-semantics" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Distributional Semantics
+</h2>
+<p>Formally, dense representation of text is easy to define</p>
+<p>$$ f(text) =&gt; !R^n $$</p>
+<p>In the above example, if we take n = 5, our dense vectors might look like</p>
+<pre><code>[0.98, -1.12, 0.21, 0.01] - a
+[1.22, 2.12, -3.12, 3.11] - quick
+[-1.23, 4.30, 1.16, 0.90] - brown
+[0.11, 0.12, -1.23, 4.65] - fox
+</code></pre>
+<p>To capture the meaning of words in such dense vectors, we need to consider the notion of context for words in a piece of text. For example, consider these texts:</p>
+<pre><code>1. A bottle of ________ is on the table.
+2. Everyone likes ________.
+3. ________ makes you drunk.
+4. We make ________ out of corn.
+</code></pre>
+<p>Now consider the word that could appear in the blank position. Given the context, we can guess it&rsquo;s an alcoholic beverage (the correct answer is <code>tezguino</code> btw).
+Other alcoholic drinks made of corn also qualify here. The idea is that we can guess the word based on the it&rsquo;s surrounding words or the context in which it appears.</p>
+<p>Techniques like word2vec, LSTMs, transformers build on top of this idea.</p>
+<h2 id="before-transformers">
+    <a href="#before-transformers" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Before Transformers
+</h2>
+<h3 id="count-based-methods">
+    <a href="#count-based-methods" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Count based methods
+</h3>
+<p>The general process of creating dense represenations using count based methods is to:</p>
+<ol>
+<li>Create a word-context matrix.</li>
+<li>Reduce it&rsquo;s dimensionality.</li>
+</ol>
+<p>We reduce dimensionality because of the large vocab size as well as the sparsity of such matrices(most of the terms are 0 in the matrix).
+One such technique is LSA(Latent Semantic Analysis) which does SVD on the term document matrix(could be TF_IDF).</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/lsa.jpg" 
+    alt="" 
+     
+    width=670 
+    height="646"  /></p>
+<center class="img-caption">Fig. 1. Dense representation of texts using SVD on term-document matrix. (Image source: https://www.frontiersin.org/articles/10.3389/fphys.2013.00008/full)</center><br>
+<h3 id="word2vec">
+    <a href="#word2vec" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Word2Vec
+</h3>
+<p>Word2Vec works on the similar premise of encoding contextual information into the dense representation for a word.
+Word2Vec wors in an iterative manner:</p>
+<ul>
+<li>Start with a huge text corpus.</li>
+<li>Go over the text using a sliding window. At each step, take a center word i and the context words(within the window).</li>
+<li>For the center word, compute probabilites for all the words in the vocab using softmax.</li>
+<li>Computer cross entropy loss for the context words and backprop over the embeddings to refine them.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/w2v_window.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 2. Illustration of Word2Vec - center and context words. (Image source: https://www.frontiersin.org/articles/10.3389/fphys.2013.00008/full)</center><br>
+<p>There are two methods used to create the word embeddings:</p>
+<ul>
+<li>CBOW(Continuous bag of words): Uses the context words to predict the center word.</li>
+<li>Skip gram: Uses the center word to predict the context words.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/w2v.png" 
+    alt="" 
+     
+    width=657 
+    height="334"  /></p>
+<center class="img-caption">Fig. 3. Illustration of Word2Vec - CBOW and SkipGram. (Image source: https://www.researchgate.net/figure/CBOW-and-Skip-Gram-neural-architectures_fig14_325651523) </center><br>
+<p>The objective function is formulated as</p>
+<p>$$ J(\theta) = - \frac{1}{T} \sum_{t=1}^T \sum_{-m&lt;=j&lt;=m, j\neq0} P(w_{t+j}|w_t,\theta) $$</p>
+<p>Where $P(w_{t+j}|w_t,\theta)$ is the probability of the context word given center word(skip gram).</p>
+<p>Essentially we are going over the whole text using a sliding window and computing the loss using the probability from softmax.</p>
+<p>Some of the drawbacks of Wor2Vec:</p>
+<ul>
+<li>Essentially a bag of words technique as we don&rsquo;t consider the order in which the words appear in a window.</li>
+<li>Limited window size makes the learned representaions very limited in the sense that they only capture very local contexts.</li>
+<li>We can&rsquo;t capture multiple embeddings for the same word in different context, for example, &ldquo;a river bank&rdquo;, &ldquo;bank deposit&rdquo;. The word &ldquo;bank&rdquo; ends with a single embedding even though it means two different things here.</li>
+<li>Out of vocab words are not handeled.</li>
+</ul>
+<p>There are methods to deal with some of these issues, like subword embeddings using fastText can handle out of vocab words. In general these bag of wordd techniques have fallen out of favor for methods we are going to discuss next.
+<br></p>
+<h3 id="recurrent-neural-nets">
+    <a href="#recurrent-neural-nets" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Recurrent Neural Nets
+</h3>
+<p>Before Transformers, RNNs especially LSTMs were all the rage but they have also fallen out of favour because of the following drawbacks:</p>
+<ul>
+<li>The temporal dependence in updating the hidden state(over the tokens) make then slow to train and not let us effeciently use the modern hardware for training(gpus).</li>
+<li>Even though theoratically LSTMs can handle arbitrarily long sequences, in practice they suffer from vanishing gradient.</li>
+<li>The biggest problem is the bottleneck at the end of the sequence where we are trying to store all the historical information from the sequence into one final hidden vector.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/lstm_bottleneck.png" 
+    alt="" 
+     
+    width=960 
+    height="540"  /></p>
+<center class="img-caption">Fig. 4. Illustration of the bottleneck in LSTMs. (Image source: https://www.researchgate.net/figure/Encoder-decoder-model-using-stacked-LSTMs-for-encoding-and-one-LSTM-layer-for-decoding_fig1_340443252)</center><br>
+<p>The attention mechanism on top of the LSTMs help us solve this bottleneck issue but we still struggle with slow training times as discussed in the first point.</p>
+<p>As Transformers have proven, we don&rsquo;t really need this recurrent mechanism, by adding positional information into each token embedding and doing self attention on top of it, we can learn powerful representations of text and use them for all the downstream NLP tasks.</p>
+<h2 id="transformers-for-semantic-search">
+    <a href="#transformers-for-semantic-search" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Transformers for semantic search
+</h2>
+<p>** Note that we won&rsquo;t go into the architectural details of transfomer based models but jump straight into using these models(finetuning) for IR. There is enough content out there on this topic to justify a quick summary here.</p>
+<p>We will cover the following techniques/architectures over multiple notebooks:</p>
+<ul>
+<li>Bi-Encoders</li>
+<li>Cross-Encoders</li>
+<li>Multilingual models</li>
+<li>Domain adaptation
+<ul>
+<li>TSDAE(Transformer-based Sequential Denoising Auto Encoder)</li>
+<li>SimCSE(Simple Contrastive learning of Sentence Embeddings)</li>
+<li>GPL(Generative Pseudo Labeling)</li>
+</ul>
+</li>
+<li>QnA(REALM)</li>
+</ul>
+<p>Later we will also look into ANN(Approximate nearest neighbour) techniques used for indexing and retrieval of dense embeddings.</p>
+<p>In rest of this notebook, we will dive into the original <a href="https://arxiv.org/abs/1908.10084">Sentence-BERT paper</a> by <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Reimers%2C+N">Nils Reimers</a> and <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Gurevych%2C+I">Iryna Gurevych</a>. Here is a quick summary by the authors.</p>
+<blockquote>
+<p>BERT (Devlin et al., 2018) and RoBERTa (Liu et al., 2019) has set a new state-of-the-art performance on sentence-pair regression tasks like semantic textual similarity (STS). However, it requires that both sentences are fed into the network, which causes a massive computational overhead: Finding the most similar pair in a collection of 10,000 sentences requires about 50 million inference computations (~65 hours) with BERT. The construction of BERT makes it unsuitable for semantic similarity search as well as for unsupervised tasks like clustering.</p>
+<p>In this publication, we present Sentence-BERT (SBERT), a modification of the pretrained BERT network that use siamese and triplet network structures to derive semantically meaningful sentence embeddings that can be compared using cosine-similarity. This reduces the effort for finding the most similar pair from 65 hours with BERT / RoBERTa to about 5 seconds with SBERT, while maintaining the accuracy from BERT.</p>
+<p>We evaluate SBERT and SRoBERTa on common STS tasks and transfer learning tasks, where it outperforms other state-of-the-art sentence embeddings methods.</p>
+</blockquote>
+<p>We will fintune the base-bert model using a siamese architecture(Bi-Encoder) on the SNLI data(the paper mentions using both the SNLI and Multi-NLI datasets).</p>
+<blockquote>
+<p>Natural language inference(NLI) is the task of determining whether a “hypothesis” is true (entailment), false (contradiction), or undetermined (neutral) given a “premise”.</p>
+<p>Example:</p>
+<table>
+<thead>
+<tr>
+<th>Premise</th>
+<th>Label</th>
+<th>Hypothesis</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A man inspects the uniform of a figure in some East Asian country.</td>
+<td>contradiction</td>
+<td>The man is sleeping.</td>
+</tr>
+<tr>
+<td>An older and younger man smiling.</td>
+<td>neutral</td>
+<td>Two men are smiling and laughing at the cats playing on the floor.</td>
+</tr>
+<tr>
+<td>A soccer game with multiple males playing.</td>
+<td>entailment</td>
+<td>Some men are playing a sport.</td>
+</tr>
+</tbody>
+</table>
+<p>Source: <a href="http://nlpprogress.com/english/natural_language_inference.html">http://nlpprogress.com/english/natural_language_inference.html</a></p>
+<p>** NLI is also referred as a textual entailment task.</p>
+</blockquote>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/sbert_architecture.png" 
+    alt="" 
+     
+    width=662 
+    height="327"  /></p>
+<p>In the figure, though it looks like two different BERT models, we are finetuning only one BERT model by passing both the sentences, pooling and then feeding the emebddings into a fully connected network for classification using the cross-entropy(softmax) as the loss function.</p>
+<p>We will train the SBERT architecture from the above figure. In the paper the authors mention three obective functuins:</p>
+<ul>
+<li><strong>Classification objective</strong> - As depicted in the picture.</li>
+<li><strong>Regression objective</strong> - The cosine-similarity between the two sentence embeddings <em>u</em> and <em>v</em> is comupted(Figure 2) and the model is finetuned using the mean-squared loss function.</li>
+<li><strong>Triplet objective</strong> - Or MNR (Multiple Negative Ranking) loss. We will discuss this in detail in the next section. MNR in general performs better for semnatic search and other use cases like clustering, paraphrase mining etc using dense embeddings.</li>
+</ul>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/sbert_pooling_concat.png" 
+    alt="" 
+     
+    width=320 
+    height="314"  /></p>
+<p>A quick note on the pooling operation, the authors mention that they tried pooling using the CLS-token, by computing the mean over all the token level embeddings (MEAN-strategy) and computing the max over the all the token level embeddings (MAX-strategy). Out of the three, MEAN pooling gave the best results hence we will try that.</p>
+<p><img loading="lazy" 
+    src="/../static/information_retrieval/sbert_compare_glove.png" 
+    alt="" 
+     
+    width=625 
+    height="212"  /></p>
+<p>One might wonder, why the need to finetune at all, why not use the CLS-token or the MEAN pooling strategy directly with a bert model trained on MLM task. Here also, the authors share some results, unless we finetune specifically for STS(Semantic Textual Similarity) tasks, the BERT models perform worse than the Avg. GloVE embeddings on STS tasks.</p>
+<p>They also tried various concatenation strategies before feeding the embeddings into the fully connected layer. (<em>u</em>, <em>v</em>,<em>u</em> - <em>v</em>|) gave the best results.</p>
+<p>Let&rsquo;s start &hellip;</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span>
+
+<span class="kn">import</span> <span class="nn">datasets</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">random_split</span>
+<span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+<span class="kn">from</span> <span class="nn">transformers</span> <span class="kn">import</span> <span class="n">BertTokenizerFast</span><span class="p">,</span> <span class="n">BertModel</span>
+<span class="kn">from</span> <span class="nn">transformers.optimization</span> <span class="kn">import</span> <span class="n">get_linear_schedule_with_warmup</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics.pairwise</span> <span class="kn">import</span> <span class="n">cosine_similarity</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;bert-base-uncased&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">seed</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">manual_seed_all</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">deterministic</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">False</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="data-preparation">
+    <a href="#data-preparation" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Data preparation
+</h3>
+<p>We will import the snli data and tokenize it beforehand to save compute during the training phase.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&#34;snli&#34;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&#34;train&#34;</span><span class="p">)</span>
+
+<span class="c1"># there are some pairs of &#34;premise&#34; and &#34;hypothesis&#34; which haven&#39;t been</span>
+<span class="c1"># labeled in this dataset, we will filter those out first</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span> <span class="k">else</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="p">),</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Reusing dataset snli (/home/utsav/.cache/huggingface/datasets/snli/plain_text/1.0.0/1f60b67533b65ae0275561ff7828aad5ee4282d0e6f844fd148d05d3c6ea251b)
+Loading cached processed dataset at /home/utsav/.cache/huggingface/datasets/snli/plain_text/1.0.0/1f60b67533b65ae0275561ff7828aad5ee4282d0e6f844fd148d05d3c6ea251b/cache-0436d94218380653.arrow
+
+(549367,
+ {'premise': 'A person on a horse jumps over a broken down airplane.',
+  'hypothesis': 'A person is training his horse for a competition.',
+  'label': 1})
+</code></pre>
+<p>Next we look at the distribution of lenghts(from a sample) of premise and hypothesis to choose the max_length we want to restrict our tokenizer to.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">preimse_lengths</span><span class="p">,</span> <span class="n">hypothesis_lengths</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">dataset</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.9</span><span class="p">:</span>
+        <span class="n">preimse_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;premise&#34;</span><span class="p">]))</span>
+        <span class="n">hypothesis_lengths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;hypothesis&#34;</span><span class="p">]))</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>100%|██████████████████████████████████████████████████████████████549367/549367 [00:28&lt;00:00, 19413.23it/s]
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">preimse_lengths</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">hypothesis_lengths</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/output_11_0.png" 
+    alt="png" 
+     
+    width=784 
+    height="343"  /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">time</span>
+
+<span class="n">MAX_LENGTH</span> <span class="o">=</span> <span class="mi">128</span>
+
+<span class="n">tokenized_premises</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;premise&#34;</span><span class="p">]</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">],</span>
+                               <span class="n">max_length</span><span class="o">=</span><span class="n">MAX_LENGTH</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&#34;max_length&#34;</span><span class="p">,</span>
+                               <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">tokenized_hypothesis</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">([</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;hypothesis&#34;</span><span class="p">]</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">],</span>
+                                 <span class="n">max_length</span><span class="o">=</span><span class="n">MAX_LENGTH</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s2">&#34;max_length&#34;</span><span class="p">,</span>
+                                 <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>CPU times: user 2min 8s, sys: 1min 37s, total: 3min 46s
+Wall time: 1min 30s
+</code></pre>
+<p>Now we will create out custom dataset and dataloaders with train/validation split for training.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">SnliDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">premise_tokens</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">hypothesis_tokens</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">labels</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">premise_tokens</span> <span class="o">=</span> <span class="n">premise_tokens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis_tokens</span> <span class="o">=</span> <span class="n">hypothesis_tokens</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">labels</span> <span class="o">=</span> <span class="n">labels</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_init_data</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_init_data</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">pt_ids</span><span class="p">,</span> <span class="n">pt_am</span><span class="p">,</span> <span class="n">ht_ids</span><span class="p">,</span> <span class="n">ht_am</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">premise_tokens</span><span class="p">[</span><span class="s2">&#34;input_ids&#34;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">premise_tokens</span><span class="p">[</span><span class="s2">&#34;attention_mask&#34;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis_tokens</span><span class="p">[</span><span class="s2">&#34;input_ids&#34;</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">hypothesis_tokens</span><span class="p">[</span><span class="s2">&#34;attention_mask&#34;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">labels</span>
+        <span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&#34;premise_input_ids&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">pt_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&#34;premise_attention_mask&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">pt_am</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&#34;hypothesis_input_ids&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">ht_ids</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&#34;hypothesis_attention_mask&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">ht_am</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">]</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">long</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ix</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">time</span>
+
+<span class="n">snli_dataset</span> <span class="o">=</span> <span class="n">SnliDataset</span><span class="p">(</span><span class="n">tokenized_premises</span><span class="p">,</span> <span class="n">tokenized_hypothesis</span><span class="p">,</span>
+                           <span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">]</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">dataset</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>CPU times: user 48.2 s, sys: 1.06 s, total: 49.3 s
+Wall time: 49.2 s
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">train_ratio</span> <span class="o">=</span> <span class="mf">0.8</span>
+<span class="n">n_total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">snli_dataset</span><span class="p">)</span>
+<span class="n">n_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n_total</span> <span class="o">*</span> <span class="n">train_ratio</span><span class="p">)</span>
+<span class="n">n_val</span> <span class="o">=</span> <span class="n">n_total</span> <span class="o">-</span> <span class="n">n_train</span>
+
+<span class="n">train_dataset</span><span class="p">,</span> <span class="n">val_dataset</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">snli_dataset</span><span class="p">,</span> <span class="p">[</span><span class="n">n_train</span><span class="p">,</span> <span class="n">n_val</span><span class="p">])</span>
+
+<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">16</span>  <span class="c1"># mentioned in the paper</span>
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">val_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val_dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>{'premise_input_ids': tensor([[  101,  1037,  2312,  ...,     0,     0,     0],
+         [  101,  1037,  2158,  ...,     0,     0,     0],
+         [  101,  1037,  2158,  ...,     0,     0,     0],
+         ...,
+         [  101,  1037, 21294,  ...,     0,     0,     0],
+         [  101,  6001,  1998,  ...,     0,     0,     0],
+         [  101,  1037,  2316,  ...,     0,     0,     0]]),
+ 'premise_attention_mask': tensor([[1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         ...,
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0]]),
+ 'hypothesis_input_ids': tensor([[  101,  1996,  2111,  ...,     0,     0,     0],
+         [  101,  1037,  2158,  ...,     0,     0,     0],
+         [  101,  1037,  2711,  ...,     0,     0,     0],
+         ...,
+         [  101,  1037, 21294,  ...,     0,     0,     0],
+         [  101,  6001,  1998,  ...,     0,     0,     0],
+         [  101,  2093,  2111,  ...,     0,     0,     0]]),
+ 'hypothesis_attention_mask': tensor([[1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         ...,
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0],
+         [1, 1, 1,  ..., 0, 0, 0]]),
+ 'label': tensor([0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0])}
+</code></pre>
+<h3 id="model-config">
+    <a href="#model-config" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Model config
+</h3>
+<p>Here we will setup out custom SBERT model as detailed in the diagram from the paper.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">device</span> <span class="o">=</span> <span class="s2">&#34;cuda&#34;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&#34;cpu&#34;</span>
+<span class="n">device</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>'cuda'
+</code></pre>
+<p>The method <code>mean_pool()</code> implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the <code>sentente_transformers</code> library.</p>
+<p>We will use the <code>encode()</code> method to compute pooled embeddings using the finetuned and the bert-base models later to evaluate the results on STS tasks.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">mean_pool</span><span class="p">(</span><span class="n">token_embeds</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">attention_mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">:</span>
+    <span class="n">in_mask</span> <span class="o">=</span> <span class="n">attention_mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="n">token_embeds</span><span class="o">.</span><span class="n">size</span><span class="p">())</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
+    <span class="n">pool</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">token_embeds</span> <span class="o">*</span> <span class="n">in_mask</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">torch</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="n">in_mask</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="nb">min</span><span class="o">=</span><span class="mf">1e-9</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pool</span>
+
+
+<span class="k">def</span> <span class="nf">encode</span><span class="p">(</span><span class="n">input_texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">tokenizer</span><span class="p">:</span> <span class="n">BertTokenizerFast</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">BertModel</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&#34;cpu&#34;</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">:</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="n">tokenized_texts</span> <span class="o">=</span> <span class="n">tokenizer</span><span class="p">(</span><span class="n">input_texts</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                                <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;max_length&#39;</span><span class="p">,</span> <span class="n">truncation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">return_tensors</span><span class="o">=</span><span class="s2">&#34;pt&#34;</span><span class="p">)</span>
+    <span class="n">token_embeds</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">tokenized_texts</span><span class="p">[</span><span class="s2">&#34;input_ids&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span>
+                         <span class="n">tokenized_texts</span><span class="p">[</span><span class="s2">&#34;attention_mask&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span><span class="o">.</span><span class="n">last_hidden_state</span>
+    <span class="n">pooled_embeds</span> <span class="o">=</span> <span class="n">mean_pool</span><span class="p">(</span><span class="n">token_embeds</span><span class="p">,</span> <span class="n">tokenized_texts</span><span class="p">[</span><span class="s2">&#34;attention_mask&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">pooled_embeds</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Sbert</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">128</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_length</span> <span class="o">=</span> <span class="n">max_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bert_model</span> <span class="o">=</span> <span class="n">BertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bert_tokenizer</span> <span class="o">=</span> <span class="n">BertTokenizerFast</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s1">&#39;bert-base-uncased&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bert_model</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">*</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">datasets</span><span class="o">.</span><span class="n">arrow_dataset</span><span class="o">.</span><span class="n">Dataset</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">:</span>
+        <span class="n">premise_input_ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&#34;premise_input_ids&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">premise_attention_mask</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&#34;premise_attention_mask&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">hypothesis_input_ids</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&#34;hypothesis_input_ids&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">hypothesis_attention_mask</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&#34;hypothesis_attention_mask&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">out_premise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bert_model</span><span class="p">(</span><span class="n">premise_input_ids</span><span class="p">,</span> <span class="n">premise_attention_mask</span><span class="p">)</span>
+        <span class="n">out_hypothesis</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bert_model</span><span class="p">(</span><span class="n">hypothesis_input_ids</span><span class="p">,</span> <span class="n">hypothesis_attention_mask</span><span class="p">)</span>
+        <span class="n">premise_embeds</span> <span class="o">=</span> <span class="n">out_premise</span><span class="o">.</span><span class="n">last_hidden_state</span>
+        <span class="n">hypothesis_embeds</span> <span class="o">=</span> <span class="n">out_hypothesis</span><span class="o">.</span><span class="n">last_hidden_state</span>
+
+        <span class="n">pooled_premise_embeds</span> <span class="o">=</span> <span class="n">mean_pool</span><span class="p">(</span><span class="n">premise_embeds</span><span class="p">,</span> <span class="n">premise_attention_mask</span><span class="p">)</span>
+        <span class="n">pooled_hypotheses_embeds</span> <span class="o">=</span> <span class="n">mean_pool</span><span class="p">(</span><span class="n">hypothesis_embeds</span><span class="p">,</span> <span class="n">hypothesis_attention_mask</span><span class="p">)</span>
+
+        <span class="n">embeds</span> <span class="o">=</span>  <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">pooled_premise_embeds</span><span class="p">,</span> <span class="n">pooled_hypotheses_embeds</span><span class="p">,</span>
+                             <span class="n">torch</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">pooled_premise_embeds</span> <span class="o">-</span> <span class="n">pooled_hypotheses_embeds</span><span class="p">)],</span>
+                            <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">embeds</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">Sbert</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertModel: ['cls.seq_relationship.bias', 'cls.predictions.decoder.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.seq_relationship.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="c1">#  optimizer, lr, num_warmup steps have been picked from the paper</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">2e-5</span><span class="p">)</span>
+<span class="n">total_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span> <span class="o">//</span> <span class="n">batch_size</span>
+<span class="n">warmup_steps</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">total_steps</span><span class="p">)</span>
+<span class="n">scheduler</span> <span class="o">=</span> <span class="n">get_linear_schedule_with_warmup</span><span class="p">(</span><span class="n">optimizer</span><span class="p">,</span> <span class="n">num_warmup_steps</span><span class="o">=</span><span class="n">warmup_steps</span><span class="p">,</span>
+                                            <span class="n">num_training_steps</span><span class="o">=</span><span class="n">total_steps</span> <span class="o">-</span> <span class="n">warmup_steps</span><span class="p">)</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="training-loop">
+    <a href="#training-loop" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Training loop
+</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_train_step_fn</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">,</span>
+    <span class="n">scheduler</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">LambdaLR</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+
+    <span class="k">def</span> <span class="nf">train_step_fn</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+        <span class="n">yhat</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">train_step_fn</span>
+
+
+<span class="k">def</span> <span class="nf">get_val_step_fn</span><span class="p">(</span>
+    <span class="n">model</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">],</span> <span class="nb">float</span><span class="p">]:</span>
+
+    <span class="k">def</span> <span class="nf">val_step_fn</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+        <span class="n">yhat</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">yhat</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">val_step_fn</span>
+
+
+<span class="k">def</span> <span class="nf">mini_batch</span><span class="p">(</span>
+    <span class="n">dataloader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">,</span>
+    <span class="n">step_fn</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">],</span> <span class="nb">float</span><span class="p">],</span>
+    <span class="n">is_training</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]:</span>
+
+    <span class="n">mini_batch_losses</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">is_training</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Training ...&#34;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Validating ...&#34;</span><span class="p">)</span>
+    <span class="n">n_steps</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">step_fn</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">mini_batch_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">%</span> <span class="p">(</span><span class="n">batch_size</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;step </span><span class="si">{</span><span class="n">i</span><span class="si">:</span><span class="s2">&gt;5</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">n_steps</span><span class="si">}</span><span class="s2">, loss = </span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2"> .3f</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">mini_batch_losses</span><span class="p">),</span> <span class="n">mini_batch_losses</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="o">%%</span><span class="n">time</span>
+
+<span class="n">n_epochs</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># mentioned in the paper</span>
+
+<span class="n">train_step_fn</span> <span class="o">=</span> <span class="n">get_train_step_fn</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">scheduler</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+<span class="n">val_step_fn</span> <span class="o">=</span> <span class="n">get_val_step_fn</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+
+<span class="n">train_losses</span><span class="p">,</span> <span class="n">train_mini_batch_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="n">val_losses</span><span class="p">,</span> <span class="n">val_mini_batch_losses</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_epochs</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">train_loss</span><span class="p">,</span> <span class="n">_train_mini_batch_losses</span> <span class="o">=</span> <span class="n">mini_batch</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">train_step_fn</span><span class="p">)</span>
+    <span class="n">train_mini_batch_losses</span> <span class="o">+=</span> <span class="n">_train_mini_batch_losses</span>
+    <span class="n">train_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_loss</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="n">val_loss</span><span class="p">,</span> <span class="n">_val_mini_batch_losses</span> <span class="o">=</span> <span class="n">mini_batch</span><span class="p">(</span><span class="n">val_dataloader</span><span class="p">,</span> <span class="n">val_step_fn</span><span class="p">,</span> <span class="n">is_training</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">val_mini_batch_losses</span> <span class="o">+=</span> <span class="n">_val_mini_batch_losses</span>
+        <span class="n">val_losses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val_loss</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Training ...
+step     0/27469, loss =  1.108
+step  1600/27469, loss =  0.621
+step  3200/27469, loss =  0.453
+step  4800/27469, loss =  0.540
+step  6400/27469, loss =  0.633
+step  8000/27469, loss =  0.598
+step  9600/27469, loss =  0.308
+step 11200/27469, loss =  0.669
+step 12800/27469, loss =  0.595
+step 14400/27469, loss =  0.710
+step 16000/27469, loss =  0.502
+step 17600/27469, loss =  0.339
+step 19200/27469, loss =  0.350
+step 20800/27469, loss =  0.324
+step 22400/27469, loss =  0.572
+step 24000/27469, loss =  0.699
+step 25600/27469, loss =  0.494
+step 27200/27469, loss =  0.555
+
+Validating ...
+step     0/6868, loss =  0.652
+step  1600/6868, loss =  0.215
+step  3200/6868, loss =  0.391
+step  4800/6868, loss =  0.281
+step  6400/6868, loss =  0.355
+CPU times: user 52min 10s, sys: 26min 29s, total: 1h 18min 39s
+Wall time: 1h 18min 35s
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">train_loss</span><span class="p">,</span> <span class="n">val_loss</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>(0.5563077898345832, 0.4604906574972126)
+</code></pre>
+<p>Normally we look at losses over multiple epochs, but here we have only 1 epoch.
+One way to look at the mini batch losses is to use a running mean(smoothing) to reduce noise from per batch loss.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">window_size</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="n">train_mb_running_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_mini_batch_losses</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">):</span>
+    <span class="n">train_mb_running_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_mini_batch_losses</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="p">]))</span>
+
+<span class="n">val_mb_running_loss</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">val_mini_batch_losses</span><span class="p">)</span><span class="o">-</span><span class="n">window_size</span><span class="p">):</span>
+    <span class="n">val_mb_running_loss</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">val_mini_batch_losses</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">window_size</span><span class="p">]))</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">fix</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train_mb_running_loss</span><span class="p">)),</span> <span class="n">train_mb_running_loss</span><span class="p">);</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/output_32_0.png" 
+    alt="png" 
+     
+    width=784 
+    height="552"  /></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">model</span><span class="o">.</span><span class="n">bert_model</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="s2">&#34;models/sbert_softmax&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="evaluation">
+    <a href="#evaluation" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    Evaluation
+</h3>
+<p>Here we will manually inspect the performance of our finetuned model as well as use a STS dataset for evaluation on a similar task as mentioned in the paper.</p>
+<p>For manual inspection, we have taken few texts which fall neatly into three clusters. We want to see how neatly our finetuned model(and the bert-base model) is able to find these clusters.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">plot_heatmap</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">sentences</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;YlGn&#39;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)),</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">txt</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34;...&#34;</span> <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)),</span> <span class="n">labels</span><span class="o">=</span><span class="p">[</span><span class="n">txt</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&#34;...&#34;</span> <span class="k">for</span> <span class="n">txt</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">])</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">setp</span><span class="p">(</span><span class="n">ax</span><span class="o">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s2">&#34;right&#34;</span><span class="p">,</span> <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&#34;anchor&#34;</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sentences</span><span class="p">)):</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="nb">round</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span>
+                           <span class="n">ha</span><span class="o">=</span><span class="s2">&#34;center&#34;</span><span class="p">,</span> <span class="n">va</span><span class="o">=</span><span class="s2">&#34;center&#34;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&#34;w&#34;</span><span class="p">)</span>
+
+    <span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&#34;What should I do to improve my English ?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;What should I do to improve my spoken English?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Can I improve my English?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;How can I earn money online?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;How do I earn money online?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;Can I earn money online?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;What are some mind-blowing Mobile gadgets that exist that most people don&#39;t know about?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;What are some mind-blowing gadgets and technologies that exist that most people don&#39;t know about?&#34;</span><span class="p">,</span>
+    <span class="s2">&#34;What are some mind-blowing mobile technology tools that exist that most people don&#39;t know about?&#34;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">pooled_embeds</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">bert_tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">bert_model</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
+<span class="n">pooled_embeds</span> <span class="o">=</span> <span class="n">pooled_embeds</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Our finetuned model .</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">similarity_matrix</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">pooled_embeds</span><span class="p">)</span>
+<span class="n">plot_heatmap</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">,</span> <span class="n">sentences</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/output_39_0.png" 
+    alt="png" 
+     
+    width=779 
+    height="674"  /></p>
+<p>Next we import the original bert-base model again for comparison.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">bert_model</span> <span class="o">=</span> <span class="n">BertModel</span><span class="o">.</span><span class="n">from_pretrained</span><span class="p">(</span><span class="s2">&#34;bert-base-uncased&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertModel: ['cls.seq_relationship.bias', 'cls.predictions.decoder.weight', 'cls.predictions.transform.LayerNorm.weight', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.transform.dense.bias', 'cls.seq_relationship.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">pooled_embeds</span> <span class="o">=</span> <span class="n">encode</span><span class="p">(</span><span class="n">sentences</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert_model</span><span class="p">,</span> <span class="s2">&#34;cpu&#34;</span><span class="p">)</span>
+<span class="n">pooled_embeds</span> <span class="o">=</span> <span class="n">pooled_embeds</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">similarity_matrix</span> <span class="o">=</span> <span class="n">cosine_similarity</span><span class="p">(</span><span class="n">pooled_embeds</span><span class="p">)</span>
+<span class="n">plot_heatmap</span><span class="p">(</span><span class="n">similarity_matrix</span><span class="p">,</span> <span class="n">sentences</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><img loading="lazy" 
+    src="/../static/information_retrieval/output_43_0.png" 
+    alt="png" 
+     
+    width=779 
+    height="674"  /></p>
+<p>On a visual inspection we can see that both the models are doing a good job in finding the text clusters. The model we finetuned is doing a better job at pushing down the scores in the dissimilar clusters. The original bert-base model is scoring pretty much every pair of text above 0.6.</p>
+<p>Let&rsquo;s evaluate the models on a STS dataset.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">sbert_model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">bert_model</span>
+<span class="n">bert_model</span> <span class="o">=</span> <span class="n">bert_model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Some weights of the model checkpoint at bert-base-uncased were not used when initializing BertModel: ['cls.predictions.transform.LayerNorm.weight', 'cls.seq_relationship.bias', 'cls.seq_relationship.weight', 'cls.predictions.bias', 'cls.predictions.transform.dense.bias', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.decoder.weight']
+- This IS expected if you are initializing BertModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">sts</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s2">&#34;glue&#34;</span><span class="p">,</span> <span class="s2">&#34;stsb&#34;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&#34;validation&#34;</span><span class="p">)</span>
+<span class="nb">len</span><span class="p">(</span><span class="n">sts</span><span class="p">),</span> <span class="n">sts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>Reusing dataset glue (/home/utsav/.cache/huggingface/datasets/glue/stsb/1.0.0/dacbe3125aa31d7f70367a07a8a9e72a5a0bfeb5fc42e75c9db75b96da6053ad)
+
+(1500,
+ {'sentence1': 'A man with a hard hat is dancing.',
+  'sentence2': 'A man wearing a hard hat is dancing.',
+  'label': 5.0,
+  'idx': 0})
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">sentence1s</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;sentence1&#34;</span><span class="p">]</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sts</span><span class="p">]</span>
+<span class="n">sentence2s</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;sentence2&#34;</span><span class="p">]</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sts</span><span class="p">]</span>
+<span class="n">normalized_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="s2">&#34;label&#34;</span><span class="p">]</span> <span class="o">/</span> <span class="mi">5</span> <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">sts</span><span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">cos_sim_in_batches</span><span class="p">(</span>
+    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">s1_texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">s2_texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+    <span class="n">tokenizer</span><span class="p">:</span> <span class="n">BertTokenizerFast</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">BertModel</span><span class="p">,</span>
+    <span class="n">cos_sim_f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">],</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">:</span>
+
+    <span class="n">cos_sims</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">n_batches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1_texts</span><span class="p">)</span> <span class="o">//</span> <span class="n">batch_size</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1_texts</span><span class="p">)</span> <span class="o">%</span> <span class="n">batch_size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_batches</span><span class="p">):</span>
+        <span class="n">s1_batch</span> <span class="o">=</span> <span class="n">s1_texts</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">batch_size</span><span class="p">]</span>
+        <span class="n">s2_batch</span> <span class="o">=</span> <span class="n">s2_texts</span><span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="n">batch_size</span><span class="p">:</span> <span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">batch_size</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cos_sims</span> <span class="o">=</span> <span class="n">cos_sim_f</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">s1_batch</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&#34;cuda&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span>
+                                 <span class="n">encode</span><span class="p">(</span><span class="n">s2_batch</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&#34;cuda&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_cos_sims</span> <span class="o">=</span> <span class="n">cos_sim_f</span><span class="p">(</span><span class="n">encode</span><span class="p">(</span><span class="n">s1_batch</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&#34;cuda&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">(),</span>
+                                  <span class="n">encode</span><span class="p">(</span><span class="n">s2_batch</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&#34;cuda&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">detach</span><span class="p">())</span>
+            <span class="n">cos_sims</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">cos_sims</span><span class="p">,</span> <span class="n">_cos_sims</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">cos_sims</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">cos_sim_f</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CosineSimilarity</span><span class="p">()</span>
+<span class="n">sbert_cos_sims</span> <span class="o">=</span> <span class="n">cos_sim_in_batches</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">sentence1s</span><span class="p">,</span> <span class="n">sentence2s</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">sbert_model</span><span class="p">,</span> <span class="n">cos_sim_f</span><span class="p">)</span>
+<span class="n">bert_cos_sims</span> <span class="o">=</span> <span class="n">cos_sim_in_batches</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="n">sentence1s</span><span class="p">,</span> <span class="n">sentence2s</span><span class="p">,</span> <span class="n">tokenizer</span><span class="p">,</span> <span class="n">bert_model</span><span class="p">,</span> <span class="n">cos_sim_f</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">stats</span><span class="o">.</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">sbert_cos_sims</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">normalized_labels</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>SpearmanrResult(correlation=0.7674179904574383, pvalue=1.7844520619824385e-291)
+</code></pre>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="n">stats</span><span class="o">.</span><span class="n">spearmanr</span><span class="p">(</span><span class="n">bert_cos_sims</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">normalized_labels</span><span class="p">))</span>
+</code></pre></td></tr></table>
+</div>
+</div><pre><code>SpearmanrResult(correlation=0.5931769556210932, pvalue=3.0261969816970313e-143)
+</code></pre>
+<p>Our finetuned model is doing much better than the bert-base model on STS task with a spearman rank coorelation of <code>.76</code> vs <code>.59</code>.</p>
+<br>
+<hr>
+<h2 id="references">
+    <a href="#references" class="anchor">
+        <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
+            <path fill-rule="evenodd"
+                d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+            </path>
+        </svg>
+    </a>
+    References
+</h2>
+<p>[1] Lena Voita. &ldquo;<a href="https://lena-voita.github.io/nlp_course/word_embeddings.html%22">https://lena-voita.github.io/nlp_course/word_embeddings.html&quot;</a></p>
+<p>[2] Nils Reimers, Iryna Gurevych. &ldquo;<a href="https://arxiv.org/pdf/1908.10084.pdf">Sentence-BERT: Sentence Embeddings using Siamese BERT-Networks</a>&rdquo;</p>
+<p>[3] James Briggs. &ldquo;<a href="https://www.pinecone.io/learn/train-sentence-transformers-softmax/%22">https://www.pinecone.io/learn/train-sentence-transformers-softmax/&quot;</a></p>
+
+    </div>
+</div>
+
+<div class="container">
+    
+    <nav class="flex container suggested">
+        
+        <a rel="prev" href="/posts/information_retrieval_2_evaluation_metrics/" title="Previous post (older)">
+            <span>Previous</span>
+            Information Retrieval, Part 2 - Evaluation metrics
+            </a>
+        
+        
+        
+    </nav>
+    
+</div>
+ 
+<div class="container">
+    
+    <script src="https://giscus.app/client.js"
+        data-repo="kuutsav/kuutsav.github.io"
+        data-repo-id="R_kgDOHvsC_Q"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOHvsC_c4CQiYa"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+<script>
+    function setGiscusTeheme(theme) {
+        let giscus = document.querySelector('.giscus iframe');
+        if (giscus) {
+            giscus.contentWindow.postMessage(
+                {
+                    giscus: {
+                        setConfig: {
+                            theme: theme
+                        }
+                    }
+                },
+                'https://giscus.app'
+            )
+        }
+    }
+
+    addEventListener('message', event => {
+        if (event.origin !== 'https://giscus.app') return;
+        setGiscusTeheme(document.documentElement.dataset.userColorScheme)
+    });
+
+    window.addEventListener('onColorSchemeChange', (e) => {
+        setGiscusTeheme(e.detail)
+    })
+</script>
+
+</div>
+
+</main>
+
+
+        </main>
+        <footer class="footer flex">
+    <section class="container">
+        <nav class="footer-links">
+            
+            <a href="/index.xml">RSS</a>
+            
+            <a href="https://gohugo.io/">© 2022 · Powered by Hugo</a>
+            
+        </nav>
+
+        
+    </section>
+    <script defer src="/ts/features.aeccc1b543daef772e7584f28d3bc3e21c62dfd259256c435908dbe148b24c6c.js" 
+    data-enable-footnotes="true"
+    ></script>
+</footer>
+
+    </body>
+</html>
