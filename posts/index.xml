@@ -6,7 +6,18 @@
     <description>Recent content in Posts on Utsav&#39;Log</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 04 Aug 2022 13:15:20 +0530</lastBuildDate><atom:link href="https://iutsav.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 05 Aug 2022 18:10:25 +0530</lastBuildDate><atom:link href="https://iutsav.dev/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Information Retrieval, Part 4 - Finetuning SBERT for MNR</title>
+      <link>https://iutsav.dev/posts/information_retrieval_4_finetuning_sbert_with_mnr/</link>
+      <pubDate>Fri, 05 Aug 2022 18:10:25 +0530</pubDate>
+      
+      <guid>https://iutsav.dev/posts/information_retrieval_4_finetuning_sbert_with_mnr/</guid>
+      <description>In this notebook we will finetune the bert-base model for semantic search using Multiple Negative Ranking loss.
+This will be mostly similar to the finetuning we did in the previous notebook. The main changes are:
+ We won&amp;rsquo;t use a fully connected layer on top of the embeddings now We will use Multiple Negative Ranking loss We will compute cosine similarity between the pooled u and v embedding and use that in MNR  MNR loss</description>
+    </item>
+    
     <item>
       <title>Information Retrieval, Part 3 - Finetuning BERT for IR</title>
       <link>https://iutsav.dev/posts/information_retrieval_3_finetuning_bert_for_ir/</link>

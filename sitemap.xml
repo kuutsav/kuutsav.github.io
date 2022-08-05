@@ -3,8 +3,14 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://iutsav.dev/</loc>
-    <lastmod>2022-08-04T13:15:20+05:30</lastmod>
+    <lastmod>2022-08-05T18:10:25+05:30</lastmod>
     <priority>0</priority>
+  </url><url>
+    <loc>https://iutsav.dev/posts/information_retrieval_4_finetuning_sbert_with_mnr/</loc>
+    <lastmod>2022-08-05T18:10:25+05:30</lastmod>
+  </url><url>
+    <loc>https://iutsav.dev/posts/</loc>
+    <lastmod>2022-08-05T18:10:25+05:30</lastmod>
   </url><url>
     <loc>https://iutsav.dev/tags/bert/</loc>
     <lastmod>2022-08-04T13:15:20+05:30</lastmod>
@@ -13,9 +19,6 @@
     <lastmod>2022-08-04T13:15:20+05:30</lastmod>
   </url><url>
     <loc>https://iutsav.dev/tags/information-retrievel/</loc>
-    <lastmod>2022-08-04T13:15:20+05:30</lastmod>
-  </url><url>
-    <loc>https://iutsav.dev/posts/</loc>
     <lastmod>2022-08-04T13:15:20+05:30</lastmod>
   </url><url>
     <loc>https://iutsav.dev/tags/python/</loc>
