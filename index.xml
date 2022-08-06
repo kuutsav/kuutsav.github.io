@@ -7,7 +7,7 @@
     <language>en-us</language>
     <lastBuildDate>Fri, 05 Aug 2022 18:10:25 +0530</lastBuildDate><atom:link href="https://iutsav.dev/index.xml" rel="self" type="application/rss+xml" />
     <item>
-    <title>Information Retrieval, Part 4 - Finetuning SBERT for MNR</title>
+    <title>Information Retrieval, Part 4 - Finetuning SBERT with MNR</title>
     <link>https://iutsav.dev/posts/information_retrieval_4_finetuning_sbert_with_mnr/</link>
     <pubDate>Fri, 05 Aug 2022 18:10:25 +0530</pubDate>
     
@@ -1410,7 +1410,7 @@ Word2Vec wors in an iterative manner:&lt;/p&gt;
     width=625 
     height=&#34;212&#34;  /&gt;&lt;/p&gt;
 &lt;p&gt;One might wonder, why the need to finetune at all, why not use the CLS-token or the MEAN pooling strategy directly with a bert model trained on MLM task. Here also, the authors share some results, unless we finetune specifically for STS(Semantic Textual Similarity) tasks, the BERT models perform worse than the Avg. GloVE embeddings on STS tasks.&lt;/p&gt;
-&lt;p&gt;They also tried various concatenation strategies before feeding the embeddings into the fully connected layer. (&lt;em&gt;u&lt;/em&gt;, &lt;em&gt;v&lt;/em&gt;,&lt;em&gt;u&lt;/em&gt; - &lt;em&gt;v&lt;/em&gt;|) gave the best results.&lt;/p&gt;
+&lt;p&gt;They also tried various concatenation strategies before feeding the embeddings into the fully connected layer. (&lt;em&gt;u&lt;/em&gt;, &lt;em&gt;v&lt;/em&gt;, |&lt;em&gt;u&lt;/em&gt; - &lt;em&gt;v&lt;/em&gt;|) gave the best results.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s start &amp;hellip;&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -3832,7 +3832,7 @@ the system changes to&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;Another common terminology in dynamic connectivity problems is &lt;strong&gt;Connected components&lt;/strong&gt;. It refers
 to the maximal set of objects that are mutually connected.
-In the above example, the conntected components are {0), {1, 2}, {3}, {4, 5, 7, 9}, {6}, {8}.
+In the above example, the conntected components are {0}, {1, 2}, {3}, {4, 5, 7, 9}, {6}, {8}.
 The union-find algorithms we are going to implement below can help us model objects of many different
 kinds. Some of the practical examples include:&lt;/p&gt;
 &lt;ul&gt;
@@ -5162,7 +5162,7 @@ Canada/Ottawa
 &lt;li&gt;Tuples are faster than lists as they have less overheads.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Tuple are faster than lists &lt;a href=&#34;https://stackoverflow.com/questions/68630/are-tuples-more-efficient-than-lists-in-python&#34;&gt;because&lt;/a&gt;:&lt;/p&gt;
-&lt;h4 id=&#34;tuples-can-be-constant-folded&#34;&gt;
+&lt;h3 id=&#34;tuples-can-be-constant-folded&#34;&gt;
     &lt;a href=&#34;#tuples-can-be-constant-folded&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
             &lt;path fill-rule=&#34;evenodd&#34;
@@ -5171,7 +5171,7 @@ Canada/Ottawa
         &lt;/svg&gt;
     &lt;/a&gt;
     Tuples can be constant folded
-&lt;/h4&gt;
+&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -5200,7 +5200,7 @@ Canada/Ottawa
               4 BUILD_LIST               2
               6 RETURN_VALUE
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4 id=&#34;tuples-do-not-need-to-be-copied&#34;&gt;
+&lt;h3 id=&#34;tuples-do-not-need-to-be-copied&#34;&gt;
     &lt;a href=&#34;#tuples-do-not-need-to-be-copied&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
             &lt;path fill-rule=&#34;evenodd&#34;
@@ -5209,7 +5209,7 @@ Canada/Ottawa
         &lt;/svg&gt;
     &lt;/a&gt;
     Tuples do not need to be copied
-&lt;/h4&gt;
+&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -5238,7 +5238,7 @@ Canada/Ottawa
 &lt;/div&gt;
 &lt;/div&gt;&lt;pre&gt;&lt;code&gt;False
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h4 id=&#34;tuples-do-not-over-allocate&#34;&gt;
+&lt;h3 id=&#34;tuples-do-not-over-allocate&#34;&gt;
     &lt;a href=&#34;#tuples-do-not-over-allocate&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
             &lt;path fill-rule=&#34;evenodd&#34;
@@ -5247,7 +5247,7 @@ Canada/Ottawa
         &lt;/svg&gt;
     &lt;/a&gt;
     Tuples do not over-allocate
-&lt;/h4&gt;
+&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
