@@ -1,24 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>bert on Utsav&#39;Log</title>
-    <link>https://iutsav.dev/tags/bert/</link>
-    <description>Recent content in bert on Utsav&#39;Log</description>
+    <title>bi-encoder on Utsav&#39;Log</title>
+    <link>https://iutsav.dev/tags/bi-encoder/</link>
+    <description>Recent content in bi-encoder on Utsav&#39;Log</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 07 Aug 2022 08:10:25 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/bert/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Information Retrieval, Part 5 - Finetuning a Cross-Encoder</title>
-      <link>https://iutsav.dev/posts/information_retrieval_5_finetuning_cross_encoder/</link>
-      <pubDate>Sun, 07 Aug 2022 08:10:25 +0530</pubDate>
-      
-      <guid>https://iutsav.dev/posts/information_retrieval_5_finetuning_cross_encoder/</guid>
-      <description>In this notebook, we will finetune a Cross-Encoder on Semantic Textual Similarity text.
-First let&amp;rsquo;s look at the architecture of a cross encoder.
-In a Bi-Encoder, we pass both the sentences(A and B) separately to the finetuned model and use the pooled embeddings to compare the similarity between the sentences (cosine or dot product).
-In a Cross-Encoder, we pass both the sentences together in the model and finetune the model with a linear head with output size 1, paired with a Binary Cross Entropy loss.</description>
-    </item>
-    
+    <lastBuildDate>Fri, 05 Aug 2022 18:10:25 +0530</lastBuildDate><atom:link href="https://iutsav.dev/tags/bi-encoder/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Information Retrieval, Part 4 - Finetuning SBERT with MNR</title>
       <link>https://iutsav.dev/posts/information_retrieval_4_finetuning_sbert_with_mnr/</link>
