@@ -14,7 +14,7 @@
       
       <guid>https://iutsav.dev/posts/information_retrieval_2_evaluation_metrics/</guid>
       <description>Here we are only going to look at offline evaluation metrics. We won&amp;rsquo;t cover online evaluation techniques like click-through rate or running A/B tests where a subset of users are presented results from a newer test system.
-   Offline evaluation  The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labelled dataset where we have queries mapped to relvevant documents. The documents could either be graded or non-graded(binary).</description>
+   Offline evaluation  The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labeled dataset where we have queries mapped to relevant documents. The documents could either be graded or non-graded(binary).</description>
     </item>
     
   </channel>

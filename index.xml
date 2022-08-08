@@ -40,8 +40,8 @@
     height=&#34;279&#34;  /&gt;&lt;/p&gt;
 &lt;center class=&#34;img-caption&#34;&gt;Fig. 2. Illustration of a Cross-Encoder as a Re-Ranker. (Image source: https://www.sbert.net/examples/applications/retrieve_rerank/README.html)&lt;/center&gt;&lt;br&gt;
 &lt;p&gt;This is the most common setup for semantic search. We pass our &lt;code&gt;Document collection&lt;/code&gt; though a Bi-Encoder finetuned for STS tasks and index the embeddings in a vector database.&lt;/p&gt;
-&lt;p&gt;During query time, we embed the query using the same Bi-Enocoder and fetch top k candidates from our database. This is the Retrieval part.&lt;/p&gt;
-&lt;p&gt;Next, we can further refine the results by passing the top k(query, retrieved) document pairs through a Cross-Encoder finetuned for STS tasks. Cross-Enocder essentially re-sorts the retrieved candidate documents such that the top most relevant document has the highest score.&lt;/p&gt;
+&lt;p&gt;During query time, we embed the query using the same Bi-Encoder and fetch top k candidates from our database. This is the Retrieval part.&lt;/p&gt;
+&lt;p&gt;Next, we can further refine the results by passing the top k(query, retrieved) document pairs through a Cross-Encoder finetuned for STS tasks. Cross-Encoder essentially re-sorts the retrieved candidate documents such that the top most relevant document has the highest score.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -128,7 +128,7 @@
   &#39;label&#39;: 5.0,
   &#39;idx&#39;: 0})
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Next we look at the distribution of lenghts(from a sample) of sentence1 and sentence2 to choose the max_length we want to restrict our tokenizer to.&lt;/p&gt;
+&lt;p&gt;Next we look at the distribution of lengths(from a sample) of sentence1 and sentence2 to choose the max_length we want to restrict our tokenizer to.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -927,16 +927,16 @@ Query - Horse jumped over the obstacle. [Bert Base]
 &lt;p&gt;MNR loss&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;This loss expects as input a batch consisting of sentence pairs (a_1, p_1), (a_2, p_2)&amp;hellip;, (a_n, p_n) where we assume that (a_i, p_i) are a positive pair and (a_i, p_j) for i!=j a negative pair.&lt;/p&gt;
-&lt;p&gt;For each a_i, it uses all other p_j as negative samples, i.e., for a_i, we have 1 positive example (p_i) and n-1 negative examples (p_j). It then minimizes the negative log-likehood for softmax normalized scores. This loss function works great to train embeddings for retrieval setups where you have positive pairs (e.g. (query, relevant_doc)) as it will sample in each batch n-1 negative docs randomly.&lt;/p&gt;
+&lt;p&gt;For each a_i, it uses all other p_j as negative samples, i.e., for a_i, we have 1 positive example (p_i) and n-1 negative examples (p_j). It then minimizes the negative log-likelihood for softmax normalized scores. This loss function works great to train embeddings for retrieval setups where you have positive pairs (e.g. (query, relevant_doc)) as it will sample in each batch n-1 negative docs randomly.&lt;/p&gt;
 &lt;p&gt;The performance usually increases with increasing batch sizes.&lt;/p&gt;
 &lt;p&gt;For more information, see: &lt;a href=&#34;https://arxiv.org/pdf/1705.00652.pdf&#34;&gt;https://arxiv.org/pdf/1705.00652.pdf&lt;/a&gt;&lt;br&gt;
 (Efficient Natural Language Response Suggestion for Smart Reply, Section 4.4)&lt;/p&gt;
-&lt;p&gt;You can also provide one or multiple hard negatives per anchor-positive pair by structering the data like this: (a_1, p_1, n_1), (a_2, p_2, n_2)&lt;/p&gt;
+&lt;p&gt;You can also provide one or multiple hard negatives per anchor-positive pair by structuring the data like this: (a_1, p_1, n_1), (a_2, p_2, n_2)&lt;/p&gt;
 &lt;p&gt;Here, n_1 is a hard negative for (a_1, p_1). The loss will use for the pair (a_i, p_i) all p_j (j!=i) and all n_j as negatives.&lt;/p&gt;
 &lt;p&gt;Source: &lt;a href=&#34;https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/MultipleNegativesRankingLoss.py&#34;&gt;https://github.com/UKPLab/sentence-transformers/blob/master/sentence_transformers/losses/MultipleNegativesRankingLoss.py&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;We will just use the (anchor, postive) pairs in our training here. We will discuss hard negatives later in the series.&lt;/p&gt;
-&lt;p&gt;Since we just need the (achor, positive) pairs, we will filter the snli dataset with label=0 for entails.&lt;/p&gt;
+&lt;p&gt;We will just use the (anchor, positive) pairs in our training here. We will discuss hard negatives later in the series.&lt;/p&gt;
+&lt;p&gt;Since we just need the (anchor, positive) pairs, we will filter the snli dataset with label=0 for entails.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1020,7 +1020,7 @@ Loading cached processed dataset at /home/utsav/.cache/huggingface/datasets/snli
  &#39;A blond man drinking water from a fountain.&#39;,
  &#39;There are two woman in this picture.&#39;]
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here we will use a fintuned model to try and show an example with good represenatations for the sentences instead of using random gibberish values.&lt;/p&gt;
+&lt;p&gt;Here we will use a fintuned model to try and show an example with good representations for the sentences instead of using random gibberish values.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1073,7 +1073,7 @@ Loading cached processed dataset at /home/utsav/.cache/huggingface/datasets/snli
          [-0.2000,  0.0900, -0.2500,  0.6100,  0.2800, -0.1000, -0.0800,  0.5300]]),
  tensor([0, 1, 2, 3, 4, 5, 6, 7]))
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Here, each row in the similarity_matrix can be thought of as unnormalized scores for a class and each entry in the target array corresponds to the corresponding class label for that similarity row. The diagonal entries are our (anchor, postive) pairs hence they have the highest scores(this won&amp;rsquo;t be the case with a bert-base model which hasn&amp;rsquo;t been finetuned for STS, we observe this behaviour here since we are using a model finetuned on STS tasks).&lt;/p&gt;
+&lt;p&gt;Here, each row in the similarity_matrix can be thought of as unnormalized scores for a class and each entry in the target array corresponds to the corresponding class label for that similarity row. The diagonal entries are our (anchor, positive) pairs hence they have the highest scores(this won&amp;rsquo;t be the case with a bert-base model which hasn&amp;rsquo;t been finetuned for STS, we observe this behavior here since we are using a model finetuned on STS tasks).&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1137,7 +1137,7 @@ Loading cached processed dataset at /home/utsav/.cache/huggingface/datasets/snli
     &lt;/a&gt;
     Data preparation
 &lt;/h2&gt;
-&lt;p&gt;We will create a custom dataset for the that will give us postive and negative pairs.&lt;/p&gt;
+&lt;p&gt;We will create a custom dataset for the that will give us positive and negative pairs.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt; 1
@@ -1162,7 +1162,7 @@ Loading cached processed dataset at /home/utsav/.cache/huggingface/datasets/snli
 &lt;span class=&#34;n&#34;&gt;tokenized_premises&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tokenizer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;premise&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dataset&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
                                &lt;span class=&#34;n&#34;&gt;max_length&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MAX_LENGTH&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;padding&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;max_length&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
                                &lt;span class=&#34;n&#34;&gt;truncation&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
-&lt;span class=&#34;c1&#34;&gt;# postives&lt;/span&gt;
+&lt;span class=&#34;c1&#34;&gt;# positives&lt;/span&gt;
 &lt;span class=&#34;n&#34;&gt;tokenized_hypothesis&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;tokenizer&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;([&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;data&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;[&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;hypothesis&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;]&lt;/span&gt; &lt;span class=&#34;k&#34;&gt;for&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;data&lt;/span&gt; &lt;span class=&#34;ow&#34;&gt;in&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dataset&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;],&lt;/span&gt;
                                  &lt;span class=&#34;n&#34;&gt;max_length&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;MAX_LENGTH&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;padding&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s2&#34;&gt;&amp;#34;max_length&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
                                  &lt;span class=&#34;n&#34;&gt;truncation&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;True&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
@@ -1353,7 +1353,7 @@ Wall time: 4.35 s
 &lt;/div&gt;
 &lt;/div&gt;&lt;pre&gt;&lt;code&gt;&#39;cuda&#39;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The method mean_pool() implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the sentente_transformers library.&lt;/p&gt;
+&lt;p&gt;The method mean_pool() implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the sentence_transformers library.&lt;/p&gt;
 &lt;p&gt;We will use the encode() method to compute pooled embeddings using the finetuned and the bert-base models later to evaluate the results on STS tasks.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -1497,9 +1497,9 @@ Wall time: 4.35 s
     &lt;/a&gt;
     Training loop
 &lt;/h2&gt;
-&lt;p&gt;While calculating the loss per batch, using the similarity matrix(from anchors and positives) and the target tensor, we scale the similarty matrix by a constant first. We are using a scaling factor of 20 as used in the sentence_tranformer library.&lt;/p&gt;
-&lt;p&gt;The reason for this scaling(from what i can tell) is the same as using temperature while decoding from seq2seq models. Essentially we want to make the distribution of scores(similarity in this case) more peaky(this amouts to lowering the temperature while decoding).&lt;/p&gt;
-&lt;p&gt;For example, consider a batch size 4 with similarity scores [0.8, 0.75, 0.5, 0.4] with &lt;code&gt;similarity(anchor, positve)&lt;/code&gt; = 0.8.&lt;/p&gt;
+&lt;p&gt;While calculating the loss per batch, using the similarity matrix(from anchors and positives) and the target tensor, we scale the similarity matrix by a constant first. We are using a scaling factor of 20 as used in the sentence_transformer library.&lt;/p&gt;
+&lt;p&gt;The reason for this scaling(from what i can tell) is the same as using temperature while decoding from seq2seq models. Essentially we want to make the distribution of scores(similarity in this case) more peaky(this amounts to lowering the temperature while decoding).&lt;/p&gt;
+&lt;p&gt;For example, consider a batch size 4 with similarity scores [0.8, 0.75, 0.5, 0.4] with &lt;code&gt;similarity(anchor, positive)&lt;/code&gt; = 0.8.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
 &lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code&gt;&lt;span class=&#34;lnt&#34;&gt;1
@@ -1899,7 +1899,7 @@ Wall time: 27min 3s
      
     width=1528 
     height=&#34;1346&#34;  /&gt;&lt;/p&gt;
-&lt;p&gt;On a visual inspection we can see that our finetuned model is doing a better job in encoding the texts so that the clusters are clearly visible. Specifically it&amp;rsquo;s doing a better job in pusing down the scores for non similar text pairs.&lt;/p&gt;
+&lt;p&gt;On a visual inspection we can see that our finetuned model is doing a better job in encoding the texts so that the clusters are clearly visible. Specifically it&amp;rsquo;s doing a better job in pushing down the scores for non similar text pairs.&lt;/p&gt;
 &lt;p&gt;Let&amp;rsquo;s evaluate the models on a STS dataset.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -2066,7 +2066,7 @@ Wall time: 27min 3s
     
     <guid>https://iutsav.dev/posts/information_retrieval_3_finetuning_bert_for_ir/</guid>
     <description>
-        &lt;p&gt;We will briefly talk about sparse and dense represenations of texts and take a quick glance at techniques that came before the Transformers.&lt;/p&gt;
+        &lt;p&gt;We will briefly talk about sparse and dense representations of texts and take a quick glance at techniques that came before the Transformers.&lt;/p&gt;
 &lt;h2 id=&#34;sparse-representation-of-text-one-hot-vectors&#34;&gt;
     &lt;a href=&#34;#sparse-representation-of-text-one-hot-vectors&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
@@ -2133,7 +2133,7 @@ Other alcoholic drinks made of corn also qualify here. The idea is that we can g
     &lt;/a&gt;
     Count based methods
 &lt;/h3&gt;
-&lt;p&gt;The general process of creating dense represenations using count based methods is to:&lt;/p&gt;
+&lt;p&gt;The general process of creating dense representations using count based methods is to:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;Create a word-context matrix.&lt;/li&gt;
 &lt;li&gt;Reduce it&amp;rsquo;s dimensionality.&lt;/li&gt;
@@ -2158,11 +2158,11 @@ One such technique is LSA(Latent Semantic Analysis) which does SVD on the term d
     Word2Vec
 &lt;/h3&gt;
 &lt;p&gt;Word2Vec works on the similar premise of encoding contextual information into the dense representation for a word.
-Word2Vec wors in an iterative manner:&lt;/p&gt;
+Word2Vec works in an iterative manner:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Start with a huge text corpus.&lt;/li&gt;
 &lt;li&gt;Go over the text using a sliding window. At each step, take a center word i and the context words(within the window).&lt;/li&gt;
-&lt;li&gt;For the center word, compute probabilites for all the words in the vocab using softmax.&lt;/li&gt;
+&lt;li&gt;For the center word, compute probabilities for all the words in the vocab using softmax.&lt;/li&gt;
 &lt;li&gt;Computer cross entropy loss for the context words and backprop over the embeddings to refine them.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; 
@@ -2191,9 +2191,9 @@ Word2Vec wors in an iterative manner:&lt;/p&gt;
 &lt;p&gt;Some of the drawbacks of Wor2Vec:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Essentially a bag of words technique as we don&amp;rsquo;t consider the order in which the words appear in a window.&lt;/li&gt;
-&lt;li&gt;Limited window size makes the learned representaions very limited in the sense that they only capture very local contexts.&lt;/li&gt;
+&lt;li&gt;Limited window size makes the learned representations very limited in the sense that they only capture very local contexts.&lt;/li&gt;
 &lt;li&gt;We can&amp;rsquo;t capture multiple embeddings for the same word in different context, for example, &amp;ldquo;a river bank&amp;rdquo;, &amp;ldquo;bank deposit&amp;rdquo;. The word &amp;ldquo;bank&amp;rdquo; ends with a single embedding even though it means two different things here.&lt;/li&gt;
-&lt;li&gt;Out of vocab words are not handeled.&lt;/li&gt;
+&lt;li&gt;Out of vocab words are not handled.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;There are methods to deal with some of these issues, like subword embeddings using fastText can handle out of vocab words. In general these bag of wordd techniques have fallen out of favor for methods we are going to discuss next.
 &lt;br&gt;&lt;/p&gt;
@@ -2209,8 +2209,8 @@ Word2Vec wors in an iterative manner:&lt;/p&gt;
 &lt;/h3&gt;
 &lt;p&gt;Before Transformers, RNNs especially LSTMs were all the rage but they have also fallen out of favour because of the following drawbacks:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;The temporal dependence in updating the hidden state(over the tokens) make then slow to train and not let us effeciently use the modern hardware for training(gpus).&lt;/li&gt;
-&lt;li&gt;Even though theoratically LSTMs can handle arbitrarily long sequences, in practice they suffer from vanishing gradient.&lt;/li&gt;
+&lt;li&gt;The temporal dependence in updating the hidden state(over the tokens) make then slow to train and not let us efficiently use the modern hardware for training(gpus).&lt;/li&gt;
+&lt;li&gt;Even though theoretically LSTMs can handle arbitrarily long sequences, in practice they suffer from vanishing gradient.&lt;/li&gt;
 &lt;li&gt;The biggest problem is the bottleneck at the end of the sequence where we are trying to store all the historical information from the sequence into one final hidden vector.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; 
@@ -2232,7 +2232,7 @@ Word2Vec wors in an iterative manner:&lt;/p&gt;
     &lt;/a&gt;
     Transformers for semantic search
 &lt;/h2&gt;
-&lt;p&gt;** Note that we won&amp;rsquo;t go into the architectural details of transfomer based models but jump straight into using these models(finetuning) for IR. There is enough content out there on this topic to justify a quick summary here.&lt;/p&gt;
+&lt;p&gt;** Note that we won&amp;rsquo;t go into the architectural details of transformer based models but jump straight into using these models(finetuning) for IR. There is enough content out there on this topic to justify a quick summary here.&lt;/p&gt;
 &lt;p&gt;We will cover the following techniques/architectures over multiple notebooks:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Bi-Encoders&lt;/li&gt;
@@ -2247,14 +2247,14 @@ Word2Vec wors in an iterative manner:&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;QnA(REALM)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Later we will also look into ANN(Approximate nearest neighbour) techniques used for indexing and retrieval of dense embeddings.&lt;/p&gt;
+&lt;p&gt;Later we will also look into ANN(Approximate nearest neighbor) techniques used for indexing and retrieval of dense embeddings.&lt;/p&gt;
 &lt;p&gt;In rest of this notebook, we will dive into the original &lt;a href=&#34;https://arxiv.org/abs/1908.10084&#34;&gt;Sentence-BERT paper&lt;/a&gt; by &lt;a href=&#34;https://arxiv.org/search/cs?searchtype=author&amp;amp;query=Reimers%2C+N&#34;&gt;Nils Reimers&lt;/a&gt; and &lt;a href=&#34;https://arxiv.org/search/cs?searchtype=author&amp;amp;query=Gurevych%2C+I&#34;&gt;Iryna Gurevych&lt;/a&gt;. Here is a quick summary by the authors.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;BERT (Devlin et al., 2018) and RoBERTa (Liu et al., 2019) has set a new state-of-the-art performance on sentence-pair regression tasks like semantic textual similarity (STS). However, it requires that both sentences are fed into the network, which causes a massive computational overhead: Finding the most similar pair in a collection of 10,000 sentences requires about 50 million inference computations (~65 hours) with BERT. The construction of BERT makes it unsuitable for semantic similarity search as well as for unsupervised tasks like clustering.&lt;/p&gt;
 &lt;p&gt;In this publication, we present Sentence-BERT (SBERT), a modification of the pretrained BERT network that use siamese and triplet network structures to derive semantically meaningful sentence embeddings that can be compared using cosine-similarity. This reduces the effort for finding the most similar pair from 65 hours with BERT / RoBERTa to about 5 seconds with SBERT, while maintaining the accuracy from BERT.&lt;/p&gt;
 &lt;p&gt;We evaluate SBERT and SRoBERTa on common STS tasks and transfer learning tasks, where it outperforms other state-of-the-art sentence embeddings methods.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;We will fintune the base-bert model using a siamese architecture(Bi-Encoder) on the SNLI data(the paper mentions using both the SNLI and Multi-NLI datasets).&lt;/p&gt;
+&lt;p&gt;We will finetune the base-bert model using a siamese architecture(Bi-Encoder) on the SNLI data(the paper mentions using both the SNLI and Multi-NLI datasets).&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Natural language inference(NLI) is the task of determining whether a “hypothesis” is true (entailment), false (contradiction), or undetermined (neutral) given a “premise”.&lt;/p&gt;
 &lt;p&gt;Example:&lt;/p&gt;
@@ -2293,12 +2293,12 @@ Word2Vec wors in an iterative manner:&lt;/p&gt;
      
     width=662 
     height=&#34;327&#34;  /&gt;&lt;/p&gt;
-&lt;p&gt;In the figure, though it looks like two different BERT models, we are finetuning only one BERT model by passing both the sentences, pooling and then feeding the emebddings into a fully connected network for classification using the cross-entropy(softmax) as the loss function.&lt;/p&gt;
-&lt;p&gt;We will train the SBERT architecture from the above figure. In the paper the authors mention three obective functuins:&lt;/p&gt;
+&lt;p&gt;In the figure, though it looks like two different BERT models, we are finetuning only one BERT model by passing both the sentences, pooling and then feeding the embeddings into a fully connected network for classification using the cross-entropy(softmax) as the loss function.&lt;/p&gt;
+&lt;p&gt;We will train the SBERT architecture from the above figure. In the paper the authors mention three objective functions:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Classification objective&lt;/strong&gt; - As depicted in the picture.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Regression objective&lt;/strong&gt; - The cosine-similarity between the two sentence embeddings &lt;em&gt;u&lt;/em&gt; and &lt;em&gt;v&lt;/em&gt; is comupted(Figure 2) and the model is finetuned using the mean-squared loss function.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Triplet objective&lt;/strong&gt; - Or MNR (Multiple Negative Ranking) loss. We will discuss this in detail in the next section. MNR in general performs better for semnatic search and other use cases like clustering, paraphrase mining etc using dense embeddings.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Regression objective&lt;/strong&gt; - The cosine-similarity between the two sentence embeddings &lt;em&gt;u&lt;/em&gt; and &lt;em&gt;v&lt;/em&gt; is computed(Figure 2) and the model is finetuned using the mean-squared loss function.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Triplet objective&lt;/strong&gt; - Or MNR (Multiple Negative Ranking) loss. We will discuss this in detail in the next section. MNR in general performs better for semantic search and other use cases like clustering, paraphrase mining etc using dense embeddings.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; 
     src=&#34;https://iutsav.dev/../static/information_retrieval/sbert_pooling_concat.png&#34; 
@@ -2658,7 +2658,7 @@ Wall time: 49.2 s
 &lt;/div&gt;
 &lt;/div&gt;&lt;pre&gt;&lt;code&gt;&#39;cuda&#39;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The method &lt;code&gt;mean_pool()&lt;/code&gt; implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the &lt;code&gt;sentente_transformers&lt;/code&gt; library.&lt;/p&gt;
+&lt;p&gt;The method &lt;code&gt;mean_pool()&lt;/code&gt; implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the &lt;code&gt;sentence_transformers&lt;/code&gt; library.&lt;/p&gt;
 &lt;p&gt;We will use the &lt;code&gt;encode()&lt;/code&gt; method to compute pooled embeddings using the finetuned and the bert-base models later to evaluate the results on STS tasks.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -3357,9 +3357,9 @@ One way to look at the mini batch losses is to use a running mean(smoothing) to 
     &lt;/a&gt;
     Offline evaluation
 &lt;/h2&gt;
-&lt;p&gt;The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labelled dataset where we have queries mapped to relvevant documents. The documents could either be graded or non-graded(binary). For example, a graded relevance score could be on a scale of 0-5 with 5 being the most relevant.&lt;/p&gt;
-&lt;p&gt;Labelled data typicalls comes form manual annotations or click data.&lt;/p&gt;
-&lt;p&gt;It&amp;rsquo;s also not necessary to have just 1 document tagged as relevant for each query. TREC collections have 100s of documents tagged as relevant per quuery. On the other hand MSMARCO has ~1 document tagged as relevant per query. This tends to be quite noisy but easy to scale hence more variability in the queries.&lt;/p&gt;
+&lt;p&gt;The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labeled dataset where we have queries mapped to relevant documents. The documents could either be graded or non-graded(binary). For example, a graded relevance score could be on a scale of 0-5 with 5 being the most relevant.&lt;/p&gt;
+&lt;p&gt;Labeled data typically comes form manual annotations or click data.&lt;/p&gt;
+&lt;p&gt;It&amp;rsquo;s also not necessary to have just 1 document tagged as relevant for each query. TREC collections have 100s of documents tagged as relevant per query. On the other hand MSMARCO has ~1 document tagged as relevant per query. This tends to be quite noisy but easy to scale hence more variability in the queries.&lt;/p&gt;
 &lt;h2 id=&#34;binary-labels&#34;&gt;
     &lt;a href=&#34;#binary-labels&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
@@ -3485,7 +3485,7 @@ Every time we find a relevant document, we look at the full picture of what came
     &lt;/a&gt;
     nDCG@k: Normalized Discounted Cumulative Gain
 &lt;/h3&gt;
-&lt;p&gt;To understand nDCG, first let&amp;rsquo;s look at CG i.e. Cumulative Gain. We simply add up the relevace scores for top k documents returned for a query.&lt;/p&gt;
+&lt;p&gt;To understand nDCG, first let&amp;rsquo;s look at CG i.e. Cumulative Gain. We simply add up the relevance scores for top k documents returned for a query.&lt;/p&gt;
 &lt;p&gt;$$ CG@k(q) = \sum_{i=1}^k rel(q)_i $$&lt;/p&gt;
 &lt;p&gt;&lt;img loading=&#34;lazy&#34; 
     src=&#34;https://iutsav.dev/../static/information_retrieval/cg@k.png&#34; 
@@ -4029,7 +4029,7 @@ DCG@5 = 5.00 + 2.52 + 1.00 + 0.43 + 0.00 = 8.95
     <guid>https://iutsav.dev/posts/information_retrieval_1_classic_ir/</guid>
     <description>
         &lt;p&gt;IR in it&amp;rsquo;s most basic form answers the question &amp;ldquo;how relevant is a given &lt;em&gt;query&lt;/em&gt; for a &lt;em&gt;document&lt;/em&gt;&amp;rdquo;. The challenge is that we don&amp;rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &amp;ldquo;needle in the haystack&amp;rdquo; or the &amp;ldquo;relevant &lt;em&gt;documents&lt;/em&gt; for a &lt;em&gt;query&lt;/em&gt;&amp;rdquo;.&lt;/p&gt;
-&lt;p&gt;Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applicatations of IR like cleaning up the markup in case of web pages. The documents could also be in different languagues, encodings, etc. These variations present their own unique sets of challenges. For example, it&amp;rsquo;s common to build separate pre-processing text pipelines for each languague.&lt;/p&gt;
+&lt;p&gt;Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applications of IR like cleaning up the markup in case of web pages. The documents could also be in different languages, encodings, etc. These variations present their own unique sets of challenges. For example, it&amp;rsquo;s common to build separate pre-processing text pipelines for each language.&lt;/p&gt;
 &lt;h2 id=&#34;relevance&#34;&gt;
     &lt;a href=&#34;#relevance&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
@@ -4066,7 +4066,7 @@ DCG@5 = 5.00 + 2.52 + 1.00 + 0.43 + 0.00 = 8.95
     Inverted Index
 &lt;/h2&gt;
 &lt;p&gt;An inverted index helps us solve the last point we mentioned under Relevance, &amp;ldquo;It would be pretty slow if we start counting the words in all the documents after a query arrives, hence we need to store the counts in a data structure that supports efficient lookups for a query.&amp;rdquo;&lt;/p&gt;
-&lt;p&gt;Inverted index allows us to efficienty retrieve documents from large collections. It does this by storing term/word statistics from the documents beforehand(that the scoring model needs).&lt;/p&gt;
+&lt;p&gt;Inverted index allows us to efficiently retrieve documents from large collections. It does this by storing term/word statistics from the documents beforehand(that the scoring model needs).&lt;/p&gt;
 &lt;p&gt;The statistics stored in the inverted index are:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Document frequency&lt;/strong&gt;: How many documents contain the term.&lt;/li&gt;
@@ -4105,9 +4105,9 @@ DCG@5 = 5.00 + 2.52 + 1.00 + 0.43 + 0.00 = 8.95
     &lt;/a&gt;
     Tokenization
 &lt;/h3&gt;
-&lt;p&gt;Tokenization essentially involves splitting the query or document into invdividual terms/words.
+&lt;p&gt;Tokenization essentially involves splitting the query or document into individual terms/words.
 A naive baseline could split each query/document by whitespace and punctuation character.
-Improvements over the naive model typically involes keeping the abbreviations, names, numbers together as one token, etc. For example, look at the &lt;a href=&#34;https://nlp.stanford.edu/software/tokenizer.shtml&#34;&gt;stanford tokenizer&lt;/a&gt;.&lt;/p&gt;
+Improvements over the naive model typically involves keeping the abbreviations, names, numbers together as one token, etc. For example, look at the &lt;a href=&#34;https://nlp.stanford.edu/software/tokenizer.shtml&#34;&gt;stanford tokenizer&lt;/a&gt;.&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;$ cat &amp;gt;sample.txt
 &amp;quot;Oh, no,&amp;quot; she&#39;s saying, &amp;quot;our $400 blender can&#39;t handle something this hard!&amp;quot;
 $ java edu.stanford.nlp.process.PTBTokenizer sample.txt
@@ -4145,7 +4145,7 @@ PTBTokenizer tokenized 23 tokens at 370.97 tokens per second.
     &lt;/a&gt;
     Stemming
 &lt;/h3&gt;
-&lt;p&gt;Stemming involves reducing the terms/words to their &amp;ldquo;roots&amp;rdquo; before indexing. An advanved form of stemming called Lemmatization invloves reducing the inflectional/variant forms to base form (am, are, is -&amp;gt; be). Lemmatization is computationally expensive.&lt;/p&gt;
+&lt;p&gt;Stemming involves reducing the terms/words to their &amp;ldquo;roots&amp;rdquo; before indexing. An advanced form of stemming called Lemmatization involves reducing the inflectional/variant forms to base form (am, are, is -&amp;gt; be). Lemmatization is computationally expensive.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;For grammatical reasons, documents are going to use different forms of a word, such as organize, organizes, and organizing. Additionally, there are families of derivationally related words with similar meanings, such as democracy, democratic, and democratization. In many situations, it seems as if it would be useful for a search for one of these words to return documents that contain another word in the set.&lt;/p&gt;
 &lt;p&gt;The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form. For instance:
@@ -4188,9 +4188,9 @@ The result of this mapping of text will be something like:
     &lt;/a&gt;
     Search workflow
 &lt;/h3&gt;
-&lt;p&gt;The search workflow typically invloves:&lt;/p&gt;
+&lt;p&gt;The search workflow typically involves:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Passing the query throught the pre processing pipeline we just discussed to get the terms.&lt;/li&gt;
+&lt;li&gt;Passing the query through the pre processing pipeline we just discussed to get the terms.&lt;/li&gt;
 &lt;li&gt;Look up the statistics for each term from the inverted index.&lt;/li&gt;
 &lt;li&gt;Use a scoring model that uses the term statistics to score the documents.&lt;/li&gt;
 &lt;li&gt;Sort the documents by the scores in a descending order and show to the user.&lt;/li&gt;
@@ -4220,7 +4220,7 @@ The result of this mapping of text will be something like:
 &lt;li&gt;&lt;strong&gt;Boolean queries&lt;/strong&gt;: &amp;ldquo;and&amp;rdquo; / &amp;ldquo;or&amp;rdquo; / &amp;ldquo;not&amp;rdquo; operators between words.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Expanded queries&lt;/strong&gt;: Ddd synonyms and other similar words into the query.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Beyond this we can also augment the queries using wildcard querie, phonetic queries, etc.&lt;/p&gt;
+&lt;p&gt;Beyond this we can also augment the queries using wildcard queries, phonetic queries, etc.&lt;/p&gt;
 &lt;h3 id=&#34;spell-checking&#34;&gt;
     &lt;a href=&#34;#spell-checking&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;
@@ -4233,8 +4233,8 @@ The result of this mapping of text will be something like:
 &lt;/h3&gt;
 &lt;p&gt;Another way to improve the quality of retrieval is to use spell correctors to:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;Correct the docuemnts being indexed.&lt;/li&gt;
-&lt;li&gt;Correct user queries to retrieve correct documents - e.g. the google sytle os &amp;ldquo;did you mean&amp;rdquo;.&lt;/li&gt;
+&lt;li&gt;Correct the documents being indexed.&lt;/li&gt;
+&lt;li&gt;Correct user queries to retrieve correct documents - e.g. the google style &amp;ldquo;did you mean&amp;rdquo;.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2 id=&#34;scoring-models&#34;&gt;
     &lt;a href=&#34;#scoring-models&#34; class=&#34;anchor&#34;&gt;
@@ -4246,7 +4246,7 @@ The result of this mapping of text will be something like:
     &lt;/a&gt;
     Scoring models
 &lt;/h2&gt;
-&lt;p&gt;The scoring model captures relevance in a mathematical model. Note that here we are only cosidering the free text queries here or &amp;ldquo;ad-hoc&amp;rdquo; document retrieval, other factors could also come into play in real life scenarios like pagerank, recency, click counts etc.&lt;/p&gt;
+&lt;p&gt;The scoring model captures relevance in a mathematical model. Note that here we are only considering the free text queries here or &amp;ldquo;ad-hoc&amp;rdquo; document retrieval, other factors could also come into play in real life scenarios like pagerank, recency, click counts etc.&lt;/p&gt;
 &lt;p&gt;Another drawback of the scoring models we are about the discuss is the fact they don&amp;rsquo;t consider meaning of the terms. Terms/words are essentially just discrete symbols. Similarly documents are stream of meaningless symbols. The word order is not important as well.&lt;/p&gt;
 &lt;p&gt;Dense retrieval techniques which we will cover later help us address this problem.&lt;/p&gt;
 &lt;h3 id=&#34;tf_idf&#34;&gt;
@@ -4262,12 +4262,12 @@ The result of this mapping of text will be something like:
 &lt;p&gt;The &lt;em&gt;TF_IDF&lt;/em&gt; has two components:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Term Frequency &lt;em&gt;tf&lt;/em&gt;(t,d)&lt;/strong&gt;: How often does the term t appear in the document d.
-Using the raw frequencies here is not the best solution for IR problems. We either use relative frequenies or &lt;code&gt;log&lt;/code&gt; to dampen the frequencies &lt;code&gt;tf(t,d) = log(1 + tf(t,d))&lt;/code&gt;.&lt;/li&gt;
+Using the raw frequencies here is not the best solution for IR problems. We either use relative frequencies or &lt;code&gt;log&lt;/code&gt; to dampen the frequencies &lt;code&gt;tf(t,d) = log(1 + tf(t,d))&lt;/code&gt;.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Inverse Document Frequency &lt;em&gt;idf&lt;/em&gt;(t)&lt;/strong&gt;: It&amp;rsquo;s a measure of the &amp;ldquo;informativeness&amp;rdquo; of a term for a document. Not that rare terms are more informative than frequent terms. Common way of defining IDF is &lt;code&gt;idf(t) = log(|D| / df(t))&lt;/code&gt;. Here &lt;code&gt;|D|&lt;/code&gt; is the total number of documents and &lt;code&gt;df(t)&lt;/code&gt; is the number of documents in which the term t appears.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$ TFIDF(q, d) = \sum_{t\in T_d \cap T_q} \log(1 + tf_{t,d}) * \log(\frac{\vert D \vert}{df_t}) $$&lt;/p&gt;
 &lt;p&gt;Where $\sum$ is the sum over all the terms in the query, $tf_{t,d}$ is the frequency of term t in document, ${\vert D \vert}$ is the total number of documents, ${df_t}$ is the number of documents in which the term t appears.&lt;/p&gt;
-&lt;p&gt;Beyond IR, &lt;em&gt;TF_IDF&lt;/em&gt; is also used for other NLP tasks like finding keywords in a document, Latent Sematic Analysis(LSA), classification, etc.&lt;/p&gt;
+&lt;p&gt;Beyond IR, &lt;em&gt;TF_IDF&lt;/em&gt; is also used for other NLP tasks like finding keywords in a document, Latent Semantic Analysis(LSA), classification, etc.&lt;/p&gt;
 &lt;p&gt;Although the formulation in scikit-learn is not exactly the same, we can still look at &lt;em&gt;TF_IDF&lt;/em&gt; in action.&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;div class=&#34;chroma&#34;&gt;
 &lt;table class=&#34;lntable&#34;&gt;&lt;tr&gt;&lt;td class=&#34;lntd&#34;&gt;
@@ -4330,7 +4330,7 @@ The key difference between &lt;em&gt;TF_IDF&lt;/em&gt; vs &lt;em&gt;BM25&lt;/em&
 &lt;li&gt;&lt;strong&gt;b&lt;/strong&gt;: Conrols the document length normalization.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Typical values of k and b are &lt;code&gt;1.2 &amp;lt; k &amp;lt; 2&lt;/code&gt;, &lt;code&gt;0.5 &amp;lt; b &amp;lt; 0.8&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;There are other forumations of &lt;em&gt;BM25&lt;/em&gt; that take into account the title, abstract, headers etc. from the documents. We can essentially control the weights we want to assign to each component.&lt;/p&gt;
+&lt;p&gt;There are other formulations of &lt;em&gt;BM25&lt;/em&gt; that take into account the title, abstract, headers etc. from the documents. We can essentially control the weights we want to assign to each component.&lt;/p&gt;
 &lt;h3 id=&#34;oversimiplified-implementation-of-the-inverted-index-_tf_idf_&#34;&gt;
     &lt;a href=&#34;#oversimiplified-implementation-of-the-inverted-index-_tf_idf_&#34; class=&#34;anchor&#34;&gt;
         &lt;svg class=&#34;icon&#34; aria-hidden=&#34;true&#34; focusable=&#34;false&#34; height=&#34;16&#34; version=&#34;1.1&#34; viewBox=&#34;0 0 16 16&#34; width=&#34;16&#34;&gt;

@@ -161,8 +161,8 @@
     height="279"  /></p>
 <center class="img-caption">Fig. 2. Illustration of a Cross-Encoder as a Re-Ranker. (Image source: https://www.sbert.net/examples/applications/retrieve_rerank/README.html)</center><br>
 <p>This is the most common setup for semantic search. We pass our <code>Document collection</code> though a Bi-Encoder finetuned for STS tasks and index the embeddings in a vector database.</p>
-<p>During query time, we embed the query using the same Bi-Enocoder and fetch top k candidates from our database. This is the Retrieval part.</p>
-<p>Next, we can further refine the results by passing the top k(query, retrieved) document pairs through a Cross-Encoder finetuned for STS tasks. Cross-Enocder essentially re-sorts the retrieved candidate documents such that the top most relevant document has the highest score.</p>
+<p>During query time, we embed the query using the same Bi-Encoder and fetch top k candidates from our database. This is the Retrieval part.</p>
+<p>Next, we can further refine the results by passing the top k(query, retrieved) document pairs through a Cross-Encoder finetuned for STS tasks. Cross-Encoder essentially re-sorts the retrieved candidate documents such that the top most relevant document has the highest score.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt"> 1
@@ -249,7 +249,7 @@
   'label': 5.0,
   'idx': 0})
 </code></pre>
-<p>Next we look at the distribution of lenghts(from a sample) of sentence1 and sentence2 to choose the max_length we want to restrict our tokenizer to.</p>
+<p>Next we look at the distribution of lengths(from a sample) of sentence1 and sentence2 to choose the max_length we want to restrict our tokenizer to.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
 <pre tabindex="0" class="chroma"><code><span class="lnt">1

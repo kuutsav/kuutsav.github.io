@@ -134,7 +134,7 @@
     </article>
 
     <div class="article-post">
-    <p>We will briefly talk about sparse and dense represenations of texts and take a quick glance at techniques that came before the Transformers.</p>
+    <p>We will briefly talk about sparse and dense representations of texts and take a quick glance at techniques that came before the Transformers.</p>
 <h2 id="sparse-representation-of-text-one-hot-vectors">
     <a href="#sparse-representation-of-text-one-hot-vectors" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -201,7 +201,7 @@ Other alcoholic drinks made of corn also qualify here. The idea is that we can g
     </a>
     Count based methods
 </h3>
-<p>The general process of creating dense represenations using count based methods is to:</p>
+<p>The general process of creating dense representations using count based methods is to:</p>
 <ol>
 <li>Create a word-context matrix.</li>
 <li>Reduce it&rsquo;s dimensionality.</li>
@@ -226,11 +226,11 @@ One such technique is LSA(Latent Semantic Analysis) which does SVD on the term d
     Word2Vec
 </h3>
 <p>Word2Vec works on the similar premise of encoding contextual information into the dense representation for a word.
-Word2Vec wors in an iterative manner:</p>
+Word2Vec works in an iterative manner:</p>
 <ul>
 <li>Start with a huge text corpus.</li>
 <li>Go over the text using a sliding window. At each step, take a center word i and the context words(within the window).</li>
-<li>For the center word, compute probabilites for all the words in the vocab using softmax.</li>
+<li>For the center word, compute probabilities for all the words in the vocab using softmax.</li>
 <li>Computer cross entropy loss for the context words and backprop over the embeddings to refine them.</li>
 </ul>
 <p><img loading="lazy" 
@@ -259,9 +259,9 @@ Word2Vec wors in an iterative manner:</p>
 <p>Some of the drawbacks of Wor2Vec:</p>
 <ul>
 <li>Essentially a bag of words technique as we don&rsquo;t consider the order in which the words appear in a window.</li>
-<li>Limited window size makes the learned representaions very limited in the sense that they only capture very local contexts.</li>
+<li>Limited window size makes the learned representations very limited in the sense that they only capture very local contexts.</li>
 <li>We can&rsquo;t capture multiple embeddings for the same word in different context, for example, &ldquo;a river bank&rdquo;, &ldquo;bank deposit&rdquo;. The word &ldquo;bank&rdquo; ends with a single embedding even though it means two different things here.</li>
-<li>Out of vocab words are not handeled.</li>
+<li>Out of vocab words are not handled.</li>
 </ul>
 <p>There are methods to deal with some of these issues, like subword embeddings using fastText can handle out of vocab words. In general these bag of wordd techniques have fallen out of favor for methods we are going to discuss next.
 <br></p>
@@ -277,8 +277,8 @@ Word2Vec wors in an iterative manner:</p>
 </h3>
 <p>Before Transformers, RNNs especially LSTMs were all the rage but they have also fallen out of favour because of the following drawbacks:</p>
 <ul>
-<li>The temporal dependence in updating the hidden state(over the tokens) make then slow to train and not let us effeciently use the modern hardware for training(gpus).</li>
-<li>Even though theoratically LSTMs can handle arbitrarily long sequences, in practice they suffer from vanishing gradient.</li>
+<li>The temporal dependence in updating the hidden state(over the tokens) make then slow to train and not let us efficiently use the modern hardware for training(gpus).</li>
+<li>Even though theoretically LSTMs can handle arbitrarily long sequences, in practice they suffer from vanishing gradient.</li>
 <li>The biggest problem is the bottleneck at the end of the sequence where we are trying to store all the historical information from the sequence into one final hidden vector.</li>
 </ul>
 <p><img loading="lazy" 
@@ -300,7 +300,7 @@ Word2Vec wors in an iterative manner:</p>
     </a>
     Transformers for semantic search
 </h2>
-<p>** Note that we won&rsquo;t go into the architectural details of transfomer based models but jump straight into using these models(finetuning) for IR. There is enough content out there on this topic to justify a quick summary here.</p>
+<p>** Note that we won&rsquo;t go into the architectural details of transformer based models but jump straight into using these models(finetuning) for IR. There is enough content out there on this topic to justify a quick summary here.</p>
 <p>We will cover the following techniques/architectures over multiple notebooks:</p>
 <ul>
 <li>Bi-Encoders</li>
@@ -315,14 +315,14 @@ Word2Vec wors in an iterative manner:</p>
 </li>
 <li>QnA(REALM)</li>
 </ul>
-<p>Later we will also look into ANN(Approximate nearest neighbour) techniques used for indexing and retrieval of dense embeddings.</p>
+<p>Later we will also look into ANN(Approximate nearest neighbor) techniques used for indexing and retrieval of dense embeddings.</p>
 <p>In rest of this notebook, we will dive into the original <a href="https://arxiv.org/abs/1908.10084">Sentence-BERT paper</a> by <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Reimers%2C+N">Nils Reimers</a> and <a href="https://arxiv.org/search/cs?searchtype=author&amp;query=Gurevych%2C+I">Iryna Gurevych</a>. Here is a quick summary by the authors.</p>
 <blockquote>
 <p>BERT (Devlin et al., 2018) and RoBERTa (Liu et al., 2019) has set a new state-of-the-art performance on sentence-pair regression tasks like semantic textual similarity (STS). However, it requires that both sentences are fed into the network, which causes a massive computational overhead: Finding the most similar pair in a collection of 10,000 sentences requires about 50 million inference computations (~65 hours) with BERT. The construction of BERT makes it unsuitable for semantic similarity search as well as for unsupervised tasks like clustering.</p>
 <p>In this publication, we present Sentence-BERT (SBERT), a modification of the pretrained BERT network that use siamese and triplet network structures to derive semantically meaningful sentence embeddings that can be compared using cosine-similarity. This reduces the effort for finding the most similar pair from 65 hours with BERT / RoBERTa to about 5 seconds with SBERT, while maintaining the accuracy from BERT.</p>
 <p>We evaluate SBERT and SRoBERTa on common STS tasks and transfer learning tasks, where it outperforms other state-of-the-art sentence embeddings methods.</p>
 </blockquote>
-<p>We will fintune the base-bert model using a siamese architecture(Bi-Encoder) on the SNLI data(the paper mentions using both the SNLI and Multi-NLI datasets).</p>
+<p>We will finetune the base-bert model using a siamese architecture(Bi-Encoder) on the SNLI data(the paper mentions using both the SNLI and Multi-NLI datasets).</p>
 <blockquote>
 <p>Natural language inference(NLI) is the task of determining whether a “hypothesis” is true (entailment), false (contradiction), or undetermined (neutral) given a “premise”.</p>
 <p>Example:</p>
@@ -361,12 +361,12 @@ Word2Vec wors in an iterative manner:</p>
      
     width=662 
     height="327"  /></p>
-<p>In the figure, though it looks like two different BERT models, we are finetuning only one BERT model by passing both the sentences, pooling and then feeding the emebddings into a fully connected network for classification using the cross-entropy(softmax) as the loss function.</p>
-<p>We will train the SBERT architecture from the above figure. In the paper the authors mention three obective functuins:</p>
+<p>In the figure, though it looks like two different BERT models, we are finetuning only one BERT model by passing both the sentences, pooling and then feeding the embeddings into a fully connected network for classification using the cross-entropy(softmax) as the loss function.</p>
+<p>We will train the SBERT architecture from the above figure. In the paper the authors mention three objective functions:</p>
 <ul>
 <li><strong>Classification objective</strong> - As depicted in the picture.</li>
-<li><strong>Regression objective</strong> - The cosine-similarity between the two sentence embeddings <em>u</em> and <em>v</em> is comupted(Figure 2) and the model is finetuned using the mean-squared loss function.</li>
-<li><strong>Triplet objective</strong> - Or MNR (Multiple Negative Ranking) loss. We will discuss this in detail in the next section. MNR in general performs better for semnatic search and other use cases like clustering, paraphrase mining etc using dense embeddings.</li>
+<li><strong>Regression objective</strong> - The cosine-similarity between the two sentence embeddings <em>u</em> and <em>v</em> is computed(Figure 2) and the model is finetuned using the mean-squared loss function.</li>
+<li><strong>Triplet objective</strong> - Or MNR (Multiple Negative Ranking) loss. We will discuss this in detail in the next section. MNR in general performs better for semantic search and other use cases like clustering, paraphrase mining etc using dense embeddings.</li>
 </ul>
 <p><img loading="lazy" 
     src="/../static/information_retrieval/sbert_pooling_concat.png" 
@@ -726,7 +726,7 @@ Wall time: 49.2 s
 </div>
 </div><pre><code>'cuda'
 </code></pre>
-<p>The method <code>mean_pool()</code> implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the <code>sentente_transformers</code> library.</p>
+<p>The method <code>mean_pool()</code> implements the mean token pooling strategy mentioned in the paper. The implementation has been picked up from the <code>sentence_transformers</code> library.</p>
 <p>We will use the <code>encode()</code> method to compute pooled embeddings using the finetuned and the bert-base models later to evaluate the results on STS tasks.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">

@@ -131,7 +131,7 @@
 
     <div class="article-post">
     <p>IR in it&rsquo;s most basic form answers the question &ldquo;how relevant is a given <em>query</em> for a <em>document</em>&rdquo;. The challenge is that we don&rsquo;t have just 1 document but potentially millions or billions of documents. So the key challenge is - how can we efficiently find this &ldquo;needle in the haystack&rdquo; or the &ldquo;relevant <em>documents</em> for a <em>query</em>&rdquo;.</p>
-<p>Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applicatations of IR like cleaning up the markup in case of web pages. The documents could also be in different languagues, encodings, etc. These variations present their own unique sets of challenges. For example, it&rsquo;s common to build separate pre-processing text pipelines for each languague.</p>
+<p>Here, document refers to any kind of text document, typically these could be web pages, emails, plain text documents, etc. There are many technicalities to consider in real world applications of IR like cleaning up the markup in case of web pages. The documents could also be in different languages, encodings, etc. These variations present their own unique sets of challenges. For example, it&rsquo;s common to build separate pre-processing text pipelines for each language.</p>
 <h2 id="relevance">
     <a href="#relevance" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -168,7 +168,7 @@
     Inverted Index
 </h2>
 <p>An inverted index helps us solve the last point we mentioned under Relevance, &ldquo;It would be pretty slow if we start counting the words in all the documents after a query arrives, hence we need to store the counts in a data structure that supports efficient lookups for a query.&rdquo;</p>
-<p>Inverted index allows us to efficienty retrieve documents from large collections. It does this by storing term/word statistics from the documents beforehand(that the scoring model needs).</p>
+<p>Inverted index allows us to efficiently retrieve documents from large collections. It does this by storing term/word statistics from the documents beforehand(that the scoring model needs).</p>
 <p>The statistics stored in the inverted index are:</p>
 <ul>
 <li><strong>Document frequency</strong>: How many documents contain the term.</li>
@@ -207,9 +207,9 @@
     </a>
     Tokenization
 </h3>
-<p>Tokenization essentially involves splitting the query or document into invdividual terms/words.
+<p>Tokenization essentially involves splitting the query or document into individual terms/words.
 A naive baseline could split each query/document by whitespace and punctuation character.
-Improvements over the naive model typically involes keeping the abbreviations, names, numbers together as one token, etc. For example, look at the <a href="https://nlp.stanford.edu/software/tokenizer.shtml">stanford tokenizer</a>.</p>
+Improvements over the naive model typically involves keeping the abbreviations, names, numbers together as one token, etc. For example, look at the <a href="https://nlp.stanford.edu/software/tokenizer.shtml">stanford tokenizer</a>.</p>
 <pre tabindex="0"><code>$ cat &gt;sample.txt
 &quot;Oh, no,&quot; she's saying, &quot;our $400 blender can't handle something this hard!&quot;
 $ java edu.stanford.nlp.process.PTBTokenizer sample.txt
@@ -247,7 +247,7 @@ PTBTokenizer tokenized 23 tokens at 370.97 tokens per second.
     </a>
     Stemming
 </h3>
-<p>Stemming involves reducing the terms/words to their &ldquo;roots&rdquo; before indexing. An advanved form of stemming called Lemmatization invloves reducing the inflectional/variant forms to base form (am, are, is -&gt; be). Lemmatization is computationally expensive.</p>
+<p>Stemming involves reducing the terms/words to their &ldquo;roots&rdquo; before indexing. An advanced form of stemming called Lemmatization involves reducing the inflectional/variant forms to base form (am, are, is -&gt; be). Lemmatization is computationally expensive.</p>
 <blockquote>
 <p>For grammatical reasons, documents are going to use different forms of a word, such as organize, organizes, and organizing. Additionally, there are families of derivationally related words with similar meanings, such as democracy, democratic, and democratization. In many situations, it seems as if it would be useful for a search for one of these words to return documents that contain another word in the set.</p>
 <p>The goal of both stemming and lemmatization is to reduce inflectional forms and sometimes derivationally related forms of a word to a common base form. For instance:
@@ -290,9 +290,9 @@ The result of this mapping of text will be something like:
     </a>
     Search workflow
 </h3>
-<p>The search workflow typically invloves:</p>
+<p>The search workflow typically involves:</p>
 <ul>
-<li>Passing the query throught the pre processing pipeline we just discussed to get the terms.</li>
+<li>Passing the query through the pre processing pipeline we just discussed to get the terms.</li>
 <li>Look up the statistics for each term from the inverted index.</li>
 <li>Use a scoring model that uses the term statistics to score the documents.</li>
 <li>Sort the documents by the scores in a descending order and show to the user.</li>
@@ -322,7 +322,7 @@ The result of this mapping of text will be something like:
 <li><strong>Boolean queries</strong>: &ldquo;and&rdquo; / &ldquo;or&rdquo; / &ldquo;not&rdquo; operators between words.</li>
 <li><strong>Expanded queries</strong>: Ddd synonyms and other similar words into the query.</li>
 </ul>
-<p>Beyond this we can also augment the queries using wildcard querie, phonetic queries, etc.</p>
+<p>Beyond this we can also augment the queries using wildcard queries, phonetic queries, etc.</p>
 <h3 id="spell-checking">
     <a href="#spell-checking" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -335,8 +335,8 @@ The result of this mapping of text will be something like:
 </h3>
 <p>Another way to improve the quality of retrieval is to use spell correctors to:</p>
 <ul>
-<li>Correct the docuemnts being indexed.</li>
-<li>Correct user queries to retrieve correct documents - e.g. the google sytle os &ldquo;did you mean&rdquo;.</li>
+<li>Correct the documents being indexed.</li>
+<li>Correct user queries to retrieve correct documents - e.g. the google style &ldquo;did you mean&rdquo;.</li>
 </ul>
 <h2 id="scoring-models">
     <a href="#scoring-models" class="anchor">
@@ -348,7 +348,7 @@ The result of this mapping of text will be something like:
     </a>
     Scoring models
 </h2>
-<p>The scoring model captures relevance in a mathematical model. Note that here we are only cosidering the free text queries here or &ldquo;ad-hoc&rdquo; document retrieval, other factors could also come into play in real life scenarios like pagerank, recency, click counts etc.</p>
+<p>The scoring model captures relevance in a mathematical model. Note that here we are only considering the free text queries here or &ldquo;ad-hoc&rdquo; document retrieval, other factors could also come into play in real life scenarios like pagerank, recency, click counts etc.</p>
 <p>Another drawback of the scoring models we are about the discuss is the fact they don&rsquo;t consider meaning of the terms. Terms/words are essentially just discrete symbols. Similarly documents are stream of meaningless symbols. The word order is not important as well.</p>
 <p>Dense retrieval techniques which we will cover later help us address this problem.</p>
 <h3 id="tf_idf">
@@ -364,12 +364,12 @@ The result of this mapping of text will be something like:
 <p>The <em>TF_IDF</em> has two components:</p>
 <ul>
 <li><strong>Term Frequency <em>tf</em>(t,d)</strong>: How often does the term t appear in the document d.
-Using the raw frequencies here is not the best solution for IR problems. We either use relative frequenies or <code>log</code> to dampen the frequencies <code>tf(t,d) = log(1 + tf(t,d))</code>.</li>
+Using the raw frequencies here is not the best solution for IR problems. We either use relative frequencies or <code>log</code> to dampen the frequencies <code>tf(t,d) = log(1 + tf(t,d))</code>.</li>
 <li><strong>Inverse Document Frequency <em>idf</em>(t)</strong>: It&rsquo;s a measure of the &ldquo;informativeness&rdquo; of a term for a document. Not that rare terms are more informative than frequent terms. Common way of defining IDF is <code>idf(t) = log(|D| / df(t))</code>. Here <code>|D|</code> is the total number of documents and <code>df(t)</code> is the number of documents in which the term t appears.</li>
 </ul>
 <p>$$ TFIDF(q, d) = \sum_{t\in T_d \cap T_q} \log(1 + tf_{t,d}) * \log(\frac{\vert D \vert}{df_t}) $$</p>
 <p>Where $\sum$ is the sum over all the terms in the query, $tf_{t,d}$ is the frequency of term t in document, ${\vert D \vert}$ is the total number of documents, ${df_t}$ is the number of documents in which the term t appears.</p>
-<p>Beyond IR, <em>TF_IDF</em> is also used for other NLP tasks like finding keywords in a document, Latent Sematic Analysis(LSA), classification, etc.</p>
+<p>Beyond IR, <em>TF_IDF</em> is also used for other NLP tasks like finding keywords in a document, Latent Semantic Analysis(LSA), classification, etc.</p>
 <p>Although the formulation in scikit-learn is not exactly the same, we can still look at <em>TF_IDF</em> in action.</p>
 <div class="highlight"><div class="chroma">
 <table class="lntable"><tr><td class="lntd">
@@ -432,7 +432,7 @@ The key difference between <em>TF_IDF</em> vs <em>BM25</em> is that the term fre
 <li><strong>b</strong>: Conrols the document length normalization.</li>
 </ul>
 <p>Typical values of k and b are <code>1.2 &lt; k &lt; 2</code>, <code>0.5 &lt; b &lt; 0.8</code>.</p>
-<p>There are other forumations of <em>BM25</em> that take into account the title, abstract, headers etc. from the documents. We can essentially control the weights we want to assign to each component.</p>
+<p>There are other formulations of <em>BM25</em> that take into account the title, abstract, headers etc. from the documents. We can essentially control the weights we want to assign to each component.</p>
 <h3 id="oversimiplified-implementation-of-the-inverted-index-_tf_idf_">
     <a href="#oversimiplified-implementation-of-the-inverted-index-_tf_idf_" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">

@@ -141,9 +141,9 @@
     </a>
     Offline evaluation
 </h2>
-<p>The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labelled dataset where we have queries mapped to relvevant documents. The documents could either be graded or non-graded(binary). For example, a graded relevance score could be on a scale of 0-5 with 5 being the most relevant.</p>
-<p>Labelled data typicalls comes form manual annotations or click data.</p>
-<p>It&rsquo;s also not necessary to have just 1 document tagged as relevant for each query. TREC collections have 100s of documents tagged as relevant per quuery. On the other hand MSMARCO has ~1 document tagged as relevant per query. This tends to be quite noisy but easy to scale hence more variability in the queries.</p>
+<p>The idea behind these evaluations is to quantitatively compare multiple IR models. Typically we have a labeled dataset where we have queries mapped to relevant documents. The documents could either be graded or non-graded(binary). For example, a graded relevance score could be on a scale of 0-5 with 5 being the most relevant.</p>
+<p>Labeled data typically comes form manual annotations or click data.</p>
+<p>It&rsquo;s also not necessary to have just 1 document tagged as relevant for each query. TREC collections have 100s of documents tagged as relevant per query. On the other hand MSMARCO has ~1 document tagged as relevant per query. This tends to be quite noisy but easy to scale hence more variability in the queries.</p>
 <h2 id="binary-labels">
     <a href="#binary-labels" class="anchor">
         <svg class="icon" aria-hidden="true" focusable="false" height="16" version="1.1" viewBox="0 0 16 16" width="16">
@@ -269,7 +269,7 @@ Every time we find a relevant document, we look at the full picture of what came
     </a>
     nDCG@k: Normalized Discounted Cumulative Gain
 </h3>
-<p>To understand nDCG, first let&rsquo;s look at CG i.e. Cumulative Gain. We simply add up the relevace scores for top k documents returned for a query.</p>
+<p>To understand nDCG, first let&rsquo;s look at CG i.e. Cumulative Gain. We simply add up the relevance scores for top k documents returned for a query.</p>
 <p>$$ CG@k(q) = \sum_{i=1}^k rel(q)_i $$</p>
 <p><img loading="lazy" 
     src="/../static/information_retrieval/cg@k.png" 
